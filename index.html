@@ -717,7 +717,12 @@ var UI = {
     runWrong: "Vēl ne",
     runRightNote: "Izvade sakrīt ar gaidīto.",
     runWrongNote: "Gaidītā izvade:",
-    engineMissing: "Kompilators vēl nav pieslēgts. Redaktors un pārbaude jau darbojas.",
+    loadingEngine: "Lejupielādē kompilatoru…",
+    compiling: "Kompilē…",
+    compileFailed: "Programma nesākompilējās. Kļūdas apraksts ir izvadē.",
+    noOutput: "(programma neko neizvadīja)",
+    engineMissing: "Šai valodai kompilators vēl nav pieslēgts.",
+    engineBroken: "Neizdevās palaist kodu.",
     lessonSoonTitle: "Nodaļas ekrāns vēl top",
     lessonSoonBody: "Šeit būs teorija, piemēri, kvizs un koda redaktors. Maršruts jau darbojas, tāpēc saites no Moodle var veidot jau tagad.",
     markDone: "Atzīmēt kā pabeigtu",
@@ -779,7 +784,12 @@ var UI = {
     runWrong: "Not yet",
     runRightNote: "The output matches what was expected.",
     runWrongNote: "Expected output:",
-    engineMissing: "The compiler is not connected yet. The editor and the check already work.",
+    loadingEngine: "Downloading the compiler…",
+    compiling: "Compiling…",
+    compileFailed: "The program did not compile. The error is in the output.",
+    noOutput: "(the program printed nothing)",
+    engineMissing: "There is no compiler wired up for this language yet.",
+    engineBroken: "The code could not be run.",
     lessonSoonTitle: "The chapter screen is on the way",
     lessonSoonBody: "Theory, examples, a quiz and the code editor will live here. The route already works, so Moodle links can be built now.",
     markDone: "Mark as completed",
@@ -1223,11 +1233,47 @@ function loadLessonTexts(courseId, n, lang) {
    Python. Кнопка «Стоп» убивает воркер, поэтому бесконечный
    цикл страницу не вешает. Вёрстка ниже от движка не зависит.
    ════════════════════════════════════════════════════════════ */
-var runner = {
-  ready: false,
-  run: function () { return Promise.reject(new Error("engine-not-connected")); },
-  stop: function () {}
-};
+var runner = (function () {
+  var worker = null, seq = 0, pending = {};
+
+  function ensure() {
+    if (worker) return worker;
+    worker = new Worker("runner.worker.js", { type: "module" });
+    worker.onmessage = function (e) {
+      var msg = e.data || {};
+      var job = pending[msg.id];
+      if (!job) return;
+      if (msg.type === "status") { if (runner.onStatus) runner.onStatus(msg); return; }
+      delete pending[msg.id];
+      if (msg.type === "done") job.resolve(msg);
+      else job.reject(new Error(msg.message || "failed"));
+    };
+    worker.onerror = function () {
+      for (var k in pending) { pending[k].reject(new Error("worker-failed")); delete pending[k]; }
+      worker = null;
+    };
+    return worker;
+  }
+
+  return {
+    onStatus: null,
+    run: function (lang, code, stdin) {
+      return new Promise(function (resolve, reject) {
+        var id = ++seq;
+        pending[id] = { resolve: resolve, reject: reject };
+        ensure().postMessage({ id: id, lang: lang, code: code, stdin: stdin });
+      });
+    },
+    /* Остановка — это убийство воркера. Бесконечный цикл студента
+       живёт не в странице, поэтому она не зависает. */
+    stop: function () {
+      if (!worker) return;
+      worker.terminate();
+      worker = null;
+      for (var k in pending) { pending[k].reject(new Error("stopped")); delete pending[k]; }
+    }
+  };
+})();
 
 /* ── Подсветка синтаксиса ─────────────────────────────────── */
 var CPP_KEYWORDS = {
@@ -1446,20 +1492,13 @@ function lessonPlayer(ctx, data, texts) {
   var i = ctx.stepIndex;
   var step = steps[i];
 
-  var hash = function (slug) { return courseHash(ctx.course.id, ctx.lang, ctx.n, slug); };
-
-  /* Полоса шагов кликабельна: вернуться на пятый экран и обратно
-     должно стоить один клик, а не десять нажатий «Назад». */
   var bar = steps.map(function (s, idx) {
-    var stx = (texts.steps && texts.steps[s.id]) || {};
-    var cls = idx === i ? "now" : (idx < i ? "seen" : "");
-    return '<a class="' + cls + '" href="' + hash(s.id) +
-      '" aria-label="' + esc((idx + 1) + ". " + (stx.title || s.id)) + '"' +
-      (idx === i ? ' aria-current="step"' : "") + "><i></i></a>";
+    return '<span class="' + (idx === i ? "now" : (idx < i ? "seen" : "")) + '"></span>';
   }).join("");
 
   var prev = i > 0 ? steps[i - 1] : null;
   var nextS = i < steps.length - 1 ? steps[i + 1] : null;
+  var hash = function (slug) { return courseHash(ctx.course.id, ctx.lang, ctx.n, slug); };
 
   var nav = '<div class="lessonnav">' +
     (prev ? '<a class="btn" href="' + hash(prev.id) + '">' + esc(t("prevStep")) + "</a>" : "<span></span>") +
@@ -1469,7 +1508,8 @@ function lessonPlayer(ctx, data, texts) {
 
   return header() +
     '<main class="screen narrow">' +
-      crumbs(ctx.course, ctx.lang, findModule(ctx.course.id, ctx.n)) +
+      '<a class="crumb" href="' + courseHash(ctx.course.id, ctx.lang, null, null) + '">' + backArrow() +
+        esc(ctx.course.title[state.uiLang]) + "</a>" +
       '<div class="lesson-head" style="margin-top: 10px">' +
         '<div class="eyebrow">' + esc(t("lessonEyebrow")) + " " + ctx.n +
           (texts.module ? " · " + esc(texts.module) : "") + "</div>" +
@@ -1501,7 +1541,8 @@ function lessonMissingScreen(course, lesson, lang, kind) {
 
   return header() +
     '<main class="screen narrow">' +
-      crumbs(course, lang, findModule(course.id, lesson.n)) +
+      '<a class="crumb" href="' + courseHash(course.id, lang, null, null) + '">' + backArrow() +
+        esc(course.title[state.uiLang]) + "</a>" +
       '<div class="eyebrow" style="margin-top: 10px">' + esc(t("lessonEyebrow")) + " " + lesson.n + "</div>" +
       body +
     "</main>" + footer();
@@ -1606,27 +1647,59 @@ function wireLesson() {
     stopBtn.hidden = false;
     outBox.textContent = t("running");
 
+    /* Первый запуск тянет компилятор, это десятки мегабайт.
+       Молчать в этот момент нельзя — показываем проценты. */
+    runner.onStatus = function (msg) {
+      if (msg.text === "toolchain") {
+        outBox.textContent = t("loadingEngine") + (msg.percent ? " " + msg.percent + "%" : "");
+      } else if (msg.text === "compiling") {
+        outBox.textContent = t("compiling");
+      } else if (msg.text === "running") {
+        outBox.textContent = t("running");
+      }
+    };
+
+    var outKey = route.course + "." + route.lesson + "." + step.id + ".out";
+
     runner.run(step.lang || "cpp", codeBox.value, stdinBox ? stdinBox.value : "")
       .then(function (res) {
-        var text = (res.stdout || "") + (res.stderr ? "\n" + res.stderr : "");
-        var ok = step.expected !== undefined &&
-                 text.replace(/\s+$/g, "").replace(/\r/g, "") === String(step.expected).replace(/\s+$/g, "");
-        ephemeral[route.course + "." + route.lesson + "." + step.id + ".out"] = {
-          text: text,
-          verdict: step.expected === undefined ? null : (ok ? "ok" : "no"),
-          note: step.expected === undefined ? "" : (ok ? t("runRightNote") : t("runWrongNote") + " " + String(step.expected))
-        };
+        runner.onStatus = null;
+        var failed = res.exitCode !== 0 || res.stage === "compile";
+        var text = (res.stdout || "") + (res.stderr ? (res.stdout ? "\n" : "") + res.stderr : "");
+        var verdict = null, note = "";
+
+        if (res.stage === "compile") {
+          verdict = "no";
+          note = t("compileFailed");
+        } else if (step.expected !== undefined) {
+          var ok = !failed && normalizeOut(res.stdout) === normalizeOut(String(step.expected));
+          verdict = ok ? "ok" : "no";
+          note = ok ? t("runRightNote") : t("runWrongNote") + " " + String(step.expected);
+        }
+
+        ephemeral[outKey] = { text: text || t("noOutput"), verdict: verdict, note: note };
         render();
       })
       .catch(function (err) {
-        var missing = err && err.message === "engine-not-connected";
-        ephemeral[route.course + "." + route.lesson + "." + step.id + ".out"] = {
-          text: missing ? t("engineMissing") : String(err && err.message ? err.message : err),
-          verdict: null, note: ""
-        };
+        runner.onStatus = null;
+        var m = err && err.message;
+        if (m === "stopped") {
+          ephemeral[outKey] = { text: t("runStopped"), verdict: null, note: "" };
+        } else if (m === "engine-not-connected") {
+          ephemeral[outKey] = { text: t("engineMissing"), verdict: null, note: "" };
+        } else {
+          ephemeral[outKey] = { text: t("engineBroken") + "\n" + String(m || err), verdict: null, note: "" };
+        }
         render();
       });
   });
+
+function normalizeOut(s) {
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/\r/g, "")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\s+$/, "");
+}
 }
 
 /* ── Служебные экраны ─────────────────────────────────────── */
