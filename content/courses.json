@@ -1,0 +1,49 @@
+{
+  "note": "Список курсов. Названия и описания лежат здесь: файл маленький и нужен каталогу целиком. Всё, что внутри курса, живёт в content/<id>/.",
+  "courses": [
+    {
+      "id": "cpp",
+      "cover": "C++",
+      "status": "live",
+      "defaultLang": "lv",
+      "title": { "lv": "C++ programmēšana", "en": "C++ programming" },
+      "summary": {
+        "lv": "Pamatkurss: sintakse, nosacījumi, cikli, funkcijas, masīvi un darbs ar failiem. Katra nodaļa sākas ar piemēru un beidzas ar praksi redaktorā.",
+        "en": "Foundations: syntax, conditionals, loops, functions, arrays and files. Every chapter opens with an example and ends with practice in the editor."
+      }
+    },
+    {
+      "id": "python",
+      "cover": "Python",
+      "status": "planned",
+      "defaultLang": "en",
+      "title": { "lv": "Python programmēšana", "en": "Python programming" },
+      "summary": {
+        "lv": "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
+        "en": "A separate course. Content and languages are still being planned."
+      }
+    },
+    {
+      "id": "web-api",
+      "cover": "API",
+      "status": "planned",
+      "defaultLang": "en",
+      "title": { "lv": "Darbs ar API", "en": "Working with APIs" },
+      "summary": {
+        "lv": "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
+        "en": "A separate course. Content and languages are still being planned."
+      }
+    },
+    {
+      "id": "java",
+      "cover": "Java",
+      "status": "planned",
+      "defaultLang": "en",
+      "title": { "lv": "Java programmēšana", "en": "Java programming" },
+      "summary": {
+        "lv": "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
+        "en": "A separate course. Content and languages are still being planned."
+      }
+    }
+  ]
+}
