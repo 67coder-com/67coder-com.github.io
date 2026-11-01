@@ -1,0 +1,43 @@
+{
+  "note": "Только строки. Набор ключей обязан совпадать с course.json и с другими языками.",
+  "modules": {
+    "m1": "1. bloks · Pirmie soļi",
+    "m2": "2. bloks · Lēmumi",
+    "m3": "3. bloks · Cikli un masīvi",
+    "m4": "4. bloks · Funkcijas un faili"
+  },
+  "lessons": {
+    "intro-cpp": "Iepazīšanās ar C++",
+    "first-program": "Pirmā programma",
+    "compile-errors": "Kompilācija un kļūdas",
+    "variables": "Mainīgie",
+    "data-types": "Datu tipi",
+    "input": "Ievade no tastatūras",
+    "arithmetic": "Aritmētika",
+    "constants": "Konstantes",
+    "comparison": "Salīdzināšana",
+    "if-else": "if un else",
+    "logic": "Loģiskie operatori",
+    "nested": "Ligzdoti nosacījumi",
+    "switch": "switch",
+    "random": "Nejauši skaitļi",
+    "first-game": "Pirmā spēle",
+    "recap-1": "Atkārtošana",
+    "while": "Cikls while",
+    "for": "Cikls for",
+    "break": "Ciklu pārtraukšana",
+    "arrays": "Masīvi",
+    "array-work": "Masīvu apstrāde",
+    "matrix": "Divdimensiju masīvi",
+    "strings": "Virknes",
+    "search-sort": "Meklēšana un kārtošana",
+    "first-function": "Pirmā funkcija",
+    "parameters": "Parametri",
+    "return": "Atgriežamā vērtība",
+    "recursion": "Rekursija",
+    "structs": "Struktūras",
+    "pointers": "Rādītāji",
+    "files": "Darbs ar failiem",
+    "final-project": "Noslēguma projekts"
+  }
+}

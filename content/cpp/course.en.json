@@ -1,0 +1,43 @@
+{
+  "note": "Strings only. The key set must match course.json and every other language file.",
+  "modules": {
+    "m1": "Block 1 · First steps",
+    "m2": "Block 2 · Decisions",
+    "m3": "Block 3 · Loops and arrays",
+    "m4": "Block 4 · Functions and files"
+  },
+  "lessons": {
+    "intro-cpp": "Getting to know C++",
+    "first-program": "Your first program",
+    "compile-errors": "Compiling and errors",
+    "variables": "Variables",
+    "data-types": "Data types",
+    "input": "Reading input",
+    "arithmetic": "Arithmetic",
+    "constants": "Constants",
+    "comparison": "Comparison",
+    "if-else": "if and else",
+    "logic": "Logical operators",
+    "nested": "Nested conditions",
+    "switch": "switch",
+    "random": "Random numbers",
+    "first-game": "Your first game",
+    "recap-1": "Recap",
+    "while": "The while loop",
+    "for": "The for loop",
+    "break": "Breaking out of loops",
+    "arrays": "Arrays",
+    "array-work": "Working with arrays",
+    "matrix": "Two-dimensional arrays",
+    "strings": "Strings",
+    "search-sort": "Searching and sorting",
+    "first-function": "Your first function",
+    "parameters": "Parameters",
+    "return": "Return values",
+    "recursion": "Recursion",
+    "structs": "Structures",
+    "pointers": "Pointers",
+    "files": "Working with files",
+    "final-project": "Final project"
+  }
+}
