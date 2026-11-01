@@ -656,6 +656,12 @@
 
   .crumbs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .crumbs .sep { color: var(--ink-faint); font-family: var(--font-mono); font-size: 12px; }
+
+  /* Если поля ввода нет, вывод занимает всю ширину редактора. */
+  .io > div:only-child { grid-column: 1 / -1; }
+
+  /* Подводка каталога идёт над всей сеткой, а не над первой карточкой. */
+  .lead.wide { max-width: none; }
 </style>
 </head>
 <body>
@@ -760,7 +766,7 @@ var UI = {
     errorTitle: "Neizdevās ielādēt saturu",
     errorBody: "Pārbaudiet, vai mape content/ atrodas blakus index.html. Ja lapa atvērta kā fails no diska, pārlūks bloķē ielādi — atveriet to caur serveri vai GitHub Pages.",
     retry: "Mēģināt vēlreiz",
-    footerNote: "67coder · prototips · progress tiek glabāts tikai šajā pārlūkā"
+    footerNote: "67coder · progress tiek glabāts tikai šajā pārlūkā"
   },
   en: {
     htmlTitle: "Courses — 67coder",
@@ -827,7 +833,7 @@ var UI = {
     errorTitle: "The content could not be loaded",
     errorBody: "Check that the content/ folder sits next to index.html. If the page was opened as a file from disk, the browser blocks loading — open it through a server or GitHub Pages.",
     retry: "Try again",
-    footerNote: "67coder · prototype · progress is stored in this browser only"
+    footerNote: "67coder · progress is stored in this browser only"
   }
 };
 
@@ -1119,7 +1125,7 @@ function catalogScreen(courses) {
     '<main class="screen">' +
       '<div class="eyebrow">' + esc(t("catalogEyebrow")) + "</div>" +
       "<h1>" + esc(t("catalogTitle")) + "</h1>" +
-      '<p class="lead">' + esc(t("catalogLead")) + "</p>" +
+      '<p class="lead wide">' + esc(t("catalogLead")) + "</p>" +
       '<div class="cards">' + courses.map(courseCard).join("") + "</div>" +
     "</main>" + footer();
 }
