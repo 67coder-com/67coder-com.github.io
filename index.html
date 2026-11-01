@@ -539,7 +539,7 @@
 
   .step { margin-top: 34px; }
   .step h2 { font-size: clamp(24px, 4vw, 30px); }
-  .step p { color: var(--ink-muted); max-width: 62ch; margin: 16px 0 0; }
+  .step p { color: var(--ink-muted); margin: 16px 0 0; }
   .step .eyebrow + h2 { margin-top: 12px; }
 
   .codeblock {
@@ -570,7 +570,7 @@
   }
   :root[data-theme="light"] .codeblock .highlight { color: #D1B784; }
 
-  .caption { margin-top: 12px; font-size: 14px; color: var(--ink-faint); max-width: 62ch; }
+  .caption { margin-top: 12px; font-size: 14px; color: var(--ink-faint); }
 
   .frame {
     margin-top: 22px;
@@ -646,7 +646,7 @@
   }
   @media (max-width: 680px) { .io { grid-template-columns: 1fr; } }
 
-  .points { margin: 18px 0 0; padding-left: 22px; color: var(--ink-muted); max-width: 62ch; }
+  .points { margin: 18px 0 0; padding-left: 22px; color: var(--ink-muted); }
   .points li { margin-top: 8px; }
 
   .lessonnav {
@@ -687,7 +687,7 @@
   .more[open] summary .chev { transform: rotate(90deg); }
   .more summary:hover { background: var(--surface-selected); border-radius: var(--radius-md); }
   .more-body { padding: 4px 20px 20px; border-top: 1px solid var(--line); }
-  .more-body p { color: var(--ink-muted); max-width: 64ch; }
+  .more-body p { color: var(--ink-muted); }
   .more-body .codeblock { margin-top: 16px; }
   .sources-head {
     margin-top: 20px; font-family: var(--font-mono); font-size: 11px;
@@ -779,6 +779,10 @@
   /* На телефоне широкая схема не сжимается в нечитаемое, а прокручивается. */
   .figure { margin-top: 22px; overflow-x: auto; border-radius: var(--radius-md); }
   .figure svg { display: block; width: 100%; min-width: 640px; height: auto; }
+
+  /* В уроке текст идёт на всю ширину колонки — вровень с полосой шагов,
+     блоками кода и раскрывающимися блоками. */
+  .screen.narrow .lead { max-width: none; }
 </style>
 </head>
 <body>
