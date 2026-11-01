@@ -46,16 +46,21 @@
       ]
     },
     "first-program": {
-      "title": "Pirmā programma",
+      "title": "Pirmā programma rindu pa rindai",
       "body": [
-        "Šī ir pilna C++ programma. Pagaidām nav jāsaprot katra rinda — tūlīt tu to palaidīsi pats, un tad noskaidrosim, kas notiek."
-      ],
-      "caption": "cout izvada ekrānā to, kas tam padots. endl pāriet uz jaunu rindu."
+        "Šī ir pilna C++ programma. Izlasi to rindu pa rindai — katrai ir savs uzdevums.",
+        "#include <iostream> pievieno galvenes failu iostream. Tajā ir ievade un izvade: bez šīs rindas cout neeksistē.",
+        "using namespace std; ļauj rakstīt cout īsi. Kas tas ir, noskaidrosim šajā pašā nodaļā.",
+        "int main() { … } ir ieejas punkts: programmas izpilde vienmēr sākas šeit. Viss, kas jāizpilda, atrodas starp figūriekavām.",
+        "cout << \"IRIS: online\" << endl; izvada tekstu, un endl pāriet uz jaunu rindu. Semikols beidz komandu — C++ valodā ar to beidzas katra komanda.",
+        "return 0; paziņo, ka programma beidzās veiksmīgi."
+      ]
     },
     "predict-output": {
       "title": "Ko izvadīs programma?",
       "body": [
-        "Trīs izvades komandas pēc kārtas. Ieraksti, kas, tavuprāt, parādīsies ekrānā — burtu pa burtam, ar atstarpēm un rindām."
+        "Trīs izvades komandas pēc kārtas. Ieraksti, kas, tavuprāt, parādīsies ekrānā — burtu pa burtam, ar atstarpēm un rindām.",
+        "Tā ir prognoze, nevis pārbaude: pareizā atbilde nav jāzina. Svarīgi ir vispirms padomāt un tad salīdzināt."
       ],
       "explain": "cout neko nepievieno pats. Atstarpe ir tur, kur tā ierakstīta pēdiņās, un jauna rinda sākas tikai pēc endl."
     },
@@ -66,7 +71,7 @@
     },
     "drop-namespace": {
       "title": "Kas notiks bez vienas rindas?",
-      "task": "Šajā programmā trūkst rindas using namespace std;. Palaid un izlasi kļūdu. Tad salabo programmu, nepievienojot šo rindu atpakaļ.",
+      "task": "Šajā programmā trūkst rindas using namespace std;. Palaid un izlasi kļūdas paziņojumu līdz galam — kompilators pats iesaka risinājumu. Salabo programmu, nepievienojot šo rindu atpakaļ.",
       "hint": "Kompilators saka, ka nepazīst cout. Tā pilnais nosaukums ir std::cout. Ar endl ir tieši tāpat."
     },
     "why-namespace": {
@@ -94,8 +99,8 @@
         "C++ programmu nevar izpildīt uzreiz. Vispirms kompilators pārtulko pirmkodu mašīnkodā un izveido izpildāmo failu. Tikai tad dators to palaiž.",
         "Ja pirmkodā ir sintakses kļūda, kompilators apstājas pirms palaišanas. Tāpēc iepriekšējā solī, kamēr kļūda nebija izlabota, neparādījās neviena izvades rinda — programma vispār netika palaista."
       ],
-      "caption": "Pirmkods → kompilators → izpildāmais fails → izvade.",
-      "alt": "Shēma: pirmkods nonāk kompilatorā, kas izveido izpildāmo failu; to palaiž, un tas dod izvadi."
+      "alt": "Shēma: pirmkods nonāk kompilatorā, kas izveido izpildāmo failu; to palaiž, un tas dod izvadi.",
+      "image": "assets/l01-compile-flow.lv.svg"
     },
     "find-bug-line": {
       "title": "Kurā rindā kļūda?",

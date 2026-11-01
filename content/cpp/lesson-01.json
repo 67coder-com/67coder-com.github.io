@@ -5,11 +5,13 @@
     "lv",
     "en"
   ],
-  "note": "ДЕМО ФОРМАТА, а не контент лекции. Показывает все типы шагов. Настоящая лекция 1 придёт из чата лекции и заменит этот файл. Вывод программ — языково-нейтральная телеметрия, поэтому expected один на оба языка.",
+  "note": "ОБРАЗЕЦ ФОРМАТА, а не контент лекции 1. Показывает все типы шагов и главное правило: проверяется только то, что уже объяснено. Шаг 2 объясняет каждую строку программы — поэтому шаги 8–11 вправе спрашивать про ;, iostream, std и main. Прогноз на шаге 3 спрашивает о необъяснённом, но подаётся как догадка, а не проверка.",
   "steps": [
     {
       "id": "why-cpp",
-      "kind": "theory"
+      "kind": "theory",
+      "image": null,
+      "imagePrompt": "Flat vector illustration, 16:9, for an online C++ course. A small, light scout drone hovers above the surface of Mars at dusk, next to a low research station with one lit terminal window. On the terminal screen is the course mascot: two square brackets [ ] facing each other with two round cream eyes between them, looking up at the drone. Use the attached image as the exact reference for the mascot. Style: minimal, geometric, flat shapes, no outlines, no text, no letters, no numbers, no logos, not cartoonish, calm and technical. Palette strictly: background #090B0F, surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 only on the terminal glow. Render the Martian ground in desaturated warm greys, not red."
     },
     {
       "id": "first-program",
