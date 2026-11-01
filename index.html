@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Jost:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* ── 67coder design tokens ──────────────────────────────── */
+  /* ══ 67coder design tokens ═══════════════════════════════ */
   :root {
     color-scheme: dark;
     box-sizing: border-box;
@@ -30,6 +30,9 @@
     --accent-ink: #D1B784;
     --accent-surface: #3B3122;
     --accent-contrast: #090B0F;
+    --success: #7FB3A3;
+    --success-surface: #16261F;
+    --danger: #CE8A78;
     --focus-ring: #D1B784;
 
     --eye-milk: #D8D0C2;
@@ -59,6 +62,9 @@
     --ink-faint: #656A72;
     --accent-ink: #7A5F2A;
     --accent-surface: #F0E5CC;
+    --success: #2F6355;
+    --success-surface: #E2F0EB;
+    --danger: #8C3C28;
     --focus-ring: #7A5F2A;
 
     /* Глаз не инвертируется: молоко остаётся молоком,
@@ -69,7 +75,7 @@
   }
 
   *, *::before, *::after { box-sizing: inherit; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 80px); }
 
   body {
     margin: 0;
@@ -87,7 +93,7 @@
     inset: 0 0 auto;
     height: env(safe-area-inset-top, 0px);
     background: var(--surface-base);
-    z-index: 10;
+    z-index: 30;
   }
 
   a { color: inherit; text-decoration: none; }
@@ -115,7 +121,7 @@
     color: var(--ink-faint);
   }
 
-  /* ── Header ─────────────────────────────────────────────── */
+  /* ══ Header ══════════════════════════════════════════════ */
   .sticky {
     position: sticky;
     top: env(safe-area-inset-top, 0px);
@@ -160,6 +166,7 @@
   }
   .headlinks > a:hover { color: var(--ink); }
 
+  /* ══ Controls ════════════════════════════════════════════ */
   .btn {
     font-family: var(--font-sans);
     font-size: 15px;
@@ -205,8 +212,7 @@
     color: var(--ink-muted);
     cursor: pointer;
 
-    /* Родная стрелка прижимается к рамке и в каждом браузере по-своему,
-       поэтому она выключена, а своя стоит с отступом 14px. */
+    /* Родная стрелка жмётся к рамке и в каждом браузере по-своему. */
     appearance: none;
     -webkit-appearance: none;
     background-color: transparent;
@@ -222,8 +228,9 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1 L5 5 L9 1' fill='none' stroke='%235A5F68' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
 
-  /* ── Screen ─────────────────────────────────────────────── */
+  /* ══ Layout ══════════════════════════════════════════════ */
   .screen { max-width: 1180px; margin: 0 auto; padding: 48px 32px 80px; }
+  .screen.narrow { max-width: 880px; }
 
   h1 {
     font-family: var(--font-display);
@@ -233,14 +240,82 @@
     margin: 14px 0 0;
   }
 
-  .lead { margin: 18px 0 0; max-width: 58ch; color: var(--ink-muted); }
+  h2 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.2; margin: 0; }
 
-  .cards {
-    margin-top: 48px;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px;
+  .lead { margin: 18px 0 0; max-width: 58ch; color: var(--ink-muted); }
+  .muted { color: var(--ink-muted); margin: 0; }
+  .meta-mono { font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); }
+
+  .crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
   }
+  .crumb:hover { color: var(--ink-muted); }
+
+  /* ══ Badges and statuses ═════════════════════════════════ */
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    padding: 5px 9px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+  .badge.partial { color: var(--ink-faint); border-style: dashed; }
+
+  .status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-selected);
+    border: 1px solid var(--line);
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+  .status.live {
+    background: var(--accent-surface);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  /* ══ Highlight — один фрагмент на экран ══════════════════ */
+  .highlight {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--accent-ink);
+    background: linear-gradient(158deg, #554628 0%, #332A1C 100%);
+    box-shadow: inset 0 1px 0 rgba(209, 183, 132, 0.22);
+    border-bottom: 3px solid var(--accent);
+  }
+  :root[data-theme="light"] .highlight {
+    color: #7A5F2A;
+    background: linear-gradient(158deg, #FDF8EC 0%, #EFE2C6 100%);
+    box-shadow: inset 0 0 0 1px rgba(185, 154, 97, 0.35);
+  }
+  /* Внутри тёмной поверхности тема не меняется. */
+  .cover .highlight, :root[data-theme="light"] .cover .highlight {
+    color: var(--accent-ink);
+    background: linear-gradient(158deg, #554628 0%, #332A1C 100%);
+    box-shadow: inset 0 1px 0 rgba(209, 183, 132, 0.22);
+  }
+
+  /* ══ Catalogue cards ═════════════════════════════════════ */
+  .cards { margin-top: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
 
   .card {
     background: var(--surface-raised);
@@ -261,7 +336,6 @@
     background: var(--surface-sunken);
     border-bottom: 1px solid var(--line);
   }
-
   .cover-name {
     font-family: var(--font-mono);
     font-size: 42px;
@@ -269,92 +343,130 @@
     letter-spacing: -1.5px;
     color: var(--ink-on-sunken);
   }
-
   .cover-mark { height: 76px; width: auto; opacity: 0.5; }
   .card.planned .cover-name { color: var(--ink-faint); }
   .card.planned .cover-mark { opacity: 0.22; }
 
   .cardbody { padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; }
-
-  h2 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.2; margin: 0; }
-
-  .muted { color: var(--ink-muted); margin: 0; }
-
   .meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .meta-mono { font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); }
-
-  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .badge {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 1.2px;
-    padding: 5px 9px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--line-strong);
-    color: var(--ink-muted);
-    white-space: nowrap;
-  }
-
-  .badge.partial { color: var(--ink-faint); border-style: dashed; }
-
-  .status {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    padding: 5px 10px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-selected);
-    border: 1px solid var(--line);
-    color: var(--ink-muted);
-  }
-
-  .status.live {
-    background: var(--accent-surface);
-    border-color: var(--accent);
-    color: var(--accent-ink);
-  }
-
   .actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
 
+  /* ══ Course hero ═════════════════════════════════════════ */
+  .hero {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .hero-main { min-width: 0; }
+
+  .hero-side {
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 26px 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 92px);
+  }
+
+  .progress-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+  .progress-head b { color: var(--ink); font-weight: 400; font-size: 22px; }
+
+  .track { height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; }
+  .track > span { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
+
+  .side-facts { display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--ink-muted); }
+  .side-facts div { display: flex; justify-content: space-between; gap: 12px; }
+  .side-facts span:last-child { font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); text-align: right; }
+
+  /* ══ Modules and lessons ═════════════════════════════════ */
+  .module { margin-top: 44px; }
+  .module-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .module-name { font-family: var(--font-display); font-size: 20px; font-weight: 400; }
+
+  .lessons {
+    margin-top: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface-raised);
+  }
+
+  .lesson {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    min-height: 60px;
+    border-top: 1px solid var(--line);
+  }
+  .lesson:first-child { border-top: 0; }
+  .lesson:hover { background: var(--surface-selected); }
+
+  .lesson-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+    min-width: 2.4ch;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .lesson-title { flex-grow: 1; min-width: 0; }
+  .lesson-title i { font-style: normal; display: block; font-size: 13px; color: var(--ink-faint); }
+
+  .lesson-state { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  .tick {
+    width: 22px; height: 22px;
+    border-radius: var(--radius-pill);
+    background: var(--success-surface);
+    border: 1px solid var(--success);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tick svg { width: 11px; height: 11px; }
+
+  .dot { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--accent); flex-shrink: 0; }
+
+  .lesson.untranslated .lesson-title { color: var(--ink-faint); }
+
+  .chev { width: 8px; height: 13px; opacity: 0.6; flex-shrink: 0; }
+
+  /* ══ Notices ═════════════════════════════════════════════ */
   .notice {
-    margin-top: 28px;
+    margin-top: 26px;
     padding: 16px 20px;
     border: 1px solid var(--accent);
     background: var(--accent-surface);
     border-radius: var(--radius-md);
-    color: var(--ink);
     max-width: 62ch;
   }
+  :root[data-theme="light"] .notice { color: #4A3A14; }
 
-  /* ── Подсветка ключевого слова ──────────────────────────── */
-  /* Правило бренда: на экране подсвечен ровно один фрагмент. */
-  .highlight {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: var(--radius-sm);
-    color: var(--accent-ink);
-    background: linear-gradient(158deg, #554628 0%, #332A1C 100%);
-    box-shadow: inset 0 1px 0 rgba(209, 183, 132, 0.22);
-    border-bottom: 3px solid var(--accent);
+  .panel {
+    margin-top: 32px;
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px 30px 30px;
   }
 
-  :root[data-theme="light"] .highlight {
-    color: #7A5F2A;
-    background: linear-gradient(158deg, #FDF8EC 0%, #EFE2C6 100%);
-    box-shadow: inset 0 0 0 1px rgba(185, 154, 97, 0.35);
-  }
-
-  /* Внутри блока кода тема не меняется: он тёмный всегда. */
-  .cover .highlight,
-  :root[data-theme="light"] .cover .highlight {
-    color: var(--accent-ink);
-    background: linear-gradient(158deg, #554628 0%, #332A1C 100%);
-    box-shadow: inset 0 1px 0 rgba(209, 183, 132, 0.22);
-  }
-
-  /* ── Footer ─────────────────────────────────────────────── */
+  /* ══ Footer ══════════════════════════════════════════════ */
   .foot {
     border-top: 1px solid var(--line);
     padding: 22px 32px calc(22px + env(safe-area-inset-bottom, 0px));
@@ -370,6 +482,11 @@
     color: var(--ink-faint);
   }
 
+  @media (max-width: 940px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; }
+    .hero-side { position: static; }
+  }
+
   @media (max-width: 760px) {
     .top { padding: 12px 18px; }
     .screen { padding: 32px 18px 56px; }
@@ -378,6 +495,7 @@
     .cover-name { font-size: 34px; }
     .cover-mark { height: 58px; }
     .cardbody { padding: 20px 22px 24px; }
+    .lesson { padding: 14px 16px; gap: 12px; }
     .foot { padding: 20px 18px calc(20px + env(safe-area-inset-bottom, 0px)); }
   }
 </style>
@@ -390,10 +508,24 @@
 "use strict";
 
 /* ════════════════════════════════════════════════════════════
-   1. ЯЗЫКИ ПЛАТФОРМЫ
-   Новый язык добавляется здесь и в словарь UI ниже.
-   Название пишется на самом языке, не в переводе.
+   67coder — оболочка приложения.
+
+   В этом файле НЕТ содержания курсов. Только вёрстка, маршруты
+   и словарь интерфейса. Курсы лежат в content/:
+
+     content/courses.json          список курсов
+     content/<id>/course.json      модули и уроки: n, slug, locales
+     content/<id>/course.lv.json   названия модулей и уроков
+     content/<id>/course.en.json   то же на другом языке
+
+   Добавить курс  — папка в content/ и строка в courses.json.
+   Поменять курс  — один файл в его папке.
+   Поменять вид   — только этот файл.
    ════════════════════════════════════════════════════════════ */
+
+var CONTENT = "content/";
+
+/* ── Языки платформы ──────────────────────────────────────── */
 var LANGS = [
   { code: "lv", label: "Latviešu" },
   { code: "en", label: "English" }
@@ -403,10 +535,7 @@ var DEFAULT_LANG = "lv";
 var LANG_KEY = "67coder.lang";
 var THEME_KEY = "67coder.theme";
 
-/* ════════════════════════════════════════════════════════════
-   2. СЛОВАРЬ ИНТЕРФЕЙСА
-   Только служебные строки. Содержимое уроков сюда не попадает.
-   ════════════════════════════════════════════════════════════ */
+/* ── Словарь интерфейса ───────────────────────────────────── */
 var UI = {
   lv: {
     htmlTitle: "Kursi — 67coder",
@@ -419,15 +548,37 @@ var UI = {
     themeToLight: "Gaišs",
     themeToDark: "Tumšs",
     openCourse: "Atvērt kursu",
-    aboutStatus: "Par statusu",
+    startCourse: "Sākt kursu",
+    continueCourse: "Turpināt",
+    repeatCourse: "Atkārtot",
     statusLive: "Pieejams",
     statusPlanned: "Izstrādē",
     lessonsWord: "nodaļas",
+    backToCatalog: "Visi kursi",
+    backToCourse: "Atpakaļ uz kursu",
+    progressWord: "Pabeigts",
+    ofWord: "no",
+    factLessons: "Nodaļas",
+    factLangs: "Valodas",
+    factGrade: "Vērtējums",
+    gradeInMoodle: "Moodle",
+    notTranslatedShort: "nav tulkots",
+    notTranslatedTitle: "Šī nodaļa vēl nav tulkota",
+    notTranslatedBody: "Nodaļa pagaidām ir pieejama tikai citā valodā. Pārējās kursa nodaļas varat turpināt kā parasti.",
+    openInLang: "Atvērt valodā: ",
     onlyInOther: "Šis kurss nav pieejams latviešu valodā. Tas ir atvērts valodā: ",
-    coursePageEyebrow: "Kursa lapa",
-    coursePageTitle: "Kursa lapa vēl top",
-    coursePageBody: "Šeit būs kursa saturs ar moduļiem un nodaļām. Maršruts jau darbojas, tāpēc saites no Moodle var veidot jau tagad.",
-    backToCatalog: "Atpakaļ uz katalogu",
+    lessonEyebrow: "Nodaļa",
+    lessonSoonTitle: "Nodaļas ekrāns vēl top",
+    lessonSoonBody: "Šeit būs teorija, piemēri, kvizs un koda redaktors. Maršruts jau darbojas, tāpēc saites no Moodle var veidot jau tagad.",
+    markDone: "Atzīmēt kā pabeigtu",
+    markNotDone: "Noņemt atzīmi",
+    doneLabel: "Pabeigts",
+    prevLesson: "Iepriekšējā",
+    nextLesson: "Nākamā",
+    loading: "Ielādē…",
+    errorTitle: "Neizdevās ielādēt saturu",
+    errorBody: "Pārbaudiet, vai mape content/ atrodas blakus index.html. Ja lapa atvērta kā fails no diska, pārlūks bloķē ielādi — atveriet to caur serveri vai GitHub Pages.",
+    retry: "Mēģināt vēlreiz",
     footerNote: "67coder · prototips · progress tiek glabāts tikai šajā pārlūkā"
   },
   en: {
@@ -441,94 +592,68 @@ var UI = {
     themeToLight: "Light",
     themeToDark: "Dark",
     openCourse: "Open course",
-    aboutStatus: "About status",
+    startCourse: "Start course",
+    continueCourse: "Continue",
+    repeatCourse: "Revisit",
     statusLive: "Available",
     statusPlanned: "In progress",
     lessonsWord: "chapters",
+    backToCatalog: "All courses",
+    backToCourse: "Back to the course",
+    progressWord: "Completed",
+    ofWord: "of",
+    factLessons: "Chapters",
+    factLangs: "Languages",
+    factGrade: "Grading",
+    gradeInMoodle: "Moodle",
+    notTranslatedShort: "not translated",
+    notTranslatedTitle: "This chapter is not translated yet",
+    notTranslatedBody: "The chapter is currently available in another language only. The rest of the course works as usual.",
+    openInLang: "Open in: ",
     onlyInOther: "This course is not available in English. It is open in: ",
-    coursePageEyebrow: "Course page",
-    coursePageTitle: "Course page is on the way",
-    coursePageBody: "This is where the modules and chapters will live. The route already works, so Moodle links can be built now.",
-    backToCatalog: "Back to the catalogue",
+    lessonEyebrow: "Chapter",
+    lessonSoonTitle: "The chapter screen is on the way",
+    lessonSoonBody: "Theory, examples, a quiz and the code editor will live here. The route already works, so Moodle links can be built now.",
+    markDone: "Mark as completed",
+    markNotDone: "Remove the mark",
+    doneLabel: "Completed",
+    prevLesson: "Previous",
+    nextLesson: "Next",
+    loading: "Loading…",
+    errorTitle: "The content could not be loaded",
+    errorBody: "Check that the content/ folder sits next to index.html. If the page was opened as a file from disk, the browser blocks loading — open it through a server or GitHub Pages.",
+    retry: "Try again",
     footerNote: "67coder · prototype · progress is stored in this browser only"
   }
 };
 
-/* ════════════════════════════════════════════════════════════
-   3. КАТАЛОГ КУРСОВ
-   translated — сколько уроков переведено на каждый язык.
-   ВНИМАНИЕ: цифры ниже демонстрационные, замените их реальными,
-   либо считайте из content/<course>/course.json при сборке.
-   Бейдж локали рисуется автоматически: язык с нулём не показывается.
-   ════════════════════════════════════════════════════════════ */
-var COURSES = [
-  {
-    id: "cpp",
-    cover: "C++",
-    defaultLang: "lv",
-    status: "live",
-    lessons: 32,
-    translated: { lv: 32, en: 6 },
-    title: { lv: "C++ programmēšana", en: "C++ programming" },
-    summary: {
-      lv: "Pamatkurss: sintakse, nosacījumi, cikli, funkcijas, masīvi un darbs ar failiem.",
-      en: "Foundations: syntax, conditionals, loops, functions, arrays and files."
-    }
-  },
-  {
-    id: "python",
-    cover: "Python",
-    defaultLang: "en",
-    status: "planned",
-    lessons: 0,
-    translated: {},
-    title: { lv: "Python programmēšana", en: "Python programming" },
-    summary: {
-      lv: "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
-      en: "A separate course. Content and languages are still being planned."
-    }
-  },
-  {
-    id: "web-api",
-    cover: "API",
-    defaultLang: "en",
-    status: "planned",
-    lessons: 0,
-    translated: {},
-    title: { lv: "Darbs ar API", en: "Working with APIs" },
-    summary: {
-      lv: "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
-      en: "A separate course. Content and languages are still being planned."
-    }
-  },
-  {
-    id: "java",
-    cover: "Java",
-    defaultLang: "en",
-    status: "planned",
-    lessons: 0,
-    translated: {},
-    title: { lv: "Java programmēšana", en: "Java programming" },
-    summary: {
-      lv: "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
-      en: "A separate course. Content and languages are still being planned."
-    }
-  }
-];
-
-/* ════════════════════════════════════════════════════════════
-   4. СОСТОЯНИЕ
-   uiLang и contentLang хранятся раздельно. Обычно они совпадают;
-   расходятся, только если у курса нет перевода на выбранный язык.
-   ════════════════════════════════════════════════════════════ */
+/* ── Состояние и хранилище ────────────────────────────────── */
 var state = { uiLang: DEFAULT_LANG, contentLang: DEFAULT_LANG };
+var cache = { catalog: null, structure: {}, texts: {} };
+var renderToken = 0;
 
-function readStored(key) {
-  try { return localStorage.getItem(key); } catch (e) { return null; }
+function readStored(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+function writeStored(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+
+/* Прогресс хранится по курсу, без локали: пройденный урок
+   остаётся пройденным, на каком бы языке его ни открыли. */
+function doneList(courseId) {
+  var raw = readStored("progress." + courseId + ".done");
+  if (!raw) return [];
+  try {
+    var parsed = JSON.parse(raw);
+    return Object.prototype.toString.call(parsed) === "[object Array]" ? parsed : [];
+  } catch (e) { return []; }
 }
-function writeStored(key, value) {
-  try { localStorage.setItem(key, value); } catch (e) {}
+function isDone(courseId, n) { return doneList(courseId).indexOf(n) !== -1; }
+function toggleDone(courseId, n) {
+  var list = doneList(courseId);
+  var at = list.indexOf(n);
+  if (at === -1) list.push(n); else list.splice(at, 1);
+  list.sort(function (a, b) { return a - b; });
+  writeStored("progress." + courseId + ".done", JSON.stringify(list));
 }
+
 function knownLang(code) {
   for (var i = 0; i < LANGS.length; i++) { if (LANGS[i].code === code) return true; }
   return false;
@@ -542,30 +667,86 @@ function esc(s) {
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
   });
 }
-function findCourse(id) {
-  for (var i = 0; i < COURSES.length; i++) { if (COURSES[i].id === id) return COURSES[i]; }
-  return null;
-}
-function courseLocales(course) {
-  var out = [];
-  for (var i = 0; i < LANGS.length; i++) {
-    var code = LANGS[i].code;
-    if ((course.translated[code] || 0) > 0) out.push(code);
-  }
-  return out;
-}
 function langLabel(code) {
   for (var i = 0; i < LANGS.length; i++) { if (LANGS[i].code === code) return LANGS[i].label; }
   return code;
 }
 
-/* ════════════════════════════════════════════════════════════
-   5. МАРШРУТИЗАЦИЯ
-   #/catalog
-   #/course/{course}/{lang}
-   #/course/{course}/{lang}/lesson/{lesson}/{step}
-   {step} — слаг шага, не номер.
-   ════════════════════════════════════════════════════════════ */
+/* ── Загрузка данных ──────────────────────────────────────── */
+function getJSON(url) {
+  return fetch(url, { cache: "no-cache" }).then(function (r) {
+    if (!r.ok) throw new Error(url + " → " + r.status);
+    return r.json();
+  });
+}
+
+function loadCatalog() {
+  if (cache.catalog) return Promise.resolve(cache.catalog);
+  return getJSON(CONTENT + "courses.json").then(function (data) {
+    cache.catalog = data.courses || [];
+    /* Для доступных курсов сразу тянем структуру: из неё
+       считаются бейджи языков и число уроков. */
+    var live = cache.catalog.filter(function (c) { return c.status === "live"; });
+    return Promise.all(live.map(function (c) { return loadStructure(c.id); }))
+      .then(function () { return cache.catalog; });
+  });
+}
+
+function loadStructure(courseId) {
+  if (cache.structure[courseId]) return Promise.resolve(cache.structure[courseId]);
+  return getJSON(CONTENT + courseId + "/course.json").then(function (data) {
+    var n = 0;
+    var flat = [];
+    (data.modules || []).forEach(function (m) {
+      (m.lessons || []).forEach(function (l) { n += 1; flat.push(l); });
+    });
+    data.flat = flat;
+    data.lessons = n;
+    cache.structure[courseId] = data;
+    return data;
+  });
+}
+
+function loadTexts(courseId, lang) {
+  var key = courseId + "." + lang;
+  if (cache.texts[key]) return Promise.resolve(cache.texts[key]);
+  return getJSON(CONTENT + courseId + "/course." + lang + ".json").then(function (data) {
+    cache.texts[key] = data;
+    return data;
+  });
+}
+
+function findCourse(id) {
+  if (!cache.catalog) return null;
+  for (var i = 0; i < cache.catalog.length; i++) { if (cache.catalog[i].id === id) return cache.catalog[i]; }
+  return null;
+}
+function findLesson(courseId, n) {
+  var s = cache.structure[courseId];
+  if (!s) return null;
+  for (var i = 0; i < s.flat.length; i++) { if (s.flat[i].n === Number(n)) return s.flat[i]; }
+  return null;
+}
+function translatedCount(courseId, code) {
+  var s = cache.structure[courseId];
+  if (!s) return 0;
+  var count = 0;
+  for (var i = 0; i < s.flat.length; i++) { if (s.flat[i].locales.indexOf(code) !== -1) count += 1; }
+  return count;
+}
+function courseLocales(courseId) {
+  var out = [];
+  for (var i = 0; i < LANGS.length; i++) {
+    if (translatedCount(courseId, LANGS[i].code) > 0) out.push(LANGS[i].code);
+  }
+  return out;
+}
+function lessonCount(courseId) {
+  var s = cache.structure[courseId];
+  return s ? s.lessons : 0;
+}
+
+/* ── Маршрутизация ────────────────────────────────────────── */
 function parseHash() {
   var raw = (location.hash || "").replace(/^#\/?/, "");
   var parts = raw.split("/").filter(Boolean);
@@ -584,24 +765,21 @@ function parseHash() {
   return { screen: "catalog" };
 }
 
-function buildCourseHash(courseId, lang, lesson, step) {
+function courseHash(courseId, lang, lesson, step) {
   var hash = "#/course/" + courseId + "/" + lang;
   if (lesson) hash += "/lesson/" + lesson + (step ? "/" + step : "");
   return hash;
 }
 
-/* Разрешает язык курса: что просили, что реально доступно. */
 function resolveCourseLang(course, wanted) {
-  var available = courseLocales(course);
+  var available = courseLocales(course.id);
   if (!available.length) return { lang: course.defaultLang, fellBack: false };
   if (wanted && available.indexOf(wanted) !== -1) return { lang: wanted, fellBack: false };
   var fallback = available.indexOf(course.defaultLang) !== -1 ? course.defaultLang : available[0];
   return { lang: fallback, fellBack: true };
 }
 
-/* ════════════════════════════════════════════════════════════
-   6. ОТРИСОВКА
-   ════════════════════════════════════════════════════════════ */
+/* ── Общие куски разметки ─────────────────────────────────── */
 function markSvg(eyeColour, pupilColour, ringColour, sleeping) {
   var ring = ' stroke="' + ringColour + '" stroke-width="4"';
   var eyes = sleeping
@@ -624,105 +802,248 @@ function header() {
 
   var themeLabel = document.documentElement.getAttribute("data-theme") === "light" ? t("themeToDark") : t("themeToLight");
 
-  return '' +
-    '<div class="sticky"><header class="top">' +
+  return '<div class="sticky"><header class="top">' +
       '<a class="brand" href="#/catalog">' +
         '<svg viewBox="51 45 138 150" role="img" aria-label="67coder" style="color: var(--ink-muted)">' +
           markSvg("var(--eye-milk)", "var(--eye-pupil)", "var(--eye-ring)", false) +
-        '</svg>' +
+        "</svg>" +
         '<span class="wordmark">[<b>67</b>]<i>coder</i></span>' +
-      '</a>' +
+      "</a>" +
       '<nav class="headlinks" aria-label="' + esc(t("navLabel")) + '">' +
-        '<a href="#/catalog">' + esc(t("allCourses")) + '</a>' +
-        '<label class="visually-hidden" for="langpick">' + esc(t("langLabel")) + '</label>' +
-        '<select class="langpick" id="langpick">' + options + '</select>' +
-        '<button type="button" class="btn small" id="themeBtn">' + esc(themeLabel) + '</button>' +
-      '</nav>' +
-    '</header></div>';
+        '<a href="#/catalog">' + esc(t("allCourses")) + "</a>" +
+        '<label class="visually-hidden" for="langpick">' + esc(t("langLabel")) + "</label>" +
+        '<select class="langpick" id="langpick">' + options + "</select>" +
+        '<button type="button" class="btn small" id="themeBtn">' + esc(themeLabel) + "</button>" +
+      "</nav>" +
+    "</header></div>";
 }
 
 function footer() {
   return '<footer class="foot"><span>' + esc(t("footerNote")) + "</span><span>67coder.com</span></footer>";
 }
 
-function badges(course) {
-  var available = courseLocales(course);
-  if (!available.length) return "";
+function chevron() {
+  return '<svg class="chev" viewBox="0 0 8 13" aria-hidden="true">' +
+    '<path d="M1 1 L7 6.5 L1 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+}
+function backArrow() {
+  return '<svg viewBox="0 0 8 13" aria-hidden="true" style="width: 7px; height: 11px; transform: rotate(180deg)">' +
+    '<path d="M1 1 L7 6.5 L1 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+}
+function tick() {
+  return '<span class="tick" aria-hidden="true"><svg viewBox="0 0 11 9">' +
+    '<path d="M1 4.6 L4 7.6 L10 1.4" fill="none" stroke="var(--success)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>' +
+    "</svg></span>";
+}
 
+function badges(courseId) {
+  var available = courseLocales(courseId);
+  if (!available.length) return "";
+  var total = lessonCount(courseId);
   return '<div class="badges">' + available.map(function (code) {
-    var done = course.translated[code] || 0;
-    var partial = done < course.lessons;
+    var done = translatedCount(courseId, code);
+    var partial = done < total;
     return '<span class="badge' + (partial ? " partial" : "") + '">' +
-      code.toUpperCase() + (partial ? " " + done + "/" + course.lessons : "") + "</span>";
+      code.toUpperCase() + (partial ? " " + done + "/" + total : "") + "</span>";
   }).join("") + "</div>";
 }
 
+/* ── Экран: каталог ───────────────────────────────────────── */
 function courseCard(course) {
   var live = course.status === "live";
-  var target = live ? buildCourseHash(course.id, resolveCourseLang(course, state.uiLang).lang, null, null) : null;
-
-  var cover = live
-    ? '<a class="cover" href="' + target + '" aria-label="' + esc(t("openCourse")) + ": " + esc(course.title[state.uiLang]) + '">'
-    : '<div class="cover">';
-  var coverEnd = live ? "</a>" : "</div>";
+  var target = live ? courseHash(course.id, resolveCourseLang(course, state.uiLang).lang, null, null) : null;
 
   var mark = live
     ? markSvg("var(--accent)", "var(--surface-sunken)", "transparent", false)
     : markSvg("var(--ink-faint)", "var(--surface-sunken)", "transparent", true);
 
+  var head = live
+    ? '<a class="cover" href="' + target + '" aria-label="' + esc(t("openCourse")) + ": " + esc(course.title[state.uiLang]) + '">'
+    : '<div class="cover">';
+
   var body = live
-    ? '<div class="meta">' +
-        '<span class="status live">' + esc(t("statusLive")) + "</span>" +
-        badges(course) +
-      "</div>" +
-      '<div class="meta-mono">' + course.lessons + " " + esc(t("lessonsWord")) + "</div>" +
+    ? '<div class="meta"><span class="status live">' + esc(t("statusLive")) + "</span>" + badges(course.id) + "</div>" +
+      '<div class="meta-mono">' + lessonCount(course.id) + " " + esc(t("lessonsWord")) + "</div>" +
       '<div class="actions"><a class="btn primary" href="' + target + '">' + esc(t("openCourse")) + "</a></div>"
-    : '<div class="actions">' +
-        '<span class="status">' + esc(t("statusPlanned")) + "</span>" +
-        '<button type="button" class="btn">' + esc(t("aboutStatus")) + "</button>" +
-      "</div>";
+    : '<div class="actions"><span class="status">' + esc(t("statusPlanned")) + "</span></div>";
 
   return '<article class="card' + (live ? "" : " planned") + '">' +
-    cover +
+    head +
       '<span class="cover-name">' + esc(course.cover) + "</span>" +
       '<svg class="cover-mark" viewBox="51 45 138 150" aria-hidden="true" style="color: ' + (live ? "var(--accent)" : "var(--ink-faint)") + '">' + mark + "</svg>" +
-    coverEnd +
+    (live ? "</a>" : "</div>") +
     '<div class="cardbody">' +
       "<h2>" + (live ? '<a href="' + target + '">' : "") + esc(course.title[state.uiLang]) + (live ? "</a>" : "") + "</h2>" +
       '<p class="muted">' + esc(course.summary[state.uiLang]) + "</p>" +
       body +
-    "</div>" +
-  "</article>";
+    "</div></article>";
 }
 
-function catalogScreen() {
+function catalogScreen(courses) {
   return header() +
     '<main class="screen">' +
       '<div class="eyebrow">' + esc(t("catalogEyebrow")) + "</div>" +
       "<h1>" + esc(t("catalogTitle")) + "</h1>" +
       '<p class="lead">' + esc(t("catalogLead")) + "</p>" +
-      '<div class="cards">' + COURSES.map(courseCard).join("") + "</div>" +
+      '<div class="cards">' + courses.map(courseCard).join("") + "</div>" +
     "</main>" + footer();
+}
+
+/* ── Экран: курс ──────────────────────────────────────────── */
+function lessonTitle(courseId, lesson, lang) {
+  var shown = lesson.locales.indexOf(lang) !== -1 ? lang : lesson.locales[0];
+  var texts = cache.texts[courseId + "." + shown];
+  var bySlug = texts && texts.lessons ? texts.lessons[lesson.slug] : null;
+  return { text: bySlug || lesson.slug, lang: shown };
+}
+
+function lessonRow(courseId, lesson, lang) {
+  var translated = lesson.locales.indexOf(lang) !== -1;
+  var done = isDone(courseId, lesson.n);
+  var href = courseHash(courseId, lang, lesson.n, null);
+  var num = (lesson.n < 10 ? "0" : "") + lesson.n;
+  var title = lessonTitle(courseId, lesson, lang);
+
+  var mark = done
+    ? tick()
+    : (translated ? '<span class="dot" aria-hidden="true"></span>'
+                  : '<span class="badge partial">' + esc(t("notTranslatedShort")) + "</span>");
+
+  return '<a class="lesson' + (translated ? "" : " untranslated") + '" href="' + href + '">' +
+    '<span class="lesson-num">' + num + "</span>" +
+    '<span class="lesson-title" lang="' + title.lang + '">' + esc(title.text) + "</span>" +
+    '<span class="lesson-state">' + mark + chevron() + "</span>" +
+  "</a>";
+}
+
+function moduleBlock(courseId, mod, lang) {
+  var doneHere = 0;
+  for (var i = 0; i < mod.lessons.length; i++) { if (isDone(courseId, mod.lessons[i].n)) doneHere += 1; }
+
+  var texts = cache.texts[courseId + "." + state.uiLang] || cache.texts[courseId + "." + lang];
+  var name = texts && texts.modules ? texts.modules[mod.id] : mod.id;
+
+  return '<section class="module">' +
+    '<div class="module-head">' +
+      '<div class="module-name">' + esc(name || mod.id) + "</div>" +
+      '<div class="meta-mono">' + doneHere + " / " + mod.lessons.length + "</div>" +
+    "</div>" +
+    '<div class="lessons">' + mod.lessons.map(function (l) { return lessonRow(courseId, l, lang); }).join("") + "</div>" +
+  "</section>";
 }
 
 function courseScreen(course, resolved) {
+  var lang = resolved.lang;
+  var structure = cache.structure[course.id];
+  var total = structure.lessons;
+  var done = doneList(course.id).length;
+  var percent = total ? Math.round((done / total) * 100) : 0;
+
+  var next = null;
+  for (var i = 0; i < structure.flat.length; i++) {
+    if (!isDone(course.id, structure.flat[i].n)) { next = structure.flat[i]; break; }
+  }
+
+  var ctaLabel = done === 0 ? t("startCourse") : (next ? t("continueCourse") : t("repeatCourse"));
+  var ctaTarget = courseHash(course.id, lang, (next || structure.flat[0]).n, null);
+
   var notice = resolved.fellBack
-    ? '<div class="notice">' + esc(t("onlyInOther")) + esc(langLabel(resolved.lang)) + ".</div>"
+    ? '<div class="notice">' + esc(t("onlyInOther")) + esc(langLabel(lang)) + ".</div>"
     : "";
+
+  var side = '<aside class="hero-side">' +
+      '<div class="progress-head"><span><b>' + percent + "%</b></span>" +
+        "<span>" + done + " " + esc(t("ofWord")) + " " + total + "</span></div>" +
+      '<div class="track" role="progressbar" aria-valuenow="' + done + '" aria-valuemin="0" aria-valuemax="' + total +
+        '" aria-label="' + esc(t("progressWord")) + '"><span style="width: ' + percent + '%"></span></div>' +
+      '<a class="btn primary" href="' + ctaTarget + '">' + esc(ctaLabel) + "</a>" +
+      '<div class="side-facts">' +
+        "<div><span>" + esc(t("factLessons")) + "</span><span>" + total + "</span></div>" +
+        "<div><span>" + esc(t("factLangs")) + "</span><span>" +
+          courseLocales(course.id).map(function (c) { return c.toUpperCase(); }).join(" · ") + "</span></div>" +
+        "<div><span>" + esc(t("factGrade")) + "</span><span>" + esc(t("gradeInMoodle")) + "</span></div>" +
+      "</div>" +
+    "</aside>";
 
   return header() +
     '<main class="screen">' +
-      '<div class="eyebrow">' + esc(t("coursePageEyebrow")) + " · " + esc(course.cover) + "</div>" +
-      "<h1>" + esc(course.title[state.uiLang]) + "</h1>" +
-      '<p class="lead" lang="' + resolved.lang + '">' + esc(t("coursePageBody")) + "</p>" +
-      notice +
-      '<div class="actions" style="margin-top: 32px"><a class="btn" href="#/catalog">' + esc(t("backToCatalog")) + "</a></div>" +
+      '<a class="crumb" href="#/catalog">' + backArrow() + esc(t("backToCatalog")) + "</a>" +
+      '<div class="hero">' +
+        '<div class="hero-main">' +
+          '<div class="eyebrow">' + esc(course.cover) + "</div>" +
+          "<h1>" + esc(course.title[state.uiLang]) + "</h1>" +
+          '<p class="lead">' + esc(course.summary[state.uiLang]) + "</p>" +
+          notice +
+        "</div>" + side +
+      "</div>" +
+      structure.modules.map(function (m) { return moduleBlock(course.id, m, lang); }).join("") +
     "</main>" + footer();
 }
 
-/* ════════════════════════════════════════════════════════════
-   7. ЗАПУСК
-   ════════════════════════════════════════════════════════════ */
+/* ── Экран урока (пока заглушка) и непереведённый урок ────── */
+function lessonScreen(course, lesson, lang) {
+  var translated = lesson.locales.indexOf(lang) !== -1;
+  var done = isDone(course.id, lesson.n);
+  var flat = cache.structure[course.id].flat;
+  var at = flat.indexOf(lesson);
+  var prev = at > 0 ? flat[at - 1] : null;
+  var nextL = at < flat.length - 1 ? flat[at + 1] : null;
+  var title = lessonTitle(course.id, lesson, lang);
+
+  var body;
+  if (!translated) {
+    var other = lesson.locales[0];
+    body =
+      "<h1>" + esc(t("notTranslatedTitle")) + "</h1>" +
+      '<p class="lead">' + esc(t("notTranslatedBody")) + "</p>" +
+      '<div class="actions" style="margin-top: 28px">' +
+        '<a class="btn primary" href="' + courseHash(course.id, other, lesson.n, null) + '">' +
+          esc(t("openInLang")) + esc(langLabel(other)) + "</a>" +
+        '<a class="btn" href="' + courseHash(course.id, lang, null, null) + '">' + esc(t("backToCourse")) + "</a>" +
+      "</div>";
+  } else {
+    body =
+      '<h1 lang="' + title.lang + '">' + esc(title.text) + "</h1>" +
+      '<div class="panel">' +
+        '<div class="eyebrow">' + esc(t("lessonSoonTitle")) + "</div>" +
+        '<p class="muted" style="margin-top: 14px">' + esc(t("lessonSoonBody")) + "</p>" +
+      "</div>" +
+      '<div class="actions" style="margin-top: 28px">' +
+        '<button type="button" class="btn' + (done ? "" : " primary") + '" id="doneBtn">' +
+          esc(done ? t("markNotDone") : t("markDone")) + "</button>" +
+        (prev ? '<a class="btn" href="' + courseHash(course.id, lang, prev.n, null) + '">' + esc(t("prevLesson")) + "</a>" : "") +
+        (nextL ? '<a class="btn" href="' + courseHash(course.id, lang, nextL.n, null) + '">' + esc(t("nextLesson")) + "</a>" : "") +
+        '<a class="btn" href="' + courseHash(course.id, lang, null, null) + '">' + esc(t("backToCourse")) + "</a>" +
+      "</div>";
+  }
+
+  return header() +
+    '<main class="screen narrow">' +
+      '<a class="crumb" href="' + courseHash(course.id, lang, null, null) + '">' + backArrow() +
+        esc(course.title[state.uiLang]) + "</a>" +
+      '<div class="eyebrow" style="margin-top: 10px">' + esc(t("lessonEyebrow")) + " " + lesson.n +
+        (done ? " · " + esc(t("doneLabel")) : "") + "</div>" +
+      body +
+    "</main>" + footer();
+}
+
+/* ── Служебные экраны ─────────────────────────────────────── */
+function loadingScreen() {
+  return header() + '<main class="screen"><p class="muted">' + esc(t("loading")) + "</p></main>";
+}
+function errorScreen(detail) {
+  return header() +
+    '<main class="screen narrow">' +
+      "<h1>" + esc(t("errorTitle")) + "</h1>" +
+      '<p class="lead">' + esc(t("errorBody")) + "</p>" +
+      '<p class="meta-mono" style="margin-top: 18px">' + esc(detail) + "</p>" +
+      '<div class="actions" style="margin-top: 28px">' +
+        '<button type="button" class="btn primary" id="retryBtn">' + esc(t("retry")) + "</button>" +
+      "</div>" +
+    "</main>" + footer();
+}
+
+/* ── Запуск ───────────────────────────────────────────────── */
 var app = document.getElementById("app");
 
 function applyTheme(theme) {
@@ -730,10 +1051,30 @@ function applyTheme(theme) {
   else document.documentElement.removeAttribute("data-theme");
 }
 
-function render() {
-  var route = parseHash();
+function paint(html) {
+  app.innerHTML = html;
+  wire();
+}
 
-  if (route.screen === "course") {
+function render() {
+  var token = ++renderToken;
+  var route = parseHash();
+  var fresh = !cache.catalog;
+
+  if (fresh) paint(loadingScreen());
+
+  loadCatalog().then(function (courses) {
+    if (token !== renderToken) return;
+
+    if (route.screen !== "course") {
+      state.contentLang = state.uiLang;
+      document.documentElement.lang = state.uiLang;
+      document.title = t("htmlTitle");
+      paint(catalogScreen(courses));
+      window.scrollTo(0, 0);
+      return;
+    }
+
     var course = findCourse(route.course);
     if (!course) { location.replace("#/catalog"); return; }
 
@@ -743,26 +1084,41 @@ function render() {
       writeStored(LANG_KEY, route.lang);
     }
 
-    var resolved = resolveCourseLang(course, route.lang || state.uiLang);
-    state.contentLang = resolved.lang;
+    return loadStructure(course.id).then(function () {
+      var resolved = resolveCourseLang(course, route.lang || state.uiLang);
+      state.contentLang = resolved.lang;
 
-    /* Адрес не должен показывать язык, которого у курса нет. */
-    if (route.lang !== resolved.lang) {
-      history.replaceState(null, "", buildCourseHash(course.id, resolved.lang, route.lesson, route.step));
-    }
+      /* Названия нужны на всех локалях курса: непереведённый урок
+         показывается на том языке, на котором он есть. */
+      var needed = courseLocales(course.id);
+      if (needed.indexOf(state.uiLang) === -1 && knownLang(state.uiLang)) {
+        /* язык интерфейса без контента — тексты для него не грузим */
+      }
+      return Promise.all(needed.map(function (code) { return loadTexts(course.id, code); }))
+        .then(function () {
+          if (token !== renderToken) return;
 
-    document.documentElement.lang = state.uiLang;
-    document.title = course.title[state.uiLang] + " — 67coder";
-    app.innerHTML = courseScreen(course, resolved);
-  } else {
-    state.contentLang = state.uiLang;
-    document.documentElement.lang = state.uiLang;
-    document.title = t("htmlTitle");
-    app.innerHTML = catalogScreen();
-  }
+          var lesson = route.lesson ? findLesson(course.id, route.lesson) : null;
+          var wanted = courseHash(course.id, resolved.lang, lesson ? lesson.n : null, lesson ? route.step : null);
+          if (location.hash !== wanted) history.replaceState(null, "", wanted);
 
-  wire();
-  window.scrollTo(0, 0);
+          document.documentElement.lang = state.uiLang;
+
+          if (lesson) {
+            var title = lessonTitle(course.id, lesson, resolved.lang);
+            document.title = title.text + " — 67coder";
+            paint(lessonScreen(course, lesson, resolved.lang));
+          } else {
+            document.title = course.title[state.uiLang] + " — 67coder";
+            paint(courseScreen(course, resolved));
+          }
+          window.scrollTo(0, 0);
+        });
+    });
+  }).catch(function (err) {
+    if (token !== renderToken) return;
+    paint(errorScreen(String(err && err.message ? err.message : err)));
+  });
 }
 
 function wire() {
@@ -776,11 +1132,9 @@ function wire() {
 
       var route = parseHash();
       if (route.screen === "course") {
-        location.hash = buildCourseHash(route.course, next, route.lesson, route.step);
-        render();
-      } else {
-        render();
+        location.hash = courseHash(route.course, next, route.lesson, route.step);
       }
+      render();
     });
   }
 
@@ -790,6 +1144,26 @@ function wire() {
       var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
       applyTheme(next);
       writeStored(THEME_KEY, next);
+      render();
+    });
+  }
+
+  var doneBtn = document.getElementById("doneBtn");
+  if (doneBtn) {
+    doneBtn.addEventListener("click", function () {
+      var route = parseHash();
+      if (!route.course || !route.lesson) return;
+      toggleDone(route.course, Number(route.lesson));
+      render();
+    });
+  }
+
+  var retryBtn = document.getElementById("retryBtn");
+  if (retryBtn) {
+    retryBtn.addEventListener("click", function () {
+      cache.catalog = null;
+      cache.structure = {};
+      cache.texts = {};
       render();
     });
   }
@@ -803,6 +1177,7 @@ function wire() {
   window.addEventListener("hashchange", render);
   render();
 })();
+
 </script>
 
 </body>
