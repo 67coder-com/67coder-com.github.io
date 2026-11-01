@@ -1,14 +1,14 @@
 {
   "id": "cpp",
   "defaultLang": "lv",
-  "note": "Структура курса. Ни одной переводимой строки: порядок, слаги и локали. Названия лежат в course.<lang>.json.",
+  "note": "Структура курса по программе на 32 лекции. locales — языки, на которых урок УЖЕ написан. Пустой список значит «урок ещё не готов»: он виден в списке как «drīzumā» и не открывается. Бейджи языков в каталоге считаются отсюда.",
   "modules": [
     {
       "id": "m1",
       "lessons": [
         {
           "n": 1,
-          "slug": "intro-cpp",
+          "slug": "intro",
           "locales": [
             "lv",
             "en"
@@ -16,57 +16,38 @@
         },
         {
           "n": 2,
-          "slug": "first-program",
-          "locales": [
-            "lv",
-            "en"
-          ]
+          "slug": "cout",
+          "locales": []
         },
         {
           "n": 3,
-          "slug": "compile-errors",
-          "locales": [
-            "lv",
-            "en"
-          ]
+          "slug": "data-types",
+          "locales": []
         },
         {
           "n": 4,
-          "slug": "variables",
-          "locales": [
-            "lv",
-            "en"
-          ]
+          "slug": "integers",
+          "locales": []
         },
         {
           "n": 5,
-          "slug": "data-types",
-          "locales": [
-            "lv",
-            "en"
-          ]
+          "slug": "floating-point",
+          "locales": []
         },
         {
           "n": 6,
-          "slug": "input",
-          "locales": [
-            "lv",
-            "en"
-          ]
+          "slug": "bool-char-string",
+          "locales": []
         },
         {
           "n": 7,
           "slug": "arithmetic",
-          "locales": [
-            "lv"
-          ]
+          "locales": []
         },
         {
           "n": 8,
-          "slug": "constants",
-          "locales": [
-            "lv"
-          ]
+          "slug": "cin",
+          "locales": []
         }
       ]
     },
@@ -75,59 +56,43 @@
       "lessons": [
         {
           "n": 9,
-          "slug": "comparison",
-          "locales": [
-            "lv"
-          ]
+          "slug": "if-else",
+          "locales": []
         },
         {
           "n": 10,
-          "slug": "if-else",
-          "locales": [
-            "lv"
-          ]
+          "slug": "logic",
+          "locales": []
         },
         {
           "n": 11,
-          "slug": "logic",
-          "locales": [
-            "lv"
-          ]
+          "slug": "switch-ternary",
+          "locales": []
         },
         {
           "n": 12,
-          "slug": "nested",
-          "locales": [
-            "lv"
-          ]
+          "slug": "practicum-safety",
+          "locales": []
         },
         {
           "n": 13,
-          "slug": "switch",
-          "locales": [
-            "lv"
-          ]
+          "slug": "while",
+          "locales": []
         },
         {
           "n": 14,
-          "slug": "random",
-          "locales": [
-            "lv"
-          ]
+          "slug": "for",
+          "locales": []
         },
         {
           "n": 15,
-          "slug": "first-game",
-          "locales": [
-            "lv"
-          ]
+          "slug": "break-continue",
+          "locales": []
         },
         {
           "n": 16,
-          "slug": "recap-1",
-          "locales": [
-            "lv"
-          ]
+          "slug": "practicum-scan",
+          "locales": []
         }
       ]
     },
@@ -136,59 +101,43 @@
       "lessons": [
         {
           "n": 17,
-          "slug": "while",
-          "locales": [
-            "lv"
-          ]
+          "slug": "arrays",
+          "locales": []
         },
         {
           "n": 18,
-          "slug": "for",
-          "locales": [
-            "lv"
-          ]
+          "slug": "arrays-2d",
+          "locales": []
         },
         {
           "n": 19,
-          "slug": "break",
-          "locales": [
-            "lv"
-          ]
+          "slug": "vector",
+          "locales": []
         },
         {
           "n": 20,
-          "slug": "arrays",
-          "locales": [
-            "lv"
-          ]
+          "slug": "functions-basics",
+          "locales": []
         },
         {
           "n": 21,
-          "slug": "array-work",
-          "locales": [
-            "lv"
-          ]
+          "slug": "functions-params",
+          "locales": []
         },
         {
           "n": 22,
-          "slug": "matrix",
-          "locales": [
-            "lv"
-          ]
+          "slug": "overload-scope-const",
+          "locales": []
         },
         {
           "n": 23,
-          "slug": "strings",
-          "locales": [
-            "lv"
-          ]
+          "slug": "practicum-library",
+          "locales": []
         },
         {
           "n": 24,
-          "slug": "search-sort",
-          "locales": [
-            "lv"
-          ]
+          "slug": "checkpoint",
+          "locales": []
         }
       ]
     },
@@ -197,59 +146,43 @@
       "lessons": [
         {
           "n": 25,
-          "slug": "first-function",
-          "locales": [
-            "lv"
-          ]
+          "slug": "text",
+          "locales": []
         },
         {
           "n": 26,
-          "slug": "parameters",
-          "locales": [
-            "lv"
-          ]
+          "slug": "iomanip",
+          "locales": []
         },
         {
           "n": 27,
-          "slug": "return",
-          "locales": [
-            "lv"
-          ]
+          "slug": "struct",
+          "locales": []
         },
         {
           "n": 28,
-          "slug": "recursion",
-          "locales": [
-            "lv"
-          ]
+          "slug": "struct-arrays",
+          "locales": []
         },
         {
           "n": 29,
-          "slug": "structs",
-          "locales": [
-            "lv"
-          ]
+          "slug": "files",
+          "locales": []
         },
         {
           "n": 30,
-          "slug": "pointers",
-          "locales": [
-            "lv"
-          ]
+          "slug": "errors",
+          "locales": []
         },
         {
           "n": 31,
-          "slug": "files",
-          "locales": [
-            "lv"
-          ]
+          "slug": "final-1",
+          "locales": []
         },
         {
           "n": 32,
-          "slug": "final-project",
-          "locales": [
-            "lv"
-          ]
+          "slug": "final-2",
+          "locales": []
         }
       ]
     }

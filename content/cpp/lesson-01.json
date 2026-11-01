@@ -1,11 +1,11 @@
 {
   "n": 1,
-  "slug": "intro-cpp",
+  "slug": "intro",
   "locales": [
     "lv",
     "en"
   ],
-  "note": "Структура урока. Ни одной переводимой строки: id и порядок шагов, код, id правильного ответа, ожидаемый вывод. Тексты — в lesson-01.<lang>.json с теми же id. expected сравнивается с stdout без хвостовых пробелов и переводов строк.",
+  "note": "ДЕМО ФОРМАТА, а не контент лекции. Показывает все типы шагов. Настоящая лекция 1 придёт из чата лекции и заменит этот файл. Вывод программ — языково-нейтральная телеметрия, поэтому expected один на оба языка.",
   "steps": [
     {
       "id": "why-cpp",
@@ -14,8 +14,39 @@
     {
       "id": "first-program",
       "kind": "example",
-      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Sveika, IRIS!\" << std::endl;\n    return 0;\n}",
-      "focus": "std::cout"
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"IRIS: online\" << endl;\n    return 0;\n}",
+      "focus": "cout"
+    },
+    {
+      "id": "predict-output",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"SIGMA\";\n    cout << \" OK\" << endl;\n    cout << \"FUEL 87%\";\n    return 0;\n}",
+      "expected": "SIGMA OK\nFUEL 87%"
+    },
+    {
+      "id": "run-it",
+      "kind": "editor",
+      "lang": "cpp",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"IRIS: online\" << endl;\n    return 0;\n}",
+      "starter": "",
+      "expected": "IRIS: online",
+      "stdin": false
+    },
+    {
+      "id": "drop-namespace",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n\nint main() {\n    cout << \"IRIS: online\" << endl;\n    return 0;\n}",
+      "expected": "IRIS: online",
+      "requires": [
+        "std::cout"
+      ],
+      "solution": "#include <iostream>\n\nint main() {\n    std::cout << \"IRIS: online\" << std::endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "why-namespace",
+      "kind": "theory"
     },
     {
       "id": "how-it-runs",
@@ -23,35 +54,57 @@
       "image": null
     },
     {
-      "id": "watch-intro",
-      "kind": "video",
-      "youtube": null
+      "id": "find-bug-line",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"SIGMA: DIAG\" << endl\n    cout << \"ENGINE: OK\" << endl;\n    return 0;\n}",
+      "answerLine": 5
     },
     {
-      "id": "predict-output",
+      "id": "assemble",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int main() {",
+        "    cout << \"SIGMA READY\" << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "fill-gaps",
+      "kind": "blanks",
+      "code": "#include <[[1]]>\nusing namespace [[2]];\n\nint main() {\n    [[3]] << \"SIGMA REPORT\" << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": [
+          "iostream"
+        ],
+        "2": [
+          "std"
+        ],
+        "3": [
+          "cout"
+        ]
+      }
+    },
+    {
+      "id": "check-yourself",
       "kind": "quiz",
-      "code": "std::cout << \"IRIS\";\nstd::cout << \"gatavs\";",
       "options": [
-        "joined",
-        "spaced",
-        "two-lines"
+        "main",
+        "first-line",
+        "include"
       ],
-      "answer": "joined"
+      "answer": "main"
     },
     {
-      "id": "fix-error",
+      "id": "status-panel",
       "kind": "editor",
       "lang": "cpp",
-      "starter": "#include <iostream>\n\nint main() {\n    std::cout << \"Sveika, IRIS!\" << std::endl\n    return 0;\n}",
-      "expected": "Sveika, IRIS!",
-      "stdin": false
-    },
-    {
-      "id": "write-own",
-      "kind": "editor",
-      "lang": "cpp",
-      "starter": "#include <iostream>\n\nint main() {\n    // Izvadiet skaitli 42\n\n    return 0;\n}",
-      "expected": "42",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}",
+      "expected": "=== SIGMA ===\nFUEL: 87%\nSTATUS: READY",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"=== SIGMA ===\" << endl;\n    cout << \"FUEL: 87%\" << endl;\n    cout << \"STATUS: READY\" << endl;\n    return 0;\n}",
       "stdin": false
     },
     {

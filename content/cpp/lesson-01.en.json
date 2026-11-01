@@ -1,65 +1,145 @@
 {
   "title": "Getting to know C++",
-  "module": "Block 1 · First steps",
-  "note": "Strings only. The step ids must match lesson-01.json.",
+  "module": "Block 1 · Awakening",
+  "note": "Strings only. Step ids match lesson-01.json.",
   "steps": {
     "why-cpp": {
       "eyebrow": "Mission briefing",
-      "title": "Why a drone needs C++",
+      "title": "Python on Earth, C++ in the air",
       "body": [
-        "On a Mars drone every millisecond counts: a command that arrives late is no longer a command. That is why drone software is written in a language that works directly with the processor and memory.",
-        "C++ is that kind of language. It asks more of the person writing it than Python does, and in return it gives speed and full control over what the machine actually does."
+        "The IRIS station terminal has been found, and the first signal has to reach the scout «Sigma». Messages from Earth take several minutes to arrive, so the drone cannot wait for commands — it has to react on its own, and immediately.",
+        "This is not a made-up problem. Ingenuity, the Mars helicopter and the first powered aircraft to fly on another planet, read its sensors 500 times a second to keep itself in the air. Most of its flight software is written in C++.",
+        "Python worked on the same mission too — on the ground, for operations, modelling and data processing. Each language has its place. In this course we will be where speed and predictability matter."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "How Ingenuity flew on open-source software",
+          "body": [
+            "Ingenuity's flight software was built on JPL's open-source framework F Prime (F´). It is a C++ framework originally made for small satellites and instruments, and it is now used in university projects as well.",
+            "Its navigation computer ran Linux and read the sensors 500 times a second. The Python ecosystem was used on the ground, for flight modelling and data processing.",
+            "GitHub later gave a special badge to almost 12,000 developers whose open-source projects were used on the mission. Many of them had no idea their code was flying on Mars."
+          ],
+          "sources": [
+            {
+              "title": "GitHub ReadME Project — Open Source on Mars",
+              "url": "https://github.com/readme/featured/nasa-ingenuity-helicopter"
+            },
+            {
+              "title": "NASA NTRS — FPP: A Modeling Language for F Prime",
+              "url": "https://ntrs.nasa.gov/citations/20220012872"
+            },
+            {
+              "title": "ZDNet — Flying on Mars fueled with open-source software (archive)",
+              "url": "https://webcf.waybackmachine.org/web/20211001074126/https://www.zdnet.com/article/flying-on-mars-fueled-with-open-source-software"
+            }
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Why speed and predictability matter",
+          "body": [
+            "A compiled program has already been translated into machine code before it runs. The computer does not have to translate text in flight, so the response time is short and steady.",
+            "In languages with automatic memory cleanup, a program can pause for a moment while memory is freed. In data analysis nobody notices. For a drone holding itself in the air, that is already a problem."
+          ]
+        }
       ]
     },
     "first-program": {
       "title": "Your first program",
       "body": [
-        "Every C++ program starts with the function main. Everything inside it runs in order, from top to bottom."
+        "This is a complete C++ program. You don't need to understand every line yet — in a moment you will run it yourself, and then we'll work out what is going on."
       ],
-      "caption": "std::cout is the output stream — whatever you send into it appears on screen."
+      "caption": "cout prints whatever you give it. endl moves to a new line."
+    },
+    "predict-output": {
+      "title": "What will the program print?",
+      "body": [
+        "Three output statements in a row. Type what you think will appear on screen — exactly, with spaces and line breaks."
+      ],
+      "explain": "cout adds nothing of its own. A space appears only where it is written inside the quotes, and a new line starts only after endl."
+    },
+    "run-it": {
+      "title": "Retype it and run it",
+      "task": "Retype the program into the editor by hand rather than copying it, then press Run.",
+      "hint": "Watch every character: the quotes, the curly braces and the semicolon at the end of the line."
+    },
+    "drop-namespace": {
+      "title": "What happens without one line?",
+      "task": "This program is missing the line using namespace std;. Run it and read the error. Then fix the program without adding that line back.",
+      "hint": "The compiler says it doesn't know cout. Its full name is std::cout. The same goes for endl."
+    },
+    "why-namespace": {
+      "eyebrow": "What happened",
+      "title": "The std namespace",
+      "body": [
+        "cout and endl are not C++ keywords. They live in the standard library, inside a namespace called std. The full form is std::cout — “cout from std”.",
+        "The line using namespace std; tells the compiler: if you can't find a name, look in std too. That is why it lets you write the short form.",
+        "In this course we will write using namespace std; — the code is shorter and easier to read. But now you know what is behind it, and you'll understand std:: when you see it in someone else's code."
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "Why large projects write std::",
+          "body": [
+            "Namespaces prevent name collisions. If two libraries have a function with the same name, the full name shows which one is meant.",
+            "That is why large projects often avoid using namespace std;, especially in header files that other code includes. In small learning programs it is safe."
+          ]
+        }
+      ]
     },
     "how-it-runs": {
       "title": "What happens after you press Run",
       "body": [
-        "A C++ program cannot be executed straight away. First the compiler translates the text into machine code, and only then does the computer run it. If the text contains a mistake, the compiler stops and nothing runs."
+        "A C++ program cannot be executed straight away. First the compiler translates the source code into machine code and produces an executable. Only then does the computer run it.",
+        "If the source code has a syntax error, the compiler stops before anything runs. That is why, in the previous step, no output appeared until the error was fixed — the program never started."
       ],
-      "caption": "Code → compiler → executable → output."
+      "caption": "Source code → compiler → executable → output.",
+      "alt": "Diagram: source code goes into the compiler, which produces an executable; the executable runs and produces output."
     },
-    "watch-intro": {
-      "title": "Watch how it looks",
+    "find-bug-line": {
+      "title": "Which line has the mistake?",
       "body": [
-        "Two minutes on how a single line of text turns into something happening on screen."
-      ]
-    },
-    "predict-output": {
-      "title": "What appears on screen?",
-      "body": [
-        "Two output statements, one after the other. Think before you answer."
+        "Sigma won't run its diagnostics: the program does not compile. Click the line that contains the mistake."
       ],
+      "explain": "Line 5 is missing a semicolon after endl. Our compiler points at the end of line 5, but others sometimes point at the next line — so always check the line above as well."
+    },
+    "assemble": {
+      "title": "Put the program together",
+      "body": [
+        "The lines are shuffled. Use the arrows to put them in the right order, then press Check."
+      ],
+      "explain": "#include always comes first, then the namespace, then main with its curly braces. Everything that runs sits between them."
+    },
+    "fill-gaps": {
+      "title": "Fill in the blanks",
+      "body": [
+        "Three words are missing from the program. Type them in and check."
+      ],
+      "explain": "iostream is the header file for input and output, std is the standard library namespace, and cout is standard output."
+    },
+    "check-yourself": {
+      "title": "Where does a program start running?",
       "options": {
-        "joined": "IRISgatavs",
-        "spaced": "IRIS gatavs",
-        "two-lines": "Two separate lines"
+        "main": "In the function main",
+        "first-line": "On the first line of the file",
+        "include": "On the #include line"
       },
-      "explain": "std::cout adds nothing of its own. A space or a line break appears only if you write one."
+      "explain": "main is the entry point. #include is handled before compilation even starts, and it is not a statement that runs."
     },
-    "fix-error": {
-      "title": "Find the mistake",
-      "task": "This program does not compile. Find what is missing, fix it and run it.",
-      "hint": "Every statement in C++ ends with a semicolon."
-    },
-    "write-own": {
-      "title": "Write it yourself",
-      "task": "Make the program print the number 42. Nothing else is needed.",
-      "hint": "A number does not need quotation marks."
+    "status-panel": {
+      "title": "Sigma status panel",
+      "task": "Write a program that prints exactly these three lines — each with its own cout.",
+      "hint": "Start from the skeleton already in the editor and write three cout lines between the curly braces."
     },
     "recap": {
       "title": "What you now know",
       "points": [
-        "A program starts at main and runs from top to bottom.",
-        "std::cout prints exactly what you give it and nothing more.",
-        "Every statement ends with a semicolon, otherwise the compiler stops.",
-        "Compile first, run second — that is how C++ differs from Python."
+        "A C++ program is compiled first and only then run. If there is a syntax error, nothing runs.",
+        "Execution starts in main and goes from top to bottom.",
+        "cout prints exactly what you give it; a new line starts only with endl.",
+        "Every statement ends with a semicolon.",
+        "The full name of cout is std::cout; using namespace std; lets you write it short."
       ]
     }
   }
