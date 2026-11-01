@@ -199,14 +199,28 @@
     font-size: 12px;
     letter-spacing: 1.2px;
     min-height: 44px;
-    padding: 0 10px;
+    padding: 0 36px 0 14px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-md);
-    background: transparent;
     color: var(--ink-muted);
     cursor: pointer;
+
+    /* Родная стрелка прижимается к рамке и в каждом браузере по-своему,
+       поэтому она выключена, а своя стоит с отступом 14px. */
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1 L5 5 L9 1' fill='none' stroke='%23B7B0A4' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 10px 6px;
   }
-  .langpick:hover { background: var(--surface-selected); }
+  .langpick:hover { background-color: var(--surface-selected); }
+  .langpick::-ms-expand { display: none; }
+
+  :root[data-theme="light"] .langpick {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1 L5 5 L9 1' fill='none' stroke='%235A5F68' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
 
   /* ── Screen ─────────────────────────────────────────────── */
   .screen { max-width: 1180px; margin: 0 auto; padding: 48px 32px 80px; }
@@ -314,6 +328,32 @@
     max-width: 62ch;
   }
 
+  /* ── Подсветка ключевого слова ──────────────────────────── */
+  /* Правило бренда: на экране подсвечен ровно один фрагмент. */
+  .highlight {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--accent-ink);
+    background: linear-gradient(158deg, #554628 0%, #332A1C 100%);
+    box-shadow: inset 0 1px 0 rgba(209, 183, 132, 0.22);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  :root[data-theme="light"] .highlight {
+    color: #7A5F2A;
+    background: linear-gradient(158deg, #FDF8EC 0%, #EFE2C6 100%);
+    box-shadow: inset 0 0 0 1px rgba(185, 154, 97, 0.35);
+  }
+
+  /* Внутри блока кода тема не меняется: он тёмный всегда. */
+  .cover .highlight,
+  :root[data-theme="light"] .cover .highlight {
+    color: var(--accent-ink);
+    background: linear-gradient(158deg, #554628 0%, #332A1C 100%);
+    box-shadow: inset 0 1px 0 rgba(209, 183, 132, 0.22);
+  }
+
   /* ── Footer ─────────────────────────────────────────────── */
   .foot {
     border-top: 1px solid var(--line);
@@ -374,6 +414,7 @@ var UI = {
     catalogTitle: "Kursi",
     catalogLead: "Programmēšana, izskaidrota ar animāciju. Katrs kurss sadalīts īsās nodaļās: piemērs, paskaidrojums, prakse.",
     allCourses: "Visi kursi",
+    navLabel: "Galvenā navigācija",
     langLabel: "Saskarnes un satura valoda",
     themeToLight: "Gaišs",
     themeToDark: "Tumšs",
@@ -395,6 +436,7 @@ var UI = {
     catalogTitle: "Courses",
     catalogLead: "Programming explained with animation. Every course is split into short chapters: example, explanation, practice.",
     allCourses: "All courses",
+    navLabel: "Main navigation",
     langLabel: "Interface and content language",
     themeToLight: "Light",
     themeToDark: "Dark",
@@ -590,7 +632,7 @@ function header() {
         '</svg>' +
         '<span class="wordmark">[<b>67</b>]<i>coder</i></span>' +
       '</a>' +
-      '<nav class="headlinks" aria-label="' + esc(t("allCourses")) + '">' +
+      '<nav class="headlinks" aria-label="' + esc(t("navLabel")) + '">' +
         '<a href="#/catalog">' + esc(t("allCourses")) + '</a>' +
         '<label class="visually-hidden" for="langpick">' + esc(t("langLabel")) + '</label>' +
         '<select class="langpick" id="langpick">' + options + '</select>' +
