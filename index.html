@@ -498,6 +498,120 @@
     .lesson { padding: 14px 16px; gap: 12px; }
     .foot { padding: 20px 18px calc(20px + env(safe-area-inset-bottom, 0px)); }
   }
+
+  /* ══ Lesson player ═══════════════════════════════════════ */
+  .steps { display: flex; gap: 4px; margin-top: 22px; }
+  .steps span { flex: 1; height: 4px; border-radius: var(--radius-pill); background: var(--line); }
+  .steps span.seen { background: var(--ink-faint); }
+  .steps span.now { background: var(--accent); }
+
+  .step { margin-top: 34px; }
+  .step h2 { font-size: clamp(24px, 4vw, 30px); }
+  .step p { color: var(--ink-muted); max-width: 62ch; margin: 16px 0 0; }
+  .step .eyebrow + h2 { margin-top: 12px; }
+
+  .codeblock {
+    margin-top: 22px;
+    background: var(--surface-sunken);
+    border-radius: var(--radius-md);
+    padding: 22px 24px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--ink-on-sunken);
+    white-space: pre;
+  }
+  .codeblock .k { color: #D1B784; }
+  .codeblock .s { color: #A9B79B; }
+  .codeblock .n { color: #C9A882; }
+  .codeblock .c { color: #8A8377; }
+  .codeblock .pp { color: #B7B0A4; }
+  .codeblock .highlight { padding: 1px 6px; }
+
+  .caption { margin-top: 12px; font-size: 14px; color: var(--ink-faint); max-width: 62ch; }
+
+  .frame {
+    margin-top: 22px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-md);
+    background: var(--surface-sunken);
+    color: var(--ink-faint);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.4px;
+  }
+  .frame.media { padding: 0; border-style: solid; border-color: var(--line); overflow: hidden; min-height: 0; }
+  .frame iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; display: block; }
+  .frame img { width: 100%; display: block; }
+
+  .quiz { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .choice {
+    display: flex; align-items: center; gap: 14px; text-align: left;
+    padding: 14px 18px; min-height: 56px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    background: transparent; color: var(--ink);
+    font: inherit; cursor: pointer;
+  }
+  .choice:hover:not([disabled]) { background: var(--surface-selected); }
+  .choice[disabled] { cursor: default; }
+  .choice .mark { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); flex-shrink: 0; }
+  .choice.right { border-color: var(--success); background: var(--success-surface); }
+  .choice.wrong { border-color: var(--danger); }
+
+  .verdict { margin-top: 18px; padding: 16px 20px; border-radius: var(--radius-md); border: 1px solid var(--line); color: var(--ink-muted); }
+  .verdict.ok { border-color: var(--success); background: var(--success-surface); }
+  .verdict.no { border-color: var(--danger); }
+  .verdict b {
+    display: block; font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .verdict.ok b { color: var(--success); }
+  .verdict.no b { color: var(--danger); }
+
+  .editor { margin-top: 22px; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+  .editor-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 14px; flex-wrap: wrap;
+    background: var(--surface-raised); border-bottom: 1px solid var(--line);
+  }
+  .editor-bar .meta-mono { margin-left: 2px; }
+  .editor textarea.code {
+    display: block; width: 100%; min-height: 230px; resize: vertical; border: 0;
+    padding: 20px 24px; background: var(--surface-sunken); color: var(--ink-on-sunken);
+    font-family: var(--font-mono); font-size: 14.5px; line-height: 1.75;
+  }
+  .editor textarea.code:focus { outline: 3px solid var(--focus-ring); outline-offset: -3px; }
+
+  .io { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+  .io > div { background: var(--surface-raised); padding: 14px 18px; }
+  .io label {
+    display: block; font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px;
+  }
+  .io textarea, .io pre {
+    margin: 0; width: 100%; min-height: 86px; box-sizing: border-box;
+    border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--surface-sunken); color: var(--ink-on-sunken);
+    padding: 12px 14px; font-family: var(--font-mono); font-size: 13px;
+    line-height: 1.6; white-space: pre-wrap; overflow-x: auto; resize: vertical;
+  }
+  @media (max-width: 680px) { .io { grid-template-columns: 1fr; } }
+
+  .points { margin: 18px 0 0; padding-left: 22px; color: var(--ink-muted); max-width: 62ch; }
+  .points li { margin-top: 8px; }
+
+  .lessonnav {
+    margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
 </style>
 </head>
 <body>
@@ -568,6 +682,24 @@ var UI = {
     openInLang: "Atvērt valodā: ",
     onlyInOther: "Šis kurss nav pieejams latviešu valodā. Tas ir atvērts valodā: ",
     lessonEyebrow: "Nodaļa",
+    prevStep: "Iepriekšējais solis",
+    nextStep: "Tālāk",
+    framePending: "Šeit būs shēma no videoklipa",
+    videoPending: "Šeit būs videoklips",
+    answerRight: "Pareizi",
+    answerWrong: "Nav pareizi",
+    runCode: "Palaist",
+    stopRun: "Apturēt",
+    resetCode: "Atjaunot",
+    running: "Darbojas…",
+    runStopped: "Apturēts.",
+    stdinLabel: "Ievades dati",
+    stdoutLabel: "Izvade",
+    runRight: "Pareizi",
+    runWrong: "Vēl ne",
+    runRightNote: "Izvade sakrīt ar gaidīto.",
+    runWrongNote: "Gaidītā izvade:",
+    engineMissing: "Kompilators vēl nav pieslēgts. Redaktors un pārbaude jau darbojas.",
     lessonSoonTitle: "Nodaļas ekrāns vēl top",
     lessonSoonBody: "Šeit būs teorija, piemēri, kvizs un koda redaktors. Maršruts jau darbojas, tāpēc saites no Moodle var veidot jau tagad.",
     markDone: "Atzīmēt kā pabeigtu",
@@ -612,6 +744,24 @@ var UI = {
     openInLang: "Open in: ",
     onlyInOther: "This course is not available in English. It is open in: ",
     lessonEyebrow: "Chapter",
+    prevStep: "Previous step",
+    nextStep: "Next",
+    framePending: "A frame from the video will go here",
+    videoPending: "The video will go here",
+    answerRight: "Correct",
+    answerWrong: "Not quite",
+    runCode: "Run",
+    stopRun: "Stop",
+    resetCode: "Reset",
+    running: "Running…",
+    runStopped: "Stopped.",
+    stdinLabel: "Input",
+    stdoutLabel: "Output",
+    runRight: "Correct",
+    runWrong: "Not yet",
+    runRightNote: "The output matches what was expected.",
+    runWrongNote: "Expected output:",
+    engineMissing: "The compiler is not connected yet. The editor and the check already work.",
     lessonSoonTitle: "The chapter screen is on the way",
     lessonSoonBody: "Theory, examples, a quiz and the code editor will live here. The route already works, so Moodle links can be built now.",
     markDone: "Mark as completed",
@@ -629,7 +779,7 @@ var UI = {
 
 /* ── Состояние и хранилище ────────────────────────────────── */
 var state = { uiLang: DEFAULT_LANG, contentLang: DEFAULT_LANG };
-var cache = { catalog: null, structure: {}, texts: {} };
+var cache = { catalog: null, structure: {}, texts: {}, lessons: {}, lessonTexts: {} };
 var renderToken = 0;
 
 function readStored(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
@@ -980,51 +1130,449 @@ function courseScreen(course, resolved) {
     "</main>" + footer();
 }
 
-/* ── Экран урока (пока заглушка) и непереведённый урок ────── */
-function lessonScreen(course, lesson, lang) {
-  var translated = lesson.locales.indexOf(lang) !== -1;
-  var done = isDone(course.id, lesson.n);
-  var flat = cache.structure[course.id].flat;
-  var at = flat.indexOf(lesson);
-  var prev = at > 0 ? flat[at - 1] : null;
-  var nextL = at < flat.length - 1 ? flat[at + 1] : null;
-  var title = lessonTitle(course.id, lesson, lang);
+/* ════════════════════════════════════════════════════════════
+   ЭКРАН УРОКА
 
-  var body;
-  if (!translated) {
-    var other = lesson.locales[0];
-    body =
-      "<h1>" + esc(t("notTranslatedTitle")) + "</h1>" +
+   Урок — плеер шагов: один шаг на экране, слаг шага стоит в
+   адресе. Типы шагов: theory, example, explain, video, quiz,
+   editor, summary. Добавить тип — правка здесь, в оболочке;
+   контент уроков новых типов не придумывает.
+   ════════════════════════════════════════════════════════════ */
+
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function loadLesson(courseId, n) {
+  var key = courseId + "." + n;
+  if (cache.lessons[key]) return Promise.resolve(cache.lessons[key]);
+  return getJSON(CONTENT + courseId + "/lesson-" + pad2(n) + ".json").then(function (data) {
+    cache.lessons[key] = data;
+    return data;
+  });
+}
+
+function loadLessonTexts(courseId, n, lang) {
+  var key = courseId + "." + n + "." + lang;
+  if (cache.lessonTexts[key]) return Promise.resolve(cache.lessonTexts[key]);
+  return getJSON(CONTENT + courseId + "/lesson-" + pad2(n) + "." + lang + ".json").then(function (data) {
+    cache.lessonTexts[key] = data;
+    return data;
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   ДВИЖОК ЗАПУСКА КОДА
+
+   Это единственное место, которое нужно заменить, когда
+   подключим компилятор. Договор:
+
+     runner.run(lang, code, stdin)
+       -> Promise<{ stdout, stderr, exitCode }>
+     runner.stop()
+       -> прерывает текущий запуск
+
+   План: Web Worker, в нём @yowasp/clang для C++ и Pyodide для
+   Python. Кнопка «Стоп» убивает воркер, поэтому бесконечный
+   цикл страницу не вешает. Вёрстка ниже от движка не зависит.
+   ════════════════════════════════════════════════════════════ */
+var runner = {
+  ready: false,
+  run: function () { return Promise.reject(new Error("engine-not-connected")); },
+  stop: function () {}
+};
+
+/* ── Подсветка синтаксиса ─────────────────────────────────── */
+var CPP_KEYWORDS = {
+  "int": 1, "float": 1, "double": 1, "char": 1, "bool": 1, "void": 1, "auto": 1,
+  "const": 1, "static": 1, "unsigned": 1, "long": 1, "short": 1, "struct": 1,
+  "class": 1, "public": 1, "private": 1, "return": 1, "if": 1, "else": 1,
+  "for": 1, "while": 1, "do": 1, "switch": 1, "case": 1, "break": 1,
+  "continue": 1, "true": 1, "false": 1, "new": 1, "delete": 1, "using": 1,
+  "namespace": 1, "template": 1, "typename": 1, "try": 1, "catch": 1, "throw": 1,
+  "def": 1, "import": 1, "from": 1, "None": 1, "True": 1, "False": 1, "elif": 1, "in": 1
+};
+
+function tokenize(code) {
+  var out = "", i = 0, n = code.length;
+  function push(cls, text) { out += cls ? '<span class="' + cls + '">' + esc(text) + "</span>" : esc(text); }
+
+  while (i < n) {
+    var ch = code.charAt(i);
+
+    if (ch === "#" && (i === 0 || code.charAt(i - 1) === "\n")) {
+      var e = code.indexOf("\n", i); if (e < 0) e = n;
+      push("pp", code.slice(i, e)); i = e; continue;
+    }
+    if (ch === "/" && code.charAt(i + 1) === "/") {
+      var e2 = code.indexOf("\n", i); if (e2 < 0) e2 = n;
+      push("c", code.slice(i, e2)); i = e2; continue;
+    }
+    if (ch === "/" && code.charAt(i + 1) === "*") {
+      var e3 = code.indexOf("*/", i); e3 = e3 < 0 ? n : e3 + 2;
+      push("c", code.slice(i, e3)); i = e3; continue;
+    }
+    if (ch === '"' || ch === "'") {
+      var j = i + 1;
+      while (j < n && !(code.charAt(j) === ch && code.charAt(j - 1) !== "\\")) j += 1;
+      j = Math.min(j + 1, n);
+      push("s", code.slice(i, j)); i = j; continue;
+    }
+    if (ch >= "0" && ch <= "9") {
+      var k = i;
+      while (k < n && /[0-9.]/.test(code.charAt(k))) k += 1;
+      push("n", code.slice(i, k)); i = k; continue;
+    }
+    if (/[A-Za-z_]/.test(ch)) {
+      var m = i;
+      while (m < n && /[A-Za-z0-9_]/.test(code.charAt(m))) m += 1;
+      var word = code.slice(i, m);
+      push(CPP_KEYWORDS[word] ? "k" : "", word); i = m; continue;
+    }
+    push("", ch); i += 1;
+  }
+  return out;
+}
+
+/* Подсвечивается ровно один фрагмент — первое вхождение focus. */
+function codeBlock(code, focus) {
+  var inner;
+  var at = focus ? code.indexOf(focus) : -1;
+  if (at === -1) {
+    inner = tokenize(code);
+  } else {
+    inner = tokenize(code.slice(0, at)) +
+            '<span class="highlight">' + tokenize(focus) + "</span>" +
+            tokenize(code.slice(at + focus.length));
+  }
+  return '<pre class="codeblock">' + inner + "</pre>";
+}
+
+/* ── Память в пределах сессии: ответы на квизы и вывод ────── */
+var ephemeral = {};
+function ekey(ctx, stepId) { return ctx.course.id + "." + ctx.n + "." + stepId; }
+
+/* Черновики кода — по языку, как в спецификации. */
+function draftKey(courseId, lang, n) { return "draft." + courseId + "." + lang + ".lesson." + n; }
+function readDrafts(courseId, lang, n) {
+  var raw = readStored(draftKey(courseId, lang, n));
+  if (!raw) return {};
+  try { return JSON.parse(raw) || {}; } catch (e) { return {}; }
+}
+function writeDraft(courseId, lang, n, stepId, code) {
+  var all = readDrafts(courseId, lang, n);
+  all[stepId] = code;
+  writeStored(draftKey(courseId, lang, n), JSON.stringify(all));
+}
+
+/* ── Виды шагов ───────────────────────────────────────────── */
+function paras(body) {
+  if (!body) return "";
+  var list = Object.prototype.toString.call(body) === "[object Array]" ? body : [body];
+  return list.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+}
+
+function stepHead(tx) {
+  return (tx.eyebrow ? '<div class="eyebrow">' + esc(tx.eyebrow) + "</div>" : "") +
+         "<h2>" + esc(tx.title || "") + "</h2>" +
+         paras(tx.body);
+}
+
+function theoryView(step, tx) {
+  return stepHead(tx);
+}
+
+function exampleView(step, tx) {
+  return stepHead(tx) +
+    (step.code ? codeBlock(step.code, step.focus) : "") +
+    (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+}
+
+function explainView(ctx, step, tx) {
+  var media = step.image
+    ? '<div class="frame media"><img src="' + esc(CONTENT + ctx.course.id + "/" + step.image) + '" alt="' + esc(tx.alt || tx.title || "") + '"></div>'
+    : '<div class="frame">' + esc(t("framePending")) + "</div>";
+  return stepHead(tx) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+}
+
+function videoView(step, tx) {
+  var media = step.youtube
+    ? '<div class="frame media"><iframe src="https://www.youtube-nocookie.com/embed/' + esc(step.youtube) +
+      '" title="' + esc(tx.title || "") + '" allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>'
+    : '<div class="frame">' + esc(t("videoPending")) + "</div>";
+  return stepHead(tx) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+}
+
+function quizView(ctx, step, tx) {
+  var chosen = ephemeral[ekey(ctx, step.id)] || null;
+  var order = step.options || Object.keys(tx.options || {});
+  var letters = "ABCDEFG";
+
+  var buttons = order.map(function (id, i) {
+    var cls = "choice";
+    if (chosen) {
+      if (id === step.answer) cls += " right";
+      else if (id === chosen) cls += " wrong";
+    }
+    return '<button type="button" class="' + cls + '" data-choice="' + esc(id) + '"' + (chosen ? " disabled" : "") + ">" +
+      '<span class="mark">' + letters.charAt(i) + "</span>" +
+      "<span>" + esc((tx.options || {})[id] || id) + "</span>" +
+    "</button>";
+  }).join("");
+
+  var verdict = "";
+  if (chosen) {
+    var ok = chosen === step.answer;
+    verdict = '<div class="verdict ' + (ok ? "ok" : "no") + '">' +
+      "<b>" + esc(ok ? t("answerRight") : t("answerWrong")) + "</b>" +
+      esc(tx.explain || "") + "</div>";
+  }
+
+  return stepHead(tx) +
+    (step.code ? codeBlock(step.code, step.focus) : "") +
+    '<div class="quiz">' + buttons + "</div>" + verdict;
+}
+
+function editorView(ctx, step, tx) {
+  var drafts = readDrafts(ctx.course.id, ctx.lang, ctx.n);
+  var code = drafts[step.id] !== undefined ? drafts[step.id] : (step.starter || "");
+  var last = ephemeral[ekey(ctx, step.id) + ".out"];
+
+  var stdinBox = step.stdin === false ? "" :
+    "<div><label for=\"stdinBox\">" + esc(t("stdinLabel")) + "</label>" +
+    '<textarea id="stdinBox" spellcheck="false">' + esc(step.stdin || "") + "</textarea></div>";
+
+  var verdict = "";
+  if (last && last.verdict) {
+    verdict = '<div class="verdict ' + (last.verdict === "ok" ? "ok" : "no") + '">' +
+      "<b>" + esc(last.verdict === "ok" ? t("runRight") : t("runWrong")) + "</b>" +
+      esc(last.note || "") + "</div>";
+  }
+
+  return stepHead(tx) +
+    (tx.task ? '<p>' + esc(tx.task) + "</p>" : "") +
+    '<div class="editor">' +
+      '<div class="editor-bar">' +
+        '<span class="meta-mono">' + esc(step.lang || "cpp") + " · main." + esc(step.lang === "python" ? "py" : "cpp") + "</span>" +
+        "<span>" +
+          '<button type="button" class="btn small" id="resetBtn">' + esc(t("resetCode")) + "</button> " +
+          '<button type="button" class="btn small" id="stopBtn" hidden>' + esc(t("stopRun")) + "</button> " +
+          '<button type="button" class="btn primary" id="runBtn">' + esc(t("runCode")) + "</button>" +
+        "</span>" +
+      "</div>" +
+      '<textarea class="code" id="codeBox" spellcheck="false" aria-label="' + esc(tx.title || t("runCode")) + '">' + esc(code) + "</textarea>" +
+      '<div class="io">' + stdinBox +
+        "<div><label for=\"outBox\">" + esc(t("stdoutLabel")) + "</label>" +
+        '<pre id="outBox">' + esc(last && last.text ? last.text : "") + "</pre></div>" +
+      "</div>" +
+    "</div>" +
+    (tx.hint ? '<p class="caption">' + esc(tx.hint) + "</p>" : "") +
+    verdict;
+}
+
+function summaryView(ctx, tx) {
+  var done = isDone(ctx.course.id, ctx.n);
+  var points = (tx.points || []).map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("");
+  return stepHead(tx) +
+    (points ? '<ul class="points">' + points + "</ul>" : "") +
+    '<div class="actions" style="margin-top: 28px">' +
+      '<button type="button" class="btn' + (done ? "" : " primary") + '" id="lessonDone">' +
+        esc(done ? t("markNotDone") : t("markDone")) + "</button>" +
+    "</div>";
+}
+
+function stepView(ctx, step, texts) {
+  var tx = (texts.steps && texts.steps[step.id]) || {};
+  if (step.kind === "theory") return theoryView(step, tx);
+  if (step.kind === "example") return exampleView(step, tx);
+  if (step.kind === "explain") return explainView(ctx, step, tx);
+  if (step.kind === "video") return videoView(step, tx);
+  if (step.kind === "quiz") return quizView(ctx, step, tx);
+  if (step.kind === "editor") return editorView(ctx, step, tx);
+  if (step.kind === "summary") return summaryView(ctx, tx);
+  return "<h2>" + esc(tx.title || step.id) + "</h2>" + paras(tx.body);
+}
+
+/* ── Экран целиком ────────────────────────────────────────── */
+function lessonPlayer(ctx, data, texts) {
+  var steps = data.steps || [];
+  var i = ctx.stepIndex;
+  var step = steps[i];
+
+  var bar = steps.map(function (s, idx) {
+    return '<span class="' + (idx === i ? "now" : (idx < i ? "seen" : "")) + '"></span>';
+  }).join("");
+
+  var prev = i > 0 ? steps[i - 1] : null;
+  var nextS = i < steps.length - 1 ? steps[i + 1] : null;
+  var hash = function (slug) { return courseHash(ctx.course.id, ctx.lang, ctx.n, slug); };
+
+  var nav = '<div class="lessonnav">' +
+    (prev ? '<a class="btn" href="' + hash(prev.id) + '">' + esc(t("prevStep")) + "</a>" : "<span></span>") +
+    (nextS ? '<a class="btn primary" href="' + hash(nextS.id) + '">' + esc(t("nextStep")) + "</a>"
+           : '<a class="btn" href="' + courseHash(ctx.course.id, ctx.lang, null, null) + '">' + esc(t("backToCourse")) + "</a>") +
+  "</div>";
+
+  return header() +
+    '<main class="screen narrow">' +
+      '<a class="crumb" href="' + courseHash(ctx.course.id, ctx.lang, null, null) + '">' + backArrow() +
+        esc(ctx.course.title[state.uiLang]) + "</a>" +
+      '<div class="lesson-head" style="margin-top: 10px">' +
+        '<div class="eyebrow">' + esc(t("lessonEyebrow")) + " " + ctx.n +
+          (texts.module ? " · " + esc(texts.module) : "") + "</div>" +
+        '<div class="meta-mono">' + (i + 1) + " / " + steps.length + "</div>" +
+      "</div>" +
+      '<h1 lang="' + ctx.lang + '" style="font-size: clamp(26px, 4vw, 36px)">' + esc(texts.title || "") + "</h1>" +
+      '<div class="steps">' + bar + "</div>" +
+      '<section class="step" lang="' + ctx.lang + '">' + stepView(ctx, step, texts) + "</section>" +
+      nav +
+    "</main>" + footer();
+}
+
+/* ── Непереведённый и ещё не написанный урок ──────────────── */
+function lessonMissingScreen(course, lesson, lang, kind) {
+  var other = lesson.locales[0];
+  var body = kind === "untranslated"
+    ? "<h1>" + esc(t("notTranslatedTitle")) + "</h1>" +
       '<p class="lead">' + esc(t("notTranslatedBody")) + "</p>" +
       '<div class="actions" style="margin-top: 28px">' +
         '<a class="btn primary" href="' + courseHash(course.id, other, lesson.n, null) + '">' +
           esc(t("openInLang")) + esc(langLabel(other)) + "</a>" +
         '<a class="btn" href="' + courseHash(course.id, lang, null, null) + '">' + esc(t("backToCourse")) + "</a>" +
-      "</div>";
-  } else {
-    body =
-      '<h1 lang="' + title.lang + '">' + esc(title.text) + "</h1>" +
-      '<div class="panel">' +
-        '<div class="eyebrow">' + esc(t("lessonSoonTitle")) + "</div>" +
-        '<p class="muted" style="margin-top: 14px">' + esc(t("lessonSoonBody")) + "</p>" +
-      "</div>" +
+      "</div>"
+    : "<h1>" + esc(t("lessonSoonTitle")) + "</h1>" +
+      '<p class="lead">' + esc(t("lessonSoonBody")) + "</p>" +
       '<div class="actions" style="margin-top: 28px">' +
-        '<button type="button" class="btn' + (done ? "" : " primary") + '" id="doneBtn">' +
-          esc(done ? t("markNotDone") : t("markDone")) + "</button>" +
-        (prev ? '<a class="btn" href="' + courseHash(course.id, lang, prev.n, null) + '">' + esc(t("prevLesson")) + "</a>" : "") +
-        (nextL ? '<a class="btn" href="' + courseHash(course.id, lang, nextL.n, null) + '">' + esc(t("nextLesson")) + "</a>" : "") +
-        '<a class="btn" href="' + courseHash(course.id, lang, null, null) + '">' + esc(t("backToCourse")) + "</a>" +
+        '<a class="btn primary" href="' + courseHash(course.id, lang, null, null) + '">' + esc(t("backToCourse")) + "</a>" +
       "</div>";
-  }
 
   return header() +
     '<main class="screen narrow">' +
       '<a class="crumb" href="' + courseHash(course.id, lang, null, null) + '">' + backArrow() +
         esc(course.title[state.uiLang]) + "</a>" +
-      '<div class="eyebrow" style="margin-top: 10px">' + esc(t("lessonEyebrow")) + " " + lesson.n +
-        (done ? " · " + esc(t("doneLabel")) : "") + "</div>" +
+      '<div class="eyebrow" style="margin-top: 10px">' + esc(t("lessonEyebrow")) + " " + lesson.n + "</div>" +
       body +
     "</main>" + footer();
+}
+
+/* ── Показ урока ──────────────────────────────────────────── */
+function showLesson(course, lesson, lang, route, token) {
+  if (lesson.locales.indexOf(lang) === -1) {
+    document.title = course.title[state.uiLang] + " — 67coder";
+    paint(lessonMissingScreen(course, lesson, lang, "untranslated"));
+    window.scrollTo(0, 0);
+    return Promise.resolve();
+  }
+
+  return Promise.all([
+    loadLesson(course.id, lesson.n),
+    loadLessonTexts(course.id, lesson.n, lang)
+  ]).then(function (pair) {
+    if (token !== renderToken) return;
+
+    var data = pair[0], texts = pair[1];
+    var steps = data.steps || [];
+    var index = 0;
+    for (var s = 0; s < steps.length; s++) { if (steps[s].id === route.step) { index = s; break; } }
+
+    var wanted = courseHash(course.id, lang, lesson.n, steps[index] ? steps[index].id : null);
+    if (location.hash !== wanted) history.replaceState(null, "", wanted);
+
+    var ctx = { course: course, lang: lang, n: lesson.n, stepIndex: index };
+    document.title = (texts.title || "") + " — 67coder";
+    paint(lessonPlayer(ctx, data, texts));
+    window.scrollTo(0, 0);
+  }).catch(function () {
+    if (token !== renderToken) return;
+    document.title = course.title[state.uiLang] + " — 67coder";
+    paint(lessonMissingScreen(course, lesson, lang, "missing"));
+    window.scrollTo(0, 0);
+  });
+}
+
+/* ── Обработчики внутри урока ─────────────────────────────── */
+function wireLesson() {
+  var route = parseHash();
+  if (!route.course || !route.lesson) return;
+  var ctx = { course: { id: route.course }, n: Number(route.lesson), lang: route.lang };
+
+  var choices = document.querySelectorAll("[data-choice]");
+  for (var c = 0; c < choices.length; c++) {
+    choices[c].addEventListener("click", function () {
+      var data = cache.lessons[route.course + "." + route.lesson];
+      if (!data) return;
+      var step = null;
+      for (var s = 0; s < data.steps.length; s++) { if (data.steps[s].id === route.step) step = data.steps[s]; }
+      if (!step) return;
+      ephemeral[route.course + "." + route.lesson + "." + step.id] = this.getAttribute("data-choice");
+      render();
+    });
+  }
+
+  var codeBox = document.getElementById("codeBox");
+  var runBtn = document.getElementById("runBtn");
+  var stopBtn = document.getElementById("stopBtn");
+  var resetBtn = document.getElementById("resetBtn");
+  var outBox = document.getElementById("outBox");
+  if (!codeBox || !runBtn) return;
+
+  var data = cache.lessons[route.course + "." + route.lesson];
+  var step = null;
+  if (data) { for (var i = 0; i < data.steps.length; i++) { if (data.steps[i].id === route.step) step = data.steps[i]; } }
+  if (!step) return;
+
+  var saveTimer = null;
+  codeBox.addEventListener("input", function () {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      writeDraft(route.course, route.lang, Number(route.lesson), step.id, codeBox.value);
+    }, 400);
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function () {
+      codeBox.value = step.starter || "";
+      writeDraft(route.course, route.lang, Number(route.lesson), step.id, codeBox.value);
+      outBox.textContent = "";
+      delete ephemeral[route.course + "." + route.lesson + "." + step.id + ".out"];
+      render();
+    });
+  }
+
+  stopBtn.addEventListener("click", function () {
+    runner.stop();
+    stopBtn.hidden = true;
+    runBtn.disabled = false;
+    outBox.textContent = t("runStopped");
+  });
+
+  runBtn.addEventListener("click", function () {
+    var stdinBox = document.getElementById("stdinBox");
+    writeDraft(route.course, route.lang, Number(route.lesson), step.id, codeBox.value);
+
+    runBtn.disabled = true;
+    stopBtn.hidden = false;
+    outBox.textContent = t("running");
+
+    runner.run(step.lang || "cpp", codeBox.value, stdinBox ? stdinBox.value : "")
+      .then(function (res) {
+        var text = (res.stdout || "") + (res.stderr ? "\n" + res.stderr : "");
+        var ok = step.expected !== undefined &&
+                 text.replace(/\s+$/g, "").replace(/\r/g, "") === String(step.expected).replace(/\s+$/g, "");
+        ephemeral[route.course + "." + route.lesson + "." + step.id + ".out"] = {
+          text: text,
+          verdict: step.expected === undefined ? null : (ok ? "ok" : "no"),
+          note: step.expected === undefined ? "" : (ok ? t("runRightNote") : t("runWrongNote") + " " + String(step.expected))
+        };
+        render();
+      })
+      .catch(function (err) {
+        var missing = err && err.message === "engine-not-connected";
+        ephemeral[route.course + "." + route.lesson + "." + step.id + ".out"] = {
+          text: missing ? t("engineMissing") : String(err && err.message ? err.message : err),
+          verdict: null, note: ""
+        };
+        render();
+      });
+  });
 }
 
 /* ── Служебные экраны ─────────────────────────────────────── */
@@ -1099,19 +1647,14 @@ function render() {
           if (token !== renderToken) return;
 
           var lesson = route.lesson ? findLesson(course.id, route.lesson) : null;
-          var wanted = courseHash(course.id, resolved.lang, lesson ? lesson.n : null, lesson ? route.step : null);
-          if (location.hash !== wanted) history.replaceState(null, "", wanted);
-
           document.documentElement.lang = state.uiLang;
 
-          if (lesson) {
-            var title = lessonTitle(course.id, lesson, resolved.lang);
-            document.title = title.text + " — 67coder";
-            paint(lessonScreen(course, lesson, resolved.lang));
-          } else {
-            document.title = course.title[state.uiLang] + " — 67coder";
-            paint(courseScreen(course, resolved));
-          }
+          if (lesson) return showLesson(course, lesson, resolved.lang, route, token);
+
+          var wantedCourse = courseHash(course.id, resolved.lang, null, null);
+          if (location.hash !== wantedCourse) history.replaceState(null, "", wantedCourse);
+          document.title = course.title[state.uiLang] + " — 67coder";
+          paint(courseScreen(course, resolved));
           window.scrollTo(0, 0);
         });
     });
@@ -1148,15 +1691,17 @@ function wire() {
     });
   }
 
-  var doneBtn = document.getElementById("doneBtn");
-  if (doneBtn) {
-    doneBtn.addEventListener("click", function () {
-      var route = parseHash();
-      if (!route.course || !route.lesson) return;
-      toggleDone(route.course, Number(route.lesson));
+  var lessonDone = document.getElementById("lessonDone");
+  if (lessonDone) {
+    lessonDone.addEventListener("click", function () {
+      var r = parseHash();
+      if (!r.course || !r.lesson) return;
+      toggleDone(r.course, Number(r.lesson));
       render();
     });
   }
+
+  wireLesson();
 
   var retryBtn = document.getElementById("retryBtn");
   if (retryBtn) {
@@ -1164,6 +1709,8 @@ function wire() {
       cache.catalog = null;
       cache.structure = {};
       cache.texts = {};
+      cache.lessons = {};
+      cache.lessonTexts = {};
       render();
     });
   }
