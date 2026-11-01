@@ -1,0 +1,62 @@
+{
+  "n": 1,
+  "slug": "intro-cpp",
+  "locales": [
+    "lv",
+    "en"
+  ],
+  "note": "Структура урока. Ни одной переводимой строки: id и порядок шагов, код, id правильного ответа, ожидаемый вывод. Тексты — в lesson-01.<lang>.json с теми же id.",
+  "steps": [
+    {
+      "id": "why-cpp",
+      "kind": "theory"
+    },
+    {
+      "id": "first-program",
+      "kind": "example",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Sveika, IRIS!\" << std::endl;\n    return 0;\n}",
+      "focus": "std::cout"
+    },
+    {
+      "id": "how-it-runs",
+      "kind": "explain",
+      "image": null
+    },
+    {
+      "id": "watch-intro",
+      "kind": "video",
+      "youtube": null
+    },
+    {
+      "id": "predict-output",
+      "kind": "quiz",
+      "code": "std::cout << \"IRIS\";\nstd::cout << \"gatavs\";",
+      "options": [
+        "joined",
+        "spaced",
+        "two-lines"
+      ],
+      "answer": "joined"
+    },
+    {
+      "id": "fix-error",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n\nint main() {\n    std::cout << \"Sveika, IRIS!\" << std::endl\n    return 0;\n}",
+      "expected": "Sveika, IRIS!",
+      "stdin": false
+    },
+    {
+      "id": "write-own",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n\nint main() {\n    // Izvadiet skaitli 42\n\n    return 0;\n}",
+      "expected": "42",
+      "stdin": false
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

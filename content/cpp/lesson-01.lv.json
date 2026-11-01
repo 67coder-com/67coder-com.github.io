@@ -1,0 +1,66 @@
+{
+  "title": "Iepazīšanās ar C++",
+  "module": "1. bloks · Pirmie soļi",
+  "note": "Только строки. Набор id шагов обязан совпадать с lesson-01.json.",
+  "steps": {
+    "why-cpp": {
+      "eyebrow": "Misijas sākums",
+      "title": "Kāpēc dronam vajag C++",
+      "body": [
+        "Marsa dronam katra milisekunde ir svarīga: komanda, kas pienāk par vēlu, vairs nav komanda. Tāpēc dronu programmas raksta valodā, kas strādā tieši ar procesoru un atmiņu.",
+        "C++ ir tieši tāda valoda. Tā ir prasīgāka pret cilvēku nekā Python, bet pretī dod ātrumu un pilnu kontroli pār to, kas notiek iekārtā."
+      ]
+    },
+    "first-program": {
+      "title": "Pirmā programma",
+      "body": [
+        "Katra C++ programma sākas ar funkciju main. Viss, kas rakstīts tās iekšienē, izpildās pēc kārtas no augšas uz leju."
+      ],
+      "caption": "std::cout ir izvades plūsma — viss, kas tai padots, parādās ekrānā."
+    },
+    "how-it-runs": {
+      "title": "Kas notiek pēc pogas Palaist",
+      "body": [
+        "C++ programma nevar tikt izpildīta uzreiz. Vispirms kompilators pārtulko tekstu mašīnkodā, un tikai pēc tam dators to izpilda. Ja tekstā ir kļūda, kompilators apstājas un neko nepalaiž."
+      ],
+      "caption": "Kods → kompilators → izpildāmais fails → izvade."
+    },
+    "watch-intro": {
+      "title": "Noskaties, kā tas izskatās",
+      "body": [
+        "Divas minūtes par to, kā viena rinda teksta pārvēršas darbībā uz ekrāna."
+      ]
+    },
+    "predict-output": {
+      "title": "Kas parādīsies ekrānā?",
+      "body": [
+        "Divas izvades rindas pēc kārtas. Padomā, pirms atbildi."
+      ],
+      "options": {
+        "joined": "IRISgatavs",
+        "spaced": "IRIS gatavs",
+        "two-lines": "Divas atsevišķas rindas"
+      },
+      "explain": "std::cout neko nepievieno pats no sevis. Atstarpe vai jauna rinda parādās tikai tad, ja to uzrakstām."
+    },
+    "fix-error": {
+      "title": "Atrodi kļūdu",
+      "task": "Šī programma neskompilējas. Atrodi, kā trūkst, izlabo un palaid.",
+      "hint": "Katra komanda C++ beidzas ar semikolu."
+    },
+    "write-own": {
+      "title": "Uzraksti pats",
+      "task": "Liec programmai izvadīt skaitli 42. Pārējo rakstīt nevajag.",
+      "hint": "Skaitlim pēdiņas nav vajadzīgas."
+    },
+    "recap": {
+      "title": "Ko tu tagad zini",
+      "points": [
+        "Programma sākas ar main un izpildās no augšas uz leju.",
+        "std::cout izvada ekrānā tieši to, kas tam padots, un neko vairāk.",
+        "Katra komanda beidzas ar semikolu, citādi kompilators apstājas.",
+        "Vispirms kompilācija, tad izpilde — tā C++ atšķiras no Python."
+      ]
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Getting to know C++",
+  "module": "Block 1 · First steps",
+  "note": "Strings only. The step ids must match lesson-01.json.",
+  "steps": {
+    "why-cpp": {
+      "eyebrow": "Mission briefing",
+      "title": "Why a drone needs C++",
+      "body": [
+        "On a Mars drone every millisecond counts: a command that arrives late is no longer a command. That is why drone software is written in a language that works directly with the processor and memory.",
+        "C++ is that kind of language. It asks more of the person writing it than Python does, and in return it gives speed and full control over what the machine actually does."
+      ]
+    },
+    "first-program": {
+      "title": "Your first program",
+      "body": [
+        "Every C++ program starts with the function main. Everything inside it runs in order, from top to bottom."
+      ],
+      "caption": "std::cout is the output stream — whatever you send into it appears on screen."
+    },
+    "how-it-runs": {
+      "title": "What happens after you press Run",
+      "body": [
+        "A C++ program cannot be executed straight away. First the compiler translates the text into machine code, and only then does the computer run it. If the text contains a mistake, the compiler stops and nothing runs."
+      ],
+      "caption": "Code → compiler → executable → output."
+    },
+    "watch-intro": {
+      "title": "Watch how it looks",
+      "body": [
+        "Two minutes on how a single line of text turns into something happening on screen."
+      ]
+    },
+    "predict-output": {
+      "title": "What appears on screen?",
+      "body": [
+        "Two output statements, one after the other. Think before you answer."
+      ],
+      "options": {
+        "joined": "IRISgatavs",
+        "spaced": "IRIS gatavs",
+        "two-lines": "Two separate lines"
+      },
+      "explain": "std::cout adds nothing of its own. A space or a line break appears only if you write one."
+    },
+    "fix-error": {
+      "title": "Find the mistake",
+      "task": "This program does not compile. Find what is missing, fix it and run it.",
+      "hint": "Every statement in C++ ends with a semicolon."
+    },
+    "write-own": {
+      "title": "Write it yourself",
+      "task": "Make the program print the number 42. Nothing else is needed.",
+      "hint": "A number does not need quotation marks."
+    },
+    "recap": {
+      "title": "What you now know",
+      "points": [
+        "A program starts at main and runs from top to bottom.",
+        "std::cout prints exactly what you give it and nothing more.",
+        "Every statement ends with a semicolon, otherwise the compiler stops.",
+        "Compile first, run second — that is how C++ differs from Python."
+      ]
+    }
+  }
+}
