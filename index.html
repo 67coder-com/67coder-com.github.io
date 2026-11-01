@@ -662,6 +662,118 @@
 
   /* Подводка каталога идёт над всей сеткой, а не над первой карточкой. */
   .lead.wide { max-width: none; }
+
+  /* ══ Раскрывающиеся блоки: Arhīva ieraksts, Dziļāk, подсказки ══ */
+  .more {
+    margin-top: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+  }
+  .step > .more:first-of-type, .verdict + .more { margin-top: 22px; }
+  .more summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px; min-height: 52px;
+  }
+  .more summary::-webkit-details-marker { display: none; }
+  .more summary .tag {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 1.6px; text-transform: uppercase;
+    color: var(--ink-muted); white-space: nowrap;
+  }
+  .more summary .ttl { flex-grow: 1; color: var(--ink); line-height: 1.4; }
+  .more summary .chev { transition: transform 0.15s ease; flex-shrink: 0; }
+  .more[open] summary .chev { transform: rotate(90deg); }
+  .more summary:hover { background: var(--surface-selected); border-radius: var(--radius-md); }
+  .more-body { padding: 4px 20px 20px; border-top: 1px solid var(--line); }
+  .more-body p { color: var(--ink-muted); max-width: 64ch; }
+  .more-body .codeblock { margin-top: 16px; }
+  .sources-head {
+    margin-top: 20px; font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .sources { margin: 8px 0 0; padding: 0; list-style: none; font-size: 14px; }
+  .sources li { margin-top: 6px; color: var(--ink-faint); }
+  .sources a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+
+  .step-flags { margin-bottom: 10px; }
+
+  /* ══ Предскажи вывод ══ */
+  .field-label {
+    display: block; margin-top: 22px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .predict-in {
+    display: block; width: 100%; margin-top: 8px; resize: vertical;
+    border: 1px solid var(--line-strong); border-radius: var(--radius-md);
+    background: var(--surface-sunken); color: var(--ink-on-sunken);
+    padding: 14px 16px; font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+  }
+  .predict-in:focus { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+  /* ══ Найди строку с ошибкой ══ */
+  .clicklines {
+    margin-top: 22px; background: var(--surface-sunken);
+    border-radius: var(--radius-md); padding: 10px 0; overflow-x: auto;
+  }
+  .cline {
+    display: flex; width: 100%; gap: 16px; text-align: left;
+    padding: 3px 20px; border: 0; background: transparent;
+    color: var(--ink-on-sunken); font-family: var(--font-mono);
+    font-size: 14.5px; line-height: 1.75; cursor: pointer; white-space: pre;
+  }
+  .cline:hover:not([disabled]) { background: rgba(185, 154, 97, 0.10); }
+  .cline:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: -3px; }
+  .cline[disabled] { cursor: default; }
+  .cline .ln { color: #8A8377; min-width: 2ch; text-align: right; flex-shrink: 0; }
+  .cline.right { background: rgba(127, 179, 163, 0.18); box-shadow: inset 3px 0 0 #7FB3A3; }
+  .cline.wrong { background: rgba(206, 138, 120, 0.16); box-shadow: inset 3px 0 0 #CE8A78; }
+
+  /* ══ Собери программу ══ */
+  .parsons { margin-top: 22px; display: flex; flex-direction: column; gap: 6px; }
+  .pline {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface-sunken); border-radius: var(--radius-sm);
+    padding: 4px 6px 4px 16px; border-left: 3px solid transparent;
+  }
+  .pline.ok { border-left-color: #7FB3A3; }
+  .pline.no { border-left-color: #CE8A78; }
+  .pline code {
+    flex-grow: 1; min-width: 0; overflow-x: auto;
+    font-family: var(--font-mono); font-size: 14px; line-height: 1.7;
+    color: var(--ink-on-sunken); white-space: pre;
+  }
+  .pline .k { color: #D1B784; } .pline .s { color: #A9B79B; }
+  .pline .n { color: #C9A882; } .pline .pp { color: #B7B0A4; }
+  .cline .k { color: #D1B784; } .cline .s { color: #A9B79B; }
+  .cline .n { color: #C9A882; } .cline .pp { color: #B7B0A4; } .cline .c { color: #8A8377; }
+  .mv {
+    flex-shrink: 0; width: 40px; height: 40px;
+    border: 1px solid #5C6673; border-radius: var(--radius-sm);
+    background: transparent; color: #D8D0C2; font: inherit; font-size: 16px; cursor: pointer;
+  }
+  .mv:hover:not([disabled]) { background: #1F2630; }
+  .mv[disabled] { opacity: 0.3; cursor: default; }
+  .mv:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+  /* ══ Заполни пропуски ══ */
+  .blank-in {
+    font: inherit; color: #D8D0C2; background: #1F2630;
+    border: 1px dashed #5C6673; border-radius: 3px;
+    padding: 0 6px; margin: 0 1px; vertical-align: baseline;
+  }
+  .blank-in:focus { outline: 2px solid #D1B784; outline-offset: 1px; border-style: solid; }
+  .blank-in.ok { border: 1px solid #7FB3A3; }
+  .blank-in.no { border: 1px solid #CE8A78; }
+
+  .editor-actions { display: inline-flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  /* ══ Ещё не написанный урок в списке ══ */
+  .lesson.soon { cursor: default; }
+  .lesson.soon:hover { background: transparent; }
+  .lesson.soon .lesson-title { color: var(--ink-faint); }
 </style>
 </head>
 <body>
@@ -724,8 +836,6 @@ var UI = {
     ofWord: "no",
     factLessons: "Nodaļas",
     factLangs: "Valodas",
-    factGrade: "Vērtējums",
-    gradeInMoodle: "Moodle",
     notTranslatedShort: "nav tulkots",
     notTranslatedTitle: "Šī nodaļa vēl nav tulkota",
     notTranslatedBody: "Nodaļa pagaidām ir pieejama tikai citā valodā. Pārējās kursa nodaļas varat turpināt kā parasti.",
@@ -748,15 +858,36 @@ var UI = {
     runRight: "Pareizi",
     runWrong: "Vēl ne",
     runRightNote: "Izvade sakrīt ar gaidīto.",
-    runWrongNote: "Gaidītā izvade:",
+    runWrongNote: "Izvade nesakrīt ar gaidīto. Salīdzini ar bloku «Gaidāmā izvade».",
     loadingEngine: "Lejupielādē kompilatoru…",
     compiling: "Kompilē…",
     compileFailed: "Programma nesākompilējās. Kļūdas apraksts ir izvadē.",
     noOutput: "(programma neko neizvadīja)",
     engineMissing: "Šai valodai kompilators vēl nav pieslēgts.",
+    optionalTask: "Papilduzdevums",
+    archiveTag: "Arhīva ieraksts",
+    deeperTag: "Dziļāk",
+    sourcesTag: "Avoti",
+    hintTag: "Padoms",
+    expectedTag: "Gaidāmā izvade",
+    solutionTag: "Atrisinājums",
+    solutionNote: "vispirms pamēģini pats",
+    yourPrediction: "Tava prognoze — ko izvadīs programma?",
+    checkAnswer: "Pārbaudīt",
+    tryAgain: "Mēģināt vēlreiz",
+    actualOutput: "Programma izvada:",
+    lineWord: "Rinda",
+    moveUp: "Pārvietot uz augšu",
+    moveDown: "Pārvietot uz leju",
+    blankWord: "Tukšā vieta",
+    parsonsAgain: "Vēl ne visas rindas ir savā vietā. Sarkanās jāpārvieto.",
+    blanksAgain: "Ne visas tukšās vietas aizpildītas pareizi. Sarkanās jālabo.",
+    downloadCode: "Lejupielādēt",
+    mustUse: "Izvade ir pareiza, bet šajā uzdevumā jāizmanto:",
+    soonShort: "drīzumā",
     engineBroken: "Neizdevās palaist kodu.",
-    lessonSoonTitle: "Nodaļas ekrāns vēl top",
-    lessonSoonBody: "Šeit būs teorija, piemēri, kvizs un koda redaktors. Maršruts jau darbojas, tāpēc saites no Moodle var veidot jau tagad.",
+    lessonSoonTitle: "Šī nodaļa vēl tiek gatavota",
+    lessonSoonBody: "Nodaļa parādīsies šeit, tiklīdz būs gatava. Pieejamās nodaļas var apgūt jau tagad.",
     markDone: "Atzīmēt kā pabeigtu",
     markNotDone: "Noņemt atzīmi",
     doneLabel: "Pabeigts",
@@ -791,8 +922,6 @@ var UI = {
     ofWord: "of",
     factLessons: "Chapters",
     factLangs: "Languages",
-    factGrade: "Grading",
-    gradeInMoodle: "Moodle",
     notTranslatedShort: "not translated",
     notTranslatedTitle: "This chapter is not translated yet",
     notTranslatedBody: "The chapter is currently available in another language only. The rest of the course works as usual.",
@@ -815,15 +944,36 @@ var UI = {
     runRight: "Correct",
     runWrong: "Not yet",
     runRightNote: "The output matches what was expected.",
-    runWrongNote: "Expected output:",
+    runWrongNote: "The output does not match. Compare it with “Expected output” below.",
     loadingEngine: "Downloading the compiler…",
     compiling: "Compiling…",
     compileFailed: "The program did not compile. The error is in the output.",
     noOutput: "(the program printed nothing)",
     engineMissing: "There is no compiler wired up for this language yet.",
+    optionalTask: "Extra challenge",
+    archiveTag: "Archive record",
+    deeperTag: "Go deeper",
+    sourcesTag: "Sources",
+    hintTag: "Hint",
+    expectedTag: "Expected output",
+    solutionTag: "Solution",
+    solutionNote: "try it yourself first",
+    yourPrediction: "Your prediction — what will the program print?",
+    checkAnswer: "Check",
+    tryAgain: "Try again",
+    actualOutput: "The program prints:",
+    lineWord: "Line",
+    moveUp: "Move up",
+    moveDown: "Move down",
+    blankWord: "Blank",
+    parsonsAgain: "Not every line is in place yet. Move the red ones.",
+    blanksAgain: "Not every blank is right yet. Fix the red ones.",
+    downloadCode: "Download",
+    mustUse: "The output is right, but this task asks you to use:",
+    soonShort: "coming soon",
     engineBroken: "The code could not be run.",
-    lessonSoonTitle: "The chapter screen is on the way",
-    lessonSoonBody: "Theory, examples, a quiz and the code editor will live here. The route already works, so Moodle links can be built now.",
+    lessonSoonTitle: "This chapter is still being written",
+    lessonSoonBody: "It will appear here as soon as it is ready. The chapters that are available can be studied right now.",
     markDone: "Mark as completed",
     markNotDone: "Remove the mark",
     doneLabel: "Completed",
@@ -1132,13 +1282,23 @@ function catalogScreen(courses) {
 
 /* ── Экран: курс ──────────────────────────────────────────── */
 function lessonTitle(courseId, lesson, lang) {
-  var shown = lesson.locales.indexOf(lang) !== -1 ? lang : lesson.locales[0];
-  var texts = cache.texts[courseId + "." + shown];
+  var has = lesson.locales && lesson.locales.indexOf(lang) !== -1;
+  var shown = has || !lesson.locales || !lesson.locales.length ? lang : lesson.locales[0];
+  var texts = cache.texts[courseId + "." + shown] || cache.texts[courseId + "." + lang];
   var bySlug = texts && texts.lessons ? texts.lessons[lesson.slug] : null;
   return { text: bySlug || lesson.slug, lang: shown };
 }
 
 function lessonRow(courseId, lesson, lang) {
+  var num0 = (lesson.n < 10 ? "0" : "") + lesson.n;
+  if (!lesson.locales || !lesson.locales.length) {
+    var soon = lessonTitle(courseId, lesson, lang);
+    return '<div class="lesson soon">' +
+      '<span class="lesson-num">' + num0 + "</span>" +
+      '<span class="lesson-title" lang="' + soon.lang + '">' + esc(soon.text) + "</span>" +
+      '<span class="lesson-state"><span class="badge partial">' + esc(t("soonShort")) + "</span></span>" +
+    "</div>";
+  }
   var translated = lesson.locales.indexOf(lang) !== -1;
   var done = isDone(courseId, lesson.n);
   var href = courseHash(courseId, lang, lesson.n, null);
@@ -1180,13 +1340,14 @@ function courseScreen(course, resolved) {
   var done = doneList(course.id).length;
   var percent = total ? Math.round((done / total) * 100) : 0;
 
+  var ready = structure.flat.filter(function (l) { return l.locales && l.locales.length; });
   var next = null;
-  for (var i = 0; i < structure.flat.length; i++) {
-    if (!isDone(course.id, structure.flat[i].n)) { next = structure.flat[i]; break; }
+  for (var i = 0; i < ready.length; i++) {
+    if (!isDone(course.id, ready[i].n)) { next = ready[i]; break; }
   }
 
   var ctaLabel = done === 0 ? t("startCourse") : (next ? t("continueCourse") : t("repeatCourse"));
-  var ctaTarget = courseHash(course.id, lang, (next || structure.flat[0]).n, null);
+  var ctaTarget = courseHash(course.id, lang, (next || ready[0] || structure.flat[0]).n, null);
 
   var notice = resolved.fellBack
     ? '<div class="notice">' + esc(t("onlyInOther")) + esc(langLabel(lang)) + ".</div>"
@@ -1202,7 +1363,6 @@ function courseScreen(course, resolved) {
         "<div><span>" + esc(t("factLessons")) + "</span><span>" + total + "</span></div>" +
         "<div><span>" + esc(t("factLangs")) + "</span><span>" +
           courseLocales(course.id).map(function (c) { return c.toUpperCase(); }).join(" · ") + "</span></div>" +
-        "<div><span>" + esc(t("factGrade")) + "</span><span>" + esc(t("gradeInMoodle")) + "</span></div>" +
       "</div>" +
     "</aside>";
 
@@ -1224,10 +1384,27 @@ function courseScreen(course, resolved) {
 /* ════════════════════════════════════════════════════════════
    ЭКРАН УРОКА
 
-   Урок — плеер шагов: один шаг на экране, слаг шага стоит в
-   адресе. Типы шагов: theory, example, explain, video, quiz,
-   editor, summary. Добавить тип — правка здесь, в оболочке;
-   контент уроков новых типов не придумывает.
+   Урок — плеер шагов: один шаг на экране, слаг шага в адресе.
+
+   Типы шагов:
+     theory    текст
+     example   код с подсветкой и разбором
+     explain   схема или картинка
+     video     ролик
+     predict   предскажи вывод, потом сравни
+     editor    редактор с запуском (C++ в браузере)
+     clickline найди строку с ошибкой
+     parsons   собери программу из перемешанных строк
+     blanks    заполни пропуски в коде
+     quiz      вопрос с вариантами
+     summary   итог урока
+
+   У любого шага могут быть раскрывающиеся блоки в texts.more:
+     { kind: "archive" | "deeper", title, body, sources }
+
+   Поля code, starter, expected, solution, lines и blanks можно
+   переопределить в языковом файле, если вывод программы зависит
+   от языка. По умолчанию они берутся из файла структуры.
    ════════════════════════════════════════════════════════════ */
 
 function pad2(n) { return (n < 10 ? "0" : "") + n; }
@@ -1251,19 +1428,7 @@ function loadLessonTexts(courseId, n, lang) {
 }
 
 /* ════════════════════════════════════════════════════════════
-   ДВИЖОК ЗАПУСКА КОДА
-
-   Это единственное место, которое нужно заменить, когда
-   подключим компилятор. Договор:
-
-     runner.run(lang, code, stdin)
-       -> Promise<{ stdout, stderr, exitCode }>
-     runner.stop()
-       -> прерывает текущий запуск
-
-   План: Web Worker, в нём @yowasp/clang для C++ и Pyodide для
-   Python. Кнопка «Стоп» убивает воркер, поэтому бесконечный
-   цикл страницу не вешает. Вёрстка ниже от движка не зависит.
+   ДВИЖОК ЗАПУСКА КОДА — см. runner.worker.js
    ════════════════════════════════════════════════════════════ */
 var runner = (function () {
   var worker = null, seq = 0, pending = {};
@@ -1373,11 +1538,11 @@ function codeBlock(code, focus) {
   return '<pre class="codeblock">' + inner + "</pre>";
 }
 
-/* ── Память в пределах сессии: ответы на квизы и вывод ────── */
+
+/* ── Память в пределах сессии ─────────────────────────────── */
 var ephemeral = {};
 function ekey(ctx, stepId) { return ctx.course.id + "." + ctx.n + "." + stepId; }
 
-/* Черновики кода — по языку, как в спецификации. */
 function draftKey(courseId, lang, n) { return "draft." + courseId + "." + lang + ".lesson." + n; }
 function readDrafts(courseId, lang, n) {
   var raw = readStored(draftKey(courseId, lang, n));
@@ -1390,115 +1555,292 @@ function writeDraft(courseId, lang, n, stepId, code) {
   writeStored(draftKey(courseId, lang, n), JSON.stringify(all));
 }
 
-/* ── Виды шагов ───────────────────────────────────────────── */
+/* Поле из языкового файла главнее поля из структуры. */
+function sv(step, tx, field) {
+  return tx && tx[field] !== undefined ? tx[field] : step[field];
+}
+
+function isArray(x) { return Object.prototype.toString.call(x) === "[object Array]"; }
+
+function normalizeOut(s) {
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/\r/g, "")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\s+$/, "");
+}
+
+/* ── Общие куски ──────────────────────────────────────────── */
 function paras(body) {
   if (!body) return "";
-  var list = Object.prototype.toString.call(body) === "[object Array]" ? body : [body];
+  var list = isArray(body) ? body : [body];
   return list.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
 }
 
-function stepHead(tx) {
-  return (tx.eyebrow ? '<div class="eyebrow">' + esc(tx.eyebrow) + "</div>" : "") +
-         "<h2>" + esc(tx.title || "") + "</h2>" +
-         paras(tx.body);
+function stepHead(tx, step) {
+  var flag = step && step.optional
+    ? '<div class="step-flags"><span class="badge">' + esc(t("optionalTask")) + "</span></div>"
+    : "";
+  return flag +
+    (tx.eyebrow ? '<div class="eyebrow">' + esc(tx.eyebrow) + "</div>" : "") +
+    "<h2>" + esc(tx.title || "") + "</h2>" +
+    paras(tx.body);
 }
 
-function theoryView(step, tx) {
-  return stepHead(tx);
+function verdictBox(ok, note) {
+  return '<div class="verdict ' + (ok ? "ok" : "no") + '" role="status">' +
+    "<b>" + esc(ok ? t("answerRight") : t("answerWrong")) + "</b>" + esc(note || "") + "</div>";
 }
 
-function exampleView(step, tx) {
-  return stepHead(tx) +
-    (step.code ? codeBlock(step.code, step.focus) : "") +
+function collapsible(tag, title, inner) {
+  return '<details class="more">' +
+    "<summary>" +
+      '<span class="tag">' + esc(tag) + "</span>" +
+      '<span class="ttl">' + esc(title || "") + "</span>" +
+      chevron() +
+    "</summary>" +
+    '<div class="more-body">' + inner + "</div>" +
+  "</details>";
+}
+
+function moreBlocks(tx) {
+  var list = tx.more || [];
+  return list.map(function (m) {
+    var tag = m.kind === "archive" ? t("archiveTag") : t("deeperTag");
+    var sources = (m.sources || []).length
+      ? '<div class="sources-head">' + esc(t("sourcesTag")) + '</div><ul class="sources">' +
+        m.sources.map(function (s) {
+          var label = esc(s.title || s.url || "");
+          return "<li>" + (s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + label + "</a>" : label) +
+            (s.note ? " — " + esc(s.note) : "") + "</li>";
+        }).join("") + "</ul>"
+      : "";
+    return collapsible(tag, m.title, paras(m.body) + sources);
+  }).join("");
+}
+
+/* ── Виды шагов ───────────────────────────────────────────── */
+function theoryView(ctx, step, tx) { return stepHead(tx, step); }
+
+function exampleView(ctx, step, tx) {
+  var code = sv(step, tx, "code");
+  return stepHead(tx, step) +
+    (code ? codeBlock(code, step.focus) : "") +
     (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
 }
 
 function explainView(ctx, step, tx) {
   var media = step.image
-    ? '<div class="frame media"><img src="' + esc(CONTENT + ctx.course.id + "/" + step.image) + '" alt="' + esc(tx.alt || tx.title || "") + '"></div>'
-    : '<div class="frame">' + esc(t("framePending")) + "</div>";
-  return stepHead(tx) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+    ? '<div class="frame media"><img src="' + esc(CONTENT + ctx.course.id + "/" + step.image) +
+      '" alt="' + esc(tx.alt || tx.title || "") + '"></div>'
+    : '<div class="frame" role="img" aria-label="' + esc(tx.alt || "") + '">' + esc(t("framePending")) + "</div>";
+  return stepHead(tx, step) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
 }
 
-function videoView(step, tx) {
+function videoView(ctx, step, tx) {
   var media = step.youtube
     ? '<div class="frame media"><iframe src="https://www.youtube-nocookie.com/embed/' + esc(step.youtube) +
       '" title="' + esc(tx.title || "") + '" allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>'
     : '<div class="frame">' + esc(t("videoPending")) + "</div>";
-  return stepHead(tx) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+  return stepHead(tx, step) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
 }
 
 function quizView(ctx, step, tx) {
   var chosen = ephemeral[ekey(ctx, step.id)] || null;
   var order = step.options || Object.keys(tx.options || {});
   var letters = "ABCDEFG";
+  var code = sv(step, tx, "code");
 
   var buttons = order.map(function (id, i) {
     var cls = "choice";
-    if (chosen) {
-      if (id === step.answer) cls += " right";
-      else if (id === chosen) cls += " wrong";
-    }
+    if (chosen) { if (id === step.answer) cls += " right"; else if (id === chosen) cls += " wrong"; }
     return '<button type="button" class="' + cls + '" data-choice="' + esc(id) + '"' + (chosen ? " disabled" : "") + ">" +
       '<span class="mark">' + letters.charAt(i) + "</span>" +
-      "<span>" + esc((tx.options || {})[id] || id) + "</span>" +
-    "</button>";
+      "<span>" + esc((tx.options || {})[id] || id) + "</span></button>";
   }).join("");
 
-  var verdict = "";
-  if (chosen) {
-    var ok = chosen === step.answer;
-    verdict = '<div class="verdict ' + (ok ? "ok" : "no") + '">' +
-      "<b>" + esc(ok ? t("answerRight") : t("answerWrong")) + "</b>" +
-      esc(tx.explain || "") + "</div>";
-  }
+  return stepHead(tx, step) +
+    (code ? codeBlock(code, step.focus) : "") +
+    '<div class="quiz">' + buttons + "</div>" +
+    (chosen ? verdictBox(chosen === step.answer, tx.explain) : "");
+}
 
-  return stepHead(tx) +
-    (step.code ? codeBlock(step.code, step.focus) : "") +
-    '<div class="quiz">' + buttons + "</div>" + verdict;
+function predictView(ctx, step, tx) {
+  var k = ekey(ctx, step.id);
+  var guess = ephemeral[k + ".guess"] || "";
+  var checked = ephemeral[k + ".checked"];
+  var expected = String(sv(step, tx, "expected") || "");
+
+  var result = checked
+    ? verdictBox(checked === "ok", tx.explain) +
+      '<p class="caption">' + esc(t("actualOutput")) + "</p>" +
+      '<pre class="codeblock">' + esc(expected) + "</pre>"
+    : "";
+
+  return stepHead(tx, step) +
+    codeBlock(sv(step, tx, "code") || "", step.focus) +
+    '<label class="field-label" for="predictBox">' + esc(t("yourPrediction")) + "</label>" +
+    '<textarea class="predict-in" id="predictBox" rows="3" spellcheck="false"' + (checked ? " readonly" : "") + ">" +
+      esc(guess) + "</textarea>" +
+    '<div class="actions" style="margin-top: 14px">' +
+      (checked
+        ? '<button type="button" class="btn" id="predictReset">' + esc(t("tryAgain")) + "</button>"
+        : '<button type="button" class="btn primary" id="predictCheck">' + esc(t("checkAnswer")) + "</button>") +
+    "</div>" + result;
+}
+
+function clicklineView(ctx, step, tx) {
+  var chosen = ephemeral[ekey(ctx, step.id)] || null;
+  var answer = Number(step.answerLine);
+  var lines = String(sv(step, tx, "code") || "").split("\n");
+
+  var rows = lines.map(function (line, i) {
+    var n = i + 1, cls = "cline";
+    if (chosen) { if (n === answer) cls += " right"; else if (n === chosen) cls += " wrong"; }
+    return '<button type="button" class="' + cls + '" data-line="' + n + '"' + (chosen ? " disabled" : "") +
+      ' aria-label="' + esc(t("lineWord") + " " + n) + '">' +
+      '<span class="ln">' + n + '</span><span class="lc">' + (tokenize(line) || " ") + "</span></button>";
+  }).join("");
+
+  return stepHead(tx, step) +
+    '<div class="clicklines" role="group" aria-label="' + esc(tx.title || "") + '">' + rows + "</div>" +
+    (chosen ? verdictBox(chosen === answer, tx.explain) : "");
+}
+
+/* Перемешивание детерминировано по id шага: строки не скачут
+   при каждой перерисовке и одинаковы у всех студентов. */
+function seededOrder(seed, n) {
+  var h = 2166136261;
+  for (var i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
+  var idx = [];
+  for (var j = 0; j < n; j++) idx.push(j);
+  for (var k = n - 1; k > 0; k--) {
+    h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0;
+    var r = h % (k + 1);
+    var tmp = idx[k]; idx[k] = idx[r]; idx[r] = tmp;
+  }
+  var untouched = true;
+  for (var q = 0; q < n; q++) { if (idx[q] !== q) { untouched = false; break; } }
+  if (untouched && n > 1) idx.push(idx.shift());
+  return idx;
+}
+
+function parsonsView(ctx, step, tx) {
+  var k = ekey(ctx, step.id);
+  var lines = sv(step, tx, "lines") || [];
+  var order = ephemeral[k + ".order"] || seededOrder(step.id, lines.length);
+  ephemeral[k + ".order"] = order;
+  var checked = ephemeral[k + ".checked"];
+  var allRight = order.every(function (li, pos) { return li === pos; });
+
+  var rows = order.map(function (li, pos) {
+    var mark = checked ? (li === pos ? " ok" : " no") : "";
+    return '<div class="pline' + mark + '">' +
+      "<code>" + (tokenize(lines[li]) || " ") + "</code>" +
+      '<button type="button" class="mv" data-mv="up" data-pos="' + pos + '"' + (pos === 0 ? " disabled" : "") +
+        ' aria-label="' + esc(t("moveUp")) + '">↑</button>' +
+      '<button type="button" class="mv" data-mv="down" data-pos="' + pos + '"' + (pos === order.length - 1 ? " disabled" : "") +
+        ' aria-label="' + esc(t("moveDown")) + '">↓</button>' +
+    "</div>";
+  }).join("");
+
+  return stepHead(tx, step) +
+    '<div class="parsons">' + rows + "</div>" +
+    '<div class="actions" style="margin-top: 14px">' +
+      '<button type="button" class="btn primary" id="parsonsCheck">' + esc(t("checkAnswer")) + "</button>" +
+    "</div>" +
+    (checked ? verdictBox(allRight, allRight ? tx.explain : t("parsonsAgain")) : "");
+}
+
+function blankOk(accepted, value) {
+  var list = isArray(accepted) ? accepted : [accepted];
+  var norm = function (s) { return String(s === undefined || s === null ? "" : s).replace(/\s+/g, ""); };
+  for (var i = 0; i < list.length; i++) { if (norm(list[i]) === norm(value)) return true; }
+  return false;
+}
+
+function blanksView(ctx, step, tx) {
+  var k = ekey(ctx, step.id);
+  var code = String(sv(step, tx, "code") || "");
+  var answers = sv(step, tx, "blanks") || {};
+  var vals = ephemeral[k + ".vals"] || {};
+  var checked = ephemeral[k + ".checked"];
+
+  var html = "", re = /\[\[(\w+)\]\]/g, last = 0, m, allOk = true;
+  while ((m = re.exec(code))) {
+    html += tokenize(code.slice(last, m.index));
+    var id = m[1], v = vals[id] || "";
+    var ok = blankOk(answers[id], v);
+    if (!ok) allOk = false;
+    var first = isArray(answers[id]) ? answers[id][0] : answers[id];
+    var size = Math.max(4, String(first || "").length + 1);
+    html += '<input class="blank-in' + (checked ? (ok ? " ok" : " no") : "") + '" data-blank="' + esc(id) +
+      '" value="' + esc(v) + '" size="' + size + '" spellcheck="false" autocomplete="off" autocapitalize="off"' +
+      ' aria-label="' + esc(t("blankWord") + " " + id) + '">';
+    last = re.lastIndex;
+  }
+  html += tokenize(code.slice(last));
+
+  return stepHead(tx, step) +
+    '<pre class="codeblock">' + html + "</pre>" +
+    '<div class="actions" style="margin-top: 14px">' +
+      '<button type="button" class="btn primary" id="blanksCheck">' + esc(t("checkAnswer")) + "</button>" +
+    "</div>" +
+    (checked ? verdictBox(allOk, allOk ? tx.explain : t("blanksAgain")) : "");
 }
 
 function editorView(ctx, step, tx) {
   var drafts = readDrafts(ctx.course.id, ctx.lang, ctx.n);
-  var code = drafts[step.id] !== undefined ? drafts[step.id] : (step.starter || "");
+  var starter = sv(step, tx, "starter") || "";
+  var code = drafts[step.id] !== undefined ? drafts[step.id] : starter;
+  var expected = sv(step, tx, "expected");
+  var solution = sv(step, tx, "solution");
+  var shown = sv(step, tx, "code");
   var last = ephemeral[ekey(ctx, step.id) + ".out"];
+  var ext = step.lang === "python" ? "py" : "cpp";
 
   var stdinBox = step.stdin === false ? "" :
-    "<div><label for=\"stdinBox\">" + esc(t("stdinLabel")) + "</label>" +
+    '<div><label for="stdinBox">' + esc(t("stdinLabel")) + "</label>" +
     '<textarea id="stdinBox" spellcheck="false">' + esc(step.stdin || "") + "</textarea></div>";
 
-  var verdict = "";
-  if (last && last.verdict) {
-    verdict = '<div class="verdict ' + (last.verdict === "ok" ? "ok" : "no") + '">' +
-      "<b>" + esc(last.verdict === "ok" ? t("runRight") : t("runWrong")) + "</b>" +
-      esc(last.note || "") + "</div>";
+  var verdict = last && last.verdict ? verdictBox(last.verdict === "ok", last.note) : "";
+
+  var extras = "";
+  if (tx.hint) extras += collapsible(t("hintTag"), "", "<p>" + esc(tx.hint) + "</p>");
+  if (expected !== undefined && !step.hideExpected) {
+    extras += collapsible(t("expectedTag"), "", '<pre class="codeblock">' + esc(String(expected)) + "</pre>");
+  }
+  if (solution) {
+    extras += collapsible(t("solutionTag"), t("solutionNote"), codeBlock(String(solution), null) +
+      (tx.solutionNote ? "<p>" + esc(tx.solutionNote) + "</p>" : ""));
   }
 
-  return stepHead(tx) +
-    (tx.task ? '<p>' + esc(tx.task) + "</p>" : "") +
+  return stepHead(tx, step) +
+    (shown ? codeBlock(shown, step.focus) : "") +
+    (tx.task ? "<p>" + esc(tx.task) + "</p>" : "") +
     '<div class="editor">' +
       '<div class="editor-bar">' +
-        '<span class="meta-mono">' + esc(step.lang || "cpp") + " · main." + esc(step.lang === "python" ? "py" : "cpp") + "</span>" +
-        "<span>" +
-          '<button type="button" class="btn small" id="resetBtn">' + esc(t("resetCode")) + "</button> " +
-          '<button type="button" class="btn small" id="stopBtn" hidden>' + esc(t("stopRun")) + "</button> " +
+        '<span class="meta-mono">' + esc(step.lang || "cpp") + " · main." + ext + "</span>" +
+        '<span class="editor-actions">' +
+          '<button type="button" class="btn small" id="downloadBtn">' + esc(t("downloadCode")) + "</button>" +
+          '<button type="button" class="btn small" id="resetBtn">' + esc(t("resetCode")) + "</button>" +
+          '<button type="button" class="btn small" id="stopBtn" hidden>' + esc(t("stopRun")) + "</button>" +
           '<button type="button" class="btn primary" id="runBtn">' + esc(t("runCode")) + "</button>" +
         "</span>" +
       "</div>" +
-      '<textarea class="code" id="codeBox" spellcheck="false" aria-label="' + esc(tx.title || t("runCode")) + '">' + esc(code) + "</textarea>" +
+      '<textarea class="code" id="codeBox" spellcheck="false" autocapitalize="off" aria-label="' + esc(tx.title || t("runCode")) + '">' +
+        esc(code) + "</textarea>" +
       '<div class="io">' + stdinBox +
-        "<div><label for=\"outBox\">" + esc(t("stdoutLabel")) + "</label>" +
-        '<pre id="outBox">' + esc(last && last.text ? last.text : "") + "</pre></div>" +
+        '<div><label for="outBox">' + esc(t("stdoutLabel")) + "</label>" +
+        '<pre id="outBox" aria-live="polite">' + esc(last && last.text ? last.text : "") + "</pre></div>" +
       "</div>" +
     "</div>" +
-    (tx.hint ? '<p class="caption">' + esc(tx.hint) + "</p>" : "") +
-    verdict;
+    verdict + extras;
 }
 
-function summaryView(ctx, tx) {
+function summaryView(ctx, step, tx) {
   var done = isDone(ctx.course.id, ctx.n);
   var points = (tx.points || []).map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("");
-  return stepHead(tx) +
+  return stepHead(tx, step) +
     (points ? '<ul class="points">' + points + "</ul>" : "") +
     '<div class="actions" style="margin-top: 28px">' +
       '<button type="button" class="btn' + (done ? "" : " primary") + '" id="lessonDone">' +
@@ -1506,16 +1848,16 @@ function summaryView(ctx, tx) {
     "</div>";
 }
 
+var VIEWS = {
+  theory: theoryView, example: exampleView, explain: explainView, video: videoView,
+  quiz: quizView, predict: predictView, clickline: clicklineView, parsons: parsonsView,
+  blanks: blanksView, editor: editorView, summary: summaryView
+};
+
 function stepView(ctx, step, texts) {
   var tx = (texts.steps && texts.steps[step.id]) || {};
-  if (step.kind === "theory") return theoryView(step, tx);
-  if (step.kind === "example") return exampleView(step, tx);
-  if (step.kind === "explain") return explainView(ctx, step, tx);
-  if (step.kind === "video") return videoView(step, tx);
-  if (step.kind === "quiz") return quizView(ctx, step, tx);
-  if (step.kind === "editor") return editorView(ctx, step, tx);
-  if (step.kind === "summary") return summaryView(ctx, tx);
-  return "<h2>" + esc(tx.title || step.id) + "</h2>" + paras(tx.body);
+  var view = VIEWS[step.kind] || theoryView;
+  return view(ctx, step, tx) + moreBlocks(tx);
 }
 
 /* ── Экран целиком ────────────────────────────────────────── */
@@ -1523,11 +1865,10 @@ function lessonPlayer(ctx, data, texts) {
   var steps = data.steps || [];
   var i = ctx.stepIndex;
   var step = steps[i];
-
   var hash = function (slug) { return courseHash(ctx.course.id, ctx.lang, ctx.n, slug); };
 
   /* Полоса шагов кликабельна: вернуться на пятый экран и обратно
-     должно стоить один клик, а не десять нажатий «Назад». */
+     должно стоить один клик. */
   var bar = steps.map(function (s, idx) {
     var stx = (texts.steps && texts.steps[s.id]) || {};
     var cls = idx === i ? "now" : (idx < i ? "seen" : "");
@@ -1560,10 +1901,10 @@ function lessonPlayer(ctx, data, texts) {
     "</main>" + footer();
 }
 
-/* ── Непереведённый и ещё не написанный урок ──────────────── */
+/* ── Урок без перевода и урок, который ещё не написан ─────── */
 function lessonMissingScreen(course, lesson, lang, kind) {
-  var other = lesson.locales[0];
-  var body = kind === "untranslated"
+  var other = lesson.locales && lesson.locales.length ? lesson.locales[0] : null;
+  var body = kind === "untranslated" && other
     ? "<h1>" + esc(t("notTranslatedTitle")) + "</h1>" +
       '<p class="lead">' + esc(t("notTranslatedBody")) + "</p>" +
       '<div class="actions" style="margin-top: 28px">' +
@@ -1585,12 +1926,17 @@ function lessonMissingScreen(course, lesson, lang, kind) {
     "</main>" + footer();
 }
 
-/* ── Показ урока ──────────────────────────────────────────── */
 function showLesson(course, lesson, lang, route, token) {
+  if (!lesson.locales || !lesson.locales.length) {
+    document.title = course.title[state.uiLang] + " — 67coder";
+    paint(lessonMissingScreen(course, lesson, lang, "missing"));
+    scrollTop();
+    return Promise.resolve();
+  }
   if (lesson.locales.indexOf(lang) === -1) {
     document.title = course.title[state.uiLang] + " — 67coder";
     paint(lessonMissingScreen(course, lesson, lang, "untranslated"));
-    window.scrollTo(0, 0);
+    scrollTop();
     return Promise.resolve();
   }
 
@@ -1606,65 +1952,172 @@ function showLesson(course, lesson, lang, route, token) {
     for (var s = 0; s < steps.length; s++) { if (steps[s].id === route.step) { index = s; break; } }
 
     var wanted = courseHash(course.id, lang, lesson.n, steps[index] ? steps[index].id : null);
-    if (location.hash !== wanted) history.replaceState(null, "", wanted);
+    if (location.hash !== wanted) { history.replaceState(null, "", wanted); lastHash = wanted; }
 
     var ctx = { course: course, lang: lang, n: lesson.n, stepIndex: index };
     document.title = (texts.title || "") + " — 67coder";
     paint(lessonPlayer(ctx, data, texts));
-    window.scrollTo(0, 0);
+    scrollTop();
   }).catch(function () {
     if (token !== renderToken) return;
     document.title = course.title[state.uiLang] + " — 67coder";
     paint(lessonMissingScreen(course, lesson, lang, "missing"));
-    window.scrollTo(0, 0);
+    scrollTop();
   });
 }
 
 /* ── Обработчики внутри урока ─────────────────────────────── */
+var focusAfter = null;
+
 function wireLesson() {
   var route = parseHash();
   if (!route.course || !route.lesson) return;
-  var ctx = { course: { id: route.course }, n: Number(route.lesson), lang: route.lang };
 
+  var data = cache.lessons[route.course + "." + route.lesson];
+  var texts = cache.lessonTexts[route.course + "." + route.lesson + "." + route.lang];
+  if (!data || !texts) return;
+
+  var step = null;
+  for (var s = 0; s < data.steps.length; s++) { if (data.steps[s].id === route.step) step = data.steps[s]; }
+  if (!step) return;
+
+  var tx = (texts.steps && texts.steps[step.id]) || {};
+  var k = route.course + "." + route.lesson + "." + step.id;
+
+  function rerender(focusSelector) { focusAfter = focusSelector || null; render(); }
+
+  /* Квиз */
   var choices = document.querySelectorAll("[data-choice]");
   for (var c = 0; c < choices.length; c++) {
     choices[c].addEventListener("click", function () {
-      var data = cache.lessons[route.course + "." + route.lesson];
-      if (!data) return;
-      var step = null;
-      for (var s = 0; s < data.steps.length; s++) { if (data.steps[s].id === route.step) step = data.steps[s]; }
-      if (!step) return;
-      ephemeral[route.course + "." + route.lesson + "." + step.id] = this.getAttribute("data-choice");
-      render();
+      ephemeral[k] = this.getAttribute("data-choice");
+      rerender();
     });
   }
 
+  /* Найди строку */
+  var lines = document.querySelectorAll("[data-line]");
+  for (var l = 0; l < lines.length; l++) {
+    lines[l].addEventListener("click", function () {
+      ephemeral[k] = Number(this.getAttribute("data-line"));
+      rerender();
+    });
+  }
+
+  /* Предскажи вывод */
+  var predictCheck = document.getElementById("predictCheck");
+  if (predictCheck) {
+    predictCheck.addEventListener("click", function () {
+      var guess = document.getElementById("predictBox").value;
+      ephemeral[k + ".guess"] = guess;
+      ephemeral[k + ".checked"] = normalizeOut(guess) === normalizeOut(sv(step, tx, "expected")) ? "ok" : "no";
+      rerender("#predictReset");
+    });
+  }
+  var predictReset = document.getElementById("predictReset");
+  if (predictReset) {
+    predictReset.addEventListener("click", function () {
+      delete ephemeral[k + ".checked"];
+      rerender("#predictBox");
+    });
+  }
+
+  /* Собери программу */
+  var moves = document.querySelectorAll("[data-mv]");
+  for (var mv = 0; mv < moves.length; mv++) {
+    moves[mv].addEventListener("click", function () {
+      var order = ephemeral[k + ".order"];
+      var pos = Number(this.getAttribute("data-pos"));
+      var dir = this.getAttribute("data-mv") === "up" ? -1 : 1;
+      var to = pos + dir;
+      if (!order || to < 0 || to >= order.length) return;
+      var tmp = order[pos]; order[pos] = order[to]; order[to] = tmp;
+      delete ephemeral[k + ".checked"];
+      var target = to === 0 ? "down" : (to === order.length - 1 ? "up" : this.getAttribute("data-mv"));
+      rerender('[data-mv="' + target + '"][data-pos="' + to + '"]');
+    });
+  }
+  var parsonsCheck = document.getElementById("parsonsCheck");
+  if (parsonsCheck) {
+    parsonsCheck.addEventListener("click", function () {
+      ephemeral[k + ".checked"] = "yes";
+      rerender("#parsonsCheck");
+    });
+  }
+
+  /* Заполни пропуски */
+  var blanks = document.querySelectorAll("[data-blank]");
+  for (var b = 0; b < blanks.length; b++) {
+    blanks[b].addEventListener("input", function () {
+      var vals = ephemeral[k + ".vals"] || {};
+      vals[this.getAttribute("data-blank")] = this.value;
+      ephemeral[k + ".vals"] = vals;
+    });
+  }
+  var blanksCheck = document.getElementById("blanksCheck");
+  if (blanksCheck) {
+    blanksCheck.addEventListener("click", function () {
+      ephemeral[k + ".checked"] = "yes";
+      rerender("#blanksCheck");
+    });
+  }
+
+  /* Редактор */
   var codeBox = document.getElementById("codeBox");
   var runBtn = document.getElementById("runBtn");
+  if (codeBox && runBtn) wireEditor(route, step, tx, k, codeBox, runBtn);
+
+  if (focusAfter) {
+    var el = document.querySelector(focusAfter);
+    if (el) el.focus();
+    focusAfter = null;
+  }
+}
+
+function wireEditor(route, step, tx, k, codeBox, runBtn) {
   var stopBtn = document.getElementById("stopBtn");
   var resetBtn = document.getElementById("resetBtn");
+  var downloadBtn = document.getElementById("downloadBtn");
   var outBox = document.getElementById("outBox");
-  if (!codeBox || !runBtn) return;
-
-  var data = cache.lessons[route.course + "." + route.lesson];
-  var step = null;
-  if (data) { for (var i = 0; i < data.steps.length; i++) { if (data.steps[i].id === route.step) step = data.steps[i]; } }
-  if (!step) return;
+  var n = Number(route.lesson);
+  var outKey = k + ".out";
 
   var saveTimer = null;
   codeBox.addEventListener("input", function () {
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(function () {
-      writeDraft(route.course, route.lang, Number(route.lesson), step.id, codeBox.value);
-    }, 400);
+    saveTimer = setTimeout(function () { writeDraft(route.course, route.lang, n, step.id, codeBox.value); }, 400);
   });
+
+  /* Tab в редакторе вставляет отступ, а не уводит фокус.
+     Esc отпускает фокус — клавиатура не попадает в ловушку. */
+  codeBox.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { codeBox.blur(); return; }
+    if (e.key !== "Tab" || e.shiftKey) return;
+    e.preventDefault();
+    var a = codeBox.selectionStart, z = codeBox.selectionEnd;
+    codeBox.value = codeBox.value.slice(0, a) + "    " + codeBox.value.slice(z);
+    codeBox.selectionStart = codeBox.selectionEnd = a + 4;
+  });
+
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", function () {
+      var ext = step.lang === "python" ? "py" : "cpp";
+      var blob = new Blob([codeBox.value], { type: "text/plain;charset=utf-8" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = route.course + "-" + pad2(n) + "-" + step.id + "." + ext;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+    });
+  }
 
   if (resetBtn) {
     resetBtn.addEventListener("click", function () {
-      codeBox.value = step.starter || "";
-      writeDraft(route.course, route.lang, Number(route.lesson), step.id, codeBox.value);
-      outBox.textContent = "";
-      delete ephemeral[route.course + "." + route.lesson + "." + step.id + ".out"];
+      codeBox.value = sv(step, tx, "starter") || "";
+      writeDraft(route.course, route.lang, n, step.id, codeBox.value);
+      delete ephemeral[outKey];
+      focusAfter = "#codeBox";
       render();
     });
   }
@@ -1678,27 +2131,22 @@ function wireLesson() {
 
   runBtn.addEventListener("click", function () {
     var stdinBox = document.getElementById("stdinBox");
-    writeDraft(route.course, route.lang, Number(route.lesson), step.id, codeBox.value);
+    writeDraft(route.course, route.lang, n, step.id, codeBox.value);
 
     runBtn.disabled = true;
     stopBtn.hidden = false;
     outBox.textContent = t("running");
 
-    /* Первый запуск тянет компилятор, это десятки мегабайт.
-       Молчать в этот момент нельзя — показываем проценты. */
     runner.onStatus = function (msg) {
-      if (msg.text === "toolchain") {
-        outBox.textContent = t("loadingEngine") + (msg.percent ? " " + msg.percent + "%" : "");
-      } else if (msg.text === "compiling") {
-        outBox.textContent = t("compiling");
-      } else if (msg.text === "running") {
-        outBox.textContent = t("running");
-      }
+      if (msg.text === "toolchain") outBox.textContent = t("loadingEngine") + (msg.percent ? " " + msg.percent + "%" : "");
+      else if (msg.text === "compiling") outBox.textContent = t("compiling");
+      else if (msg.text === "running") outBox.textContent = t("running");
     };
 
-    var outKey = route.course + "." + route.lesson + "." + step.id + ".out";
+    var expected = sv(step, tx, "expected");
+    var codeNow = codeBox.value;
 
-    runner.run(step.lang || "cpp", codeBox.value, stdinBox ? stdinBox.value : "")
+    runner.run(step.lang || "cpp", codeNow, stdinBox ? stdinBox.value : "")
       .then(function (res) {
         runner.onStatus = null;
         var failed = res.exitCode !== 0 || res.stage === "compile";
@@ -1706,37 +2154,33 @@ function wireLesson() {
         var verdict = null, note = "";
 
         if (res.stage === "compile") {
-          verdict = "no";
-          note = t("compileFailed");
-        } else if (step.expected !== undefined) {
-          var ok = !failed && normalizeOut(res.stdout) === normalizeOut(String(step.expected));
+          verdict = "no"; note = t("compileFailed");
+        } else if (expected !== undefined) {
+          var ok = !failed && normalizeOut(res.stdout) === normalizeOut(String(expected));
+          /* Шаг может требовать конкретный приём, а не только верный вывод. */
+          var missing = (step.requires || []).filter(function (r) { return codeNow.indexOf(r) === -1; });
+          if (ok && missing.length) { ok = false; note = t("mustUse") + " " + missing.join(", "); }
+          else note = ok ? t("runRightNote") : t("runWrongNote");
           verdict = ok ? "ok" : "no";
-          note = ok ? t("runRightNote") : t("runWrongNote") + " " + String(step.expected);
         }
 
         ephemeral[outKey] = { text: text || t("noOutput"), verdict: verdict, note: note };
+        focusAfter = "#runBtn";
         render();
       })
       .catch(function (err) {
         runner.onStatus = null;
         var m = err && err.message;
-        if (m === "stopped") {
-          ephemeral[outKey] = { text: t("runStopped"), verdict: null, note: "" };
-        } else if (m === "engine-not-connected") {
-          ephemeral[outKey] = { text: t("engineMissing"), verdict: null, note: "" };
-        } else {
-          ephemeral[outKey] = { text: t("engineBroken") + "\n" + String(m || err), verdict: null, note: "" };
-        }
+        ephemeral[outKey] = {
+          text: m === "stopped" ? t("runStopped")
+              : m === "engine-not-connected" ? t("engineMissing")
+              : t("engineBroken") + "\n" + String(m || err),
+          verdict: null, note: ""
+        };
+        focusAfter = "#runBtn";
         render();
       });
   });
-
-function normalizeOut(s) {
-  return String(s === undefined || s === null ? "" : s)
-    .replace(/\r/g, "")
-    .replace(/[ \t]+$/gm, "")
-    .replace(/\s+$/, "");
-}
 }
 
 /* ── Служебные экраны ─────────────────────────────────────── */
@@ -1768,8 +2212,15 @@ function paint(html) {
   wire();
 }
 
+/* Перерисовка того же адреса (ответ на квиз, перестановка строки)
+   не должна бросать студента в начало страницы. */
+var lastHash = null, keepScroll = false;
+function scrollTop() { if (!keepScroll) window.scrollTo(0, 0); }
+
 function render() {
   var token = ++renderToken;
+  keepScroll = location.hash === lastHash;
+  lastHash = location.hash;
   var route = parseHash();
   var fresh = !cache.catalog;
 
@@ -1783,7 +2234,7 @@ function render() {
       document.documentElement.lang = state.uiLang;
       document.title = t("htmlTitle");
       paint(catalogScreen(courses));
-      window.scrollTo(0, 0);
+      scrollTop();
       return;
     }
 
@@ -1824,7 +2275,7 @@ function render() {
 
           var anchor = route.module ? document.getElementById("mod-" + route.module) : null;
           if (anchor) anchor.scrollIntoView({ block: "start" });
-          else window.scrollTo(0, 0);
+          else scrollTop();
         });
     });
   }).catch(function (err) {
