@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>67coder</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M10 5 H3 V27 H10' fill='none' stroke='%238C8578' stroke-width='3'/%3E%3Cpath d='M22 5 H29 V27 H22' fill='none' stroke='%238C8578' stroke-width='3'/%3E%3Ccircle cx='12' cy='16' r='3.2' fill='%23D8D0C2' stroke='%2316181D' stroke-width='0.7'/%3E%3Ccircle cx='20' cy='16' r='3.2' fill='%23D8D0C2' stroke='%2316181D' stroke-width='0.7'/%3E%3Ccircle cx='12.7' cy='16.7' r='1.3' fill='%2316181D'/%3E%3Ccircle cx='20.7' cy='16.7' r='1.3' fill='%2316181D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Jost:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* ── 67coder design tokens ──────────────────────────────── */
+  :root {
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --surface-base: #090B0F;
+    --surface-raised: #151A22;
+    --surface-sunken: #0D1117;
+    --surface-selected: #1F2630;
+    --line: #1F252F;
+    --line-strong: #5C6673;
+    --ink: #D8D0C2;
+    --ink-muted: #B7B0A4;
+    --ink-faint: #8E887D;
+    --ink-on-sunken: #D8D0C2;
+    --accent: #B99A61;
+    --accent-ink: #D1B784;
+    --accent-surface: #3B3122;
+    --accent-contrast: #090B0F;
+    --focus-ring: #D1B784;
+
+    --eye-milk: #D8D0C2;
+    --eye-pupil: #090B0F;
+    --eye-ring: transparent;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+    --radius-pill: 999px;
+
+    --font-display: "Jost", "Futura", system-ui, sans-serif;
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --surface-base: #F7F5F1;
+    --surface-raised: #FFFFFF;
+    --surface-sunken: #141821;
+    --surface-selected: #ECE8E0;
+    --line: #DFDAD1;
+    --line-strong: #8C8578;
+    --ink: #16181D;
+    --ink-muted: #5A5F68;
+    --ink-faint: #656A72;
+    --accent-ink: #7A5F2A;
+    --accent-surface: #F0E5CC;
+    --focus-ring: #7A5F2A;
+
+    /* Глаз не инвертируется: молоко остаётся молоком,
+       на светлом фоне его держит тёмный контур. */
+    --eye-milk: #D8D0C2;
+    --eye-pupil: #16181D;
+    --eye-ring: #5A5F68;
+  }
+
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--surface-base);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--surface-base);
+    z-index: 10;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  :where(a, button, select):focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .sticky {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: var(--surface-base);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .top {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; }
+  .brand svg { display: block; height: 26px; width: auto; }
+
+  .wordmark {
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    color: var(--ink-muted);
+  }
+  .wordmark b { color: var(--accent-ink); font-weight: 500; }
+  .wordmark i { color: var(--ink); font-style: normal; }
+
+  .headlinks { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  .headlinks > a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px;
+    color: var(--ink-muted);
+    font-size: 15px;
+  }
+  .headlinks > a:hover { color: var(--ink); }
+
+  .btn {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--surface-selected); }
+
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 500;
+  }
+  .btn.primary:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
+
+  .btn.small {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 0 12px;
+    color: var(--ink-muted);
+  }
+
+  .langpick {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    min-height: 44px;
+    padding: 0 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+  }
+  .langpick:hover { background: var(--surface-selected); }
+
+  /* ── Screen ─────────────────────────────────────────────── */
+  .screen { max-width: 1180px; margin: 0 auto; padding: 48px 32px 80px; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.1;
+    margin: 14px 0 0;
+  }
+
+  .lead { margin: 18px 0 0; max-width: 58ch; color: var(--ink-muted); }
+
+  .cards {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .card {
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cover {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px;
+    height: 148px;
+    background: var(--surface-sunken);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cover-name {
+    font-family: var(--font-mono);
+    font-size: 42px;
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    color: var(--ink-on-sunken);
+  }
+
+  .cover-mark { height: 76px; width: auto; opacity: 0.5; }
+  .card.planned .cover-name { color: var(--ink-faint); }
+  .card.planned .cover-mark { opacity: 0.22; }
+
+  .cardbody { padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; }
+
+  h2 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.2; margin: 0; }
+
+  .muted { color: var(--ink-muted); margin: 0; }
+
+  .meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .meta-mono { font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); }
+
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    padding: 5px 9px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+
+  .badge.partial { color: var(--ink-faint); border-style: dashed; }
+
+  .status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-selected);
+    border: 1px solid var(--line);
+    color: var(--ink-muted);
+  }
+
+  .status.live {
+    background: var(--accent-surface);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
+
+  .notice {
+    margin-top: 28px;
+    padding: 16px 20px;
+    border: 1px solid var(--accent);
+    background: var(--accent-surface);
+    border-radius: var(--radius-md);
+    color: var(--ink);
+    max-width: 62ch;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  .foot {
+    border-top: 1px solid var(--line);
+    padding: 22px 32px calc(22px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    max-width: 1180px;
+    margin: 0 auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 760px) {
+    .top { padding: 12px 18px; }
+    .screen { padding: 32px 18px 56px; }
+    .cards { grid-template-columns: 1fr; gap: 20px; }
+    .cover { height: 124px; padding: 22px; }
+    .cover-name { font-size: 34px; }
+    .cover-mark { height: 58px; }
+    .cardbody { padding: 20px 22px 24px; }
+    .foot { padding: 20px 18px calc(20px + env(safe-area-inset-bottom, 0px)); }
+  }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+"use strict";
+
+/* ════════════════════════════════════════════════════════════
+   1. ЯЗЫКИ ПЛАТФОРМЫ
+   Новый язык добавляется здесь и в словарь UI ниже.
+   Название пишется на самом языке, не в переводе.
+   ════════════════════════════════════════════════════════════ */
+var LANGS = [
+  { code: "lv", label: "Latviešu" },
+  { code: "en", label: "English" }
+];
+
+var DEFAULT_LANG = "lv";
+var LANG_KEY = "67coder.lang";
+var THEME_KEY = "67coder.theme";
+
+/* ════════════════════════════════════════════════════════════
+   2. СЛОВАРЬ ИНТЕРФЕЙСА
+   Только служебные строки. Содержимое уроков сюда не попадает.
+   ════════════════════════════════════════════════════════════ */
+var UI = {
+  lv: {
+    htmlTitle: "Kursi — 67coder",
+    catalogEyebrow: "Mācību katalogs",
+    catalogTitle: "Kursi",
+    catalogLead: "Programmēšana, izskaidrota ar animāciju. Katrs kurss sadalīts īsās nodaļās: piemērs, paskaidrojums, prakse.",
+    allCourses: "Visi kursi",
+    langLabel: "Saskarnes un satura valoda",
+    themeToLight: "Gaišs",
+    themeToDark: "Tumšs",
+    openCourse: "Atvērt kursu",
+    aboutStatus: "Par statusu",
+    statusLive: "Pieejams",
+    statusPlanned: "Izstrādē",
+    lessonsWord: "nodaļas",
+    onlyInOther: "Šis kurss nav pieejams latviešu valodā. Tas ir atvērts valodā: ",
+    coursePageEyebrow: "Kursa lapa",
+    coursePageTitle: "Kursa lapa vēl top",
+    coursePageBody: "Šeit būs kursa saturs ar moduļiem un nodaļām. Maršruts jau darbojas, tāpēc saites no Moodle var veidot jau tagad.",
+    backToCatalog: "Atpakaļ uz katalogu",
+    footerNote: "67coder · prototips · progress tiek glabāts tikai šajā pārlūkā"
+  },
+  en: {
+    htmlTitle: "Courses — 67coder",
+    catalogEyebrow: "Course catalogue",
+    catalogTitle: "Courses",
+    catalogLead: "Programming explained with animation. Every course is split into short chapters: example, explanation, practice.",
+    allCourses: "All courses",
+    langLabel: "Interface and content language",
+    themeToLight: "Light",
+    themeToDark: "Dark",
+    openCourse: "Open course",
+    aboutStatus: "About status",
+    statusLive: "Available",
+    statusPlanned: "In progress",
+    lessonsWord: "chapters",
+    onlyInOther: "This course is not available in English. It is open in: ",
+    coursePageEyebrow: "Course page",
+    coursePageTitle: "Course page is on the way",
+    coursePageBody: "This is where the modules and chapters will live. The route already works, so Moodle links can be built now.",
+    backToCatalog: "Back to the catalogue",
+    footerNote: "67coder · prototype · progress is stored in this browser only"
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
+   3. КАТАЛОГ КУРСОВ
+   translated — сколько уроков переведено на каждый язык.
+   ВНИМАНИЕ: цифры ниже демонстрационные, замените их реальными,
+   либо считайте из content/<course>/course.json при сборке.
+   Бейдж локали рисуется автоматически: язык с нулём не показывается.
+   ════════════════════════════════════════════════════════════ */
+var COURSES = [
+  {
+    id: "cpp",
+    cover: "C++",
+    defaultLang: "lv",
+    status: "live",
+    lessons: 32,
+    translated: { lv: 32, en: 6 },
+    title: { lv: "C++ programmēšana", en: "C++ programming" },
+    summary: {
+      lv: "Pamatkurss: sintakse, nosacījumi, cikli, funkcijas, masīvi un darbs ar failiem.",
+      en: "Foundations: syntax, conditionals, loops, functions, arrays and files."
+    }
+  },
+  {
+    id: "python",
+    cover: "Python",
+    defaultLang: "en",
+    status: "planned",
+    lessons: 0,
+    translated: {},
+    title: { lv: "Python programmēšana", en: "Python programming" },
+    summary: {
+      lv: "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
+      en: "A separate course. Content and languages are still being planned."
+    }
+  },
+  {
+    id: "web-api",
+    cover: "API",
+    defaultLang: "en",
+    status: "planned",
+    lessons: 0,
+    translated: {},
+    title: { lv: "Darbs ar API", en: "Working with APIs" },
+    summary: {
+      lv: "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
+      en: "A separate course. Content and languages are still being planned."
+    }
+  },
+  {
+    id: "java",
+    cover: "Java",
+    defaultLang: "en",
+    status: "planned",
+    lessons: 0,
+    translated: {},
+    title: { lv: "Java programmēšana", en: "Java programming" },
+    summary: {
+      lv: "Atsevišķs kurss. Saturs un valodas vēl tiek plānotas.",
+      en: "A separate course. Content and languages are still being planned."
+    }
+  }
+];
+
+/* ════════════════════════════════════════════════════════════
+   4. СОСТОЯНИЕ
+   uiLang и contentLang хранятся раздельно. Обычно они совпадают;
+   расходятся, только если у курса нет перевода на выбранный язык.
+   ════════════════════════════════════════════════════════════ */
+var state = { uiLang: DEFAULT_LANG, contentLang: DEFAULT_LANG };
+
+function readStored(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function writeStored(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+}
+function knownLang(code) {
+  for (var i = 0; i < LANGS.length; i++) { if (LANGS[i].code === code) return true; }
+  return false;
+}
+function t(key) {
+  var dict = UI[state.uiLang] || UI[DEFAULT_LANG];
+  return dict[key] !== undefined ? dict[key] : key;
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+function findCourse(id) {
+  for (var i = 0; i < COURSES.length; i++) { if (COURSES[i].id === id) return COURSES[i]; }
+  return null;
+}
+function courseLocales(course) {
+  var out = [];
+  for (var i = 0; i < LANGS.length; i++) {
+    var code = LANGS[i].code;
+    if ((course.translated[code] || 0) > 0) out.push(code);
+  }
+  return out;
+}
+function langLabel(code) {
+  for (var i = 0; i < LANGS.length; i++) { if (LANGS[i].code === code) return LANGS[i].label; }
+  return code;
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. МАРШРУТИЗАЦИЯ
+   #/catalog
+   #/course/{course}/{lang}
+   #/course/{course}/{lang}/lesson/{lesson}/{step}
+   {step} — слаг шага, не номер.
+   ════════════════════════════════════════════════════════════ */
+function parseHash() {
+  var raw = (location.hash || "").replace(/^#\/?/, "");
+  var parts = raw.split("/").filter(Boolean);
+
+  if (!parts.length || parts[0] === "catalog") return { screen: "catalog" };
+
+  if (parts[0] === "course" && parts[1]) {
+    return {
+      screen: "course",
+      course: parts[1],
+      lang: parts[2] || null,
+      lesson: parts[3] === "lesson" ? parts[4] || null : null,
+      step: parts[3] === "lesson" ? parts[5] || null : null
+    };
+  }
+  return { screen: "catalog" };
+}
+
+function buildCourseHash(courseId, lang, lesson, step) {
+  var hash = "#/course/" + courseId + "/" + lang;
+  if (lesson) hash += "/lesson/" + lesson + (step ? "/" + step : "");
+  return hash;
+}
+
+/* Разрешает язык курса: что просили, что реально доступно. */
+function resolveCourseLang(course, wanted) {
+  var available = courseLocales(course);
+  if (!available.length) return { lang: course.defaultLang, fellBack: false };
+  if (wanted && available.indexOf(wanted) !== -1) return { lang: wanted, fellBack: false };
+  var fallback = available.indexOf(course.defaultLang) !== -1 ? course.defaultLang : available[0];
+  return { lang: fallback, fellBack: true };
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. ОТРИСОВКА
+   ════════════════════════════════════════════════════════════ */
+function markSvg(eyeColour, pupilColour, ringColour, sleeping) {
+  var ring = ' stroke="' + ringColour + '" stroke-width="4"';
+  var eyes = sleeping
+    ? '<path d="M 83 118 L 111 118" fill="none" stroke="' + eyeColour + '" stroke-width="8" stroke-linecap="round"></path>' +
+      '<path d="M 129 118 L 157 118" fill="none" stroke="' + eyeColour + '" stroke-width="8" stroke-linecap="round"></path>'
+    : '<circle cx="97" cy="118" r="18" fill="' + eyeColour + '"' + ring + '></circle>' +
+      '<circle cx="143" cy="118" r="18" fill="' + eyeColour + '"' + ring + '></circle>' +
+      '<circle cx="101" cy="121" r="7.5" fill="' + pupilColour + '"></circle>' +
+      '<circle cx="147" cy="121" r="7.5" fill="' + pupilColour + '"></circle>';
+
+  return '<path d="M 86 56 L 62 56 L 62 184 L 86 184" fill="none" stroke="currentColor" stroke-width="10"></path>' +
+         '<path d="M 154 56 L 178 56 L 178 184 L 154 184" fill="none" stroke="currentColor" stroke-width="10"></path>' +
+         eyes;
+}
+
+function header() {
+  var options = LANGS.map(function (l) {
+    return '<option value="' + l.code + '"' + (l.code === state.uiLang ? " selected" : "") + ">" + esc(l.label) + "</option>";
+  }).join("");
+
+  var themeLabel = document.documentElement.getAttribute("data-theme") === "light" ? t("themeToDark") : t("themeToLight");
+
+  return '' +
+    '<div class="sticky"><header class="top">' +
+      '<a class="brand" href="#/catalog">' +
+        '<svg viewBox="51 45 138 150" role="img" aria-label="67coder" style="color: var(--ink-muted)">' +
+          markSvg("var(--eye-milk)", "var(--eye-pupil)", "var(--eye-ring)", false) +
+        '</svg>' +
+        '<span class="wordmark">[<b>67</b>]<i>coder</i></span>' +
+      '</a>' +
+      '<nav class="headlinks" aria-label="' + esc(t("allCourses")) + '">' +
+        '<a href="#/catalog">' + esc(t("allCourses")) + '</a>' +
+        '<label class="visually-hidden" for="langpick">' + esc(t("langLabel")) + '</label>' +
+        '<select class="langpick" id="langpick">' + options + '</select>' +
+        '<button type="button" class="btn small" id="themeBtn">' + esc(themeLabel) + '</button>' +
+      '</nav>' +
+    '</header></div>';
+}
+
+function footer() {
+  return '<footer class="foot"><span>' + esc(t("footerNote")) + "</span><span>67coder.com</span></footer>";
+}
+
+function badges(course) {
+  var available = courseLocales(course);
+  if (!available.length) return "";
+
+  return '<div class="badges">' + available.map(function (code) {
+    var done = course.translated[code] || 0;
+    var partial = done < course.lessons;
+    return '<span class="badge' + (partial ? " partial" : "") + '">' +
+      code.toUpperCase() + (partial ? " " + done + "/" + course.lessons : "") + "</span>";
+  }).join("") + "</div>";
+}
+
+function courseCard(course) {
+  var live = course.status === "live";
+  var target = live ? buildCourseHash(course.id, resolveCourseLang(course, state.uiLang).lang, null, null) : null;
+
+  var cover = live
+    ? '<a class="cover" href="' + target + '" aria-label="' + esc(t("openCourse")) + ": " + esc(course.title[state.uiLang]) + '">'
+    : '<div class="cover">';
+  var coverEnd = live ? "</a>" : "</div>";
+
+  var mark = live
+    ? markSvg("var(--accent)", "var(--surface-sunken)", "transparent", false)
+    : markSvg("var(--ink-faint)", "var(--surface-sunken)", "transparent", true);
+
+  var body = live
+    ? '<div class="meta">' +
+        '<span class="status live">' + esc(t("statusLive")) + "</span>" +
+        badges(course) +
+      "</div>" +
+      '<div class="meta-mono">' + course.lessons + " " + esc(t("lessonsWord")) + "</div>" +
+      '<div class="actions"><a class="btn primary" href="' + target + '">' + esc(t("openCourse")) + "</a></div>"
+    : '<div class="actions">' +
+        '<span class="status">' + esc(t("statusPlanned")) + "</span>" +
+        '<button type="button" class="btn">' + esc(t("aboutStatus")) + "</button>" +
+      "</div>";
+
+  return '<article class="card' + (live ? "" : " planned") + '">' +
+    cover +
+      '<span class="cover-name">' + esc(course.cover) + "</span>" +
+      '<svg class="cover-mark" viewBox="51 45 138 150" aria-hidden="true" style="color: ' + (live ? "var(--accent)" : "var(--ink-faint)") + '">' + mark + "</svg>" +
+    coverEnd +
+    '<div class="cardbody">' +
+      "<h2>" + (live ? '<a href="' + target + '">' : "") + esc(course.title[state.uiLang]) + (live ? "</a>" : "") + "</h2>" +
+      '<p class="muted">' + esc(course.summary[state.uiLang]) + "</p>" +
+      body +
+    "</div>" +
+  "</article>";
+}
+
+function catalogScreen() {
+  return header() +
+    '<main class="screen">' +
+      '<div class="eyebrow">' + esc(t("catalogEyebrow")) + "</div>" +
+      "<h1>" + esc(t("catalogTitle")) + "</h1>" +
+      '<p class="lead">' + esc(t("catalogLead")) + "</p>" +
+      '<div class="cards">' + COURSES.map(courseCard).join("") + "</div>" +
+    "</main>" + footer();
+}
+
+function courseScreen(course, resolved) {
+  var notice = resolved.fellBack
+    ? '<div class="notice">' + esc(t("onlyInOther")) + esc(langLabel(resolved.lang)) + ".</div>"
+    : "";
+
+  return header() +
+    '<main class="screen">' +
+      '<div class="eyebrow">' + esc(t("coursePageEyebrow")) + " · " + esc(course.cover) + "</div>" +
+      "<h1>" + esc(course.title[state.uiLang]) + "</h1>" +
+      '<p class="lead" lang="' + resolved.lang + '">' + esc(t("coursePageBody")) + "</p>" +
+      notice +
+      '<div class="actions" style="margin-top: 32px"><a class="btn" href="#/catalog">' + esc(t("backToCatalog")) + "</a></div>" +
+    "</main>" + footer();
+}
+
+/* ════════════════════════════════════════════════════════════
+   7. ЗАПУСК
+   ════════════════════════════════════════════════════════════ */
+var app = document.getElementById("app");
+
+function applyTheme(theme) {
+  if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
+  else document.documentElement.removeAttribute("data-theme");
+}
+
+function render() {
+  var route = parseHash();
+
+  if (route.screen === "course") {
+    var course = findCourse(route.course);
+    if (!course) { location.replace("#/catalog"); return; }
+
+    /* Язык в адресе главнее сохранённого: это выбор преподавателя. */
+    if (route.lang && knownLang(route.lang) && route.lang !== state.uiLang) {
+      state.uiLang = route.lang;
+      writeStored(LANG_KEY, route.lang);
+    }
+
+    var resolved = resolveCourseLang(course, route.lang || state.uiLang);
+    state.contentLang = resolved.lang;
+
+    /* Адрес не должен показывать язык, которого у курса нет. */
+    if (route.lang !== resolved.lang) {
+      history.replaceState(null, "", buildCourseHash(course.id, resolved.lang, route.lesson, route.step));
+    }
+
+    document.documentElement.lang = state.uiLang;
+    document.title = course.title[state.uiLang] + " — 67coder";
+    app.innerHTML = courseScreen(course, resolved);
+  } else {
+    state.contentLang = state.uiLang;
+    document.documentElement.lang = state.uiLang;
+    document.title = t("htmlTitle");
+    app.innerHTML = catalogScreen();
+  }
+
+  wire();
+  window.scrollTo(0, 0);
+}
+
+function wire() {
+  var picker = document.getElementById("langpick");
+  if (picker) {
+    picker.addEventListener("change", function () {
+      var next = picker.value;
+      if (!knownLang(next)) return;
+      state.uiLang = next;
+      writeStored(LANG_KEY, next);
+
+      var route = parseHash();
+      if (route.screen === "course") {
+        location.hash = buildCourseHash(route.course, next, route.lesson, route.step);
+        render();
+      } else {
+        render();
+      }
+    });
+  }
+
+  var themeBtn = document.getElementById("themeBtn");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", function () {
+      var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      applyTheme(next);
+      writeStored(THEME_KEY, next);
+      render();
+    });
+  }
+}
+
+(function start() {
+  var storedLang = readStored(LANG_KEY);
+  if (storedLang && knownLang(storedLang)) state.uiLang = storedLang;
+  applyTheme(readStored(THEME_KEY) === "light" ? "light" : "dark");
+  if (!location.hash) location.replace("#/catalog");
+  window.addEventListener("hashchange", render);
+  render();
+})();
+</script>
+
+</body>
+</html>
