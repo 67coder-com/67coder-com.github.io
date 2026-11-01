@@ -774,6 +774,11 @@
   .lesson.soon { cursor: default; }
   .lesson.soon:hover { background: transparent; }
   .lesson.soon .lesson-title { color: var(--ink-faint); }
+
+  /* ══ Встроенная схема SVG ══ */
+  /* На телефоне широкая схема не сжимается в нечитаемое, а прокручивается. */
+  .figure { margin-top: 22px; overflow-x: auto; border-radius: var(--radius-md); }
+  .figure svg { display: block; width: 100%; min-width: 640px; height: auto; }
 </style>
 </head>
 <body>
@@ -844,7 +849,7 @@ var UI = {
     lessonEyebrow: "Nodaļa",
     prevStep: "Iepriekšējais solis",
     nextStep: "Tālāk",
-    framePending: "Šeit būs shēma no videoklipa",
+    framePending: "Attēls tiek gatavots",
     videoPending: "Šeit būs videoklips",
     answerRight: "Pareizi",
     answerWrong: "Nav pareizi",
@@ -885,6 +890,8 @@ var UI = {
     downloadCode: "Lejupielādēt",
     mustUse: "Izvade ir pareiza, bet šajā uzdevumā jāizmanto:",
     soonShort: "drīzumā",
+    predictHit: "Tieši tā",
+    predictMiss: "Ne gluži — paskaties, kas iznāca",
     engineBroken: "Neizdevās palaist kodu.",
     lessonSoonTitle: "Šī nodaļa vēl tiek gatavota",
     lessonSoonBody: "Nodaļa parādīsies šeit, tiklīdz būs gatava. Pieejamās nodaļas var apgūt jau tagad.",
@@ -930,7 +937,7 @@ var UI = {
     lessonEyebrow: "Chapter",
     prevStep: "Previous step",
     nextStep: "Next",
-    framePending: "A frame from the video will go here",
+    framePending: "Image in progress",
     videoPending: "The video will go here",
     answerRight: "Correct",
     answerWrong: "Not quite",
@@ -971,6 +978,8 @@ var UI = {
     downloadCode: "Download",
     mustUse: "The output is right, but this task asks you to use:",
     soonShort: "coming soon",
+    predictHit: "Exactly right",
+    predictMiss: "Not quite — look at what came out",
     engineBroken: "The code could not be run.",
     lessonSoonTitle: "This chapter is still being written",
     lessonSoonBody: "It will appear here as soon as it is ready. The chapters that are available can be studied right now.",
@@ -989,7 +998,7 @@ var UI = {
 
 /* ── Состояние и хранилище ────────────────────────────────── */
 var state = { uiLang: DEFAULT_LANG, contentLang: DEFAULT_LANG };
-var cache = { catalog: null, structure: {}, texts: {}, lessons: {}, lessonTexts: {} };
+var cache = { catalog: null, structure: {}, texts: {}, lessons: {}, lessonTexts: {}, svgs: {} };
 var renderToken = 0;
 
 function readStored(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
@@ -1586,9 +1595,10 @@ function stepHead(tx, step) {
     paras(tx.body);
 }
 
-function verdictBox(ok, note) {
+function verdictBox(ok, note, labels) {
+  var word = labels ? (ok ? labels[0] : labels[1]) : (ok ? t("answerRight") : t("answerWrong"));
   return '<div class="verdict ' + (ok ? "ok" : "no") + '" role="status">' +
-    "<b>" + esc(ok ? t("answerRight") : t("answerWrong")) + "</b>" + esc(note || "") + "</div>";
+    "<b>" + esc(word) + "</b>" + esc(note || "") + "</div>";
 }
 
 function collapsible(tag, title, inner) {
@@ -1619,21 +1629,39 @@ function moreBlocks(tx) {
 }
 
 /* ── Виды шагов ───────────────────────────────────────────── */
-function theoryView(ctx, step, tx) { return stepHead(tx, step); }
+function theoryView(ctx, step, tx) { return stepHead(tx, step) + figure(ctx, step, tx, false); }
 
 function exampleView(ctx, step, tx) {
   var code = sv(step, tx, "code");
-  return stepHead(tx, step) +
+  return stepHead(tx, step) + figure(ctx, step, tx, false) +
     (code ? codeBlock(code, step.focus) : "") +
     (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
 }
 
+/* Картинки двух видов.
+   Схема .svg — со словами, своя на каждый язык (поле image в языковом
+   файле). Встраивается прямо в страницу, поэтому берёт наши шрифты.
+   Иллюстрация .png/.webp — без слов, одна на оба языка (поле image в
+   файле структуры, рядом imagePrompt для генерации). */
+function figure(ctx, step, tx, always) {
+  var img = sv(step, tx, "image");
+  var alt = tx.alt || tx.title || "";
+  if (img) {
+    var url = CONTENT + ctx.course.id + "/" + img;
+    if (/\.svg$/i.test(img)) {
+      return '<div class="figure svg-slot" data-svg="' + esc(url) + '" role="img" aria-label="' + esc(alt) + '"></div>';
+    }
+    return '<div class="frame media"><img src="' + esc(url) + '" alt="' + esc(alt) + '"></div>';
+  }
+  if (always || step.imagePrompt) {
+    return '<div class="frame" role="img" aria-label="' + esc(alt) + '">' + esc(t("framePending")) + "</div>";
+  }
+  return "";
+}
+
 function explainView(ctx, step, tx) {
-  var media = step.image
-    ? '<div class="frame media"><img src="' + esc(CONTENT + ctx.course.id + "/" + step.image) +
-      '" alt="' + esc(tx.alt || tx.title || "") + '"></div>'
-    : '<div class="frame" role="img" aria-label="' + esc(tx.alt || "") + '">' + esc(t("framePending")) + "</div>";
-  return stepHead(tx, step) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+  return stepHead(tx, step) + figure(ctx, step, tx, true) +
+    (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
 }
 
 function videoView(ctx, step, tx) {
@@ -1671,7 +1699,7 @@ function predictView(ctx, step, tx) {
   var expected = String(sv(step, tx, "expected") || "");
 
   var result = checked
-    ? verdictBox(checked === "ok", tx.explain) +
+    ? verdictBox(checked === "ok", tx.explain, [t("predictHit"), t("predictMiss")]) +
       '<p class="caption">' + esc(t("actualOutput")) + "</p>" +
       '<pre class="codeblock">' + esc(expected) + "</pre>"
     : "";
@@ -1969,7 +1997,31 @@ function showLesson(course, lesson, lang, route, token) {
 /* ── Обработчики внутри урока ─────────────────────────────── */
 var focusAfter = null;
 
+function loadSvgSlots() {
+  var slots = document.querySelectorAll("[data-svg]");
+  for (var i = 0; i < slots.length; i++) {
+    (function (slot) {
+      var url = slot.getAttribute("data-svg");
+      var put = function (txt) { if (slot.isConnected) slot.innerHTML = txt; };
+      if (cache.svgs[url]) { put(cache.svgs[url]); return; }
+      fetch(url, { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw new Error(url); return r.text(); })
+        .then(function (txt) {
+          txt = txt.replace(/<\?xml[^>]*\?>/i, "").replace(/<script[\s\S]*?<\/script>/gi, "");
+          cache.svgs[url] = txt;
+          put(txt);
+        })
+        .catch(function () {
+          if (!slot.isConnected) return;
+          slot.className = "frame";
+          slot.textContent = t("framePending");
+        });
+    })(slots[i]);
+  }
+}
+
 function wireLesson() {
+  loadSvgSlots();
   var route = parseHash();
   if (!route.course || !route.lesson) return;
 
@@ -2331,6 +2383,7 @@ function wire() {
       cache.texts = {};
       cache.lessons = {};
       cache.lessonTexts = {};
+      cache.svgs = {};
       render();
     });
   }
