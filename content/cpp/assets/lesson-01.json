@@ -1,0 +1,92 @@
+{
+  "n": 1,
+  "slug": "intro",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-cpp",
+      "kind": "theory",
+      "image": "assets/l01-terminal.png",
+      "imagePrompt": "Flat vector illustration, 16:9, for an online C++ course. A small, light scout drone hovers above the surface of Mars at dusk, next to a low research station with one lit terminal window. On the terminal screen is the course mascot: two square brackets [ ] facing each other with two round cream eyes between them, looking up at the drone. Use the attached image as the exact reference for the mascot. Style: minimal, geometric, flat shapes, no outlines, no text, no letters, no numbers, no logos, not cartoonish, calm and technical. Palette strictly: background #090B0F, surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 only on the terminal glow. Render the Martian ground in desaturated warm greys, not red."
+    },
+    {
+      "id": "first-program",
+      "kind": "example",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"IRIS: online\" << endl;\n    return 0;\n}",
+      "focus": "cout"
+    },
+    {
+      "id": "predict-output",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"SIGMA\";\n    cout << \" ONLINE\" << endl;\n    cout << \"STATUS: READY\";\n    return 0;\n}",
+      "expected": "SIGMA ONLINE\nSTATUS: READY",
+      "focus": "endl"
+    },
+    {
+      "id": "run-it",
+      "kind": "editor",
+      "lang": "cpp",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"IRIS: online\" << endl;\n    return 0;\n}",
+      "starter": "",
+      "expected": "IRIS: online",
+      "stdin": false
+    },
+    {
+      "id": "break-and-see",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"SIGMA: signal received\" << endl;\n    return 0;\n}",
+      "expected": "SIGMA: signal received",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"SIGMA: signal received\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "how-it-runs",
+      "kind": "explain"
+    },
+    {
+      "id": "drop-namespace",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n\nint main() {\n    cout << \"IRIS: online\" << endl;\n    return 0;\n}",
+      "expected": "IRIS: online",
+      "requires": ["std::cout"],
+      "solution": "#include <iostream>\n\nint main() {\n    std::cout << \"IRIS: online\" << std::endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "why-namespace",
+      "kind": "theory"
+    },
+    {
+      "id": "find-bug-line",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"SIGMA: DIAG\" << endl\n    cout << \"ENGINE: OK\" << endl;\n    return 0;\n}",
+      "answerLine": 5
+    },
+    {
+      "id": "fill-gaps",
+      "kind": "blanks",
+      "code": "#include <[[1]]>\nusing namespace [[2]];\n\nint main() {\n    [[3]] << \"SIGMA REPORT\" << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": ["iostream"],
+        "2": ["std"],
+        "3": ["cout"]
+      }
+    },
+    {
+      "id": "status-panel",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}",
+      "expected": "=== SIGMA ===\nFUEL: 87%\nSTATUS: READY",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"=== SIGMA ===\" << endl;\n    cout << \"FUEL: 87%\" << endl;\n    cout << \"STATUS: READY\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}
