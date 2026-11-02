@@ -1,46 +1,45 @@
 {
   "title": "Iepazīšanās ar C++",
   "module": "1. bloks · Pamodināšana",
-  "note": "Только строки. Латышский — черновик, требует вычитки носителем.",
   "steps": {
     "why-cpp": {
       "eyebrow": "Misijas sākums",
       "title": "Python uz Zemes, C++ gaisā",
       "body": [
-        "Stacijas IRIS terminālis ir atrasts, un pirmais signāls jānosūta izlūkam «Sigma». Sakari ar Zemi kavējas vairākas minūtes, tāpēc drons nevar gaidīt komandas — tam jāreaģē pašam un uzreiz.",
-        "Tas nav izdomāts uzdevums. Marsa helikopters Ingenuity — pirmais aparāts ar dzinēju, kas lidoja uz citas planētas, — nolasīja sensorus 500 reizes sekundē, lai noturētu sevi gaisā. Lielākā daļa tā lidojuma programmatūras ir rakstīta C++ valodā.",
-        "Python tajā pašā misijā arī strādāja, tikai uz Zemes: vadībai, modelēšanai un datu apstrādei. Katrai valodai sava vieta. Šajā kursā mēs būsim tur, kur vajadzīgs ātrums un paredzamība."
+        "Stacijas IRIS terminālis ir atrasts. Pirmais uzdevums ir nosūtīt signālu vieglajam izlūkam «Sigma». Radiosakaru aizkave starp Zemi un Marsu ir no 3 līdz 22 minūtēm katrā virzienā, tāpēc drons nevar gaidīt norādījumus no bāzes — tam jāreaģē pašam un nekavējoties.",
+        "Šāda aparatūras prasība nav izdomāta. Marsa helikopters Ingenuity nolasīja sensorus 500 reizes sekundē, lai noturētu lidaparātu retinātajā atmosfērā. Visa tā lidojuma borta vadības programmatūra tika rakstīta C++ valodā.",
+        "Python tajā pašā misijā strādāja uz Zemes — lidojumu simulācijai, analītikai un telemetrijas apstrādei. C++ izvēlas tur, kur katra milisekunde ir izšķiroša: spēļu dzinējos kā Unreal Engine, pārlūku kodolos kā Chromium un kosmisko aparātu borta sistēmās."
       ],
       "more": [
         {
           "kind": "archive",
-          "title": "Kā Ingenuity lidoja ar atvērtā koda programmatūru",
+          "title": "Kā radās C++: no Bell Labs līdz kosmosam",
           "body": [
-            "Ingenuity lidojuma programmatūra veidota uz JPL atvērtā koda ietvara F Prime (F´). Tas ir C++ ietvars, kas sākotnēji radīts mazajiem pavadoņiem un instrumentiem, un tagad to izmanto arī universitāšu projektos.",
-            "Navigācijas datorā darbojās Linux, un tas nolasīja sensorus 500 reizes sekundē. Python ekosistēma tika izmantota uz Zemes — lidojuma modelēšanai un datu apstrādei.",
-            "GitHub vēlāk piešķīra īpašu atzīmi gandrīz 12 000 izstrādātāju, kuru atvērtā koda projekti tika izmantoti šajā misijā. Daudzi no viņiem nemaz nezināja, ka viņu kods lido uz Marsa."
+            "1979. gadā dāņu datorzinātnieks Bjorne Straustrups (Bjarne Stroustrup) Bell Labs laboratorijā sāka darbu pie valodas, kuru sākotnēji sauca par «C with Classes» («C ar klasēm»). Viņa mērķis bija apvienot valodas Simula ērto struktūru ar valodas C nepārspēto ātrumu un tiešo darbu ar aparatūru.",
+            "1983. gadā valodu pārdēvēja par C++. Nosaukumu ierosināja Riks Masiti (Rick Mascitti), izmantojot C valodas inkrementa operatoru ++, kas nozīmē vērtības palielināšanu par vienu. Tas simbolizēja C nākamo evolūcijas soli.",
+            "Valodas pamatprincips paliek nemainīgs gadu desmitiem: «tu nemaksā par to, ko neizmanto». C++ nepieliek neredzamus skaitļošanas procesus aiz programmētāja muguras, tāpēc to izmanto reāllaika navigācijā un lidojumu datoros."
           ],
           "sources": [
             {
-              "title": "GitHub ReadME Project — Open Source on Mars",
-              "url": "https://github.com/readme/featured/nasa-ingenuity-helicopter"
+              "title": "Bjarne Stroustrup — A History of C++: 1979—1991 (ACM HOPL-II)",
+              "url": "https://www.stroustrup.com/hopl2.pdf"
             },
             {
               "title": "NASA NTRS — FPP: A Modeling Language for F Prime",
               "url": "https://ntrs.nasa.gov/citations/20220012872"
             },
             {
-              "title": "ZDNet — Flying on Mars fueled with open-source software (arhīvs)",
-              "url": "https://webcf.waybackmachine.org/web/20211001074126/https://www.zdnet.com/article/flying-on-mars-fueled-with-open-source-software"
+              "title": "GitHub ReadME Project — Open Source on Mars",
+              "url": "https://github.com/readme/featured/nasa-ingenuity-helicopter"
             }
           ]
         },
         {
           "kind": "deeper",
-          "title": "Kāpēc svarīgs ir ātrums un paredzamība",
+          "title": "Paredzamība pret negaidītām pauzēm",
           "body": [
-            "Kompilēta programma pirms palaišanas jau ir pārtulkota mašīnkodā. Datoram nav jātulko teksts lidojuma laikā, tāpēc reakcijas laiks ir mazs un vienmērīgs.",
-            "Valodās ar automātisku atmiņas tīrīšanu programma var uz brīdi apstāties, kamēr tiek atbrīvota atmiņa. Datu analīzē to neviens nepamana. Dronam, kas notur sevi gaisā, tā jau ir problēma."
+            "Kompilēta C++ programma pirms starta tiek pilnībā pārvērsta tiešā mašīnkodā. Datoram lidojuma laikā nav jāinterpretē teksts, tāpēc reakcijas laiks ir minimāls un stabils.",
+            "Valodās ar automātisko atmiņas tīrīšanu (piemēram, Python vai Java) izpilde var uz brīdi apstāties, kamēr sistēma atbrīvo atmiņu. Parastā lietotnē tā ir nepamanāma pauze. Taču dronam, kura rotori griežas ar 2700 apgriezieniem minūtē, neparedzēta pauze nozīmē avāriju."
           ]
         }
       ]
@@ -48,103 +47,94 @@
     "first-program": {
       "title": "Pirmā programma rindu pa rindai",
       "body": [
-        "Šī ir pilna C++ programma. Izlasi to rindu pa rindai — katrai ir savs uzdevums.",
-        "#include <iostream> pievieno galvenes failu iostream. Tajā ir ievade un izvade: bez šīs rindas cout neeksistē.",
-        "using namespace std; ļauj rakstīt cout īsi. Kas tas ir, noskaidrosim šajā pašā nodaļā.",
-        "int main() { … } ir ieejas punkts: programmas izpilde vienmēr sākas šeit. Viss, kas jāizpilda, atrodas starp figūriekavām.",
-        "cout << \"IRIS: online\" << endl; izvada tekstu, un endl pāriet uz jaunu rindu. Semikols beidz komandu — C++ valodā ar to beidzas katra komanda.",
-        "return 0; paziņo, ka programma beidzās veiksmīgi."
+        "Šī ir pilna, darboties spējīga C++ programma. Katra rinda tajā pilda vienu konkrētu funkciju.",
+        "#include <iostream> ir priekšprocesora direktīva, kas iekļauj galvenes failu ar ievades un izvades rīkiem. Bez šīs rindas dators nepazīst objektu cout.",
+        "using namespace std; norāda, ka izmantosim standarta bibliotēkas nosaukumus bez atsevišķa priedēkļa.",
+        "int main() { … } ir programmas ieejas punkts. Jebkuras C++ programmas izpilde vienmēr sākas funkcijā main, un visas izpildāmās komandas atrodas starp figūriekavām.",
+        "cout << \"IRIS: online\" << endl; nosūta teksta virkni uz standarta izvadi, un endl pārceļ kursoru jaunā rindā. Katra pabeigta komanda C++ obligāti beidzas ar semikolu ;.",
+        "return 0; paziņo operētājsistēmai, ka programma darbu pabeigusi veiksmīgi bez kļūdām."
       ]
     },
     "predict-output": {
-      "title": "Ko izvadīs programma?",
+      "title": "Ko izvadīs terminālis?",
       "body": [
-        "Trīs izvades komandas pēc kārtas. Ieraksti, kas, tavuprāt, parādīsies ekrānā — burtu pa burtam, ar atstarpēm un rindām.",
-        "Tā ir prognoze, nevis pārbaude: pareizā atbilde nav jāzina. Svarīgi ir vispirms padomāt un tad salīdzināt."
+        "Aplūko trīs izvades komandas pēc kārtas. Mēģini uzminēt precīzu tekstu, kas parādīsies ekrānā.",
+        "Šis ir minējums, nevis eksāmens: pareizā atbilde vēl nav jāzina. Svarīgi ir patstāvīgi novērtēt koda plūsmu un tad pārbaudīt savu pieņēmumu."
       ],
-      "explain": "cout neko nepievieno pats. Atstarpe ir tur, kur tā ierakstīta pēdiņās, un jauna rinda sākas tikai pēc endl."
+      "explain": "cout pats no sevis nepievieno atstarpes. Atstarpe parādās tikai tad, ja tā ir ierakstīta pēdiņās pirms ONLINE. Jauna rinda sākas tikai pēc komandas endl."
     },
     "run-it": {
-      "title": "Pārraksti un palaid",
-      "task": "Pārraksti programmu redaktorā ar roku, nevis kopējot, un nospied «Palaist».",
-      "hint": "Pievērs uzmanību katram simbolam: pēdiņām, figūriekavām un semikolam rindas beigās."
+      "title": "Ieraksti un palaid pirmo signālu",
+      "task": "Pārraksti programmu redaktorā ar roku, nevis iekopējot tekstu. Pēc tam nospied pogu «Palaist».",
+      "hint": "Ievēro precizitāti: figūriekavas { }, dubultpēdiņas ap tekstu un semikolu rindas beigās."
+    },
+    "break-and-see": {
+      "title": "Salauz un izlasi paziņojumu",
+      "task": "Dzēs semikolu ; 5. rindas beigās aiz endl un nospied «Palaist». Izpēti kompilatora kļūdas tekstu terminālī. Pēc tam ieliec semikolu atpakaļ un pārliecinies, ka programma atkal strādā.",
+      "hint": "Meklē paziņojumu «expected ';' after expression». Simbols ^ precīzi norāda vietu kodā, kur kompilators pamanīja trūkumu.",
+      "solutionNote": "Semikols atjaunots — programma atkal veiksmīgi kompilējas un izvada paziņojumu."
+    },
+    "how-it-runs": {
+      "title": "Kas notiek aiz pogas «Palaist»",
+      "body": [
+        "C++ programma nevar tikt izpildīta uzreiz no pirmkoda teksta. Vispirms kompilators pārbauda koda gramatiku un pārtulko pirmkodu procesoram saprotamā mašīnkodā, izveidojot izpildāmo failu.",
+        "Ja pirmkodā ir kaut viena sintakses kļūda, kompilators apstājas. Izpildāmais fails netiek radīts, un programma vispār netiek palaista. Tāpēc brīdī, kad izdzēsi semikolu, ekrānā neparādījās daļējs teksts — programma pat nesāka darboties."
+      ],
+      "alt": "Shēma: pirmkods nonāk kompilatorā, kas izveido izpildāmo failu; tas dod izvadi. Kļūdas gadījumā programma netiek palaista.",
+      "image": "assets/l01-compile-flow.lv.svg"
     },
     "drop-namespace": {
-      "title": "Kas notiks bez vienas rindas?",
-      "task": "Šajā programmā trūkst rindas using namespace std;. Palaid un izlasi kļūdas paziņojumu līdz galam — kompilators pats iesaka risinājumu. Salabo programmu, nepievienojot šo rindu atpakaļ.",
-      "hint": "Kompilators saka, ka nepazīst cout. Tā pilnais nosaukums ir std::cout. Ar endl ir tieši tāpat."
+      "title": "Kods bez vārdtelpas",
+      "task": "Šajā programmā ir izņemta rinda using namespace std;. Palaid kodu un izlasi kļūdas ziņojumu. Salabo programmu, nepievienojot izdzēsto rindu atpakaļ.",
+      "hint": "Kompilators ziņo, ka cout nav deklarēts, un jautā: «did you mean 'std::cout'?». Pievieno std:: pie cout un std:: pie endl.",
+      "solutionNote": "std::cout un std::endl skaidri norāda kompilatoram, no kuras bibliotēkas šie identifikatori ir ņemti."
     },
     "why-namespace": {
-      "eyebrow": "Kas notika",
+      "eyebrow": "Koda uzbūve",
       "title": "Vārdtelpa std",
       "body": [
-        "cout un endl nav C++ valodas atslēgvārdi. Tie dzīvo standarta bibliotēkā, vārdtelpā ar nosaukumu std. Pilnā forma ir std::cout — «cout no std».",
-        "Rinda using namespace std; saka kompilatoram: ja vārds nav atrasts, meklē to arī std. Tāpēc ar to var rakstīt īsi.",
-        "Šajā kursā rakstīsim using namespace std; — kods ir īsāks un vieglāk lasāms. Bet tagad tu zini, kas aiz tā slēpjas, un saproti, ko nozīmē std:: kāda cita kodā."
+        "cout un endl nav iebūvēti C++ valodas atslēgvārdi kā int vai return. Tie ir gatavi instrumenti no standarta bibliotēkas, kas ievietoti atsevišķā vārdtelpā ar nosaukumu std. Pilns nosaukums ir std::cout — «cout no std vārdtelpas».",
+        "Komanda using namespace std; dod rīkojumu kompilatoram: ja kāds nosaukums programmā nav atrasts, meklē to automātiski std vārdtelpā. Tas ļauj ikdienā rakstīt īsāk.",
+        "Mūsu mācību kursā izmantosim using namespace std;, lai kods būtu pārskatāms un kompakts. Taču tagad tu saproti, ko nozīmē prefikss std::, kad to redzi citu inženieru kodos."
       ],
       "more": [
         {
           "kind": "deeper",
-          "title": "Kāpēc lielos projektos raksta std::",
+          "title": "Kāpēc lielos projektos izvairās no using namespace",
           "body": [
-            "Vārdtelpas novērš nosaukumu sadursmes. Ja divās bibliotēkās ir funkcija ar vienu nosaukumu, pilnais vārds parāda, kura tieši domāta.",
-            "Tāpēc lielos projektos using namespace std; bieži neizmanto, it īpaši galvenes failos, kurus iekļauj citi. Mazās mācību programmās tas ir droši."
+            "Vārdtelpas pasargā no nosaukumu konfliktiem. Ja divās dažādās navigācijas bibliotēkās ir izveidota komanda ar vienādu nosaukumu log(), prefikss ļauj precīzi pateikt, kuru izmantot: nav::log() vai telemetry::log().",
+            "Ja galvenes failā iekļauj using namespace std;, visi standarta bibliotēkas nosaukumi ieplūst globālajā telpā, palielinot kļūdu risku. Nelielās atsevišķās mācību programmās using namespace std; ir drošs un ērts paņēmiens."
           ]
         }
       ]
     },
-    "how-it-runs": {
-      "title": "Kas notiek pēc pogas «Palaist»",
-      "body": [
-        "C++ programmu nevar izpildīt uzreiz. Vispirms kompilators pārtulko pirmkodu mašīnkodā un izveido izpildāmo failu. Tikai tad dators to palaiž.",
-        "Ja pirmkodā ir sintakses kļūda, kompilators apstājas pirms palaišanas. Tāpēc iepriekšējā solī, kamēr kļūda nebija izlabota, neparādījās neviena izvades rinda — programma vispār netika palaista."
-      ],
-      "alt": "Shēma: pirmkods nonāk kompilatorā, kas izveido izpildāmo failu; to palaiž, un tas dod izvadi.",
-      "image": "assets/l01-compile-flow.lv.svg"
-    },
     "find-bug-line": {
-      "title": "Kurā rindā kļūda?",
+      "title": "Kurā rindā ir bojājums?",
       "body": [
-        "Sigma neveic diagnostiku: programma neskompilējas. Uzklikšķini uz rindas, kurā ir kļūda."
+        "Drona Sigma telemetrijas skripts atsakās kompilēties. Atrodi un uzklikšķini tieši uz tās koda rindas, kurā pieļauta kļūda."
       ],
-      "explain": "5. rindā aiz endl trūkst semikola. Mūsu kompilators to parāda tieši 5. rindas beigās, bet citi dažreiz norāda uz nākamo rindu — tāpēc vienmēr paskaties arī rindu augstāk."
-    },
-    "assemble": {
-      "title": "Saliec programmu",
-      "body": [
-        "Rindas ir sajauktas. Ar bultiņām sakārto tās pareizā secībā un nospied «Pārbaudīt»."
-      ],
-      "explain": "#include vienmēr ir faila sākumā, tad vārdtelpa, tad main ar figūriekavām. Viss, kas jāizpilda, atrodas starp tām."
+      "explain": "5. rindā aiz manipulatora endl trūkst obligātā semikola ;. Clang kompilators precīzi parāda šo rindu, taču daži citi kompilatori var norādīt uz 6. rindas sākumu — tāpēc kļūdu meklēšanā vienmēr pārbaudi arī iepriekšējo rindu."
     },
     "fill-gaps": {
-      "title": "Aizpildi tukšās vietas",
+      "title": "Atjauno karkasa fragmentus",
       "body": [
-        "Programmai trūkst trīs vārdu. Ieraksti tos un pārbaudi."
+        "Programmas tekstā nozaudēti trīs pamata elementi. Ieraksti pareizos vārdus un pārbaudi rezultātu."
       ],
-      "explain": "iostream ir galvenes fails ar ievadi un izvadi, std ir standarta bibliotēkas vārdtelpa, cout ir standarta izvade."
-    },
-    "check-yourself": {
-      "title": "Kur sākas programmas izpilde?",
-      "options": {
-        "main": "Funkcijā main",
-        "first-line": "Faila pirmajā rindā",
-        "include": "Rindā #include"
-      },
-      "explain": "main ir ieejas punkts. #include tiek apstrādāts vēl pirms kompilācijas, un tā nav izpildāma komanda."
+      "explain": "iostream satur ievades un izvades deklarācijas, std ir standarta vārdtelpa, un cout ir ekrāna izvades plūsmas objekts."
     },
     "status-panel": {
-      "title": "Sigma statusa panelis",
-      "task": "Uzraksti programmu, kas izvada tieši šīs trīs rindas — katru ar atsevišķu cout.",
-      "hint": "Sāc ar karkasu, kas jau ir redaktorā, un ieraksti trīs cout rindas starp figūriekavām."
+      "title": "Izveido Sigma statusa paneli",
+      "task": "Uzraksti pilnu programmu, kas terminālī izvada precīzi šādu trīs rindu ziņojumu. Katrai rindai izmanto atsevišķu cout instrukciju.",
+      "hint": "Izmanto karkasu ar main un ievieto trīs cout komandas, katru noslēdzot ar << endl;."
     },
     "recap": {
-      "title": "Ko tu tagad zini",
+      "title": "Pirmās misijas kopsavilkums",
       "points": [
-        "C++ programma vispirms tiek kompilēta un tikai tad palaista. Ja ir sintakses kļūda, izpilde nesākas.",
-        "Izpilde sākas funkcijā main un iet no augšas uz leju.",
-        "cout izvada tieši to, kas tam padots; jauna rinda sākas tikai ar endl.",
-        "Katra komanda beidzas ar semikolu.",
-        "cout pilnais nosaukums ir std::cout; using namespace std; ļauj rakstīt īsi."
+        "C++ ir kompilējama valoda: pirmkods pirms izpildes tiek pārvērsts mašīnkodā. Sintakses kļūdas gadījumā programma netiek palaista.",
+        "Programmas izpilde vienmēr sākas funkcijā int main() un secīgi izpilda komandas no augšas uz leju.",
+        "cout izvada datus standarta plūsmā bez papildu atstarpēm; jaunu rindu sāk manipulators endl.",
+        "Katra pabeigta C++ instrukcija obligāti noslēdzas ar semikolu ;.",
+        "cout pieder standarta vārdtelpai std::; direktīva using namespace std; ļauj to pierakstīt saīsinātā formā."
       ]
     }
   }
