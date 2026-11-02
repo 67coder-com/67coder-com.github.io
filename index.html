@@ -783,6 +783,94 @@
   /* В уроке текст идёт на всю ширину колонки — вровень с полосой шагов,
      блоками кода и раскрывающимися блоками. */
   .screen.narrow .lead { max-width: none; }
+
+  /* ══ Кнопка PDF в шапке урока ══ */
+  .lesson-tools { display: flex; align-items: center; gap: 12px; }
+  .lesson-tools .btn.small { min-height: 36px; }
+
+  /* ══ Глава одной страницей — экран и печать ══ */
+  body.is-print { background: #FFFFFF; }
+  body.is-print::before { display: none; }
+
+  .print-bar {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap;
+    padding: 14px 32px; background: #F7F5F1; border-bottom: 1px solid #DFDAD1;
+  }
+  .print-bar .hint { font-size: 13px; color: #656A72; flex: 1 1 280px; }
+  .print-bar .btn { color: #16181D; border-color: #8C8578; }
+  .print-bar .btn.primary { color: #090B0F; }
+
+  .printdoc {
+    max-width: 820px; margin: 0 auto; padding: 36px 32px 64px;
+    background: #FFFFFF; color: #16181D; font-family: var(--font-sans);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .printdoc h1 { font-size: 34px; margin: 6px 0 0; color: #16181D; }
+  .printdoc h2 { font-size: 22px; line-height: 1.3; margin: 6px 0 0; color: #16181D; }
+  .printdoc h3 { font-family: var(--font-display); font-weight: 400; font-size: 18px; margin: 4px 0 0; color: #16181D; }
+  .printdoc p, .printdoc li { color: #2B2E34; line-height: 1.65; }
+  .printdoc p { margin: 10px 0 0; }
+
+  .p-head { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid #DFDAD1; }
+  .p-head svg { height: 22px; width: auto; }
+  .p-brand { font-family: var(--font-mono); font-weight: 500; color: #5A5F68; }
+  .p-brand b { color: #7A5F2A; font-weight: 500; }
+  .p-course { margin-left: auto; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: #656A72; text-align: right; }
+
+  .p-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: #656A72; }
+  .p-step { margin-top: 34px; padding-top: 22px; border-top: 1px solid #DFDAD1; }
+
+  .printdoc .codeblock {
+    background: #F4F2ED; color: #16181D; border: 1px solid #DFDAD1;
+    white-space: pre-wrap; word-break: break-word; overflow: visible; margin-top: 14px;
+  }
+  .printdoc .codeblock .k { color: #7A5F2A; }
+  .printdoc .codeblock .s { color: #2F6355; }
+  .printdoc .codeblock .n { color: #8C5A2B; }
+  .printdoc .codeblock .c { color: #6E737B; }
+  .printdoc .codeblock .pp { color: #5A5F68; }
+  .printdoc .codeblock .highlight,
+  :root[data-theme="light"] .printdoc .codeblock .highlight {
+    color: #7A5F2A;
+    background: linear-gradient(158deg, #FDF8EC 0%, #EFE2C6 100%);
+    box-shadow: inset 0 0 0 1px rgba(185, 154, 97, 0.35);
+    border-bottom: 2px solid #B99A61;
+  }
+  .p-numbered .ln { display: inline-block; width: 2.4ch; margin-right: 14px; text-align: right; color: #8E887D; user-select: none; }
+  .p-blank { color: #7A5F2A; font-weight: 500; }
+
+  .p-task { font-weight: 600; color: #16181D; }
+  .p-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: #656A72; margin-top: 16px !important; }
+  .p-hint, .p-where { font-size: 14px; color: #5A5F68 !important; }
+  .p-box { height: 76px; margin-top: 10px; border: 1px dashed #BFB8AC; border-radius: 6px; }
+  .p-options { margin: 12px 0 0; padding-left: 26px; }
+  .p-options li { margin-top: 6px; }
+  .p-figure img { width: 100%; display: block; border-radius: 8px; margin-top: 14px; }
+
+  .p-more { margin-top: 18px; padding: 4px 0 4px 18px; border-left: 3px solid #DFDAD1; }
+  .p-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: #656A72; }
+  .p-sources { margin: 10px 0 0; padding-left: 18px; font-size: 13px; }
+  .p-sources a { color: #7A5F2A; }
+
+  .p-answers { margin-top: 56px; padding-top: 26px; border-top: 2px solid #16181D; }
+  .p-answer { margin-top: 24px; }
+  .p-foot { margin-top: 48px; padding-top: 14px; border-top: 1px solid #DFDAD1; font-family: var(--font-mono); font-size: 11px; color: #8E887D; }
+
+  @media print {
+    @page { size: A4; margin: 16mm 14mm; }
+    .print-bar { display: none; }
+    body.is-print { background: #FFFFFF; }
+    .printdoc { max-width: none; padding: 0; }
+    .printdoc .codeblock, .figure, .p-figure, .p-more, .p-box, .p-answer { break-inside: avoid; }
+    .printdoc h1, .printdoc h2, .printdoc h3, .p-num, .p-task, .p-label { break-after: avoid; }
+    .p-answers { break-before: page; border-top: 0; margin-top: 0; }
+    .figure { overflow: visible; }
+    .figure svg { min-width: 0; }
+    .p-sources a { text-decoration: none; }
+    .p-sources a::after { content: " — " attr(href); color: #656A72; font-size: 11px; word-break: break-all; }
+  }
 </style>
 </head>
 <body>
@@ -896,6 +984,20 @@ var UI = {
     soonShort: "drīzumā",
     predictHit: "Tieši tā",
     predictMiss: "Ne gluži — paskaties, kas iznāca",
+    printLink: "PDF",
+    printNow: "Drukāt vai saglabāt PDF",
+    printBack: "Atpakaļ uz nodaļu",
+    printHint: "Drukas logā izvēlieties «Saglabāt kā PDF» un izslēdziet galvenes un kājenes.",
+    pStep: "Solis",
+    pTaskPredict: "Uzdevums: paredziet, ko izvadīs programma. Atbilde — nodaļas beigās.",
+    pTaskClick: "Uzdevums: atrodiet rindu, kurā ir kļūda.",
+    pTaskParsons: "Uzdevums: sakārtojiet rindas pareizā secībā.",
+    pTaskBlanks: "Uzdevums: ierakstiet trūkstošos vārdus.",
+    pStarter: "Sākuma kods",
+    pRunWhere: "Palaidiet kodu savā C++ vidē vai šīs nodaļas interaktīvajā versijā 67coder.",
+    pCorrectOrder: "Pareizā secība:",
+    pCorrectAnswer: "Pareizā atbilde:",
+    answersTitle: "Atbildes un risinājumi",
     engineBroken: "Neizdevās palaist kodu.",
     lessonSoonTitle: "Šī nodaļa vēl tiek gatavota",
     lessonSoonBody: "Nodaļa parādīsies šeit, tiklīdz būs gatava. Pieejamās nodaļas var apgūt jau tagad.",
@@ -984,6 +1086,20 @@ var UI = {
     soonShort: "coming soon",
     predictHit: "Exactly right",
     predictMiss: "Not quite — look at what came out",
+    printLink: "PDF",
+    printNow: "Print or save as PDF",
+    printBack: "Back to the chapter",
+    printHint: "In the print dialog choose “Save as PDF” and turn off headers and footers.",
+    pStep: "Step",
+    pTaskPredict: "Task: predict what the program prints. The answer is at the end of the chapter.",
+    pTaskClick: "Task: find the line with the mistake.",
+    pTaskParsons: "Task: put the lines in the right order.",
+    pTaskBlanks: "Task: fill in the missing words.",
+    pStarter: "Starter code",
+    pRunWhere: "Run the code in your own C++ environment or in the interactive version of this chapter on 67coder.",
+    pCorrectOrder: "Correct order:",
+    pCorrectAnswer: "Correct answer:",
+    answersTitle: "Answers and solutions",
     engineBroken: "The code could not be run.",
     lessonSoonTitle: "This chapter is still being written",
     lessonSoonBody: "It will appear here as soon as it is ready. The chapters that are available can be studied right now.",
@@ -1133,7 +1249,8 @@ function parseHash() {
       lang: parts[2] || null,
       lesson: parts[3] === "lesson" ? parts[4] || null : null,
       step: parts[3] === "lesson" ? parts[5] || null : null,
-      module: parts[3] === "module" ? parts[4] || null : null
+      module: parts[3] === "module" ? parts[4] || null : null,
+      print: parts[3] === "print" ? parts[4] || null : null
     };
   }
   return { screen: "catalog" };
@@ -1924,7 +2041,8 @@ function lessonPlayer(ctx, data, texts) {
       '<div class="lesson-head" style="margin-top: 10px">' +
         '<div class="eyebrow">' + esc(t("lessonEyebrow")) + " " + ctx.n +
           (texts.module ? " · " + esc(texts.module) : "") + "</div>" +
-        '<div class="meta-mono">' + (i + 1) + " / " + steps.length + "</div>" +
+        '<div class="lesson-tools"><span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span>" +
+          '<a class="btn small" href="' + printHash(ctx.course.id, ctx.lang, ctx.n) + '">' + esc(t("printLink")) + "</a></div>" +
       "</div>" +
       '<h1 lang="' + ctx.lang + '" style="font-size: clamp(26px, 4vw, 36px)">' + esc(texts.title || "") + "</h1>" +
       '<div class="steps">' + bar + "</div>" +
@@ -2239,6 +2357,179 @@ function wireEditor(route, step, tx, k, codeBox, runBtn) {
   });
 }
 
+
+/* ════════════════════════════════════════════════════════════
+   ВСЯ ГЛАВА ОДНОЙ СТРАНИЦЕЙ — ДЛЯ PDF
+
+   #/course/{course}/{lang}/print/{n}
+   Все экраны урока подряд, раскрывающиеся блоки раскрыты,
+   ответы и решения — в конце. Светлая страница в любой теме
+   сайта. Источник тот же JSON, поэтому PDF всегда совпадает
+   с интерактивной главой.
+   ════════════════════════════════════════════════════════════ */
+
+function printHash(courseId, lang, n) { return "#/course/" + courseId + "/" + lang + "/print/" + n; }
+
+function printFigure(ctx, step, tx) {
+  var img = sv(step, tx, "image");
+  if (!img) return "";
+  var url = CONTENT + ctx.course.id + "/" + img;
+  var alt = tx.alt || tx.title || "";
+  return /\.svg$/i.test(img)
+    ? '<div class="figure svg-slot" data-svg="' + esc(url) + '" role="img" aria-label="' + esc(alt) + '"></div>'
+    : '<div class="p-figure"><img src="' + esc(url) + '" alt="' + esc(alt) + '"></div>';
+}
+
+function printMore(tx) {
+  return (tx.more || []).map(function (m) {
+    var src = (m.sources || []).length
+      ? '<ul class="p-sources">' + m.sources.map(function (s) {
+          return "<li>" + (s.url ? '<a href="' + esc(s.url) + '">' + esc(s.title || s.url) + "</a>" : esc(s.title || "")) + "</li>";
+        }).join("") + "</ul>"
+      : "";
+    return '<div class="p-more">' +
+      '<div class="p-tag">' + esc(m.kind === "archive" ? t("archiveTag") : t("deeperTag")) + "</div>" +
+      "<h3>" + esc(m.title || "") + "</h3>" + paras(m.body) + src +
+    "</div>";
+  }).join("");
+}
+
+function numberedCode(code) {
+  var lines = String(code || "").split("\n");
+  return '<pre class="codeblock p-numbered">' + lines.map(function (line, i) {
+    return '<span class="ln">' + (i + 1) + "</span>" + (tokenize(line) || " ");
+  }).join("\n") + "</pre>";
+}
+
+function printStep(ctx, step, tx, num, answers) {
+  var out = "";
+  var task = function (key) { return '<p class="p-task">' + esc(t(key)) + "</p>"; };
+  var answer = function (html) { answers.push({ num: num, title: tx.title || step.id, html: html }); };
+  var expected = sv(step, tx, "expected");
+
+  if (step.kind === "theory" || step.kind === "explain") {
+    out += printFigure(ctx, step, tx) + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+  } else if (step.kind === "example") {
+    var c = sv(step, tx, "code");
+    out += printFigure(ctx, step, tx) + (c ? codeBlock(c, step.focus) : "") +
+      (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+  } else if (step.kind === "predict") {
+    out += codeBlock(sv(step, tx, "code") || "", step.focus) + task("pTaskPredict") + '<div class="p-box"></div>';
+    answer("<p>" + esc(t("actualOutput")) + '</p><pre class="codeblock">' + esc(String(expected || "")) + "</pre>" + paras(tx.explain));
+  } else if (step.kind === "editor") {
+    var shown = sv(step, tx, "code"), starter = sv(step, tx, "starter"), solution = sv(step, tx, "solution");
+    out += (shown ? codeBlock(shown, step.focus) : "") +
+      (tx.task ? '<p class="p-task">' + esc(tx.task) + "</p>" : "") +
+      (starter ? '<p class="p-label">' + esc(t("pStarter")) + "</p>" + codeBlock(starter, null) : "") +
+      (typeof step.stdin === "string" && step.stdin ? '<p class="p-label">' + esc(t("stdinLabel")) + '</p><pre class="codeblock">' + esc(step.stdin) + "</pre>" : "") +
+      (expected !== undefined && !step.hideExpected ? '<p class="p-label">' + esc(t("expectedTag")) + '</p><pre class="codeblock">' + esc(String(expected)) + "</pre>" : "") +
+      (tx.hint ? '<p class="p-hint"><strong>' + esc(t("hintTag")) + ".</strong> " + esc(tx.hint) + "</p>" : "") +
+      '<p class="p-where">' + esc(t("pRunWhere")) + "</p>";
+    if (solution) answer(codeBlock(String(solution), null) + (tx.solutionNote ? "<p>" + esc(tx.solutionNote) + "</p>" : ""));
+  } else if (step.kind === "clickline") {
+    out += numberedCode(sv(step, tx, "code")) + task("pTaskClick");
+    answer("<p>" + esc(t("lineWord")) + " " + esc(String(step.answerLine)) + ".</p>" + paras(tx.explain));
+  } else if (step.kind === "parsons") {
+    var lines = sv(step, tx, "lines") || [];
+    var order = seededOrder(step.id, lines.length);
+    out += '<pre class="codeblock p-numbered">' + order.map(function (li, i) {
+      return '<span class="ln">' + "ABCDEFGHIJ".charAt(i) + "</span>" + (tokenize(lines[li]) || " ");
+    }).join("\n") + "</pre>" + task("pTaskParsons");
+    answer('<p>' + esc(t("pCorrectOrder")) + " " + lines.map(function (_, k) {
+      return "ABCDEFGHIJ".charAt(order.indexOf(k));
+    }).join(" → ") + "</p>" + codeBlock(lines.join("\n"), null) + paras(tx.explain));
+  } else if (step.kind === "blanks") {
+    var code = String(sv(step, tx, "code") || ""), answersMap = sv(step, tx, "blanks") || {};
+    var html = "", re = /\[\[(\w+)\]\]/g, last = 0, m;
+    while ((m = re.exec(code))) {
+      html += tokenize(code.slice(last, m.index)) + '<span class="p-blank">(' + esc(m[1]) + ")______</span>";
+      last = re.lastIndex;
+    }
+    html += tokenize(code.slice(last));
+    out += '<pre class="codeblock">' + html + "</pre>" + task("pTaskBlanks");
+    answer("<ul>" + Object.keys(answersMap).map(function (k) {
+      var a = answersMap[k];
+      return "<li>(" + esc(k) + ") <code>" + esc(isArray(a) ? a[0] : a) + "</code></li>";
+    }).join("") + "</ul>" + paras(tx.explain));
+  } else if (step.kind === "quiz") {
+    var qc = sv(step, tx, "code"), ids = step.options || Object.keys(tx.options || {});
+    out += (qc ? codeBlock(qc, step.focus) : "") +
+      '<ol class="p-options" type="A">' + ids.map(function (id) { return "<li>" + esc((tx.options || {})[id] || id) + "</li>"; }).join("") + "</ol>";
+    var at = ids.indexOf(step.answer);
+    answer("<p>" + esc(t("pCorrectAnswer")) + " " + "ABCDEFG".charAt(at) + " — " + esc((tx.options || {})[step.answer] || step.answer) + ".</p>" + paras(tx.explain));
+  } else if (step.kind === "summary") {
+    out += (tx.points || []).length ? '<ul class="points">' + tx.points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>" : "";
+  }
+  return out;
+}
+
+function printView(ctx, data, texts) {
+  var answers = [];
+  var steps = data.steps || [];
+  var body = steps.map(function (step, i) {
+    var tx = (texts.steps && texts.steps[step.id]) || {};
+    return '<section class="p-step">' +
+      '<div class="p-num">' + esc(t("pStep")) + " " + (i + 1) + (tx.eyebrow ? " · " + esc(tx.eyebrow) : "") +
+        (step.optional ? " · " + esc(t("optionalTask")) : "") + "</div>" +
+      "<h2>" + esc(tx.title || "") + "</h2>" + paras(tx.body) +
+      printStep(ctx, step, tx, i + 1, answers) + printMore(tx) +
+    "</section>";
+  }).join("");
+
+  var appendix = answers.length
+    ? '<section class="p-answers"><h2>' + esc(t("answersTitle")) + "</h2>" +
+      answers.map(function (a) {
+        return '<div class="p-answer"><div class="p-num">' + esc(t("pStep")) + " " + a.num + "</div><h3>" + esc(a.title) + "</h3>" + a.html + "</div>";
+      }).join("") + "</section>"
+    : "";
+
+  var mod = findModule(ctx.course.id, ctx.n);
+  var back = courseHash(ctx.course.id, ctx.lang, ctx.n, null);
+
+  return '<div class="print-bar">' +
+      '<a class="btn" href="' + back + '">' + esc(t("printBack")) + "</a>" +
+      '<span class="hint">' + esc(t("printHint")) + "</span>" +
+      '<button type="button" class="btn primary" id="printNow">' + esc(t("printNow")) + "</button>" +
+    "</div>" +
+    '<article class="printdoc" lang="' + ctx.lang + '">' +
+      '<header class="p-head">' +
+        '<svg viewBox="51 45 138 150" aria-hidden="true" style="color: #5A5F68">' +
+          markSvg("#D8D0C2", "#16181D", "#5A5F68", false) + "</svg>" +
+        '<span class="p-brand">[<b>67</b>]coder</span>' +
+        '<span class="p-course">' + esc(ctx.course.title[ctx.lang] || ctx.course.title[state.uiLang]) +
+          (mod ? " · " + esc(moduleName(ctx.course.id, mod)) : "") + "</span>" +
+      "</header>" +
+      '<div class="p-num" style="margin-top: 28px">' + esc(t("lessonEyebrow")) + " " + ctx.n + "</div>" +
+      "<h1>" + esc(texts.title || "") + "</h1>" +
+      body + appendix +
+      '<footer class="p-foot">67coder.com · ' + esc(ctx.course.title[ctx.lang] || "") + " · " + esc(t("lessonEyebrow")) + " " + ctx.n + "</footer>" +
+    "</article>";
+}
+
+function showPrint(course, lesson, lang, token) {
+  if (!lesson.locales || lesson.locales.indexOf(lang) === -1) {
+    paint(lessonMissingScreen(course, lesson, lang, lesson.locales && lesson.locales.length ? "untranslated" : "missing"));
+    return Promise.resolve();
+  }
+  return Promise.all([loadLesson(course.id, lesson.n), loadLessonTexts(course.id, lesson.n, lang)])
+    .then(function (pair) {
+      if (token !== renderToken) return;
+      var wanted = printHash(course.id, lang, lesson.n);
+      if (location.hash !== wanted) { history.replaceState(null, "", wanted); lastHash = wanted; }
+      document.body.classList.add("is-print");
+      document.title = String(lesson.n).padStart(2, "0") + " · " + (pair[1].title || "") + " — 67coder";
+      paint(printView({ course: course, lang: lang, n: lesson.n }, pair[0], pair[1]));
+      loadSvgSlots();
+      var btn = document.getElementById("printNow");
+      if (btn) btn.addEventListener("click", function () { window.print(); });
+      scrollTop();
+    })
+    .catch(function () {
+      if (token !== renderToken) return;
+      paint(lessonMissingScreen(course, lesson, lang, "missing"));
+    });
+}
+
 /* ── Служебные экраны ─────────────────────────────────────── */
 function loadingScreen() {
   return header() + '<main class="screen"><p class="muted">' + esc(t("loading")) + "</p></main>";
@@ -2277,6 +2568,7 @@ function render() {
   var token = ++renderToken;
   keepScroll = location.hash === lastHash;
   lastHash = location.hash;
+  document.body.classList.remove("is-print");
   var route = parseHash();
   var fresh = !cache.catalog;
 
@@ -2320,6 +2612,10 @@ function render() {
           var lesson = route.lesson ? findLesson(course.id, route.lesson) : null;
           document.documentElement.lang = state.uiLang;
 
+          if (route.print) {
+            var printed = findLesson(course.id, route.print);
+            if (printed) return showPrint(course, printed, resolved.lang, token);
+          }
           if (lesson) return showLesson(course, lesson, resolved.lang, route, token);
 
           var wantedCourse = route.module
