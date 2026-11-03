@@ -16,7 +16,7 @@
           "title": "Kā radās C++: no Bell Labs līdz kosmosam",
           "body": [
             "1979. gadā dāņu datorzinātnieks Bjorne Straustrups (Bjarne Stroustrup) Bell Labs laboratorijā sāka darbu pie valodas, kuru sākotnēji sauca par «C with Classes» («C ar klasēm»). Viņa mērķis bija apvienot valodas Simula ērto struktūru ar valodas C nepārspēto ātrumu un tiešo darbu ar aparatūru.",
-            "1983. gadā valodu pārdēvēja par C++. Nosaukumu ierosināja Riks Masiti (Rick Mascitti), izmantojot C valodas inkrementa operatoru ++, kas nozīmē vērtības palielināšanu par vienu. Tas simbolizēja C nākamo evolūcijas soli.",
+            "1983. gadā valodu pārdēvēja par C++. Nosaukumu ierosināja Riks Masiti (Rick Mascitti), izmantojot C valodas inkrementa operatoru `++`, kas nozīmē vērtības palielināšanu par vienu. Tas simbolizēja C nākamo evolūcijas soli.",
             "Valodas pamatprincips paliek nemainīgs gadu desmitiem: «tu nemaksā par to, ko neizmanto». C++ nepieliek neredzamus skaitļošanas procesus aiz programmētāja muguras, tāpēc to izmanto reāllaika navigācijā un lidojumu datoros."
           ],
           "sources": [
@@ -48,11 +48,11 @@
       "title": "Pirmā programma rindu pa rindai",
       "body": [
         "Šī ir pilna, darboties spējīga C++ programma. Katra rinda tajā pilda vienu konkrētu funkciju.",
-        "#include <iostream> ir priekšprocesora direktīva, kas iekļauj galvenes failu ar ievades un izvades rīkiem. Bez šīs rindas dators nepazīst objektu cout.",
-        "using namespace std; norāda, ka izmantosim standarta bibliotēkas nosaukumus bez atsevišķa priedēkļa.",
-        "int main() { … } ir programmas ieejas punkts. Jebkuras C++ programmas izpilde vienmēr sākas funkcijā main, un visas izpildāmās komandas atrodas starp figūriekavām.",
-        "cout << \"IRIS: online\" << endl; nosūta teksta virkni uz standarta izvadi, un endl pārceļ kursoru jaunā rindā. Katra pabeigta komanda C++ obligāti beidzas ar semikolu ;.",
-        "return 0; paziņo operētājsistēmai, ka programma darbu pabeigusi veiksmīgi bez kļūdām."
+        "`#include <iostream>` ir priekšprocesora direktīva, kas iekļauj galvenes failu ar ievades un izvades rīkiem. Bez šīs rindas dators nepazīst objektu `cout`.",
+        "`using namespace std;` norāda, ka izmantosim standarta bibliotēkas nosaukumus bez atsevišķa priedēkļa.",
+        "`int main() { … }` ir programmas ieejas punkts. Jebkuras C++ programmas izpilde vienmēr sākas funkcijā `main`, un visas izpildāmās komandas atrodas starp figūriekavām.",
+        "`cout << \"IRIS: online\" << endl;` nosūta teksta virkni uz standarta izvadi, un `endl` pārceļ kursoru jaunā rindā. Katra pabeigta komanda C++ obligāti beidzas ar semikolu `;`.",
+        "`return 0;` paziņo operētājsistēmai, ka programma darbu pabeigusi veiksmīgi bez kļūdām."
       ]
     },
     "predict-output": {
@@ -61,17 +61,17 @@
         "Aplūko trīs izvades komandas pēc kārtas. Mēģini uzminēt precīzu tekstu, kas parādīsies ekrānā.",
         "Šis ir minējums, nevis eksāmens: pareizā atbilde vēl nav jāzina. Svarīgi ir patstāvīgi novērtēt koda plūsmu un tad pārbaudīt savu pieņēmumu."
       ],
-      "explain": "cout pats no sevis nepievieno atstarpes. Atstarpe parādās tikai tad, ja tā ir ierakstīta pēdiņās pirms ONLINE. Jauna rinda sākas tikai pēc komandas endl."
+      "explain": "`cout` pats no sevis nepievieno atstarpes. Atstarpe parādās tikai tad, ja tā ir ierakstīta pēdiņās pirms `ONLINE`. Jauna rinda sākas tikai pēc komandas `endl`."
     },
     "run-it": {
       "title": "Ieraksti un palaid pirmo signālu",
       "task": "Pārraksti programmu redaktorā ar roku, nevis iekopējot tekstu. Pēc tam nospied pogu «Palaist».",
-      "hint": "Ievēro precizitāti: figūriekavas { }, dubultpēdiņas ap tekstu un semikolu rindas beigās."
+      "hint": "Ievēro precizitāti: figūriekavas `{ }`, dubultpēdiņas ap tekstu un semikolu `;` rindas beigās."
     },
     "break-and-see": {
       "title": "Salauz un izlasi paziņojumu",
-      "task": "Dzēs semikolu ; 5. rindas beigās aiz endl un nospied «Palaist». Izpēti kompilatora kļūdas tekstu terminālī. Pēc tam ieliec semikolu atpakaļ un pārliecinies, ka programma atkal strādā.",
-      "hint": "Meklē paziņojumu «expected ';' after expression». Simbols ^ precīzi norāda vietu kodā, kur kompilators pamanīja trūkumu.",
+      "task": "Dzēs semikolu `;` 5. rindas beigās aiz `endl` un nospied «Palaist». Izpēti kompilatora kļūdas tekstu terminālī. Pēc tam ieliec semikolu atpakaļ un pārliecinies, ka programma atkal strādā.",
+      "hint": "Meklē paziņojumu «expected ';' after expression». Simbols `^` precīzi norāda vietu kodā, kur kompilators pamanīja trūkumu.",
       "solutionNote": "Semikols atjaunots — programma atkal veiksmīgi kompilējas un izvada paziņojumu."
     },
     "how-it-runs": {
@@ -85,25 +85,25 @@
     },
     "drop-namespace": {
       "title": "Kods bez vārdtelpas",
-      "task": "Šajā programmā ir izņemta rinda using namespace std;. Palaid kodu un izlasi kļūdas ziņojumu. Salabo programmu, nepievienojot izdzēsto rindu atpakaļ.",
-      "hint": "Kompilators ziņo, ka cout nav deklarēts, un jautā: «did you mean 'std::cout'?». Pievieno std:: pie cout un std:: pie endl.",
-      "solutionNote": "std::cout un std::endl skaidri norāda kompilatoram, no kuras bibliotēkas šie identifikatori ir ņemti."
+      "task": "Šajā programmā ir izņemta rinda `using namespace std;`. Palaid kodu un izlasi kļūdas ziņojumu. Salabo programmu, nepievienojot izdzēsto rindu atpakaļ.",
+      "hint": "Kompilators ziņo, ka `cout` nav deklarēts, un jautā: «did you mean 'std::cout'?». Pievieno `std::` pie `cout` un `std::` pie `endl`.",
+      "solutionNote": "`std::cout` un `std::endl` skaidri norāda kompilatoram, no kuras bibliotēkas šie identifikatori ir ņemti."
     },
     "why-namespace": {
       "eyebrow": "Koda uzbūve",
-      "title": "Vārdtelpa std",
+      "title": "Vārdtelpa `std`",
       "body": [
-        "cout un endl nav iebūvēti C++ valodas atslēgvārdi kā int vai return. Tie ir gatavi instrumenti no standarta bibliotēkas, kas ievietoti atsevišķā vārdtelpā ar nosaukumu std. Pilns nosaukums ir std::cout — «cout no std vārdtelpas».",
-        "Komanda using namespace std; dod rīkojumu kompilatoram: ja kāds nosaukums programmā nav atrasts, meklē to automātiski std vārdtelpā. Tas ļauj ikdienā rakstīt īsāk.",
-        "Mūsu mācību kursā izmantosim using namespace std;, lai kods būtu pārskatāms un kompakts. Taču tagad tu saproti, ko nozīmē prefikss std::, kad to redzi citu inženieru kodos."
+        "`cout` un `endl` nav iebūvēti C++ valodas atslēgvārdi kā `int` vai `return`. Tie ir gatavi instrumenti no standarta bibliotēkas, kas ievietoti atsevišķā vārdtelpā ar nosaukumu `std`. Pilns nosaukums ir `std::cout` — «`cout` no `std` vārdtelpas».",
+        "Komanda `using namespace std;` dod rīkojumu kompilatoram: ja kāds nosaukums programmā nav atrasts, meklē to automātiski `std` vārdtelpā. Tas ļauj ikdienā rakstīt īsāk.",
+        "Mūsu mācību kursā izmantosim `using namespace std;`, lai kods būtu pārskatāms un kompakts. Taču tagad tu saproti, ko nozīmē prefikss `std::`, kad to redzi citu inženieru kodos."
       ],
       "more": [
         {
           "kind": "deeper",
-          "title": "Kāpēc lielos projektos izvairās no using namespace",
+          "title": "Kāpēc lielos projektos izvairās no `using namespace`",
           "body": [
-            "Vārdtelpas pasargā no nosaukumu konfliktiem. Ja divās dažādās navigācijas bibliotēkās ir izveidota komanda ar vienādu nosaukumu log(), prefikss ļauj precīzi pateikt, kuru izmantot: nav::log() vai telemetry::log().",
-            "Ja galvenes failā iekļauj using namespace std;, visi standarta bibliotēkas nosaukumi ieplūst globālajā telpā, palielinot kļūdu risku. Nelielās atsevišķās mācību programmās using namespace std; ir drošs un ērts paņēmiens."
+            "Vārdtelpas pasargā no nosaukumu konfliktiem. Ja divās dažādās navigācijas bibliotēkās ir izveidota komanda ar vienādu nosaukumu `log()`, prefikss ļauj precīzi pateikt, kuru izmantot: `nav::log()` vai `telemetry::log()`.",
+            "Ja galvenes failā iekļauj `using namespace std;`, visi standarta bibliotēkas nosaukumi ieplūst globālajā telpā, palielinot kļūdu risku. Nelielās atsevišķās mācību programmās `using namespace std;` ir drošs un ērts paņēmiens."
           ]
         }
       ]
@@ -113,28 +113,28 @@
       "body": [
         "Drona Sigma telemetrijas skripts atsakās kompilēties. Atrodi un uzklikšķini tieši uz tās koda rindas, kurā pieļauta kļūda."
       ],
-      "explain": "5. rindā aiz manipulatora endl trūkst obligātā semikola ;. Clang kompilators precīzi parāda šo rindu, taču daži citi kompilatori var norādīt uz 6. rindas sākumu — tāpēc kļūdu meklēšanā vienmēr pārbaudi arī iepriekšējo rindu."
+      "explain": "5. rindā aiz manipulatora `endl` trūkst obligātā semikola `;`. Clang kompilators precīzi parāda šo rindu, taču daži citi kompilatori var norādīt uz 6. rindas sākumu — tāpēc kļūdu meklēšanā vienmēr pārbaudi arī iepriekšējo rindu."
     },
     "fill-gaps": {
       "title": "Atjauno karkasa fragmentus",
       "body": [
         "Programmas tekstā nozaudēti trīs pamata elementi. Ieraksti pareizos vārdus un pārbaudi rezultātu."
       ],
-      "explain": "iostream satur ievades un izvades deklarācijas, std ir standarta vārdtelpa, un cout ir ekrāna izvades plūsmas objekts."
+      "explain": "`iostream` satur ievades un izvades deklarācijas, `std` ir standarta vārdtelpa, un `cout` ir ekrāna izvades plūsmas objekts."
     },
     "status-panel": {
       "title": "Izveido Sigma statusa paneli",
-      "task": "Uzraksti pilnu programmu, kas terminālī izvada precīzi šādu trīs rindu ziņojumu. Katrai rindai izmanto atsevišķu cout instrukciju.",
-      "hint": "Izmanto karkasu ar main un ievieto trīs cout komandas, katru noslēdzot ar << endl;."
+      "task": "Uzraksti pilnu programmu, kas terminālī izvada precīzi šādu trīs rindu ziņojumu. Katrai rindai izmanto atsevišķu `cout` instrukciju.",
+      "hint": "Izmanto karkasu ar `main` un ievieto trīs `cout` komandas, katru noslēdzot ar `<< endl;`."
     },
     "recap": {
       "title": "Pirmās misijas kopsavilkums",
       "points": [
         "C++ ir kompilējama valoda: pirmkods pirms izpildes tiek pārvērsts mašīnkodā. Sintakses kļūdas gadījumā programma netiek palaista.",
-        "Programmas izpilde vienmēr sākas funkcijā int main() un secīgi izpilda komandas no augšas uz leju.",
-        "cout izvada datus standarta plūsmā bez papildu atstarpēm; jaunu rindu sāk manipulators endl.",
-        "Katra pabeigta C++ instrukcija obligāti noslēdzas ar semikolu ;.",
-        "cout pieder standarta vārdtelpai std::; direktīva using namespace std; ļauj to pierakstīt saīsinātā formā."
+        "Programmas izpilde vienmēr sākas funkcijā `int main()` un secīgi izpilda komandas no augšas uz leju.",
+        "`cout` izvada datus standarta plūsmā bez papildu atstarpēm; jaunu rindu sāk manipulators `endl`.",
+        "Katra pabeigta C++ instrukcija obligāti noslēdzas ar semikolu `;`.",
+        "`cout` pieder standarta vārdtelpai `std::`; direktīva `using namespace std;` ļauj to pierakstīt saīsinātā formā."
       ]
     }
   }
