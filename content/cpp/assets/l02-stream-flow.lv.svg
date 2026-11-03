@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 260" width="100%" height="100%">
+  <title>C++ izvades plūsmas konveijers</title>
+  <desc>Shēma attēlo datu virzību izvades plūsmā: teksta literālis, skaitlis un manipulators ar operatoriem << tiek secīgi ievietoti plūsmā cout un izvadīti terminālī.</desc>
+  <defs>
+    <marker id="stream-arrow-lv" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#B7B0A4" />
+    </marker>
+  </defs>
+
+  <!-- Fona pamatne -->
+  <rect width="880" height="260" rx="10" fill="#0D1117" />
+
+  <!-- Virsraksts -->
+  <text x="24" y="38" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">DATU PLŪSMA UZ TERMINĀLI CAUR OPERATORU <<</text>
+
+  <!-- 1. Bloks: Teksts -->
+  <rect x="24" y="66" width="140" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="94" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">TEKSTS</text>
+  <text x="94" y="126" text-anchor="middle" fill="#A9B79B" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">"ALT: "</text>
+
+  <!-- Operators << 1 -->
+  <text x="184" y="116" text-anchor="middle" fill="#B99A61" font-size="22" font-weight="bold" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)"><<</text>
+
+  <!-- 2. Bloks: Skaitlis -->
+  <rect x="204" y="66" width="120" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="264" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">SKAITLIS</text>
+  <text x="264" y="126" text-anchor="middle" fill="#C9A882" font-size="18" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">15</text>
+
+  <!-- Operators << 2 -->
+  <text x="344" y="116" text-anchor="middle" fill="#B99A61" font-size="22" font-weight="bold" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)"><<</text>
+
+  <!-- 3. Bloks: Mērvienība -->
+  <rect x="364" y="66" width="120" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="424" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">VIENĪBA</text>
+  <text x="424" y="126" text-anchor="middle" fill="#A9B79B" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">" M"</text>
+
+  <!-- Operators << 3 -->
+  <text x="504" y="116" text-anchor="middle" fill="#B99A61" font-size="22" font-weight="bold" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)"><<</text>
+
+  <!-- 4. Bloks: Manipulators -->
+  <rect x="524" y="66" width="120" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="584" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">RINDAS BEIGAS</text>
+  <text x="584" y="126" text-anchor="middle" fill="#D1B784" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">endl</text>
+
+  <!-- Bultiņa uz cout un termināli -->
+  <line x1="648" y1="110" x2="682" y2="110" stroke="#B7B0A4" stroke-width="1.5" marker-end="url(#stream-arrow-lv)" />
+
+  <!-- 5. Bloks: cout plūsma un terminālis (Viens galvenais akcents: misiņš #B99A61) -->
+  <rect x="688" y="66" width="168" height="88" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="2" />
+  <text x="772" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">PLŪSMA COUT</text>
+  <text x="772" y="126" text-anchor="middle" fill="#D8D0C2" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">ALT: 15 M</text>
+
+  <!-- Paskaidrojošais virziena teksts apakšā -->
+  <text x="24" y="206" fill="#8E887D" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">Secīga ievietošana no kreisās uz labo: katrs elements nonāk vienotā buferī pirms attēlošanas.</text>
+</svg>

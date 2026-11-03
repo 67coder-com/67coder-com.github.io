@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 260" width="100%" height="100%">
+  <title>C++ output stream conveyor</title>
+  <desc>Flow diagram illustrating stream insertion: string literal, integer literal, and manipulator are pushed left-to-right via << operators into cout and displayed in the terminal.</desc>
+  <defs>
+    <marker id="stream-arrow-en" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#B7B0A4" />
+    </marker>
+  </defs>
+
+  <!-- Background container -->
+  <rect width="880" height="260" rx="10" fill="#0D1117" />
+
+  <!-- Top caption -->
+  <text x="24" y="38" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">DATA FLOW TO TERMINAL VIA << OPERATORS</text>
+
+  <!-- Block 1: Text -->
+  <rect x="24" y="66" width="140" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="94" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">STRING</text>
+  <text x="94" y="126" text-anchor="middle" fill="#A9B79B" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">"ALT: "</text>
+
+  <!-- Operator << 1 -->
+  <text x="184" y="116" text-anchor="middle" fill="#B99A61" font-size="22" font-weight="bold" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)"><<</text>
+
+  <!-- Block 2: Number -->
+  <rect x="204" y="66" width="120" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="264" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">INTEGER</text>
+  <text x="264" y="126" text-anchor="middle" fill="#C9A882" font-size="18" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">15</text>
+
+  <!-- Operator << 2 -->
+  <text x="344" y="116" text-anchor="middle" fill="#B99A61" font-size="22" font-weight="bold" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)"><<</text>
+
+  <!-- Block 3: Unit -->
+  <rect x="364" y="66" width="120" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="424" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">UNIT</text>
+  <text x="424" y="126" text-anchor="middle" fill="#A9B79B" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">" M"</text>
+
+  <!-- Operator << 3 -->
+  <text x="504" y="116" text-anchor="middle" fill="#B99A61" font-size="22" font-weight="bold" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)"><<</text>
+
+  <!-- Block 4: Manipulator -->
+  <rect x="524" y="66" width="120" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="584" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">NEWLINE</text>
+  <text x="584" y="126" text-anchor="middle" fill="#D1B784" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">endl</text>
+
+  <!-- Arrow to cout and terminal -->
+  <line x1="648" y1="110" x2="682" y2="110" stroke="#B7B0A4" stroke-width="1.5" marker-end="url(#stream-arrow-en)" />
+
+  <!-- Block 5: cout and terminal (Accent: aged brass #B99A61) -->
+  <rect x="688" y="66" width="168" height="88" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="2" />
+  <text x="772" y="96" text-anchor="middle" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">STREAM COUT</text>
+  <text x="772" y="126" text-anchor="middle" fill="#D8D0C2" font-size="16" style="font-family: var(--font-mono, &#39;JetBrains Mono&#39;, monospace)">ALT: 15 M</text>
+
+  <!-- Bottom note -->
+  <text x="24" y="206" fill="#8E887D" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">Sequential left-to-right insertion: each item enters a unified buffer prior to display.</text>
+</svg>
