@@ -8,16 +8,16 @@
       "body": [
         "Izlūks Sigma ir pamodies un sūta pirmos sensoru rādījumus. Borta dators fiksē akumulatora uzlādi, augstumu un sistēmas temperatūru. Taču neapstrādāti dati uz ekrāna saplūst vienlaidus rindā, kuru cilvēkam nolasīt ir grūti.",
         "Lai izveidotu skaidru mērinstrumentu paneli, programmā jāapvieno divas lietas: paskaidrojošs teksts pēdiņās un konkrēti fizikālie mērījumi skaitļu formā. C++ ļauj to izdarīt vienā teikumā.",
-        "Šajā nodaļā mēs iemācīsimies savienot datus nepārtrauktās izvades ķēdēs ar operatoru <<, vadīt rindu pārejas un pievienot kodam piezīmes — komentārus, kurus kompilators ignorē."
+        "Šajā nodaļā mēs iemācīsimies savienot datus nepārtrauktās izvades ķēdēs ar operatoru `<<`, vadīt rindu pārejas un pievienot kodam piezīmes — komentārus, kurus kompilators ignorē."
       ],
       "more": [
         {
           "kind": "archive",
-          "title": "Kāpēc cout sauc par cout un no kurienes radās plūsmas",
+          "title": "Kāpēc `cout` sauc par `cout` un no kurienes radās plūsmas",
           "body": [
-            "Plašāk izplatītajā C valodā izvadei izmantoja funkciju printf. Programmētājam bija manuāli jānorāda datu tipu kodi formāta virknē, piemēram, %d veselam skaitlim vai %s tekstam. Ja tips nesakrita ar norādīto kodu, programma avarēja vai sabojāja operatīvo atmiņu.",
+            "Plašāk izplatītajā C valodā izvadei izmantoja funkciju `printf`. Programmētājam bija manuāli jānorāda datu tipu kodi formāta virknē, piemēram, `%d` veselam skaitlim vai `%s` tekstam. Ja tips nesakrita ar norādīto kodu, programma avarēja vai sabojāja operatīvo atmiņu.",
             "Veidojot C++, Bjorne Straustrups un Deivs Presoto (Dave Presotto) Bell Labs laboratorijā ieviesa jaunu pieeju — tipdrošas plūsmas (I/O Streams). Plūsmas koncepcija nozīmē, ka dators pats atpazīst, kas tiek nosūtīts izvadei — skaitlis, atsevišķs simbols vai teksts —, un izsauc pareizo apstrādes algoritmu.",
-            "Nosaukums cout atšifrējas kā «character output» vai «console output» — burtu jeb konsoles izvade. Burts c priekšā apzīmē piederību C++ standarta plūsmu saimei (līdzīgi kā cin ievadei un cerr kļūdu ziņojumiem). Operators << sākotnēji C valodā nozīmēja tikai bitu nobīdi pa kreisi, taču C++ tas ieguva jaunu lomu: norādīt virzienu, kurā plūst dati."
+            "Nosaukums `cout` atšifrējas kā «character output» vai «console output» — burtu jeb konsoles izvade. Burts `c` priekšā apzīmē piederību C++ standarta plūsmu saimei (līdzīgi kā `cin` ievadei un `cerr` kļūdu ziņojumiem). Operators `<<` sākotnēji C valodā nozīmēja tikai bitu nobīdi pa kreisi, taču C++ tas ieguva jaunu lomu: norādīt virzienu, kurā plūst dati."
           ],
           "sources": [
             {
@@ -35,29 +35,29 @@
     "numbers-and-chaining": {
       "title": "Skaitļi un izvades ķēdes",
       "body": [
-        "Skaitļus C++ programmā raksta tieši, bez pēdiņām. Teksts pēdiņās \"98\" kompilatoram ir simbolu virkne, bet 98 bez pēdiņām ir skaitlisks lielums, ar kuru procesors spēj veikt matemātiskas darbības.",
-        "Plūsmas ievietošanas operatoru << var izsaukt vairākas reizes pēc kārtas vienā komandā. Šādu paņēmienu sauc par izvades ķēdi (chaining). Dati plūst uz cout secīgi no kreisās puses uz labo.",
-        "Pirmajā rindā plūsmā vispirms nonāk teksts \"BATTERY: \", tūlīt aiz tā skaitlis 98, tad procentu zīme \"%\" un visbeidzot manipulators endl, kas pārceļ kursoru jaunā rindā."
+        "Skaitļus C++ programmā raksta tieši, bez pēdiņām. Teksts pēdiņās `\"98\"` kompilatoram ir simbolu virkne, bet `98` bez pēdiņām ir skaitlisks lielums, ar kuru procesors spēj veikt matemātiskas darbības.",
+        "Plūsmas ievietošanas operatoru `<<` var izsaukt vairākas reizes pēc kārtas vienā komandā. Šādu paņēmienu sauc par izvades ķēdi (chaining). Dati plūst uz `cout` secīgi no kreisās puses uz labo.",
+        "Pirmajā rindā plūsmā vispirms nonāk teksts `\"BATTERY: \"`, tūlīt aiz tā skaitlis `98`, tad procentu zīme `\"%\"` un visbeidzot manipulators `endl`, kas pārceļ kursoru jaunā rindā."
       ]
     },
     "predict-output": {
       "title": "Prognozē telemetrijas rindu",
       "body": [
-        "Aplūko divas koda rindas. Pievērs uzmanību atstarpēm pēdiņu iekšpusē un tam, kur tieši atrodas endl.",
+        "Aplūko divas koda rindas. Pievērs uzmanību atstarpēm pēdiņu iekšpusē un tam, kur tieši atrodas `endl`.",
         "Ieraksti precīzu termināļa izvadi. Tas ir treniņš uzmanībai, nevis pārbaudes darbs — mēģini izsekot koda plūsmai patstāvīgi."
       ],
-      "explain": "Pirmajā rindā starp SOL: un 14 nav atstarpes, jo tā netika ierakstīta pēdiņās. Otrajā rindā aiz -18 uzreiz seko C bez atstarpes un bez jaunas rindas pārneses beigās."
+      "explain": "Pirmajā rindā starp `SOL:` un `14` nav atstarpes, jo tā netika ierakstīta pēdiņās. Otrajā rindā aiz `-18` uzreiz seko `C` bez atstarpes un bez jaunas rindas pārneses beigās."
     },
     "first-chain": {
       "title": "Apvieno atsevišķas izvades ķēdē",
-      "task": "Pārraksti dotās trīs atsevišķās cout komandas vienā teikumā ar operatoru ķēdi <<, lai terminālī parādītos tieši: SIGMA SPEED: 12 M/S.",
-      "hint": "Sāc ar cout << \"SIGMA SPEED: \" un turpini ar << 12 << \" M/S\" << endl;. Neaizmirsti semikolu komandas beigās.",
-      "solutionNote": "Visi trīs fragmenti apvienoti vienā izsaukumā ar trim << operatoriem."
+      "task": "Pārraksti dotās trīs atsevišķās `cout` komandas vienā teikumā ar operatoru ķēdi `<<`, lai terminālī parādītos tieši: `SIGMA SPEED: 12 M/S`.",
+      "hint": "Sāc ar `cout << \"SIGMA SPEED: \"` un turpini ar `<< 12 << \" M/S\" << endl;`. Neaizmirsti semikolu `;` komandas beigās.",
+      "solutionNote": "Visi trīs fragmenti apvienoti vienā izsaukumā ar trim `<<` operatoriem."
     },
     "stream-flow": {
       "title": "Kā dati ceļo uz ekrānu",
       "body": [
-        "Operators << darbojas kā konveijers. Katrs elements tiek ievietots plūsmā un virzās uz galamērķi — termināļa ekrānu. Datu secību nosaka tikai operatoru izsaukšanas kārtība no kreisās uz labo pusi.",
+        "Operators `<<` darbojas kā konveijers. Katrs elements tiek ievietots plūsmā un virzās uz galamērķi — termināļa ekrānu. Datu secību nosaka tikai operatoru izsaukšanas kārtība no kreisās uz labo pusi.",
         "Kompilators automātiski nosaka katra ķēdes posma tipu: teksts paliek teksts, bet skaitlis tiek pārvērsts simbolu formā ekrāna attēlošanai bez jebkādām papildu instrukcijām."
       ],
       "alt": "Shēma: teksta bloks, skaitlis un manipulators ar operatoriem << secīgi virzās uz cout un nonāk terminālī.",
@@ -65,37 +65,37 @@
     },
     "newline-and-escape": {
       "eyebrow": "Rindu vadība",
-      "title": "Vadības simbols \\n un manipulators endl",
+      "title": "Vadības simbols `\\n` un manipulators `endl`",
       "body": [
-        "Līdz šim jaunas rindas sākšanai mēs izmantojām manipulatoru endl. Taču pāriet jaunā rindā var arī ar vadības rakstzīmju virkni \\n (newline), ierakstot to tieši teksta pēdiņās.",
-        "Kombinācija \\n sastāv no divām rakstzīmēm pirmkodā, bet kompilators to uztver kā vienu neredzamu komandu: «pārcelt kursoru nākamās rindas sākumā». Piemēram, cout << \"A\\nB\\n\"; izvadīs divas rindas.",
-        "Citas noderīgas vadības virknes: \\t ievieto tabulācijas atkāpi, \\\" ļauj attēlot dubultpēdiņu teksta iekšienē, bet \\\\ izvada pašu slīpsvītru."
+        "Līdz šim jaunas rindas sākšanai mēs izmantojām manipulatoru `endl`. Taču pāriet jaunā rindā var arī ar vadības rakstzīmju virkni `\\n` (newline), ierakstot to tieši teksta pēdiņās.",
+        "Kombinācija `\\n` sastāv no divām rakstzīmēm pirmkodā, bet kompilators to uztver kā vienu neredzamu komandu: «pārcelt kursoru nākamās rindas sākumā». Piemēram, `cout << \"A\\nB\\n\";` izvadīs divas rindas.",
+        "Citas noderīgas vadības virknes: `\\t` ievieto tabulācijas atkāpi, `\\\"` ļauj attēlot dubultpēdiņu teksta iekšienē, bet `\\\\` izvada pašu slīpsvītru."
       ],
       "more": [
         {
           "kind": "deeper",
-          "title": "Buferēšana: kāpēc reāllaika sistēmās izvēlas \\n",
+          "title": "Buferēšana: kāpēc reāllaika sistēmās izvēlas `\\n`",
           "body": [
-            "Manipulators endl patiesībā veic divas darbības: ievieto jaunu rindu un tūlītēji iztīra izvades buferi (veic flush).",
-            "Operētājsistēma datus uz disku vai ekrānu nesūta pa vienam burtam — tas būtu pārāk lēni. Dati uzkrājas buferī (starpatmiņā) un tiek nosūtīti veselā blokā. Ja programmā cikla laikā tūkstošiem reižu izsauc endl, sistēma katru reizi piespiedu kārtā sūta datus aparatūrai, un izpildes ātrums var kristies desmitiem reižu.",
-            "Kosmiskajos aparātos un ātrdarbīgā kodā parastai rindu pārnesei standarts ir rakstīt \\n. Manipulatoru endl izmanto tikai tad, kad ir kritiski svarīgi redzēt datus ekrānā nekavējoties pirms iespējamas avārijas."
+            "Manipulators `endl` patiesībā veic divas darbības: ievieto jaunu rindu un tūlītēji iztīra izvades buferi (veic `flush`).",
+            "Operētājsistēma datus uz disku vai ekrānu nesūta pa vienam burtam — tas būtu pārāk lēni. Dati uzkrājas buferī (starpatmiņā) un tiek nosūtīti veselā blokā. Ja programmā cikla laikā tūkstošiem reižu izsauc `endl`, sistēma katru reizi piespiedu kārtā sūta datus aparatūrai, un izpildes ātrums var kristies desmitiem reižu.",
+            "Kosmiskajos aparātos un ātrdarbīgā kodā parastai rindu pārnesei standarts ir rakstīt `\\n`. Manipulatoru `endl` izmanto tikai tad, kad ir kritiski svarīgi redzēt datus ekrānā nekavējoties pirms iespējamas avārijas."
           ]
         }
       ]
     },
     "escape-practice": {
       "title": "Divas rindas vienā teikumā",
-      "task": "Uzraksti programmu, kas terminālī izvada divas rindas, izmantojot TIKAI VIENU cout komandu un vadības simbolus \\n:\nSIGMA SENSORS: OK\nDRIFT: 0",
-      "hint": "Iekļauj \\n starp sensora statusu un DRIFT, kā arī pašās beigās: cout << \"SIGMA SENSORS: OK\\nDRIFT: 0\\n\";",
-      "solutionNote": "Viena cout instrukcija ar \\n rada divas rindas terminālī bez endl izmantošanas."
+      "task": "Uzraksti programmu, kas terminālī izvada divas rindas, izmantojot TIKAI VIENU `cout` komandu un vadības simbolus `\\n`:\n`SIGMA SENSORS: OK`\n`DRIFT: 0`",
+      "hint": "Iekļauj `\\n` starp sensora statusu un `DRIFT`, kā arī pašās beigās: `cout << \"SIGMA SENSORS: OK\\nDRIFT: 0\\n\";`",
+      "solutionNote": "Viena `cout` instrukcija ar `\\n` rada divas rindas terminālī bez `endl` izmantošanas."
     },
     "comments-guide": {
       "eyebrow": "Koda dokumentēšana",
       "title": "Piezīmes borta žurnālā: komentāri",
       "body": [
         "Komentāri ir paskaidrojumi koda lasītājam. Kompilators tos pilnībā ignorē — komentāri neietekmē ne programmas izpildes ātrumu, ne izpildāmā faila izmēru.",
-        "Vienrindas komentārs sākas ar divām slīpsvītrām //. Viss, kas atrodas šajā rindā aiz šīm zīmēm, ir piezīme. To bieži izmanto konkrētas instrukcijas paskaidrošanai.",
-        "Vairākrindu komentārs sākas ar /* un noslēdzas ar */. Viss saturs starp šīm robežām kļūst par komentāru neatkarīgi no rindu skaita. Svarīgs likums: vairākrindu komentārus C++ nedrīkst ievietot vienu otrā."
+        "Vienrindas komentārs sākas ar divām slīpsvītrām `//`. Viss, kas atrodas šajā rindā aiz šīm zīmēm, ir piezīme. To bieži izmanto konkrētas instrukcijas paskaidrošanai.",
+        "Vairākrindu komentārs sākas ar `/*` un noslēdzas ar `*/`. Viss saturs starp šīm robežām kļūst par komentāru neatkarīgi no rindu skaita. Svarīgs likums: vairākrindu komentārus C++ nedrīkst ievietot vienu otrā."
       ]
     },
     "find-comment-bug": {
@@ -103,27 +103,27 @@
       "body": [
         "Drona telemetrijas kodā ieviesta sintakses kļūda, kuras dēļ kompilators apturēja darbu. Atrodi un uzklikšķini uz rindas, kurā pieļauta kļūda."
       ],
-      "explain": "7. rindā atvērts vairākrindu komentārs /*, taču tas netika aizvērts ar */. Tā rezultātā kompilators norija funkcijas noslēgumu un izdeva paziņojumu «unterminated /* comment»."
+      "explain": "7. rindā atvērts vairākrindu komentārs `/*`, taču tas netika aizvērts ar `*/`. Tā rezultātā kompilators norija funkcijas noslēgumu un izdeva paziņojumu «unterminated /* comment»."
     },
     "fill-telemetry": {
       "title": "Atjauno spiediena telemetriju",
       "body": [
         "Telemetrijas izvades instrukcijā pazuduši trīs savienojuma elementi. Aizpildi trūkstošos laukus, lai programma pareizi izvadītu atmosfēras spiedienu."
       ],
-      "explain": "Teksta un skaitļu savienošanai izmanto operatorus <<, bet rindas noslēgšanai der manipulators endl vai vadības simbols '\\n'."
+      "explain": "Teksta un skaitļu savienošanai izmanto operatorus `<<`, bet rindas noslēgšanai der manipulators `endl` vai vadības simbols `'\\n'`."
     },
     "telemetry-dashboard": {
       "title": "Izveido Sigma telemetrijas paneli",
-      "task": "Uzraksti programmu, kas terminālī izvada precīzu piecu rindu telemetrijas paneli. Skaitļus izvadi bez pēdiņām, apvienojot tos ķēdēs ar <<. Pievieno vismaz divus vienrindas komentārus koda paskaidrošanai:\n--- TELEMETRY: SIGMA ---\nALTITUDE: 24 M\nBATTERY: 91%\nCORE TEMP: -12 C\nSTATUS: OPERATIONAL",
-      "hint": "Izmanto atsevišķu cout katram parametram, piemēram: cout << \"BATTERY: \" << 91 << \"%\" << endl;."
+      "task": "Uzraksti programmu, kas terminālī izvada precīzu piecu rindu telemetrijas paneli. Skaitļus izvadi bez pēdiņām, apvienojot tos ķēdēs ar `<<`. Pievieno vismaz divus vienrindas komentārus `//` koda paskaidrošanai:\n--- TELEMETRY: SIGMA ---\nALTITUDE: 24 M\nBATTERY: 91%\nCORE TEMP: -12 C\nSTATUS: OPERATIONAL",
+      "hint": "Izmanto atsevišķu `cout` katram parametram, piemēram: `cout << \"BATTERY: \" << 91 << \"%\" << endl;`."
     },
     "recap": {
       "title": "Otrās misijas kopsavilkums",
       "points": [
         "Skaitļus C++ raksta bez pēdiņām — kompilators tos atpazīst kā skaitliskus lielumus un pats sagatavo izvadei.",
-        "Operators << ļauj apvienot tekstu, skaitļus un vadības elementus vienā nepārtrauktā ķēdē no kreisās uz labo pusi.",
-        "Vadības simbols \\n pārceļ kursoru jaunā rindā teksta iekšienē un neizsauc piespiedu bufera iztīrīšanu, atšķirībā no endl.",
-        "Komentāri // un /* ... */ palīdz inženieriem orientēties kodā un kompilācijas laikā tiek pilnībā atmesti.",
+        "Operators `<<` ļauj apvienot tekstu, skaitļus un vadības elementus vienā nepārtrauktā ķēdē no kreisās uz labo pusi.",
+        "Vadības simbols `\\n` pārceļ kursoru jaunā rindā teksta iekšienē un neizsauc piespiedu bufera iztīrīšanu, atšķirībā no `endl`.",
+        "Komentāri `//` un `/* ... */` palīdz inženieriem orientēties kodā un kompilācijas laikā tiek pilnībā atmesti.",
         "Šobrīd visi dati kodā ir iepriekš fiksēti nemainīgi skaitļi. Lai reālā lidojumā mainītu un saglabātu augstumu vai degvielas atlikumu, nākamajā solī apgūsim mainīgos un datu tipus."
       ]
     }
