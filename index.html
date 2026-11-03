@@ -886,6 +886,21 @@
   h2 .ic, h3 .ic { font-size: 0.85em; }
   .verdict.ok .ic { background: rgba(127, 179, 163, 0.14); }
   .printdoc .ic { background: #F4F2ED; border-color: #DFDAD1; color: #16181D; }
+
+  /* ══ Полоса шагов: самый дальний шаг и возврат к нему ══ */
+  .steps a { position: relative; }
+  .steps a.far i { background: var(--ink-muted); }
+  .steps a.far::after {
+    content: ""; position: absolute; left: 50%; bottom: 3px;
+    width: 5px; height: 5px; margin-left: -2.5px;
+    border-radius: var(--radius-pill); background: var(--ink-muted);
+  }
+  .back-far {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.6px;
+    color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px;
+    min-height: 36px; display: inline-flex; align-items: center;
+  }
+  .back-far:hover { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -1001,6 +1016,7 @@ var UI = {
     predictMiss: "Ne gluži — paskaties, kas iznāca",
     printLink: "PDF",
     printNow: "Drukāt vai saglabāt PDF",
+    backToFurthest: "↩ uz {n}. soli",
     printBack: "Atpakaļ uz nodaļu",
     printHint: "Drukas logā izvēlieties «Saglabāt kā PDF» un izslēdziet galvenes un kājenes.",
     pStep: "Solis",
@@ -1103,6 +1119,7 @@ var UI = {
     predictMiss: "Not quite — look at what came out",
     printLink: "PDF",
     printNow: "Print or save as PDF",
+    backToFurthest: "↩ back to step {n}",
     printBack: "Back to the chapter",
     printHint: "In the print dialog choose “Save as PDF” and turn off headers and footers.",
     pStep: "Step",
@@ -2040,13 +2057,22 @@ function lessonPlayer(ctx, data, texts) {
 
   /* Полоса шагов кликабельна: вернуться на пятый экран и обратно
      должно стоить один клик. */
+  /* Пройдено — всё до самого дальнего шага, а не только левее текущего:
+     вернулся с 9-го на 4-й — шаги 5–9 остаются закрашенными. */
+  var far = Math.max(ctx.maxIndex || 0, i);
   var bar = steps.map(function (s, idx) {
     var stx = (texts.steps && texts.steps[s.id]) || {};
-    var cls = idx === i ? "now" : (idx < i ? "seen" : "");
-    return '<a class="' + cls + '" href="' + hash(s.id) +
-      '" aria-label="' + esc((idx + 1) + ". " + (stx.title || s.id)) + '"' +
+    var label = (idx + 1) + ". " + String(stx.title || s.id).replace(/`/g, "");
+    var cls = idx === i ? "now" : (idx <= far ? "seen" : "");
+    if (idx === far && far > i) cls += " far";
+    return '<a class="' + cls + '" href="' + hash(s.id) + '" title="' + esc(label) +
+      '" aria-label="' + esc(label) + '"' +
       (idx === i ? ' aria-current="step"' : "") + "><i></i></a>";
   }).join("");
+
+  var backToFar = far > i
+    ? '<a class="back-far" href="' + hash(steps[far].id) + '">' + esc(t("backToFurthest").replace("{n}", far + 1)) + "</a>"
+    : "";
 
   var prev = i > 0 ? steps[i - 1] : null;
   var nextS = i < steps.length - 1 ? steps[i + 1] : null;
@@ -2063,7 +2089,7 @@ function lessonPlayer(ctx, data, texts) {
       '<div class="lesson-head" style="margin-top: 10px">' +
         '<div class="eyebrow">' + esc(t("lessonEyebrow")) + " " + ctx.n +
           (texts.module ? " · " + esc(texts.module) : "") + "</div>" +
-        '<div class="lesson-tools"><span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span>" +
+        '<div class="lesson-tools">' + backToFar + '<span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span>" +
           '<a class="btn small" href="' + printHash(ctx.course.id, ctx.lang, ctx.n) + '">' + esc(t("printLink")) + "</a></div>" +
       "</div>" +
       '<h1 lang="' + ctx.lang + '" style="font-size: clamp(26px, 4vw, 36px)">' + esc(texts.title || "") + "</h1>" +
@@ -2126,7 +2152,11 @@ function showLesson(course, lesson, lang, route, token) {
     var wanted = courseHash(course.id, lang, lesson.n, steps[index] ? steps[index].id : null);
     if (location.hash !== wanted) { history.replaceState(null, "", wanted); lastHash = wanted; }
 
-    var ctx = { course: course, lang: lang, n: lesson.n, stepIndex: index };
+    var maxKey = "progress." + course.id + ".lesson." + lesson.n + ".max";
+    var maxIndex = Math.min(Number(readStored(maxKey)) || 0, steps.length - 1);
+    if (index > maxIndex) { maxIndex = index; writeStored(maxKey, String(maxIndex)); }
+
+    var ctx = { course: course, lang: lang, n: lesson.n, stepIndex: index, maxIndex: maxIndex };
     document.title = (texts.title || "") + " — 67coder";
     paint(lessonPlayer(ctx, data, texts));
     scrollTop();
