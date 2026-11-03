@@ -871,6 +871,21 @@
     .p-sources a { text-decoration: none; }
     .p-sources a::after { content: " — " attr(href); color: #656A72; font-size: 11px; word-break: break-all; }
   }
+
+  /* ══ Код внутри текста: `cout` ══ */
+  .ic {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 1px 6px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-selected);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  h2 .ic, h3 .ic { font-size: 0.85em; }
+  .verdict.ok .ic { background: rgba(127, 179, 163, 0.14); }
+  .printdoc .ic { background: #F4F2ED; border-color: #DFDAD1; color: #16181D; }
 </style>
 </head>
 <body>
@@ -1700,10 +1715,17 @@ function normalizeOut(s) {
 }
 
 /* ── Общие куски ──────────────────────────────────────────── */
+/* Код внутри текста урока пишется в обратных кавычках: `cout`.
+   Сначала всё экранируется, потом `…` становится <code class="ic">,
+   поэтому HTML из текста урока попасть на страницу не может. */
+function rich(s) {
+  return esc(s === undefined || s === null ? "" : s).replace(/`([^`]+)`/g, '<code class="ic">$1</code>');
+}
+
 function paras(body) {
   if (!body) return "";
   var list = isArray(body) ? body : [body];
-  return list.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+  return list.map(function (p) { return "<p>" + rich(p) + "</p>"; }).join("");
 }
 
 function stepHead(tx, step) {
@@ -1712,14 +1734,14 @@ function stepHead(tx, step) {
     : "";
   return flag +
     (tx.eyebrow ? '<div class="eyebrow">' + esc(tx.eyebrow) + "</div>" : "") +
-    "<h2>" + esc(tx.title || "") + "</h2>" +
+    "<h2>" + rich(tx.title || "") + "</h2>" +
     paras(tx.body);
 }
 
 function verdictBox(ok, note, labels) {
   var word = labels ? (ok ? labels[0] : labels[1]) : (ok ? t("answerRight") : t("answerWrong"));
   return '<div class="verdict ' + (ok ? "ok" : "no") + '" role="status">' +
-    "<b>" + esc(word) + "</b>" + esc(note || "") + "</div>";
+    "<b>" + esc(word) + "</b>" + rich(note || "") + "</div>";
 }
 
 function collapsible(tag, title, inner) {
@@ -1756,7 +1778,7 @@ function exampleView(ctx, step, tx) {
   var code = sv(step, tx, "code");
   return stepHead(tx, step) + figure(ctx, step, tx, false) +
     (code ? codeBlock(code, step.focus) : "") +
-    (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+    (tx.caption ? '<p class="caption">' + rich(tx.caption) + "</p>" : "");
 }
 
 /* Картинки двух видов.
@@ -1782,7 +1804,7 @@ function figure(ctx, step, tx, always) {
 
 function explainView(ctx, step, tx) {
   return stepHead(tx, step) + figure(ctx, step, tx, true) +
-    (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+    (tx.caption ? '<p class="caption">' + rich(tx.caption) + "</p>" : "");
 }
 
 function videoView(ctx, step, tx) {
@@ -1790,7 +1812,7 @@ function videoView(ctx, step, tx) {
     ? '<div class="frame media"><iframe src="https://www.youtube-nocookie.com/embed/' + esc(step.youtube) +
       '" title="' + esc(tx.title || "") + '" allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>'
     : '<div class="frame">' + esc(t("videoPending")) + "</div>";
-  return stepHead(tx, step) + media + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+  return stepHead(tx, step) + media + (tx.caption ? '<p class="caption">' + rich(tx.caption) + "</p>" : "");
 }
 
 function quizView(ctx, step, tx) {
@@ -1804,7 +1826,7 @@ function quizView(ctx, step, tx) {
     if (chosen) { if (id === step.answer) cls += " right"; else if (id === chosen) cls += " wrong"; }
     return '<button type="button" class="' + cls + '" data-choice="' + esc(id) + '"' + (chosen ? " disabled" : "") + ">" +
       '<span class="mark">' + letters.charAt(i) + "</span>" +
-      "<span>" + esc((tx.options || {})[id] || id) + "</span></button>";
+      "<span>" + rich((tx.options || {})[id] || id) + "</span></button>";
   }).join("");
 
   return stepHead(tx, step) +
@@ -1954,18 +1976,18 @@ function editorView(ctx, step, tx) {
   var verdict = last && last.verdict ? verdictBox(last.verdict === "ok", last.note) : "";
 
   var extras = "";
-  if (tx.hint) extras += collapsible(t("hintTag"), "", "<p>" + esc(tx.hint) + "</p>");
+  if (tx.hint) extras += collapsible(t("hintTag"), "", "<p>" + rich(tx.hint) + "</p>");
   if (expected !== undefined && !step.hideExpected) {
     extras += collapsible(t("expectedTag"), "", '<pre class="codeblock">' + esc(String(expected)) + "</pre>");
   }
   if (solution) {
     extras += collapsible(t("solutionTag"), t("solutionNote"), codeBlock(String(solution), null) +
-      (tx.solutionNote ? "<p>" + esc(tx.solutionNote) + "</p>" : ""));
+      (tx.solutionNote ? "<p>" + rich(tx.solutionNote) + "</p>" : ""));
   }
 
   return stepHead(tx, step) +
     (shown ? codeBlock(shown, step.focus) : "") +
-    (tx.task ? "<p>" + esc(tx.task) + "</p>" : "") +
+    (tx.task ? "<p>" + rich(tx.task) + "</p>" : "") +
     '<div class="editor">' +
       '<div class="editor-bar">' +
         '<span class="meta-mono">' + esc(step.lang || "cpp") + " · main." + ext + "</span>" +
@@ -1988,7 +2010,7 @@ function editorView(ctx, step, tx) {
 
 function summaryView(ctx, step, tx) {
   var done = isDone(ctx.course.id, ctx.n);
-  var points = (tx.points || []).map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("");
+  var points = (tx.points || []).map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("");
   return stepHead(tx, step) +
     (points ? '<ul class="points">' + points + "</ul>" : "") +
     '<div class="actions" style="margin-top: 28px">' +
@@ -2389,7 +2411,7 @@ function printMore(tx) {
       : "";
     return '<div class="p-more">' +
       '<div class="p-tag">' + esc(m.kind === "archive" ? t("archiveTag") : t("deeperTag")) + "</div>" +
-      "<h3>" + esc(m.title || "") + "</h3>" + paras(m.body) + src +
+      "<h3>" + rich(m.title || "") + "</h3>" + paras(m.body) + src +
     "</div>";
   }).join("");
 }
@@ -2408,24 +2430,24 @@ function printStep(ctx, step, tx, num, answers) {
   var expected = sv(step, tx, "expected");
 
   if (step.kind === "theory" || step.kind === "explain") {
-    out += printFigure(ctx, step, tx) + (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+    out += printFigure(ctx, step, tx) + (tx.caption ? '<p class="caption">' + rich(tx.caption) + "</p>" : "");
   } else if (step.kind === "example") {
     var c = sv(step, tx, "code");
     out += printFigure(ctx, step, tx) + (c ? codeBlock(c, step.focus) : "") +
-      (tx.caption ? '<p class="caption">' + esc(tx.caption) + "</p>" : "");
+      (tx.caption ? '<p class="caption">' + rich(tx.caption) + "</p>" : "");
   } else if (step.kind === "predict") {
     out += codeBlock(sv(step, tx, "code") || "", step.focus) + task("pTaskPredict") + '<div class="p-box"></div>';
     answer("<p>" + esc(t("actualOutput")) + '</p><pre class="codeblock">' + esc(String(expected || "")) + "</pre>" + paras(tx.explain));
   } else if (step.kind === "editor") {
     var shown = sv(step, tx, "code"), starter = sv(step, tx, "starter"), solution = sv(step, tx, "solution");
     out += (shown ? codeBlock(shown, step.focus) : "") +
-      (tx.task ? '<p class="p-task">' + esc(tx.task) + "</p>" : "") +
+      (tx.task ? '<p class="p-task">' + rich(tx.task) + "</p>" : "") +
       (starter ? '<p class="p-label">' + esc(t("pStarter")) + "</p>" + codeBlock(starter, null) : "") +
       (typeof step.stdin === "string" && step.stdin ? '<p class="p-label">' + esc(t("stdinLabel")) + '</p><pre class="codeblock">' + esc(step.stdin) + "</pre>" : "") +
       (expected !== undefined && !step.hideExpected ? '<p class="p-label">' + esc(t("expectedTag")) + '</p><pre class="codeblock">' + esc(String(expected)) + "</pre>" : "") +
-      (tx.hint ? '<p class="p-hint"><strong>' + esc(t("hintTag")) + ".</strong> " + esc(tx.hint) + "</p>" : "") +
+      (tx.hint ? '<p class="p-hint"><strong>' + esc(t("hintTag")) + ".</strong> " + rich(tx.hint) + "</p>" : "") +
       '<p class="p-where">' + esc(t("pRunWhere")) + "</p>";
-    if (solution) answer(codeBlock(String(solution), null) + (tx.solutionNote ? "<p>" + esc(tx.solutionNote) + "</p>" : ""));
+    if (solution) answer(codeBlock(String(solution), null) + (tx.solutionNote ? "<p>" + rich(tx.solutionNote) + "</p>" : ""));
   } else if (step.kind === "clickline") {
     out += numberedCode(sv(step, tx, "code")) + task("pTaskClick");
     answer("<p>" + esc(t("lineWord")) + " " + esc(String(step.answerLine)) + ".</p>" + paras(tx.explain));
@@ -2454,11 +2476,11 @@ function printStep(ctx, step, tx, num, answers) {
   } else if (step.kind === "quiz") {
     var qc = sv(step, tx, "code"), ids = step.options || Object.keys(tx.options || {});
     out += (qc ? codeBlock(qc, step.focus) : "") +
-      '<ol class="p-options" type="A">' + ids.map(function (id) { return "<li>" + esc((tx.options || {})[id] || id) + "</li>"; }).join("") + "</ol>";
+      '<ol class="p-options" type="A">' + ids.map(function (id) { return "<li>" + rich((tx.options || {})[id] || id) + "</li>"; }).join("") + "</ol>";
     var at = ids.indexOf(step.answer);
-    answer("<p>" + esc(t("pCorrectAnswer")) + " " + "ABCDEFG".charAt(at) + " — " + esc((tx.options || {})[step.answer] || step.answer) + ".</p>" + paras(tx.explain));
+    answer("<p>" + esc(t("pCorrectAnswer")) + " " + "ABCDEFG".charAt(at) + " — " + rich((tx.options || {})[step.answer] || step.answer) + ".</p>" + paras(tx.explain));
   } else if (step.kind === "summary") {
-    out += (tx.points || []).length ? '<ul class="points">' + tx.points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>" : "";
+    out += (tx.points || []).length ? '<ul class="points">' + tx.points.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("") + "</ul>" : "";
   }
   return out;
 }
@@ -2471,7 +2493,7 @@ function printView(ctx, data, texts) {
     return '<section class="p-step">' +
       '<div class="p-num">' + esc(t("pStep")) + " " + (i + 1) + (tx.eyebrow ? " · " + esc(tx.eyebrow) : "") +
         (step.optional ? " · " + esc(t("optionalTask")) : "") + "</div>" +
-      "<h2>" + esc(tx.title || "") + "</h2>" + paras(tx.body) +
+      "<h2>" + rich(tx.title || "") + "</h2>" + paras(tx.body) +
       printStep(ctx, step, tx, i + 1, answers) + printMore(tx) +
     "</section>";
   }).join("");
@@ -2479,7 +2501,7 @@ function printView(ctx, data, texts) {
   var appendix = answers.length
     ? '<section class="p-answers"><h2>' + esc(t("answersTitle")) + "</h2>" +
       answers.map(function (a) {
-        return '<div class="p-answer"><div class="p-num">' + esc(t("pStep")) + " " + a.num + "</div><h3>" + esc(a.title) + "</h3>" + a.html + "</div>";
+        return '<div class="p-answer"><div class="p-num">' + esc(t("pStep")) + " " + a.num + "</div><h3>" + rich(a.title) + "</h3>" + a.html + "</div>";
       }).join("") + "</section>"
     : "";
 
