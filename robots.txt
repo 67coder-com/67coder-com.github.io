@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://67coder.com/sitemap.xml
