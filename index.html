@@ -924,6 +924,21 @@
     min-height: 36px; display: inline-flex; align-items: center;
   }
   .back-far:hover { color: var(--ink); }
+
+  /* ══ Шапка урока: крошки → название → полоса ══ */
+  .crumb-current {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.4px;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .lesson-title-h { font-size: clamp(26px, 4vw, 36px); margin-top: 8px; }
+  .lesson-bar { display: flex; align-items: center; gap: 18px; margin-top: 14px; }
+  .lesson-bar .steps { flex: 1; margin-top: 0; min-width: 0; }
+  .lesson-bar .lesson-tools { flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .lesson-bar { flex-wrap: wrap; gap: 4px; }
+    .lesson-bar .lesson-tools { order: 1; margin-left: auto; }
+    .lesson-bar .steps { order: 2; flex-basis: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -934,7 +949,11 @@
   <main style="max-width: 720px; margin: 48px auto; padding: 0 24px;">
     <h1>67coder — programmēšana caur praksi</h1>
     <p>Interaktīvi programmēšanas kursi latviešu un angļu valodā. Pirmais kurss — C++ programmēšana: 32 nodaļas ar piemēriem, uzdevumiem un koda redaktoru tieši pārlūkā.</p>
-    <p>Lai atvērtu kursu, pārlūkā ieslēdziet JavaScript.</p>
+    <p>Lai atvērtu interaktīvo kursu, pārlūkā ieslēdziet JavaScript. Kursa saturu var lasīt arī bez tā:</p>
+    <ul>
+      <li><a href="/lv/">Kursi latviešu valodā</a></li>
+      <li><a href="/en/">Courses in English</a></li>
+    </ul>
   </main>
 </noscript>
 
@@ -1048,6 +1067,7 @@ var UI = {
     printLink: "PDF",
     printNow: "Drukāt vai saglabāt PDF",
     backToFurthest: "↩ uz {n}. soli",
+    chapterN: "{n}. nodaļa",
     printBack: "Atpakaļ uz nodaļu",
     printHint: "Drukas logā izvēlieties «Saglabāt kā PDF» un izslēdziet galvenes un kājenes.",
     pStep: "Solis",
@@ -1151,6 +1171,7 @@ var UI = {
     printLink: "PDF",
     printNow: "Print or save as PDF",
     backToFurthest: "↩ back to step {n}",
+    chapterN: "Chapter {n}",
     printBack: "Back to the chapter",
     printHint: "In the print dialog choose “Save as PDF” and turn off headers and footers.",
     pStep: "Step",
@@ -1396,14 +1417,15 @@ function footer() {
   return '<footer class="foot"><span>' + esc(t("footerNote")) + "</span><span>67coder.com</span></footer>";
 }
 
-function crumbs(course, lang, mod) {
-  var out = '<div class="crumbs"><a class="crumb" href="' + courseHash(course.id, lang, null, null) + '">' +
+function crumbs(course, lang, mod, current) {
+  var out = '<nav class="crumbs" aria-label="' + esc(t("navLabel")) + '"><a class="crumb" href="' + courseHash(course.id, lang, null, null) + '">' +
     backArrow() + esc(course.title[state.uiLang]) + "</a>";
   if (mod) {
-    out += '<span class="sep">·</span><a class="crumb" href="' + moduleHash(course.id, lang, mod.id) + '">' +
+    out += '<span class="sep">/</span><a class="crumb" href="' + moduleHash(course.id, lang, mod.id) + '">' +
       esc(moduleName(course.id, mod)) + "</a>";
   }
-  return out + "</div>";
+  if (current) out += '<span class="sep">/</span><span class="crumb-current" aria-current="page">' + esc(current) + "</span>";
+  return out + "</nav>";
 }
 
 function chevron() {
@@ -2101,9 +2123,7 @@ function lessonPlayer(ctx, data, texts) {
       (idx === i ? ' aria-current="step"' : "") + "><i></i></a>";
   }).join("");
 
-  var backToFar = far > i
-    ? '<a class="back-far" href="' + hash(steps[far].id) + '">' + esc(t("backToFurthest").replace("{n}", far + 1)) + "</a>"
-    : "";
+
 
   var prev = i > 0 ? steps[i - 1] : null;
   var nextS = i < steps.length - 1 ? steps[i + 1] : null;
@@ -2116,15 +2136,13 @@ function lessonPlayer(ctx, data, texts) {
 
   return header() +
     '<main class="screen narrow">' +
-      crumbs(ctx.course, ctx.lang, findModule(ctx.course.id, ctx.n)) +
-      '<div class="lesson-head" style="margin-top: 10px">' +
-        '<div class="eyebrow">' + esc(t("lessonEyebrow")) + " " + ctx.n +
-          (texts.module ? " · " + esc(texts.module) : "") + "</div>" +
-        '<div class="lesson-tools">' + backToFar + '<span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span>" +
+      crumbs(ctx.course, ctx.lang, findModule(ctx.course.id, ctx.n), t("chapterN").replace("{n}", ctx.n)) +
+      '<h1 lang="' + ctx.lang + '" class="lesson-title-h">' + rich(texts.title || "") + "</h1>" +
+      '<div class="lesson-bar">' +
+        '<div class="steps">' + bar + "</div>" +
+        '<div class="lesson-tools"><span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span>" +
           '<a class="btn small" href="' + printHash(ctx.course.id, ctx.lang, ctx.n) + '">' + esc(t("printLink")) + "</a></div>" +
       "</div>" +
-      '<h1 lang="' + ctx.lang + '" style="font-size: clamp(26px, 4vw, 36px)">' + esc(texts.title || "") + "</h1>" +
-      '<div class="steps">' + bar + "</div>" +
       '<section class="step" lang="' + ctx.lang + '">' + stepView(ctx, step, texts) + "</section>" +
       nav +
     "</main>" + footer();
