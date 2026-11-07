@@ -1,6 +1,8 @@
 # Публикация 67coder на GitHub Pages.
-# При каждом изменении GitHub собирает статические страницы глав
-# для поисковиков (tools/build-static.mjs) и выкладывает сайт целиком.
+# При каждом изменении в репозитории GitHub собирает статические
+# страницы глав для поисковиков (tools/build-static.mjs) и выкладывает
+# сайт целиком. Сгенерированные страницы в репозиторий не попадают —
+# они существуют только на опубликованном сайте.
 name: Publish site
 
 on:
@@ -25,6 +27,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Validate lessons
+        run: node tools/validate.mjs
       - name: Build static pages
         run: node tools/build-static.mjs
       - uses: actions/configure-pages@v5
