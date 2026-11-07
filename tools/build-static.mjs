@@ -197,14 +197,15 @@ function figure(courseDir, img) {
   return `<div class="figure"><img src="/content/${path.relative(CONTENT, file).split(path.sep).join("/")}" alt=""></div>`;
 }
 
-function stepHtml(step, tx, u, courseDir, idx) {
+function stepHtml(step, tx, u, courseDir, idx, n) {
+  const img = sv(step, tx, "image") || (step.imagePrompt ? `assets/l${pad2(n)}-${step.id}.jpg` : null);
   let out = `<section class="step" id="${esc(step.id)}">` +
     `<div class="eyebrow">${u.step} ${idx + 1}${tx.eyebrow ? " · " + esc(plain(tx.eyebrow)) : ""}${step.optional ? " · " + u.optional : ""}</div>` +
     `<h2>${rich(tx.title || "")}</h2>` + paras(tx.body);
   const k = step.kind;
-  if (k === "theory" || k === "explain") out += figure(courseDir, sv(step, tx, "image")) + (tx.caption ? `<p>${rich(tx.caption)}</p>` : "");
+  if (k === "theory" || k === "explain") out += figure(courseDir, img) + (tx.caption ? `<p>${rich(tx.caption)}</p>` : "");
   if (k === "example") {
-    out += figure(courseDir, sv(step, tx, "image"));
+    out += figure(courseDir, img);
     const c = sv(step, tx, "code"); if (c) out += codeBlock(c);
     if (tx.caption) out += `<p>${rich(tx.caption)}</p>`;
   }
@@ -310,7 +311,7 @@ for (const lang of langs) {
             (texts.module ? ` / ${esc(plain(texts.module))}` : "") + ` / ${u.chapter.replace("{n}", l.n)}`,
           body: `<h1>${rich(title)}</h1><a class="cta" href="${interactive}">${u.openInteractive} →</a>` +
             `<p class="lead">${u.tryHere}</p>` +
-            steps.map((s, i) => stepHtml(s, texts.steps?.[s.id] || {}, u, dir, i)).join("") +
+            steps.map((s, i) => stepHtml(s, texts.steps?.[s.id] || {}, u, dir, i, l.n)).join("") +
             `<a class="cta" href="${interactive}">${u.openInteractive} →</a>`
         }));
         urls.push(lessonPath); report.pages++;
