@@ -939,6 +939,24 @@
     .lesson-bar .lesson-tools { order: 1; margin-left: auto; }
     .lesson-bar .steps { order: 2; flex-basis: 100%; }
   }
+
+  /* ══ Предпросмотр черновиков ══ */
+  .preview-strip {
+    padding: 8px 32px; text-align: center;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.6px;
+    background: var(--accent-surface); color: var(--accent-ink);
+    border-top: 1px solid var(--accent);
+  }
+  .prompt-card {
+    margin-top: 22px; padding: 18px 20px;
+    border: 1px dashed var(--accent); border-radius: var(--radius-md);
+    background: var(--surface-raised);
+  }
+  .prompt-text {
+    margin: 10px 0 0; padding: 12px 14px; max-height: 220px; overflow: auto;
+    white-space: pre-wrap; font-family: var(--font-mono); font-size: 13px; line-height: 1.6;
+    background: var(--surface-sunken); color: var(--ink-on-sunken); border-radius: var(--radius-sm);
+  }
 </style>
 </head>
 <body>
@@ -977,6 +995,11 @@
    ════════════════════════════════════════════════════════════ */
 
 var CONTENT = "content/";
+
+/* Предпросмотр черновиков: https://67coder.com/?preview#/course/cpp/lv/lesson/3
+   Глава с "draft" в course.json видна только с ?preview. Студенты её
+   не видят, поисковики тоже, и в статистику эти визиты не попадают. */
+var PREVIEW = /[?&]preview\b/.test(location.search);
 
 /* ── Языки платформы ──────────────────────────────────────── */
 var LANGS = [
@@ -1068,6 +1091,13 @@ var UI = {
     printNow: "Drukāt vai saglabāt PDF",
     backToFurthest: "↩ uz {n}. soli",
     chapterN: "{n}. nodaļa",
+    previewNote: "Priekšskatījums: melnraksti redzami tikai pēc šīs saites. Studenti tos neredz.",
+    draftBadge: "melnraksts",
+    imageTask: "Attēla uzdevums",
+    copyPrompt: "Kopēt promptu",
+    copyFile: "Kopēt faila nosaukumu",
+    copied: "Nokopēts ✓",
+    imageHowTo: "Saglabājiet attēlu ar šo nosaukumu mapē content/cpp/assets/ — tas parādīsies šeit automātiski.",
     printBack: "Atpakaļ uz nodaļu",
     printHint: "Drukas logā izvēlieties «Saglabāt kā PDF» un izslēdziet galvenes un kājenes.",
     pStep: "Solis",
@@ -1172,6 +1202,13 @@ var UI = {
     printNow: "Print or save as PDF",
     backToFurthest: "↩ back to step {n}",
     chapterN: "Chapter {n}",
+    previewNote: "Preview: drafts are visible only through this link. Students cannot see them.",
+    draftBadge: "draft",
+    imageTask: "Image task",
+    copyPrompt: "Copy prompt",
+    copyFile: "Copy file name",
+    copied: "Copied ✓",
+    imageHowTo: "Save the image under this name in content/cpp/assets/ — it will appear here automatically.",
     printBack: "Back to the chapter",
     printHint: "In the print dialog choose “Save as PDF” and turn off headers and footers.",
     pStep: "Step",
@@ -1271,7 +1308,15 @@ function loadStructure(courseId) {
     var n = 0;
     var flat = [];
     (data.modules || []).forEach(function (m) {
-      (m.lessons || []).forEach(function (l) { n += 1; flat.push(l); });
+      (m.lessons || []).forEach(function (l) {
+        if (PREVIEW && l.draft && l.draft.length) {
+          l.isDraft = true;
+          var merged = (l.locales || []).slice();
+          l.draft.forEach(function (code) { if (merged.indexOf(code) === -1) merged.push(code); });
+          l.locales = merged;
+        }
+        n += 1; flat.push(l);
+      });
     });
     data.flat = flat;
     data.lessons = n;
@@ -1410,7 +1455,9 @@ function header() {
         '<select class="langpick" id="langpick">' + options + "</select>" +
         '<button type="button" class="btn small" id="themeBtn">' + esc(themeLabel) + "</button>" +
       "</nav>" +
-    "</header></div>";
+    "</header>" +
+    (PREVIEW ? '<div class="preview-strip">' + esc(t("previewNote")) + "</div>" : "") +
+    "</div>";
 }
 
 function footer() {
@@ -1525,6 +1572,7 @@ function lessonRow(courseId, lesson, lang) {
     : (translated ? '<span class="dot" aria-hidden="true"></span>'
                   : '<span class="badge partial">' + esc(t("notTranslatedShort")) + "</span>");
 
+  if (lesson.isDraft) mark = '<span class="badge partial">' + esc(t("draftBadge")) + "</span>" + mark;
   return '<a class="lesson' + (translated ? "" : " untranslated") + '" href="' + href + '">' +
     '<span class="lesson-num">' + num + "</span>" +
     '<span class="lesson-title" lang="' + title.lang + '">' + esc(title.text) + "</span>" +
@@ -1856,20 +1904,79 @@ function exampleView(ctx, step, tx) {
    файле). Встраивается прямо в страницу, поэтому берёт наши шрифты.
    Иллюстрация .png/.webp — без слов, одна на оба языка (поле image в
    файле структуры, рядом imagePrompt для генерации). */
+/* Иллюстрация с imagePrompt по умолчанию лежит в assets/lNN-<id шага>.jpg.
+   Переименовывать ничего не нужно: сохранили файл с этим именем — он
+   появился. Пока файла нет, в предпросмотре на его месте стоит карточка
+   с промптом и кнопками «скопировать»; студенты не видят ничего. */
+function defaultImage(ctx, step) {
+  return step.imagePrompt ? "assets/l" + pad2(ctx.n) + "-" + step.id + ".jpg" : null;
+}
+
 function figure(ctx, step, tx, always) {
-  var img = sv(step, tx, "image");
+  var img = sv(step, tx, "image") || defaultImage(ctx, step);
   var alt = tx.alt || tx.title || "";
   if (img) {
     var url = CONTENT + ctx.course.id + "/" + img;
     if (/\.svg$/i.test(img)) {
       return '<div class="figure svg-slot" data-svg="' + esc(url) + '" role="img" aria-label="' + esc(alt) + '"></div>';
     }
-    return '<div class="frame media"><img src="' + esc(url) + '" alt="' + esc(alt) + '"></div>';
+    return '<div class="img-slot" data-src="' + esc(url) + '" data-file="' + esc(img.split("/").pop()) +
+      '" data-alt="' + esc(alt) + '" data-prompt="' + esc(step.imagePrompt || "") + '"></div>';
   }
-  if (always || step.imagePrompt) {
+  if (always) {
     return '<div class="frame" role="img" aria-label="' + esc(alt) + '">' + esc(t("framePending")) + "</div>";
   }
   return "";
+}
+
+function copyText(text, btn) {
+  var done = function () {
+    var was = btn.textContent;
+    btn.textContent = t("copied");
+    setTimeout(function () { btn.textContent = was; }, 1500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, function () {});
+  } else {
+    var ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) {}
+    ta.remove();
+  }
+}
+
+function loadImgSlots() {
+  var slots = document.querySelectorAll(".img-slot");
+  for (var i = 0; i < slots.length; i++) {
+    (function (slot) {
+      var img = new Image();
+      img.alt = slot.getAttribute("data-alt") || "";
+      img.onload = function () {
+        if (!slot.isConnected) return;
+        slot.className = "frame media";
+        slot.innerHTML = "";
+        slot.appendChild(img);
+      };
+      img.onerror = function () {
+        if (!slot.isConnected) return;
+        var prompt = slot.getAttribute("data-prompt"), file = slot.getAttribute("data-file");
+        if (!PREVIEW) { slot.remove(); return; }
+        slot.className = "prompt-card";
+        slot.innerHTML =
+          '<div class="eyebrow">' + esc(t("imageTask")) + " · " + esc(file) + "</div>" +
+          (prompt ? '<pre class="prompt-text">' + esc(prompt) + "</pre>" : "") +
+          '<div class="actions" style="margin-top: 12px">' +
+            (prompt ? '<button type="button" class="btn small" data-copy="prompt">' + esc(t("copyPrompt")) + "</button>" : "") +
+            '<button type="button" class="btn small" data-copy="file">' + esc(t("copyFile")) + "</button>" +
+          "</div>" +
+          '<p class="caption">' + esc(t("imageHowTo")) + "</p>";
+        slot.querySelector('[data-copy="file"]').addEventListener("click", function () { copyText(file, this); });
+        var pb = slot.querySelector('[data-copy="prompt"]');
+        if (pb) pb.addEventListener("click", function () { copyText(prompt, this); });
+      };
+      img.src = slot.getAttribute("data-src");
+    })(slots[i]);
+  }
 }
 
 function explainView(ctx, step, tx) {
@@ -2245,6 +2352,7 @@ function loadSvgSlots() {
 
 function wireLesson() {
   loadSvgSlots();
+  loadImgSlots();
   var route = parseHash();
   if (!route.course || !route.lesson) return;
 
@@ -2472,13 +2580,13 @@ function wireEditor(route, step, tx, k, codeBox, runBtn) {
 function printHash(courseId, lang, n) { return "#/course/" + courseId + "/" + lang + "/print/" + n; }
 
 function printFigure(ctx, step, tx) {
-  var img = sv(step, tx, "image");
+  var img = sv(step, tx, "image") || defaultImage(ctx, step);
   if (!img) return "";
   var url = CONTENT + ctx.course.id + "/" + img;
   var alt = tx.alt || tx.title || "";
   return /\.svg$/i.test(img)
     ? '<div class="figure svg-slot" data-svg="' + esc(url) + '" role="img" aria-label="' + esc(alt) + '"></div>'
-    : '<div class="p-figure"><img src="' + esc(url) + '" alt="' + esc(alt) + '"></div>';
+    : '<div class="p-figure"><img src="' + esc(url) + '" alt="' + esc(alt) + '" onerror="this.parentNode.remove()"></div>';
 }
 
 function printMore(tx) {
@@ -2669,6 +2777,7 @@ function gcFlush() {
   }
 }
 function track() {
+  if (PREVIEW) return;
   var path = (location.hash || "#/catalog").replace(/^#/, "") || "/catalog";
   if (gcSeen[path]) return;
   gcSeen[path] = true;
