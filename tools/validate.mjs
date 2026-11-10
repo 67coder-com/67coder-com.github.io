@@ -101,6 +101,12 @@ function checkLesson(courseId, dir, l, published) {
   }
 }
 
+/* ── Moodle никогда не должен попасть в публичный репозиторий ── */
+const moodleDir = path.join(process.cwd(), "moodle");
+if (fs.existsSync(moodleDir) && process.env.GITHUB_ACTIONS) {
+  err("moodle/", "папка с Moodle-пакетами попала в репозиторий — удалите её оттуда немедленно: там вопросы экзамена");
+}
+
 /* ── обход ── */
 const courses = read(path.join(CONTENT, "courses.json"), "courses.json");
 for (const c of (courses && courses.courses) || []) {

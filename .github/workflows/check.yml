@@ -1,5 +1,7 @@
 # Проверка контента на каждом pull request — в том числе от Jules.
 # Если проверка не прошла, Jules получает ошибку и сам исправляет файлы.
+# Если прошла и pull request меняет только content/ и docs/handover/,
+# он сливается сам и сайт публикуется — глава появляется черновиком.
 name: Check content
 
 on:
@@ -21,3 +23,34 @@ jobs:
         run: node tools/validate.mjs
       - name: Build static pages (dry run)
         run: node tools/build-static.mjs /tmp/static-check
+
+  automerge:
+    needs: check
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Only lesson content changed?
+        id: scope
+        run: |
+          CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
+          echo "$CHANGED"
+          if echo "$CHANGED" | grep -vqE '^(content/|docs/handover/)'; then
+            echo "safe=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pull request меняет не только главы — слейте вручную после просмотра."
+          else
+            echo "safe=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Merge and publish
+        if: steps.scope.outputs.safe == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge "${{ github.event.pull_request.number }}" --squash --delete-branch
+          gh workflow run publish.yml --ref "${{ github.base_ref }}"
