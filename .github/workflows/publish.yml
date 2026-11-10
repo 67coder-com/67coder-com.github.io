@@ -22,6 +22,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,6 +30,12 @@ jobs:
           node-version: 20
       - name: Validate lessons
         run: node tools/validate.mjs
+      - name: Install the site's C++ compiler (same as in the browser)
+        run: npm install --prefix /tmp/clang --no-audit --no-fund @yowasp/clang@22.0.0-git20542-10
+      - name: Compile and run every program in the lessons
+        env:
+          CLANG_DIR: /tmp/clang
+        run: node tools/compile-check.mjs
       - name: Build static pages
         run: node tools/build-static.mjs
       - uses: actions/configure-pages@v5
