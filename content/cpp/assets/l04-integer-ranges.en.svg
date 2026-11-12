@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" width="100%" height="100%">
+  <title>Signed and Unsigned Integer Ranges in C++</title>
+  <desc>Diagram showing the numerical ranges of 16-bit short and 32-bit int in signed and unsigned modes: short covers -32,768 to 32,767, unsigned short covers 0 to 65,535, int covers -2.14B to 2.14B, and unsigned int covers 0 to 4.29B.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="360" rx="10" fill="#0D1117" />
+
+  <!-- Header -->
+  <text x="24" y="36" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">INTEGER RANGES: SIGNED VS UNSIGNED</text>
+
+  <!-- Row 1: short (16-bit signed) -->
+  <rect x="24" y="54" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="88" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">short</tspan><tspan fill="#8E887D"> (16-bit signed)</tspan>
+  </text>
+  <rect x="360" y="70" width="120" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="420" y="87" text-anchor="middle" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">-32,768 .. +32,767</text>
+  <text x="836" y="88" text-anchor="end" fill="#D8D0C2" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">2 bytes · 65,536 values</text>
+
+  <!-- Row 2: unsigned short (16-bit unsigned) -->
+  <rect x="24" y="122" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="156" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#7FB3A3">unsigned short</tspan><tspan fill="#8E887D"> (16-bit unsigned)</tspan>
+  </text>
+  <rect x="360" y="138" width="120" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="420" y="155" text-anchor="middle" fill="#7FB3A3" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0 .. 65,535</text>
+  <text x="836" y="156" text-anchor="end" fill="#D8D0C2" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">2 bytes · doubled positive</text>
+
+  <!-- Row 3: int (32-bit signed) -->
+  <rect x="24" y="190" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="224" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">int</tspan><tspan fill="#8E887D"> (32-bit signed)</tspan>
+  </text>
+  <rect x="360" y="206" width="170" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="445" y="223" text-anchor="middle" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">-2.14 B .. +2.14 B</text>
+  <text x="836" y="224" text-anchor="end" fill="#D8D0C2" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">4 bytes · standard</text>
+
+  <!-- Row 4: unsigned int (32-bit unsigned — brass accent #B99A61) -->
+  <rect x="24" y="258" width="832" height="56" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="2" />
+  <text x="44" y="292" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#B99A61">unsigned int</tspan><tspan fill="#8E887D"> (32-bit unsigned)</tspan>
+  </text>
+  <rect x="360" y="274" width="170" height="24" rx="4" fill="#1D2430" stroke="#B99A61" stroke-width="1.5" />
+  <text x="445" y="291" text-anchor="middle" fill="#B99A61" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0 .. 4,294,967,295</text>
+  <text x="836" y="292" text-anchor="end" fill="#B99A61" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">Sigma anomaly ceiling</text>
+
+  <!-- Footer -->
+  <text x="24" y="342" fill="#8E887D" font-size="14" style="font-family: var(--font-sans, Inter, sans-serif)">Unsigned types shift the numerical window from negative space to start at 0, doubling the ceiling.</text>
+</svg>

@@ -1,0 +1,123 @@
+{
+  "title": "Veseli skaitļi un pārpilde",
+  "module": "1. bloks · Pamodināšana",
+  "steps": {
+    "fuel-anomaly": {
+      "eyebrow": "Lidojuma telemetrija",
+      "title": "Četru miljardu litru anomālija",
+      "body": [
+        "Pirmslidojuma degvielas pārbaudes laikā bāzes «IRIS» angārā izlūka Sigma telemetrijas konsole uzrādīja satraucošu skaitli: degvielas tvertnes atlikums `4 294 967 295 litri`. Sigma ir kompakts izlūkdrons, kura reālā titāna bāka ietilpina tikai 40 litrus.",
+        "Python valodā veseli skaitļi var augt neierobežoti, līdz operētājsistēmai beidzas operatīvā atmiņa. C++ valodā skaitļi tiek glabāti tieši procesora reģistros un fiksēta izmēra atmiņas šūnās (16, 32 vai 64 bitos). Kad vērtība pārsniedz šo bitu ietilpību, aprēķins neapstājas un nebrīdina — tas «pārlec» pa apli.",
+        "Šo aparatūras uzvedību sauc par **veselo skaitļu pārpildi** (integer overflow). Šajā nodaļā apgūsim C++ veselo skaitļu saimi, noskaidrosim, kā biti nosaka skaitļu robežas, un iemācīsimies izvēlēties uzticamus tipus kosmiskajai telemetrijai."
+      ]
+    },
+    "integer-family": {
+      "title": "Veselo skaitļu saime",
+      "compareCaptions": [
+        "LL sufikss → kompilators uzskata konstanti par 64 bitu",
+        "bez sufiksa → brīdinājums par skaitļa pārpildi"
+      ],
+      "body": [
+        "syntax: {tips} {nosaukums} = {vērtība};\n- tips: veselo skaitļu tips — short, int, long long\n- nosaukums: mainīgā vārds\n- vērtība: vesels skaitlis, long long gadījumā ar sufiksu LL\n- ;: pabeidz teikumu — obligāts",
+        "C++ piedāvā četrus galvenos veselo skaitļu izmērus, lai iegultajās sistēmās sabalansētu atmiņas taupīšanu un skaitļu ietilpību:",
+        "+ **short kompaktām vērtībām.** Aizņem 2 baitus (16 bitus). Glabā veselus skaitļus (-32768 līdz 32767). Piemērots leņķiem, mikrokontroleira tapu ID un maziem skaitītājiem.\n+ **int ikdienas darbam.** Aizņem 4 baitus (32 bitus). Glabā veselus skaitļus (-2147483648 līdz 2147483647). Standarta izvēle visās C++ programmās.\n+ **long sistēmas mērogam.** Aizņem 4 baitus 32 bitu vidē un Windows, bet 8 baitus 64 bitu Linux/macOS. Paredzamībai izvēlamies int vai long long.\n+ **long long astronomiskiem skaitļiem.** Aizņem 8 baitus (64 bitus). Glabā līdz pat ~9 kvintiljoniem ($9 \\times 10^{18}$). Izmanto laika zīmogiem mikrosekundēs un misijas pulksteņiem.",
+        "!> **32 bitu literāļa slazds.** C++ valodā kodā ierakstīts skaitlis (piemēram, 9000000000) pēc noklusējuma tiek uztverts kā 32 bitu `int`. Ja skaitlis pārsniedz 2,1 miljardu, tam obligāti jāpievieno sufikss `LL` (`9000000000LL`), pretējā gadījumā kompilators ziņos par skaitļa pārpildi vēl pirms tā piešķiršanas `long long` mainīgajam."
+      ]
+    },
+    "binary-ranges": {
+      "eyebrow": "Binārais attēlojums",
+      "title": "Biti, zīmes un robežas",
+      "body": [
+        "Katrs veselo skaitļu tips aizņem fiksētu bitu skaitu $N$. Šie biti nodrošina tieši $2^N$ dažādas binārās kombinācijas.",
+        "> Divi galvenie veselo skaitļu režīmi:\n> 1. **signed (noklusējums).** Augstāko bitu atvēl zīmei (+/-). 16 bitu `short` glabā skaitļus no -32 768 līdz 32 767.\n> 2. **unsigned (bez zīmes).** Atsakās no negatīviem skaitļiem, divkāršojot pozitīvo maksimumu. `unsigned short` glabā no 0 līdz 65 535, bet `unsigned int` sasniedz 4 294 967 295.",
+        "Ievēro: `unsigned` nepalielina atmiņas apjomu — tas tikai pārbīda iespējamo vērtību logu, lai tas sāktos no nulles. Lielumiem, kas fiziski nevar būt negatīvi (bākas tilpums, masīva garums, baitu skaits), `unsigned` garantē drošu stāvokli bez mīnus zīmes."
+      ],
+      "alt": "Shēma, kas salīdzina signed un unsigned robežas 16 bitu short un 32 bitu int tipiem.",
+      "image": "assets/l04-integer-ranges.lv.svg",
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kāpēc raķete Ariane 5 uzsprāga 37. sekundē",
+          "body": [
+            "1996. gada 4. jūnijā Eiropas Kosmosa aģentūra veica raķetes Ariane 5 pirmo startu (lidojums 501). Tikai 37 sekundes pēc pacelšanās nesējs strauji novirzījās no kursa, aerodinamisko spēku ietekmē sadalījās un iedarbināja pašiznīcināšanās sistēmu.",
+            "Oficiālā izmeklēšanas komisija profesora Žaka Luija Lionsa vadībā atklāja iemeslu: no iepriekšējā modeļa Ariane 4 pārņemtais programmatūras modulis mēģināja pārveidot 64 bitu peldošā komata horizontālā ātruma rādītāju par 16 bitu veselu skaitli ar zīmi (`short`).",
+            "Ariane 5 lielāks horizontālais ātrums radīja vērtību, kas pārsniedza 32 767. Aparatūras pārveidojums izsauca neapstrādātu pārpildes kļūdu, un abi borta datori (gan primārais, gan rezerves) vienlaikus izslēdzās, atstājot dzinēja sprauslas galējā stāvoklī.",
+            "Zaudējumi pārsniedza 370 miljonus dolāru. Šī katastrofa kļuva par pasaulē slavenāko piemēru datu tipu robežu un neapstrādātas pārpildes bīstamībai borta sistēmās.",
+            "Avots: ESA Ariane 5 Flight 501 Failure Report by the Inquiry Board (1996, https://www.esa.int/esapub/bulletin/bullet89/lions89.htm)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Kā dators glabā negatīvus skaitļus (papildkods)",
+          "body": [
+            "Mūsdienu procesori negatīvus skaitļus glabā divnieka papildkodā (two's complement). 8 bitu baitā skaitlis 1 ir `00000001`, bet -1 tiek iegūts, apgriežot visus bitus un pieskaitot 1: `11111111`.",
+            "Ja `11111111` nolasa kā bezzīmes skaitli, tas ir 255 ($2^8 - 1$). 32 bitos visi vieninieki (`11111111...`) signed režīmā nozīmē -1, bet unsigned režīmā — tieši 4 294 967 295.",
+            "Kad Sigma degvielas sensors unsigned mainīgajā mēģināja no 0 atņemt nelielu mērījumu, vērtība «pārleca» pāri nullei un kļuva par `4 294 967 295`."
+          ]
+        }
+      ]
+    },
+    "predict-overflow": {
+      "title": "Kas notiek pēc maksimuma?",
+      "body": [
+        "Šajā programmā `unsigned short` mainīgais sasniedz savu maksimālo vērtību 65 535 un tad pieskaita 1.",
+        "Mēģini uzminēt, ko šī programma izvadīs terminālī. Šis ir pirmais minējums, nevis pārbaudes darbs: ievadi savu prognozi un salīdzini to ar faktisko rezultātu."
+      ],
+      "explain": "Kad `unsigned short` pārsniedz savu maksimālo vērtību (65 535), 17. pārnesuma bits aparatūras līmenī tiek atmests, un vērtība «pārlec» atpakaļ uz 0. C++ standarts garantē, ka bezzīmes skaitļiem pārpilde vienmēr notiek pēc moduļa $2^N$."
+    },
+    "fix-short-overflow": {
+      "title": "Piemērota diapazona izvēle",
+      "task": "Programma mēra Sigma patruļas attālumu metros. Pašlaik mainīgajam `distance` izmantots `short` (maksimums 32 767), tāpēc pie 45 000 metriem notiek pārpilde. Veic divus soļus:\n1. Nomaini `distance` tipu uz `int`, lai skaitlis 45 000 ietilptu atmiņā.\n2. Palaid programmu, lai izvadītu rezultātu formātā, kā parādīts zemāk.",
+      "hint": "Aizstāj `short` 4. rindā ar `int`. Pašu skaitli 45000 nemaini.",
+      "solutionNote": "`int` brīvi glabā vērtības līdz ~2,1 miljardam, pilnībā atrisinot 45 000 metru pārpildi."
+    },
+    "find-overflow-bug": {
+      "title": "Atrodi pārpildīto mainīgo",
+      "body": [
+        "Sigma telemetrijas modulī viens no mainīgajiem pārsniedz sava tipa ietilpību un rada kļūdainus datus. Uzklikšķini uz rindas ar kļūdu."
+      ],
+      "explain": "6. rindā `short altitude = 70000;` piešķir 70 000 16 bitu `short` mainīgajam ar zīmi. Tā kā `short` robeža ir 32 767, šāda vērtība izraisa pārpildi negatīvā skaitlī."
+    },
+    "fill-integer-types": {
+      "title": "Salāgo tipus ar Marsa misijas rādītājiem",
+      "body": [
+        "Izvēlies atbilstošu veselo skaitļu tipu katram no trim mainīgajiem atkarībā no nepieciešamā diapazona."
+      ],
+      "explain": "Mazs skaitlis (sektors 14) brīvi ietilpst `short` vai `int`. Marsa sola ilgums (88 775 sekundes) pārsniedz 32 767 un prasa `int` (vai `unsigned int`). Centrālā pulksteņa tikšķi (9 miljardi) pārsniedz 32 bitu `int` limitu (2,1 miljards) un prasa `long long`."
+    },
+    "quiz-unsigned": {
+      "title": "Kas notiek pie aizgūšanas zem nulles?",
+      "body": [
+        "Aplūko šīs divas koda rindas un izvēlies, kas notiks pēc 50 atņemšanas no 40 mainīgajā ar tipu `unsigned int`."
+      ],
+      "options": {
+        "wraps-to-billions": "Vērtība «pārlec» pa apli (modulo 2^32), kļūstot par aptuveni 4,29 miljardiem.",
+        "compile-error": "Kompilators aptur darbu ar zīmes nesaderības kļūdu.",
+        "becomes-negative": "Mainīgais nomaina tipu uz signed int un saglabā -10."
+      },
+      "explain": "Tā kā `unsigned int` nevar glabāt negatīvus skaitļus, atņemot 50 no 40, skaitlis pārlec zem nulles atpakaļ uz 32 bitu maksimālo vērtību ($2^{32} - 10 = 4 294 967 286$). Tieši tā radās Sigma 4 miljardi litru."
+    },
+    "calibrate-fuel": {
+      "title": "Kalibrē Sigma degvielas telemetriju",
+      "task": "Uzraksti Sigma telemetrijas kalibrēšanas programmu, veicot divus soļus:\n1. Izveido divus mainīgos: `short tank_id` ar vērtību 3 un `unsigned int fuel_ml` ar vērtību 40000 (40 litri mililitros).\n2. Izvadi telemetrijas rindiņas formātā, kā parādīts zemāk.",
+      "hint": "Izveido `short tank_id = 3;` un `unsigned int fuel_ml = 40000;`, pēc tam izvadi katru ar `cout` un `endl`.",
+      "solutionNote": "Abi tipi precīzi atbilst saviem mērījumu diapazoniem bez atmiņas izšķērdēšanas vai pārpildes."
+    },
+    "mission-clock": {
+      "title": "Planetārās misijas pulkstenis",
+      "task": "Uzraksti programmu Marsa bāzes centrālajam pulkstenim, veicot divus soļus:\n1. Izveido `long long` mainīgo `base_micros` ar vērtību 15000000000LL (15 miljardi mikrosekunžu — ārpus 32 bitu robežas).\n2. Izvadi pulksteņa telemetriju kopā ar tā izmēru baitos ar `sizeof` formātā, kā parādīts zemāk.",
+      "hint": "Atceries pievienot sufiksu `LL`: `long long base_micros = 15000000000LL;` un izmanto `sizeof(base_micros)`.",
+      "solutionNote": "64 bitu `long long` droši glabā 15 miljardus mikrosekunžu bez pārpildes un aizņem 8 baitus."
+    },
+    "recap": {
+      "title": "Veselo skaitļu misijas kopsavilkums",
+      "points": [
+        "Veseli skaitļi C++ valodā ir saistīti ar reāliem aparatūras reģistriem: `short` (2 baiti), `int` (4 baiti) un `long long` (8 baiti).",
+        "Modifikators `unsigned` divkāršo pozitīvo diapazonu, atsakoties no mīnus zīmes, taču atņemšana zem 0 liek vērtībai pārlekt uz maksimālo robežu (kā 4,29 miljardi `unsigned int` gadījumā).",
+        "Konstantēm, kas lielākas par 2,1 miljardu, kodā jāpievieno sufikss `LL` (`9000000000LL`), lai kompilators tās neuzskatītu par pārpildītu 32 bitu `int`.",
+        "Veselo skaitļu pārpilde reālā borta kodā notiek klusi: `signed` pārpilde izraisa nenoteiktu uzvedību, bet `unsigned` pārpildās cikliski pēc moduļa $2^N$.",
+        "Nākamajā nodaļā noskaidrosim, kas notiek ar daļskaitļiem — un kāpēc aprēķins `5 / 2` nosēdina Sigma dronu krāterī, nevis uz nosēšanās laukuma."
+      ]
+    }
+  }
+}

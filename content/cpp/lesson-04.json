@@ -1,0 +1,95 @@
+{
+  "n": 4,
+  "slug": "integers",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "fuel-anomaly",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9, for an online C++ course. Inside a technical fueling hangar of Mars base IRIS, scout drone Sigma hovers connected by a corrugated fuel hose to a sleek vertical diagnostic terminal. The terminal's holographic screen shows an alarming readout: '4,294,967,295 L' with a warning pulse. The course mascot — two square brackets [ ] facing each other with two round cream eyes between them — looks up at the screen with an inquisitive tilt. Martian terrain and dusty horizon visible through an angled panoramic window. Use the attached image as the exact reference for the mascot. Style: minimal, geometric, flat shapes, no outlines, no text, no letters, no numbers, no logos, not cartoonish, calm and technical. Palette strictly: background #090B0F, surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 only on the terminal screen glow. Render the Martian ground in desaturated warm greys, not red."
+    },
+    {
+      "id": "integer-family",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "long long ticks = 9000000000LL;\ncout << ticks;",
+          "ok": true
+        },
+        {
+          "code": "long long ticks = 9000000000;\ncout << ticks;",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "binary-ranges",
+      "kind": "explain"
+    },
+    {
+      "id": "predict-overflow",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    unsigned short fuel = 65535;\n    fuel = fuel + 1;\n    cout << \"FUEL: \" << fuel << endl;\n    return 0;\n}",
+      "expected": "FUEL: 0",
+      "focus": "fuel = fuel + 1;"
+    },
+    {
+      "id": "fix-short-overflow",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    short distance = 45000;\n    cout << \"DISTANCE: \" << distance << \" M\" << endl;\n    return 0;\n}",
+      "expected": "DISTANCE: 45000 M",
+      "requires": ["int distance"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance = 45000;\n    cout << \"DISTANCE: \" << distance << \" M\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "find-overflow-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sensor_id = 104;\n    short altitude = 70000;\n    long long timestamp = 1700000000LL;\n    cout << \"ID: \" << sensor_id << endl;\n    return 0;\n}",
+      "answerLine": 6
+    },
+    {
+      "id": "fill-integer-types",
+      "kind": "blanks",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    [[1]] sector = 14;\n    [[2]] sol_seconds = 88775;\n    [[3]] base_clock = 9000000000LL;\n    cout << \"SECTOR: \" << sector << endl;\n    cout << \"SECONDS: \" << sol_seconds << endl;\n    cout << \"CLOCK: \" << base_clock << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": ["short", "int"],
+        "2": ["int", "unsigned int"],
+        "3": ["long long"]
+      }
+    },
+    {
+      "id": "quiz-unsigned",
+      "kind": "quiz",
+      "code": "unsigned int fuel = 40;\nfuel = fuel - 50;",
+      "options": ["wraps-to-billions", "compile-error", "becomes-negative"],
+      "answer": "wraps-to-billions"
+    },
+    {
+      "id": "calibrate-fuel",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+      "expected": "TANK: 3\nFUEL: 40000 ML",
+      "requires": ["short", "unsigned int", "cout"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    short tank_id = 3;\n    unsigned int fuel_ml = 40000;\n\n    cout << \"TANK: \" << tank_id << endl;\n    cout << \"FUEL: \" << fuel_ml << \" ML\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "mission-clock",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+      "expected": "CLOCK: 15000000000 US\nBYTES: 8",
+      "requires": ["long long", "LL", "sizeof"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    long long base_micros = 15000000000LL;\n\n    cout << \"CLOCK: \" << base_micros << \" US\" << endl;\n    cout << \"BYTES: \" << sizeof(base_micros) << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}
