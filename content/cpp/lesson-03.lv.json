@@ -6,36 +6,40 @@
       "eyebrow": "Borta atmiņa",
       "title": "Kāpēc mainīgajiem vajadzīgs tips",
       "body": [
-        "Iepriekšējā nodaļā visi skaitļi drona Sigma telemetrijā bija stingri ierakstīti kodā. Taču reālā lidojumā augstums, ātrums un temperatūra mainās katru sekundi — šos datus jāglabā atmiņā, izmantojot mainīgos.",
-        "Python valodā viens un tas pats mainīgais vispirms var glabāt skaitli `15`, bet pēc rindas — tekstu `\"OK\"`. Šādu pieeju sauc par dinamisko tipizēšanu: Python lidojuma laikā glabā papildu informāciju par katra objekta tipu un tērē laiku tās pārbaudei.",
-        "Izlūkam Sigma borta datorā ir tikai ~1 MB (1024 KB) atmiņas (kursa mācību ierobežojums). C++ izmanto statisko tipizēšanu: katram mainīgajam tips jānorāda iepriekš. Kompilators rezervē precīzu baitu skaitu un pārbauda kļūdas vēl pirms starta."
+        "Iepriekšējā nodaļā visi skaitļi drona Sigma telemetrijā bija stingri ierakstīti pirmkodā. Taču reālā lidojumā telemetrijas rādījumi mainās katru sekundi — programmai vajadzīgi mainīgie, lai datus saglabātu un atjauninātu operatīvajā atmiņā.",
+        "Šī nodaļa sniedz vispārīgu ieskatu datu tipos; katru konkrētu tipu saimi padziļināti apgūsim nākamajās nodaļās.",
+        "Python valodā viens un tas pats mainīgais vispirms var glabāt veselu skaitli (15), bet pēc rindas — tekstu (\"OK\") (dinamiskā tipizēšana), kas prasa papildu atmiņas patēriņu un neparedzamas pārbaudes lidojuma laikā. Izlūkam Sigma borta datorā ir tikai ~1 MB atmiņas (kursa mācību ierobežojums), tāpēc C++ izmanto statisko tipizēšanu: katram mainīgajam tips jānorāda iepriekš, lai kompilators rezervētu precīzus baitus un novērstu kļūdas pirms starta."
       ]
     },
     "declare-variables": {
-      "title": "Mainīgo izveide un pamattipi",
+      "title": "Mainīgā deklarēšana",
+      "compareCaptions": [
+        "tips vienreiz → strādā",
+        "tips divreiz → kompilācijas kļūda"
+      ],
       "body": [
-        "Lai izveidotu mainīgo, norāda tā tipu, nosaukumu un sākuma vērtību: `int sol = 14;`. Mainīgais `sol` glabā veselu skaitli, bet `double battery = 91.5;` — daļskaitli ar komatu (kodā raksta ar punktu).",
-        "Apskatam programmā redzami arī divi citi pamattipi, kurus sīkāk pētīsim 6. nodaļā. Tips `char` glabā vienu atsevišķu rakstzīmi, un to vienmēr raksta vienpēdiņās — piemēram, `'A'`, nevis `\"A\"`.",
-        "Tips `bool` glabā loģisko vērtību `true` (patiess) vai `false` (aplams). Svarīga niansēta detaļa: `cout` uz ekrāna izvada `bool` vērtību kā `1` vai `0`, nevis vārdus `true` vai `false`.",
-        "Kad mainīgā vērtību vajag atjaunināt (`sol = 15;`), tipu otrreiz vairs neraksta. Daļskaitļiem šobrīd izvēlamies vērtības ar nedaudziem cipariem (kā `91.5`), kuras `cout` attēlo precīzi tā, kā ierakstīts."
+        "syntax: {tips} {nosaukums} = {vērtība};\n- tips: kādi dati — `int`, `double`\n- nosaukums: kā vēlāk atsaucies uz mainīgo\n- vērtība: sākuma vērtība — 14, 91.5\n- ;: pabeidz teikumu — obligāts",
+        "Mainīgā deklarēšana rezervē nosauktu vietu atmiņā. Tipu norāda vienreiz pie izveides (`int sol = 14;`). Kad vērtību vēlāk atjaunina (`sol = 15;`), raksta tikai mainīgā nosaukumu — tipu atkārtot nedrīkst.",
+        "Četri pamattipi īsumā:\n+ **int veseliem skaitļiem.** Glabā veselus skaitļus (1, 14, -40) bez daļveida daļas.\n+ **double daļskaitļiem.** Glabā skaitļus ar komatu (2.5, 91.5), kurus kodā raksta ar punktu.\n+ **char vienai rakstzīmei.** Glabā vienu simbolu ('A'), ko vienmēr raksta vienpēdiņās.\n+ **bool loģikai.** Glabā patiesuma vērtības (true, false), kuras cout izvada kā 1 vai 0.",
+        "!> **Ieradums no Python.** Python valodā mainīgos veido bez tipa norādīšanas. C++ valodā vārda `int` atkārtota pierakstīšana mēģina izveidot otru mainīgo ar tādu pašu vārdu, un kompilators tūlīt aptur darbu."
       ]
     },
     "predict-sizeof": {
       "title": "Cik baitus aizņem katrs tips?",
       "body": [
-        "C++ valodā ir iebūvēts operators `sizeof(...)`, kas atgriež tipa vai mainīgā izmēru baitos dotajā platformā. Mēģini uzminēt, kādus skaitļus šī programma izvadīs terminālī.",
-        "Tas ir minējums, nevis pārbaudes darbs — precīzie skaitļi iepriekš nav jāzina. Uzraksti savu prognozi un salīdzini ar rezultātu."
+        "C++ valodā ir iebūvēts operators `sizeof(...)`, kas atgriež tipa vai mainīgā aizņemto baitu skaitu konkrētajā platformā.",
+        "Mēģini uzminēt precīzu tekstu, ko šī programma izvadīs terminālī. Šis ir pirmais minējums, nevis pārbaudes darbs: ievadi savu prognozi un salīdzini to ar faktisko rezultātu."
       ],
-      "explain": "Mūsu 32 bitu pārlūka platformā `char` aizņem `1` baitu, `int` — `4` baitus, `double` — `8` baitus, bet `long` — `4` baitus. Uz 64 bitu Linux un macOS `sizeof(long)` būtu `8`, turpretī uz 64 bitu Windows — arī `4`."
+      "explain": "Mūsu 32 bitu pārlūka platformā `char` aizņem 1 baitu, `int` — 4 baitus, `double` — 8 baitus, bet `long` — 4 baitus. Uz 64 bitu Linux un macOS `sizeof(long)` ir 8, turpretī uz 64 bitu Windows — arī 4."
     },
     "memory-map": {
       "eyebrow": "Atmiņas karte",
       "title": "Lielā bilde un tipu noteikumi",
       "body": [
-        "Atmiņā mainīgais ir nosaukta vieta ar nemainīgu izmēru. Veseliem skaitļiem C++ piedāvā veselu saimi (`short`, `int`, `long`, `long long` — sīkāk 4. nodaļā), bet ikdienas izvēle ir `int`. Daļskaitļiem ir `float` un `double` (sīkāk 5. nodaļā; noklusējums ir `double`).",
-        "Vienam simbolam (`'A'`) un loģikai (`true`/`false`) paredzēti `char` un `bool` (1 baits katrs), savukārt garāku tekstu glabāšanai izmanto `string` — par tiem runāsim 6. nodaļā. Operatoram `sizeof` var padot gan tipu (`sizeof(int)`), gan mainīgā vārdu (`sizeof(sol)`).",
-        "Statiskajai tipizēšanai ir divi stingri likumi. Pirmkārt, mainīgajā ar noteiktu tipu nedrīkst ierakstīt cita veida datus — piemēram, tekstu `\"FAST\"` iekš `int`. Otrkārt, vienu un to pašu mainīgo nedrīkst deklarēt ar tipu divreiz pēc kārtas.",
-        "Ievēro `sizeof(long)` atšķirību: uz 64 bitu Linux un macOS tas ir `8` baiti, uz 64 bitu Windows — `4` baiti, un mūsu 32 bitu platformā — arī `4` baiti. Kāpēc tā notiek, lasi arhīva ierakstā zemāk."
+        "Atmiņā mainīgais ir nosaukta vieta ar fiksētu izmēru. Veseliem skaitļiem (kā 0, 15, -300) C++ piedāvā skaitļu saimi (`short`, `int`, `long`, `long long`), kur ikdienas izvēle ir `int`. Daļskaitļiem (kā 3.73, -12.5) ir `float` un `double`, kur noklusējums ir `double`.",
+        "Operatoram `sizeof` var padot gan tipa nosaukumu (`sizeof(int)`), gan konkrēta mainīgā vārdu (`sizeof(sol)`).",
+        "> Divi stingri statiskās tipizēšanas likumi:\n> 1. **Nekādu nesaderīgu vērtību.** Mainīgajam nedrīkst piešķirt nesaderīga tipa vērtību — piemēram, saglabāt tekstu (\"FAST\") iekš `int`.\n> 2. **Nekādu dubultu deklarāciju.** Vienu un to pašu mainīgā vārdu tajā pašā apgabalā nedrīkst ar tipu deklarēt divreiz.",
+        "Ievēro `sizeof(long)` atšķirību starp sistēmām: uz 64 bitu Linux un macOS tas ir 8 baiti, uz 64 bitu Windows — 4 baiti, un mūsu 32 bitu platformā — arī 4 baiti. Kāpēc tā notiek, lasi arhīva ierakstā zemāk."
       ],
       "alt": "Shēma: char aizņem 1 baitu, bool aizņem 1 baitu, int aizņem 4 baitus, bet double aizņem 8 baitus 32 bitu platformā.",
       "image": "assets/l03-memory-types.lv.svg",
@@ -63,7 +67,7 @@
           "kind": "deeper",
           "title": "Kas ir 1 baits un cik ietilpst 1 MB?",
           "body": [
-            "Viens baits sastāv no 8 bitiem — astoņām šūnām, kur katra glabā `0` vai `1`. Tas dod $2^8 = 256$ dažādas kombinācijas vienā baitā.",
+            "Viens baits sastāv no 8 bitiem — astoņām šūnām, kur katra glabā 0 vai 1. Tas dod $2^8 = 256$ dažādas kombinācijas vienā baitā.",
             "Izlūka Sigma borta atmiņa mūsu kursā ir 1 MB jeb 1 048 576 baiti. Ja programma glabā vienu `int` (4 baiti), tas gandrīz neko nemaksā. Taču miljons `int` mērījumu aizņemtu jau 4 MB — četras reizes vairāk nekā visa Sigma operatīvā atmiņa."
           ]
         }
@@ -71,21 +75,21 @@
     },
     "first-variables": {
       "title": "Pirmie mainīgie telemetrijā",
-      "task": "Programmā jau ir izveidoti mainīgie `altitude` (`int`) un `temp` (`double`). Nākamajā rindā nomaini `altitude` vērtību uz `24` (nerakstot `int` otrreiz) un izvadi abus lielumus precīzi šādā formā:\n`ALTITUDE: 24 M`\n`TEMP: -12.5 C`",
+      "task": "Programmā jau ir izveidoti mainīgie `altitude` (`int`) un `temp` (`double`). Veic divus soļus:\n1. Nomaini `altitude` vērtību uz 24, nerakstot `int` otrreiz.\n2. Izvadi abus lielumus formātā, kā parādīts zemāk.",
       "hint": "Uzraksti `altitude = 24;` un izmanto divas `cout` komandas ar mainīgo nosaukumiem bez pēdiņām.",
       "solutionNote": "Mainīgā vērtība atjaunota bez atkārtotas tipa norādīšanas, un `cout` automātiski izvada abus tipus."
     },
     "break-type-safety": {
       "title": "Salauz un salabo tipu pārbaudi",
-      "task": "Šajā kodā mēģināts `int` mainīgajā `speed` ierakstīt tekstu `\"FAST\"` — Python tas darbotos. Vispirms nospied «Palaist» un izlasi kompilatora kļūdu. Pēc tam izlabo 6. rindu, piešķirot `speed` skaitli `18`, lai programma izvadītu `SPEED: 18`.",
+      "task": "Šajā kodā mēģināts `int` mainīgajā ierakstīt tekstu — Python tas darbotos, bet C++ tas ir aizliegts:\n1. Nospied «Palaist», lai izlasītu kompilatora kļūdu.\n2. Izlabo 6. rindu, piešķirot veselu skaitli 18, lai programma sakompilētos un dotu gaidāmo izvadi.",
       "hint": "Kompilators paziņo «incompatible type». Nomaini `\"FAST\"` 6. rindā pret skaitli `18` bez pēdiņām.",
       "solutionNote": "Piešķirot saderīgu veselu skaitli `18`, kompilators apstiprina kodu un programma izdrukā ātrumu."
     },
     "measure-sizeof": {
       "title": "Izmēri pamattipus ar `sizeof`",
-      "task": "Papildini abas `cout` rindas, izmantojot operatoru `sizeof(...)`, lai programma izmērītu un izvadītu `int` un `double` aizņemtos baitus mūsu platformā:\n`INT BYTES: 4`\n`DOUBLE BYTES: 8`",
+      "task": "Izmanto operatoru `sizeof(...)`, lai izvadītu `int` un `double` izmērus baitos formātā, kā parādīts zemāk:\n1. Ievieto `sizeof(int)` pirmajā `cout` teikumā.\n2. Ievieto `sizeof(double)` otrajā `cout` teikumā.",
       "hint": "Pirmajā tukšajā vietā pirms `<< endl` ieraksti `sizeof(int)`, bet otrajā — `sizeof(double)`.",
-      "solutionNote": "`sizeof(int)` atgriež `4`, bet `sizeof(double)` atgriež `8`."
+      "solutionNote": "`sizeof(int)` atgriež 4, bet `sizeof(double)` atgriež 8."
     },
     "find-type-bug": {
       "title": "Atrodi kļūdu mainīgo deklarēšanā",
@@ -99,7 +103,7 @@
       "body": [
         "Aizpildi trīs izlaistos elementus, lai programma izveidotu mainīgos veselam skaitlim un daļskaitlim, atjaunotu vērtību un izvadītu `double` izmēru baitos."
       ],
-      "explain": "Veselam skaitlim der `int` (vai `short`, `long`, `long long`), daļskaitlim ar punktu der `double` (vai `float`), bet izmēru baitos nosaka ar `sizeof`."
+      "explain": "Veseliem skaitļiem (1, 14, -40) der `int` (vai `short`, `long`, `long long`), daļskaitļiem (2.5, 91.5) der `double` (vai `float`), bet izmēru baitos nosaka ar `sizeof`."
     },
     "check-typing": {
       "title": "Kas notiks pēc šī koda palaišanas?",
@@ -109,23 +113,23 @@
       "options": {
         "compile-error": "Kompilācija apstāsies ar kļūdu — `int` mainīgajā nevar ierakstīt tekstu.",
         "auto-switch": "Mainīgais `altitude` automātiski kļūs par tekstu, tāpat kā Python valodā.",
-        "prints-zero": "Programma veiksmīgi sakompilēsies, un `altitude` vērtība kļūs par `0`."
+        "prints-zero": "Programma veiksmīgi sakompilēsies, un `altitude` vērtība kļūs par 0."
       },
       "explain": "C++ ir statiski tipizēta valoda. Kad mainīgais `altitude` ir izveidots ar tipu `int`, tajā nedrīkst saglabāt tekstu — kompilators apturēs būvēšanu vēl pirms programmas palaišanas."
     },
     "drone-memory-audit": {
       "title": "Sigma atmiņas audits",
-      "task": "Uzraksti pilnu programmu, kas izveido četrus mainīgos — `int` misijas solam (`14`), `double` Marsa gravitācijai (`3.73`), `char` sektora kodam (`'A'`) un `bool` aktīvam stāvoklim (`true`) — un izvada katra vērtību kopā ar tā izmēru baitos, izmantojot `sizeof`:\n`SOL: 14 (4 B)`\n`GRAVITY: 3.73 (8 B)`\n`SECTOR: A (1 B)`\n`ACTIVE: 1 (1 B)`",
-      "hint": "Atceries: `char` vērtību raksta vienpēdiņās `'A'`, bet `bool` vērtību `true` `cout` izvada kā `1`. Piemēram: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
+      "task": "Uzraksti pilnu programmu, veicot divus soļus:\n1. Izveido četrus mainīgos: `int` misijas solam (14), `double` Marsa gravitācijai (3.73), `char` sektora kodam ('A') un `bool` aktīvam stāvoklim (`true`).\n2. Izvadi katru vērtību kopā ar tās izmēru baitos ar `sizeof` formātā, kā parādīts zemāk.",
+      "hint": "Atceries: `char` vērtību raksta vienpēdiņās `'A'`, bet `bool` vērtību `true` `cout` izvada kā 1. Piemēram: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
     },
     "recap": {
       "title": "Trešās misijas kopsavilkums",
       "points": [
         "Mainīgie ļauj saglabāt un atjaunināt datus lidojuma laikā. C++ ir statiski tipizēta valoda: tips tiek noteikts vienreiz pie izveides.",
-        "Lielā bilde: veseliem skaitļiem izmanto `int` (arī `short`, `long`, `long long`), daļskaitļiem — `double` (arī `float`), vienam simbolam vienpēdiņās — `char`, loģikai (`1`/`0` izvadē) — `bool`.",
-        "Mainīgajam nedrīkst piešķirt nesaderīga tipa vērtību, un to pašu vārdu nedrīkst atkārtoti deklarēt ar tipu.",
-        "Operators `sizeof(...)` parāda izmēru baitos dotajā platformā (`char` — 1, `int` — 4, `double` — 8, `long` — 4 mūsu 32 bitu vidē un Windows, bet 8 uz 64 bitu Linux/macOS).",
-        "Nākamajā solī noskaidrosim, kas notiek, kad vesels skaitlis kļūst pārāk liels un neietilpst savos baitos — Sigma degvielas skaitītājs rāda četrus miljardus litru."
+        "Četri pamattipi: veseliem skaitļiem izmanto `int` (1, 14, -40), daļskaitļiem — `double` (2.5, 91.5), vienam simbolam vienpēdiņās — `char` ('A'), loģikai — `bool` (izvadē 1 vai 0).",
+        "Divi tipizēšanas likumi: mainīgajam nedrīkst piešķirt nesaderīga tipa vērtību, un to pašu vārdu tajā pašā apgabalā nedrīkst deklarēt ar tipu divreiz.",
+        "Operators `sizeof(...)` parāda izmēru baitos (`char` — 1, `int` — 4, `double` — 8; `long` — 4 mūsu 32 bitu vidē un Windows, bet 8 uz 64 bitu Linux/macOS).",
+        "Nākamajā nodaļā noskaidrosim, kas notiek, kad vesels skaitlis kļūst pārāk liels un neietilpst savos baitos — Sigma degvielas skaitītājs pēkšņi rāda četrus miljardus litru."
       ]
     }
   }

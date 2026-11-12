@@ -6,36 +6,40 @@
       "eyebrow": "Onboard memory",
       "title": "Why variables need a type",
       "body": [
-        "In the previous chapter, every number in Sigma's telemetry was hardcoded directly into the source file. During an actual flight, altitude, speed, and temperature change every second — you need variables to store and update them in memory.",
-        "In Python, the same variable can hold the number `15` on one line and the string `\"OK\"` on the next. That approach is called dynamic typing: Python carries extra type metadata around at runtime and checks it while the program executes.",
-        "Scout Sigma's flight computer has only ~1 MB (1024 KB) of memory (our course teaching assumption). C++ uses static typing: you declare each variable's type up front. The compiler reserves the exact number of bytes needed and catches type mismatches before launch."
+        "In the previous chapter, every number in Sigma's telemetry was hardcoded directly into the source file. During an actual flight, telemetry values change every second — a program needs variables to store and update them in memory.",
+        "This chapter is a broad overview of fundamental data types; their detailed mechanics will be explored in subsequent chapters.",
+        "In Python, the same variable can hold a whole number (15) on one line and text (\"OK\") on the next (dynamic typing), which adds memory overhead and unexpected runtime checks. On Sigma's flight computer (constrained to ~1 MB of RAM), C++ uses static typing: you declare each variable's type up front so the compiler reserves exact bytes and catches mismatches before launch."
       ]
     },
     "declare-variables": {
-      "title": "Creating variables and core types",
+      "title": "Declaring a variable",
+      "compareCaptions": [
+        "type once → works",
+        "type twice → compile error"
+      ],
       "body": [
-        "To declare a variable, write its type, name, and initial value: `int sol = 14;`. Here `sol` stores a whole number, while `double battery = 91.5;` stores a floating-point number with a decimal point.",
-        "This overview program also shows two more core types that we will examine closely in Chapter 6. The `char` type holds a single character and is always written in single quotes — `'A'`, never `\"A\"`.",
-        "The `bool` type holds a logical truth value: `true` or `false`. Notice one important detail: when printed through `cout`, a `bool` outputs `1` or `0`, not the words `true` or `false`.",
-        "When updating a variable later (`sol = 15;`), you do not repeat its type. For floating-point numbers here, we stick to values with just a few digits (like `91.5`) so `cout` prints them exactly as written."
+        "syntax: {type} {name} = {value};\n- type: what kind of data — `int`, `double`\n- name: how you will refer to it later\n- value: the starting value — 14, 91.5\n- ;: ends the statement — required",
+        "Declaring a variable reserves a named slot in memory. You specify its type once at creation (`int sol = 14;`). When updating its value later (`sol = 15;`), write only the variable name — never repeat the type.",
+        "Four fundamental types at a glance:\n+ **int for whole numbers.** Stores integers (1, 14, -40) without fractional parts.\n+ **double for decimals.** Stores fractional numbers (2.5, 91.5) written with a decimal point.\n+ **char for single characters.** Stores a single character ('A') enclosed in single quotes.\n+ **bool for logic.** Stores truth values (true, false), printed by cout as 1 or 0.",
+        "!> **Python habit to unlearn.** In Python, variables have no type declarations. In C++, repeating `int` on an existing variable attempts to declare a second variable with the same name, which immediately halts compilation."
       ]
     },
     "predict-sizeof": {
       "title": "How many bytes does each type take?",
       "body": [
-        "C++ provides the built-in `sizeof(...)` operator, which returns how many bytes a type or variable occupies on the current platform. Predict the exact output this program prints to the terminal.",
-        "This is a guess, not a graded quiz — you are not expected to know these numbers beforehand. Enter your prediction and compare it with the actual output."
+        "C++ provides the built-in `sizeof(...)` operator, which returns how many bytes a type or variable occupies on the current platform.",
+        "Predict the exact output this program prints to the terminal. This is an initial guess, not a graded test: enter your prediction and compare it with the actual result."
       ],
-      "explain": "On our 32-bit browser platform, `char` takes `1` byte, `int` takes `4` bytes, `double` takes `8` bytes, and `long` takes `4` bytes. On 64-bit Linux and macOS, `sizeof(long)` is `8`, whereas on 64-bit Windows it is also `4`."
+      "explain": "On our 32-bit browser platform, `char` takes 1 byte, `int` takes 4 bytes, `double` takes 8 bytes, and `long` takes 4 bytes. On 64-bit Linux and macOS, `sizeof(long)` is 8, whereas on 64-bit Windows it is also 4."
     },
     "memory-map": {
       "eyebrow": "Memory layout",
       "title": "The big picture and typing rules",
       "body": [
-        "In memory, a variable is a named slot of fixed size. For whole numbers, C++ offers an entire family (`short`, `int`, `long`, `long long` — covered in Chapter 4), with `int` as the everyday default. For fractional numbers, there are `float` and `double` (covered in Chapter 5, with `double` as the default).",
-        "Single characters (`'A'`) and boolean flags (`true`/`false`) use `char` and `bool` (1 byte each), while longer text uses `string` — all three arrive in Chapter 6. You can pass either a type name (`sizeof(int)`) or a variable (`sizeof(sol)`) to `sizeof`.",
-        "Static typing enforces two strict rules. First, you cannot store an incompatible kind of value inside a variable — such as assigning text `\"FAST\"` to an `int`. Second, you cannot declare the same variable name with a type twice in the same scope.",
-        "Notice how `sizeof(long)` varies across systems: it is `8` bytes on 64-bit Linux and macOS, `4` bytes on 64-bit Windows, and `4` bytes on our 32-bit platform. See the archive entry below for the engineering reason behind this."
+        "In memory, a variable is a named slot of fixed size. For whole numbers (such as 0, 15, -300), C++ provides an integer family (`short`, `int`, `long`, `long long`), with `int` as the everyday choice. For fractional numbers (such as 3.73, -12.5), it provides `float` and `double`, with `double` as the standard default.",
+        "The `sizeof` operator accepts either a type name (`sizeof(int)`) or a variable name (`sizeof(sol)`).",
+        "> Two strict rules of static typing:\n> 1. **No incompatible values.** You cannot assign an incompatible value to a variable — such as storing text (\"FAST\") inside an `int`.\n> 2. **No duplicate declarations.** You cannot declare the same variable name with a type twice in the same scope.",
+        "Notice how `sizeof(long)` varies across systems: it is 8 bytes on 64-bit Linux and macOS, 4 bytes on 64-bit Windows, and 4 bytes on our 32-bit platform. See the archive entry below for the engineering reason behind this."
       ],
       "alt": "Diagram: char takes 1 byte, bool takes 1 byte, int takes 4 bytes, and double takes 8 bytes on a 32-bit platform.",
       "image": "assets/l03-memory-types.en.svg",
@@ -63,7 +67,7 @@
           "kind": "deeper",
           "title": "What is 1 byte and how much fits in 1 MB?",
           "body": [
-            "One byte consists of 8 bits — eight tiny cells that each hold `0` or `1`. That gives $2^8 = 256$ distinct bit patterns in a single byte.",
+            "One byte consists of 8 bits — eight tiny cells that each hold 0 or 1. That gives $2^8 = 256$ distinct bit patterns in a single byte.",
             "In our course, Sigma's flight controller has 1 MB, or 1,048,576 bytes, of RAM. Storing a single `int` (4 bytes) costs almost nothing. Storing one million `int` sensor readings, however, would require 4 MB — four times Sigma's entire memory budget."
           ]
         }
@@ -71,21 +75,21 @@
     },
     "first-variables": {
       "title": "Your first telemetry variables",
-      "task": "The starter code already declares `altitude` (`int`) and `temp` (`double`). On the next line, update `altitude` to `24` (without writing `int` again) and print both variables in this exact format:\n`ALTITUDE: 24 M`\n`TEMP: -12.5 C`",
+      "task": "The starter code already declares `altitude` (`int`) and `temp` (`double`). Complete two steps:\n1. Update `altitude` to 24 without writing `int` again.\n2. Print both variables in the format shown below.",
       "hint": "Write `altitude = 24;` and use two `cout` statements inserting the variable names without quotes.",
       "solutionNote": "The variable is updated without repeating its type, and `cout` formats both numeric types automatically."
     },
     "break-type-safety": {
       "title": "Break and fix type safety",
-      "task": "This program attempts to store the string `\"FAST\"` inside the `int` variable `speed` — something Python allows. Click «Run» first to inspect the compiler error. Then fix line 6 by assigning the integer `18` so the program outputs `SPEED: 18`.",
+      "task": "This program attempts to store text in an `int` variable — valid in Python, but illegal in C++:\n1. Click «Run» to inspect the compiler error.\n2. Fix line 6 by assigning the integer 18 so the program compiles and gives the expected output.",
       "hint": "The compiler reports an incompatible type error. Replace `\"FAST\"` on line 6 with the unquoted integer `18`.",
       "solutionNote": "With a compatible integer `18` assigned, the code compiles cleanly and prints the speed."
     },
     "measure-sizeof": {
       "title": "Measure core types with `sizeof`",
-      "task": "Complete both `cout` statements using the `sizeof(...)` operator so the program measures and prints the byte sizes of `int` and `double` on our platform:\n`INT BYTES: 4`\n`DOUBLE BYTES: 8`",
+      "task": "Use the `sizeof(...)` operator to print the byte sizes of `int` and `double` in the format shown below:\n1. Insert `sizeof(int)` into the first `cout` statement.\n2. Insert `sizeof(double)` into the second `cout` statement.",
       "hint": "Insert `sizeof(int)` in the first gap before `<< endl` and `sizeof(double)` in the second.",
-      "solutionNote": "`sizeof(int)` evaluates to `4` and `sizeof(double)` evaluates to `8`."
+      "solutionNote": "`sizeof(int)` evaluates to 4 and `sizeof(double)` evaluates to 8."
     },
     "find-type-bug": {
       "title": "Find the variable declaration error",
@@ -97,9 +101,9 @@
     "fill-types": {
       "title": "Restore types and size check",
       "body": [
-        "Fill in the three missing tokens so the program declares an integer variable and a floating-point variable, updates a value, and prints the byte size of `double`."
+        "Fill in the three missing tokens so the program declares an integer variable and a decimal variable, updates a value, and prints the byte size of `double`."
       ],
-      "explain": "Whole numbers can use `int` (or `short`, `long`, `long long`), floating-point numbers can use `double` (or `float`), and byte size is queried with `sizeof`."
+      "explain": "Whole numbers (1, 14, -40) can use `int` (or `short`, `long`, `long long`), fractional numbers (2.5, 91.5) can use `double` (or `float`), and byte size is queried with `sizeof`."
     },
     "check-typing": {
       "title": "What happens when you compile this code?",
@@ -109,23 +113,23 @@
       "options": {
         "compile-error": "Compilation stops with an error — an `int` variable cannot store text.",
         "auto-switch": "Like in Python, `altitude` automatically switches its type to text.",
-        "prints-zero": "The program compiles cleanly and `altitude` silently becomes `0`."
+        "prints-zero": "The program compiles cleanly and `altitude` silently becomes 0."
       },
       "explain": "C++ is statically typed. Once `altitude` is created as an `int`, it cannot hold text — the compiler rejects the mismatch before any executable is built."
     },
     "drone-memory-audit": {
       "title": "Sigma memory audit",
-      "task": "Write a complete program that declares four variables — an `int` for mission sol (`14`), a `double` for Mars gravity (`3.73`), a `char` for sector code (`'A'`), and a `bool` for active state (`true`) — and prints each value along with its byte size using `sizeof`:\n`SOL: 14 (4 B)`\n`GRAVITY: 3.73 (8 B)`\n`SECTOR: A (1 B)`\n`ACTIVE: 1 (1 B)`",
-      "hint": "Remember that `char` uses single quotes `'A'`, and `bool` prints `true` as `1` through `cout`. Example: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
+      "task": "Write a complete program by following two steps:\n1. Declare four variables: an `int` for mission sol (14), a `double` for Mars gravity (3.73), a `char` for sector code ('A'), and a `bool` for active status (`true`).\n2. Print each variable along with its byte size using `sizeof` in the format shown below.",
+      "hint": "Remember that `char` uses single quotes `'A'`, and `bool` prints `true` as 1 through `cout`. Example: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
     },
     "recap": {
       "title": "Third mission recap",
       "points": [
         "Variables let a program store and update changing flight values. C++ is statically typed: each variable gets a fixed type at declaration.",
-        "The big picture: use `int` for integers (plus `short`, `long`, `long long`), `double` for decimals (plus `float`), `char` in single quotes for one character, and `bool` (`1`/`0` when printed) for logic.",
-        "You cannot assign an incompatible type to a variable, nor declare the same variable name with a type twice.",
-        "The `sizeof(...)` operator reports size in bytes on the target platform (`char` is 1, `int` is 4, `double` is 8, and `long` is 4 on our 32-bit platform and Windows, vs 8 on 64-bit Linux/macOS).",
-        "Next, we will find out what happens when a whole number grows too large for its bytes — Sigma's fuel counter suddenly jumps to four billion liters."
+        "The four fundamental types: whole numbers use `int` (1, 14, -40), decimals use `double` (2.5, 91.5), single characters use `char` in single quotes ('A'), and logic uses `bool` (printed as 1 or 0).",
+        "Two typing rules: you cannot assign an incompatible type to a variable, nor declare the same variable name with a type twice in the same scope.",
+        "The `sizeof(...)` operator reports size in bytes (`char` is 1, `int` is 4, `double` is 8; `long` is 4 on our 32-bit platform and Windows, but 8 on 64-bit Linux and macOS).",
+        "In the next chapter, we explore what happens when a whole number grows too large for its allocated bytes — Sigma's fuel counter suddenly jumps to four billion liters."
       ]
     }
   }
