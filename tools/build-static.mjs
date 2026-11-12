@@ -70,10 +70,26 @@ const rich = (s) => {
   const parts = esc(s).split("`");
   return parts.map((x, i) => i % 2 === 0 ? bold(x) : i === parts.length - 1 ? "`" + bold(x) : `<code>${x}</code>`).join("");
 };
+let SYNTAX_LABEL = "SYNTAX";
+const syntaxBlock = (lines) => {
+  const names = [];
+  const tpl = esc(lines[0].replace(/^syntax:\s*/, "")).replace(/\{([^}]+)\}/g, (_, n) => {
+    if (!names.includes(n)) names.push(n);
+    return `<span class="ph c${(names.indexOf(n) % 4) + 1}">${n}</span>`;
+  });
+  const leg = lines.slice(1).filter((l) => /^- /.test(l)).map((l) => {
+    const m = l.slice(2).match(/^([^:]+?):\s+(.*)$/); if (!m) return "";
+    const i = names.indexOf(esc(m[1].trim()));
+    return `<span class="k${i > -1 ? " c" + ((i % 4) + 1) : ""}">${esc(m[1].trim())}</span><span>${rich(m[2])}</span>`;
+  }).join("");
+  return `<div class="syn"><div class="eyebrow">${SYNTAX_LABEL}</div><div class="syn-tpl">${tpl}</div>${leg ? `<div class="syn-leg">${leg}</div>` : ""}</div>`;
+};
 const block = (p) => {
   const text = String(p ?? ""), lines = text.split("\n");
+  if (/^syntax:\s/.test(lines[0])) return syntaxBlock(lines);
+  if (/^!> ?/.test(lines[0])) return `<div class="warn">${block(lines.map((l) => l.replace(/^!?> ?/, "")).join("\n"))}</div>`;
   if (/^> ?/.test(lines[0])) return `<div class="callout">${block(lines.map((l) => l.replace(/^> ?/, "")).join("\n"))}</div>`;
-  if (lines.every((l) => /^\+ /.test(l))) return `<div class="tcards">${lines.map((l, i) => {
+  if (lines.every((l) => /^\+ /.test(l))) return `<div class="tcards" data-n="${lines.length}">${lines.map((l, i) => {
     const m = l.slice(2).match(/^\*\*([^*]+)\*\*\s*(.*)$/);
     const n = String(i + 1).padStart(2, "0");
     return `<div class="tcard"><div class="eyebrow">${n}</div>` + (m ? `<div class="tcard-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</div>${m[2] ? `<p>${rich(m[2])}</p>` : ""}` : `<p>${rich(l.slice(2))}</p>`) + "</div>";
@@ -160,7 +176,8 @@ ul.lessons li{padding:12px 18px;border-top:1px solid #DFDAD1;display:flex;gap:14
 ul.lessons li:first-child{border-top:0}
 ul.lessons .n{font:13px JBM,monospace;color:#8E887D;min-width:2.4ch;text-align:right}
 ul.lessons .soon{color:#8E887D}
-.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.tcard{background:#FFFFFF;border:1px solid #DFDAD1;border-radius:6px;padding:12px 16px}.tcard-t{font:400 18px/1.35 Jost,system-ui,sans-serif;color:#16181D;margin-top:2px}.li-t{display:block;font:400 18px/1.35 Jost,system-ui,sans-serif;color:#16181D}.li-d{display:block;margin-top:2px}ol li{margin-top:10px}.tcard p{margin-top:6px}
+.tcards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:14px}.tcard{grid-column:span 2}.tcards[data-n="1"] .tcard{grid-column:span 6}.tcards[data-n="2"] .tcard,.tcards[data-n="4"] .tcard{grid-column:span 3}.tcards[data-n="5"] .tcard:nth-child(n+4){grid-column:span 3}@media(max-width:640px){.tcards .tcard{grid-column:span 6}}.tcard{background:#FFFFFF;border:1px solid #DFDAD1;border-radius:6px;padding:12px 16px}.tcard-t{font:400 18px/1.35 Jost,system-ui,sans-serif;color:#16181D;margin-top:2px}.li-t{display:block;font:400 18px/1.35 Jost,system-ui,sans-serif;color:#16181D}.li-d{display:block;margin-top:2px}ol li{margin-top:10px}.tcard p{margin-top:6px}
+.syn{margin-top:16px;background:#0D1117;border-radius:8px;padding:16px 20px;color:#B7B0A4;overflow-x:auto}.syn .eyebrow{color:#8E887D}.syn-tpl{margin-top:8px;font:24px/1.35 JBM,monospace;color:#D8D0C2;white-space:pre-wrap}.syn .ph{border-bottom:2px dotted currentColor}.c1{color:#D1B784}.c2{color:#7FB3A3}.c3{color:#C9A882}.c4{color:#A9B79B}.syn-leg{margin-top:12px;padding-top:10px;border-top:1px solid #1F252F;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}.syn-leg .k{font:13px JBM,monospace;color:#D8D0C2}.syn code{background:#1F2630!important;border-color:#2A313C!important;color:#D8D0C2}.warn{margin-top:16px;padding:10px 18px;border:1px solid rgba(140,60,40,.3);border-left:3px solid #8C3C28;border-radius:6px;background:rgba(140,60,40,.05)}.warn>:first-child{margin-top:0}.warn strong{color:#8C3C28}.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}.cmp pre.code{margin-top:0}.cmp .ok{color:#2F6355;margin-top:6px}.cmp .no{color:#8C3C28;margin-top:6px}
 .callout{margin-top:16px;padding:12px 18px;background:#FFFFFF;border:1px solid #DFDAD1;border-left:3px solid #5A5F68;border-radius:6px}.callout>:first-child{margin-top:0}
 .foot{max-width:820px;margin:0 auto;padding:20px 24px 40px;border-top:1px solid #DFDAD1;font:12px JBM,monospace;color:#8E887D}
 `;
@@ -236,7 +253,7 @@ function stepHtml(step, tx, u, courseDir, idx, n) {
   if (k === "editor") {
     const shown = sv(step, tx, "code"), starter = sv(step, tx, "starter"), expected = sv(step, tx, "expected");
     if (shown) out += codeBlock(shown);
-    if (tx.task) out += `<p class="task">${rich(tx.task)}</p>`;
+    if (tx.task) out += `<div class="task">${block(tx.task)}</div>`;
     if (starter) out += `<div class="label">${u.starter}</div>` + codeBlock(starter);
     if (expected !== undefined && !step.hideExpected) out += `<div class="label">${u.expected}</div>` + codeBlock(String(expected));
     if (tx.hint) out += `<details><summary>${u.hint}</summary><p>${rich(tx.hint)}</p></details>`;
@@ -264,6 +281,10 @@ function stepHtml(step, tx, u, courseDir, idx, n) {
   }
   if (k === "summary" && (tx.points || []).length) out += `<ul>${tx.points.map((p) => `<li>${rich(p)}</li>`).join("")}</ul>`;
 
+  if ((step.compare || []).length) {
+    const caps = tx.compareCaptions || [];
+    out += `<p class="label">${u.htmlLang === "lv" ? "Piemērs" : "Example"}</p><div class="cmp">${step.compare.map((it, i) => `<div>${codeBlock(it.code || "")}<p class="${it.ok === false ? "no" : "ok"}">${rich(caps[i] || "")}</p></div>`).join("")}</div>`;
+  }
   for (const m of tx.more || []) {
     const src = (m.sources || []).length
       ? `<p class="label">${u.sources}</p><ul>${m.sources.map((s) => `<li>${s.url ? `<a href="${esc(s.url)}">${esc(s.title || s.url)}</a>` : esc(s.title || "")}</li>`).join("")}</ul>`
@@ -281,6 +302,7 @@ const report = { pages: 0, skipped: [] };
 
 for (const lang of langs) {
   const u = UI[lang];
+  SYNTAX_LABEL = lang === "lv" ? "SINTAKSE" : "SYNTAX";
   const live = [];
 
   for (const course of courses.filter((c) => c.status === "live")) {

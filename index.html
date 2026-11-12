@@ -991,7 +991,7 @@
   .printdoc .callout p, .printdoc .callout li { color: #16181D; }
 
   /* ══ Карточки правил: "+ **Название.** текст" ══ */
-  .tcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+  .tcards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 14px; }
   .tcard {
     background: var(--surface-card); border: 1px solid var(--line);
     border-radius: var(--radius-md); padding: 14px 18px 16px;
@@ -1011,6 +1011,99 @@
 
   /* В светлой теме подсветка кода в тексте мягче — без рамки */
   :root[data-theme="light"] .ic { background: #EFEBE4; border-color: #EFEBE4; }
+
+  /* ══ Блок «Синтаксис» — тёмный в обеих темах, как блоки кода ══ */
+  .syn { margin-top: 22px; background: var(--surface-sunken); border-radius: var(--radius-md); padding: 18px 22px 20px; }
+  .syn-ey { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; color: #8E887D; }
+  .syn-tpl { margin-top: 10px; font-family: var(--font-mono); font-size: clamp(20px, 3.4vw, 28px); line-height: 1.35; color: #D8D0C2; white-space: pre-wrap; }
+  .syn .ph { border-bottom: 2px dotted currentColor; padding-bottom: 1px; }
+  .syn .c1 { color: #D1B784; } .syn .c2 { color: #7FB3A3; } .syn .c3 { color: #C9A882; } .syn .c4 { color: #A9B79B; }
+  .syn-leg {
+    margin-top: 16px; padding-top: 12px; border-top: 1px solid #1F252F;
+    display: grid; grid-template-columns: auto 1fr; gap: 6px 16px;
+    font-size: 14px; line-height: 1.6; color: #B7B0A4;
+  }
+  .syn-leg .k { font-family: var(--font-mono); font-size: 13px; white-space: nowrap; color: #D8D0C2; }
+  .syn-leg .k.c1 { color: #D1B784; } .syn-leg .k.c2 { color: #7FB3A3; } .syn-leg .k.c3 { color: #C9A882; } .syn-leg .k.c4 { color: #A9B79B; }
+  .syn strong { color: #D8D0C2; }
+  .syn .ic, :root[data-theme="light"] .syn .ic { background: #1F2630; border-color: #2A313C; color: #D8D0C2; }
+
+  /* ══ Предупреждение: «!> текст» — для типичной ошибки ══ */
+  .warn {
+    margin-top: 18px; padding: 12px 20px 14px; border-radius: var(--radius-md);
+    border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent);
+    border-left: 3px solid var(--danger);
+    background: color-mix(in srgb, var(--danger) 7%, transparent);
+  }
+  .warn > :first-child { margin-top: 0; }
+  .warn strong { color: var(--danger); }
+  .warn p { color: var(--ink); }
+
+  /* ══ Два примера рядом ══ */
+  .cmp { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
+  .cmp .codeblock { margin-top: 0; }
+  .cmp-cap { margin-top: 8px; font-size: 14px; }
+  .cmp-cap.ok { color: var(--success); }
+  .cmp-cap.no { color: var(--danger); }
+  .printdoc .cmp-cap.ok { color: #2F6355; } .printdoc .cmp-cap.no { color: #8C3C28; }
+  .printdoc .warn { break-inside: avoid; } .printdoc .syn { break-inside: avoid; }
+
+  /* Карточки: раскладка по числу — без одинокой карточки в строке */
+  .tcard { grid-column: span 2; }
+  .tcards[data-n="1"] .tcard { grid-column: span 6; }
+  .tcards[data-n="2"] .tcard, .tcards[data-n="4"] .tcard { grid-column: span 3; }
+  .tcards[data-n="5"] .tcard:nth-child(n+4) { grid-column: span 3; }
+  @media (max-width: 640px) { .tcards .tcard { grid-column: span 6; } }
+
+  /* Подсказка у части синтаксиса: наведение или касание */
+  .syn .ph[tabindex] { position: relative; cursor: help; outline: none; }
+  .syn .ph[tabindex]:focus-visible { box-shadow: 0 0 0 2px var(--focus-ring); border-radius: 2px; }
+  .syn .tip {
+    position: absolute; left: 0; top: calc(100% + 12px); z-index: 5;
+    width: max-content; max-width: 280px; padding: 8px 12px;
+    background: #1F2630; border: 1px solid #2A313C; border-radius: 6px;
+    font-family: var(--font-sans); font-size: 13px; line-height: 1.5; color: #D8D0C2; white-space: normal;
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 0.12s ease, transform 0.12s ease; pointer-events: none;
+  }
+  .syn .tip::before {
+    content: ""; position: absolute; left: 14px; top: -6px; width: 10px; height: 10px;
+    background: #1F2630; border-left: 1px solid #2A313C; border-top: 1px solid #2A313C; transform: rotate(45deg);
+  }
+  .syn .ph[tabindex]:hover .tip, .syn .ph[tabindex]:focus .tip { opacity: 1; visibility: visible; transform: none; }
+
+  /* Метка над примерами рядом */
+  .cmp-ey { margin-top: 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; color: var(--ink-faint); }
+  .cmp-ey + .cmp { margin-top: 8px; }
+
+  /* Задание и ожидаемый вывод — рядом, открыто */
+  .task > :first-child { margin-top: 16px; }
+  .task p { color: var(--ink); }
+  .expected { margin-top: 14px; }
+  .exp-ey { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-faint); }
+  .expected .codeblock { margin-top: 6px; }
+
+  /* ══ PDF для Moodle — стиль университета ══
+     Цвета — переменные: их заменят на цвета RNU, остальное не трогать. */
+  body.brand-moodle {
+    --m-accent: #1F3A5F;      /* основной цвет университета — заменить */
+    --m-accent-soft: #E8EDF3; /* светлый оттенок основного — заменить */
+    --m-ink: #1A1A1A;
+    --m-muted: #4A4F57;
+    --m-line: #D7DCE2;
+  }
+  .brand-moodle .printdoc { color: var(--m-ink); }
+  .brand-moodle .p-head-moodle { border-bottom: 3px solid var(--m-accent); padding-bottom: 10px; }
+  .brand-moodle .p-head-moodle .p-course { margin-left: 0; text-align: left; color: var(--m-accent); }
+  .brand-moodle .printdoc h1, .brand-moodle .printdoc h2, .brand-moodle .printdoc h3 { color: var(--m-ink); }
+  .brand-moodle .printdoc h1 { color: var(--m-accent); }
+  .brand-moodle .p-num, .brand-moodle .p-label, .brand-moodle .p-tag { color: var(--m-accent); }
+  .brand-moodle .p-step { border-top-color: var(--m-line); }
+  .brand-moodle .printdoc p, .brand-moodle .printdoc li { color: var(--m-ink); }
+  .brand-moodle .printdoc .callout { background: var(--m-accent-soft); border-color: var(--m-line); border-left-color: var(--m-accent); }
+  .brand-moodle .printdoc .tcard { border-color: var(--m-line); }
+  .brand-moodle .p-answers { border-top-color: var(--m-accent); }
+  .brand-moodle .p-sources a { color: var(--m-accent); }
 </style>
 </head>
 <body>
@@ -1054,6 +1147,11 @@ var CONTENT = "content/";
    Глава с "draft" в course.json видна только с ?preview. Студенты её
    не видят, поисковики тоже, и в статистику эти визиты не попадают. */
 var PREVIEW = /[?&]preview\b/.test(location.search);
+
+/* PDF для Moodle: ?pdf=moodle#/course/cpp/lv/print/3
+   Та же печатная версия главы, но без упоминаний 67coder в шапке и
+   подвале и в стиле университета. Собирается скриптом tools/make-pdf.mjs. */
+var PDF_MODE = /[?&]pdf=moodle\b/.test(location.search);
 
 /* ── Языки платформы ──────────────────────────────────────── */
 var LANGS = [
@@ -1145,6 +1243,9 @@ var UI = {
     printNow: "Drukāt vai saglabāt PDF",
     backToFurthest: "↩ uz {n}. soli",
     chapterN: "{n}. nodaļa",
+    syntaxLabel: "SINTAKSE",
+    pRunWhereNeutral: "Palaidiet kodu savā C++ vidē.",
+    exampleLabel: "PIEMĒRS",
     previewNote: "Priekšskatījums: melnraksti redzami tikai pēc šīs saites. Studenti tos neredz.",
     draftBadge: "melnraksts",
     imageTask: "Attēla uzdevums",
@@ -1256,6 +1357,9 @@ var UI = {
     printNow: "Print or save as PDF",
     backToFurthest: "↩ back to step {n}",
     chapterN: "Chapter {n}",
+    syntaxLabel: "SYNTAX",
+    pRunWhereNeutral: "Run the code in your C++ environment.",
+    exampleLabel: "EXAMPLE",
     previewNote: "Preview: drafts are visible only through this link. Students cannot see them.",
     draftBadge: "draft",
     imageTask: "Image task",
@@ -1912,15 +2016,42 @@ function rich(s) {
   return out;
 }
 
+/* «syntax: {type} {name} = {value};» + строки «- type: пояснение» —
+   крупный шаблон, части в фигурных скобках подсвечены и подписаны. */
+function syntaxBlock(lines) {
+  var notes = {}, legendRows = [];
+  lines.slice(1).forEach(function (l) {
+    var m = /^- /.test(l) && l.slice(2).match(/^([^:]+?):\s+(.*)$/);
+    if (m) { notes[esc(m[1].trim())] = m[2]; legendRows.push([m[1].trim(), m[2]]); }
+  });
+  var names = [];
+  var tpl = esc(lines[0].replace(/^syntax:\s*/, "")).replace(/\{([^}]+)\}/g, function (_, n) {
+    if (names.indexOf(n) === -1) names.push(n);
+    var tip = notes[n] ? '<span class="tip" role="tooltip">' + rich(notes[n]) + "</span>" : "";
+    return '<span class="ph c' + ((names.indexOf(n) % 4) + 1) + '"' + (tip ? ' tabindex="0"' : "") + ">" + n + tip + "</span>";
+  });
+  var legend = legendRows.map(function (r) {
+    var i = names.indexOf(esc(r[0]));
+    return '<span class="k' + (i > -1 ? " c" + ((i % 4) + 1) : "") + '">' + esc(r[0]) + "</span><span>" + rich(r[1]) + "</span>";
+  }).join("");
+  return '<div class="syn"><div class="syn-ey">' + esc(t("syntaxLabel")) + '</div>' +
+    '<div class="syn-tpl">' + tpl + "</div>" + (legend ? '<div class="syn-leg">' + legend + "</div>" : "") + "</div>";
+}
+
 function block(p) {
   var text = String(p === undefined || p === null ? "" : p);
   var lines = text.split("\n");
+  if (/^syntax:\s/.test(lines[0])) return syntaxBlock(lines);
+  if (/^!> ?/.test(lines[0])) {
+    var winner = lines.map(function (l) { return l.replace(/^!?> ?/, ""); }).join("\n");
+    return '<div class="warn">' + block(winner) + "</div>";
+  }
   if (/^> ?/.test(lines[0])) {
     var inner = lines.map(function (l) { return l.replace(/^> ?/, ""); }).join("\n");
     return '<div class="callout">' + block(inner) + "</div>";
   }
   if (lines.length && lines.every(function (l) { return /^\+ /.test(l); })) {
-    return '<div class="tcards">' + lines.map(function (l, i) {
+    return '<div class="tcards" data-n="' + lines.length + '">' + lines.map(function (l, i) {
       var body = l.slice(2), m = body.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
       var n = (i < 9 ? "0" : "") + (i + 1);
       return '<div class="tcard"><div class="tcard-n">' + n + "</div>" +
@@ -2261,9 +2392,6 @@ function editorView(ctx, step, tx) {
 
   var extras = "";
   if (tx.hint) extras += collapsible(t("hintTag"), "", "<p>" + rich(tx.hint) + "</p>");
-  if (expected !== undefined && !step.hideExpected) {
-    extras += collapsible(t("expectedTag"), "", '<pre class="codeblock">' + esc(String(expected)) + "</pre>");
-  }
   if (solution) {
     extras += collapsible(t("solutionTag"), t("solutionNote"), codeBlock(String(solution), null) +
       (tx.solutionNote ? "<p>" + rich(tx.solutionNote) + "</p>" : ""));
@@ -2271,7 +2399,10 @@ function editorView(ctx, step, tx) {
 
   return stepHead(tx, step) +
     (shown ? codeBlock(shown, step.focus) : "") +
-    (tx.task ? "<p>" + rich(tx.task) + "</p>" : "") +
+    (tx.task ? '<div class="task">' + block(tx.task) + "</div>" : "") +
+    (expected !== undefined && !step.hideExpected
+      ? '<div class="expected"><div class="exp-ey">' + esc(t("expectedTag")) + '</div><pre class="codeblock">' + esc(String(expected)) + "</pre></div>"
+      : "") +
     '<div class="editor">' +
       '<div class="editor-bar">' +
         '<span class="meta-mono">' + esc(step.lang || "cpp") + " · main." + ext + "</span>" +
@@ -2309,10 +2440,20 @@ var VIEWS = {
   blanks: blanksView, editor: editorView, summary: summaryView
 };
 
+function compareBlock(step, tx) {
+  var items = step.compare || [];
+  if (!items.length) return "";
+  var caps = tx.compareCaptions || [];
+  return '<div class="cmp-ey">' + esc(t("exampleLabel")) + '</div><div class="cmp">' + items.map(function (it, i) {
+    return "<div>" + codeBlock(it.code || "", null) +
+      '<div class="cmp-cap ' + (it.ok === false ? "no" : "ok") + '">' + rich(caps[i] || "") + "</div></div>";
+  }).join("") + "</div>";
+}
+
 function stepView(ctx, step, texts) {
   var tx = (texts.steps && texts.steps[step.id]) || {};
   var view = VIEWS[step.kind] || theoryView;
-  return view(ctx, step, tx) + moreBlocks(tx);
+  return view(ctx, step, tx) + compareBlock(step, tx) + moreBlocks(tx);
 }
 
 /* ── Экран целиком ────────────────────────────────────────── */
@@ -2354,8 +2495,7 @@ function lessonPlayer(ctx, data, texts) {
       '<h1 lang="' + ctx.lang + '" class="lesson-title-h">' + rich(texts.title || "") + "</h1>" +
       '<div class="lesson-bar">' +
         '<div class="steps">' + bar + "</div>" +
-        '<div class="lesson-tools"><span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span>" +
-          '<a class="btn small" href="' + printHash(ctx.course.id, ctx.lang, ctx.n) + '">' + esc(t("printLink")) + "</a></div>" +
+        '<div class="lesson-tools"><span class="meta-mono">' + (i + 1) + " / " + steps.length + "</span></div>" +
       "</div>" +
       '<section class="step" lang="' + ctx.lang + '">' + stepView(ctx, step, texts) + "</section>" +
       nav +
@@ -2735,12 +2875,12 @@ function printStep(ctx, step, tx, num, answers) {
   } else if (step.kind === "editor") {
     var shown = sv(step, tx, "code"), starter = sv(step, tx, "starter"), solution = sv(step, tx, "solution");
     out += (shown ? codeBlock(shown, step.focus) : "") +
-      (tx.task ? '<p class="p-task">' + rich(tx.task) + "</p>" : "") +
+      (tx.task ? '<div class="p-task">' + block(tx.task) + "</div>" : "") +
       (starter ? '<p class="p-label">' + esc(t("pStarter")) + "</p>" + codeBlock(starter, null) : "") +
       (typeof step.stdin === "string" && step.stdin ? '<p class="p-label">' + esc(t("stdinLabel")) + '</p><pre class="codeblock">' + esc(step.stdin) + "</pre>" : "") +
       (expected !== undefined && !step.hideExpected ? '<p class="p-label">' + esc(t("expectedTag")) + '</p><pre class="codeblock">' + esc(String(expected)) + "</pre>" : "") +
       (tx.hint ? '<p class="p-hint"><strong>' + esc(t("hintTag")) + ".</strong> " + rich(tx.hint) + "</p>" : "") +
-      '<p class="p-where">' + esc(t("pRunWhere")) + "</p>";
+      '<p class="p-where">' + esc(t(PDF_MODE ? "pRunWhereNeutral" : "pRunWhere")) + "</p>";
     if (solution) answer(codeBlock(String(solution), null) + (tx.solutionNote ? "<p>" + rich(tx.solutionNote) + "</p>" : ""));
   } else if (step.kind === "clickline") {
     out += numberedCode(sv(step, tx, "code")) + task("pTaskClick");
@@ -2788,7 +2928,7 @@ function printView(ctx, data, texts) {
       '<div class="p-num">' + esc(t("pStep")) + " " + (i + 1) + (tx.eyebrow ? " · " + esc(tx.eyebrow) : "") +
         (step.optional ? " · " + esc(t("optionalTask")) : "") + "</div>" +
       "<h2>" + rich(tx.title || "") + "</h2>" + paras(tx.body) +
-      printStep(ctx, step, tx, i + 1, answers) + printMore(tx) +
+      printStep(ctx, step, tx, i + 1, answers) + compareBlock(step, tx) + printMore(tx) +
     "</section>";
   }).join("");
 
@@ -2808,17 +2948,20 @@ function printView(ctx, data, texts) {
       '<button type="button" class="btn primary" id="printNow">' + esc(t("printNow")) + "</button>" +
     "</div>" +
     '<article class="printdoc" lang="' + ctx.lang + '">' +
-      '<header class="p-head">' +
+      (PDF_MODE
+        ? '<header class="p-head p-head-moodle"><span class="p-course">' + esc(ctx.course.title[ctx.lang] || ctx.course.title[state.uiLang]) +
+          (mod ? " · " + esc(moduleName(ctx.course.id, mod)) : "") + "</span></header>"
+        : '<header class="p-head">' +
         '<svg viewBox="51 45 138 150" aria-hidden="true" style="color: #5A5F68">' +
           markSvg("#D8D0C2", "#16181D", "#5A5F68", false) + "</svg>" +
         '<span class="p-brand">[<b>67</b>]coder</span>' +
         '<span class="p-course">' + esc(ctx.course.title[ctx.lang] || ctx.course.title[state.uiLang]) +
           (mod ? " · " + esc(moduleName(ctx.course.id, mod)) : "") + "</span>" +
-      "</header>" +
+      "</header>") +
       '<div class="p-num" style="margin-top: 28px">' + esc(t("lessonEyebrow")) + " " + ctx.n + "</div>" +
       "<h1>" + esc(texts.title || "") + "</h1>" +
       body + appendix +
-      '<footer class="p-foot">67coder.com · ' + esc(ctx.course.title[ctx.lang] || "") + " · " + esc(t("lessonEyebrow")) + " " + ctx.n + "</footer>" +
+      (PDF_MODE ? "" : '<footer class="p-foot">67coder.com · ' + esc(ctx.course.title[ctx.lang] || "") + " · " + esc(t("lessonEyebrow")) + " " + ctx.n + "</footer>") +
     "</article>";
 }
 
@@ -2833,6 +2976,7 @@ function showPrint(course, lesson, lang, token) {
       var wanted = printHash(course.id, lang, lesson.n);
       if (location.hash !== wanted) { history.replaceState(null, "", wanted); lastHash = wanted; }
       document.body.classList.add("is-print");
+      if (PDF_MODE) document.body.classList.add("brand-moodle");
       document.title = String(lesson.n).padStart(2, "0") + " · " + (pair[1].title || "") + " — 67coder";
       paint(printView({ course: course, lang: lang, n: lesson.n }, pair[0], pair[1]));
       loadSvgSlots();
@@ -2884,7 +3028,7 @@ function gcFlush() {
   }
 }
 function track() {
-  if (PREVIEW) return;
+  if (PREVIEW || PDF_MODE) return;
   var path = (location.hash || "#/catalog").replace(/^#/, "") || "/catalog";
   if (gcSeen[path]) return;
   gcSeen[path] = true;

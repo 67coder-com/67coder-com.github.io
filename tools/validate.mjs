@@ -60,6 +60,14 @@ function checkLesson(courseId, dir, l, published) {
       if (!KINDS.has(step.kind)) { err(sw, `неизвестный тип шага «${step.kind}»`); continue; }
       if (!tx.title && step.kind !== "summary") warn(sw, "нет заголовка");
 
+      if ((step.compare || []).length) {
+        const caps = tx.compareCaptions || [];
+        if (caps.length !== step.compare.length) err(sw, `примеров в compare ${step.compare.length}, а подписей compareCaptions ${caps.length}`);
+        step.compare.forEach((c, i) => { if (!c.code) err(sw, `в compare пример ${i + 1} без кода`); });
+      }
+      for (const b of [].concat(tx.body || [])) {
+        if (/^syntax:\s/.test(String(b)) && !/\{[^}]+\}/.test(String(b).split("\n")[0])) warn(sw, "в шаблоне синтаксиса нет ни одной части в {фигурных скобках}");
+      }
       if (step.kind === "quiz") {
         const opts = step.options || Object.keys(tx.options || {});
         if (!opts.includes(step.answer)) err(sw, `правильный ответ «${step.answer}» не среди вариантов ${JSON.stringify(opts)}`);
