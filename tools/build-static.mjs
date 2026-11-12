@@ -65,9 +65,30 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 const exists = (p) => fs.existsSync(p);
 const pad2 = (n) => (n < 10 ? "0" : "") + n;
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const rich = (s) => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
+const rich = (s) => {
+  const bold = (x) => x.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  const parts = esc(s).split("`");
+  return parts.map((x, i) => i % 2 === 0 ? bold(x) : i === parts.length - 1 ? "`" + bold(x) : `<code>${x}</code>`).join("");
+};
+const block = (p) => {
+  const text = String(p ?? ""), lines = text.split("\n");
+  if (/^> ?/.test(lines[0])) return `<div class="callout">${block(lines.map((l) => l.replace(/^> ?/, "")).join("\n"))}</div>`;
+  if (lines.every((l) => /^\+ /.test(l))) return `<div class="tcards">${lines.map((l, i) => {
+    const m = l.slice(2).match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+    const n = String(i + 1).padStart(2, "0");
+    return `<div class="tcard"><div class="eyebrow">${n}</div>` + (m ? `<div class="tcard-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</div>${m[2] ? `<p>${rich(m[2])}</p>` : ""}` : `<p>${rich(l.slice(2))}</p>`) + "</div>";
+  }).join("")}</div>`;
+  if (lines.every((l) => /^- /.test(l))) return `<ul>${lines.map((l) => `<li>${rich(l.slice(2))}</li>`).join("")}</ul>`;
+  if (lines.every((l) => /^\d+\.\s/.test(l))) return `<ol>${lines.map((l) => {
+    const item = l.replace(/^\d+\.\s/, ""), m = item.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+    return `<li>${m ? `<span class="li-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</span>${m[2] ? `<span class="li-d">${rich(m[2])}</span>` : ""}` : rich(item)}</li>`;
+  }).join("")}</ol>`;
+  const k = lines.findIndex((l) => /^(- |\+ |\d+\.\s)/.test(l));
+  if (k > 0 && lines.slice(k).every((l) => /^(- |\+ |\d+\.\s)/.test(l))) return `<p>${rich(lines.slice(0, k).join(" "))}</p>` + block(lines.slice(k).join("\n"));
+  return `<p>${rich(text)}</p>`;
+};
 const plain = (s) => String(s ?? "").replace(/`/g, "");
-const paras = (b) => (Array.isArray(b) ? b : b ? [b] : []).map((p) => `<p>${rich(p)}</p>`).join("");
+const paras = (b) => (Array.isArray(b) ? b : b ? [b] : []).map(block).join("");
 const sv = (step, tx, f) => (tx && tx[f] !== undefined ? tx[f] : step[f]);
 const write = (rel, html) => {
   const file = path.join(OUT, rel);
@@ -139,6 +160,8 @@ ul.lessons li{padding:12px 18px;border-top:1px solid #DFDAD1;display:flex;gap:14
 ul.lessons li:first-child{border-top:0}
 ul.lessons .n{font:13px JBM,monospace;color:#8E887D;min-width:2.4ch;text-align:right}
 ul.lessons .soon{color:#8E887D}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.tcard{background:#FFFFFF;border:1px solid #DFDAD1;border-radius:6px;padding:12px 16px}.tcard-t{font:400 18px/1.35 Jost,system-ui,sans-serif;color:#16181D;margin-top:2px}.li-t{display:block;font:400 18px/1.35 Jost,system-ui,sans-serif;color:#16181D}.li-d{display:block;margin-top:2px}ol li{margin-top:10px}.tcard p{margin-top:6px}
+.callout{margin-top:16px;padding:12px 18px;background:#FFFFFF;border:1px solid #DFDAD1;border-left:3px solid #5A5F68;border-radius:6px}.callout>:first-child{margin-top:0}
 .foot{max-width:820px;margin:0 auto;padding:20px 24px 40px;border-top:1px solid #DFDAD1;font:12px JBM,monospace;color:#8E887D}
 `;
 

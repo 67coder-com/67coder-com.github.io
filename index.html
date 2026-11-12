@@ -65,6 +65,7 @@
 
     --surface-base: #090B0F;
     --surface-raised: #151A22;
+    --surface-card: #1C232D;
     --surface-sunken: #0D1117;
     --surface-selected: #1F2630;
     --line: #1F252F;
@@ -102,6 +103,7 @@
     color-scheme: light;
     --surface-base: #F7F5F1;
     --surface-raised: #FFFFFF;
+    --surface-card: #FFFFFF;
     --surface-sunken: #141821;
     --surface-selected: #ECE8E0;
     --line: #DFDAD1;
@@ -957,6 +959,58 @@
     white-space: pre-wrap; font-family: var(--font-mono); font-size: 13px; line-height: 1.6;
     background: var(--surface-sunken); color: var(--ink-on-sunken); border-radius: var(--radius-sm);
   }
+
+  /* ══ Разметка текста урока: жирное, списки, выноска ══ */
+  .step strong, .more-body strong, .verdict strong { color: var(--ink); font-weight: 600; }
+  .tlist { margin: 14px 0 0; padding: 0; list-style: none; }
+  .tlist li { position: relative; margin-top: 8px; padding-left: 28px; color: var(--ink-muted); line-height: 1.65; }
+  ul.tlist li::before {
+    content: ""; position: absolute; left: 9px; top: 0.7em;
+    width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--ink-faint);
+  }
+  ol.tlist { counter-reset: tl; }
+  ol.tlist li { counter-increment: tl; padding-left: 40px; margin-top: 12px; }
+  ol.tlist li::before {
+    content: counter(tl); position: absolute; left: 0; top: 2px;
+    width: 26px; height: 26px; box-sizing: border-box; border-radius: var(--radius-pill);
+    border: 1px solid var(--line-strong); color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 12px; line-height: 1;
+  }
+  .callout {
+    margin-top: 18px; padding: 14px 20px 16px;
+    background: var(--surface-raised); border: 1px solid var(--line);
+    border-left: 3px solid var(--ink-muted); border-radius: var(--radius-md);
+  }
+  .callout > :first-child { margin-top: 0; }
+  .callout p, .callout li { color: var(--ink); }
+
+  .printdoc strong { color: #16181D; }
+  .printdoc .tlist li { color: #2B2E34; }
+  .printdoc .callout { background: #F4F2ED; border-color: #DFDAD1; border-left-color: #5A5F68; break-inside: avoid; }
+  .printdoc .callout p, .printdoc .callout li { color: #16181D; }
+
+  /* ══ Карточки правил: "+ **Название.** текст" ══ */
+  .tcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+  .tcard {
+    background: var(--surface-card); border: 1px solid var(--line);
+    border-radius: var(--radius-md); padding: 14px 18px 16px;
+  }
+  .tcard .tcard-n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; color: var(--ink-faint); }
+  .tcard .tcard-t { margin-top: 4px; color: var(--ink); font-family: var(--font-display); font-size: 18px; font-weight: 400; line-height: 1.35; }
+  .step .tcard p { margin-top: 6px; }
+  .printdoc .tcard { background: #FFFFFF; border-color: #DFDAD1; break-inside: avoid; }
+  .printdoc .tcard .tcard-t { color: #16181D; }
+
+  /* Пункт-правило: название крупно, пояснение обычным текстом */
+  .li-t { display: block; font-family: var(--font-display); font-size: 18px; line-height: 1.35; color: var(--ink); }
+  .li-d { display: block; margin-top: 2px; color: var(--ink-muted); }
+  .callout .li-d { color: var(--ink-muted); }
+  .printdoc .li-t { color: #16181D; }
+  .printdoc .li-d { color: #2B2E34; }
+
+  /* В светлой теме подсветка кода в тексте мягче — без рамки */
+  :root[data-theme="light"] .ic { background: #EFEBE4; border-color: #EFEBE4; }
 </style>
 </head>
 <body>
@@ -1836,14 +1890,67 @@ function normalizeOut(s) {
 /* Код внутри текста урока пишется в обратных кавычках: `cout`.
    Сначала всё экранируется, потом `…` становится <code class="ic">,
    поэтому HTML из текста урока попасть на страницу не может. */
+/* Разметка текста урока — маленький и предсказуемый набор:
+     `код`            моноширинный на подложке
+     **слово**        жирное — ключевое понятие
+   Абзац целиком:
+     "- а\n- б"       маркированный список
+     "1. а\n2. б"     нумерованный список (правила, шаги)
+     "> текст"        выноска — главное правило или вывод; внутри
+                      можно список
+   Всё экранируется до разметки, поэтому HTML из урока на страницу
+   не попадёт. */
 function rich(s) {
-  return esc(s === undefined || s === null ? "" : s).replace(/`([^`]+)`/g, '<code class="ic">$1</code>');
+  var bold = function (x) { return x.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"); };
+  var parts = esc(s === undefined || s === null ? "" : s).split("`");
+  var out = "";
+  for (var i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) out += bold(parts[i]);
+    else if (i === parts.length - 1) out += "`" + bold(parts[i]);   /* непарная кавычка */
+    else out += '<code class="ic">' + parts[i] + "</code>";
+  }
+  return out;
+}
+
+function block(p) {
+  var text = String(p === undefined || p === null ? "" : p);
+  var lines = text.split("\n");
+  if (/^> ?/.test(lines[0])) {
+    var inner = lines.map(function (l) { return l.replace(/^> ?/, ""); }).join("\n");
+    return '<div class="callout">' + block(inner) + "</div>";
+  }
+  if (lines.length && lines.every(function (l) { return /^\+ /.test(l); })) {
+    return '<div class="tcards">' + lines.map(function (l, i) {
+      var body = l.slice(2), m = body.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+      var n = (i < 9 ? "0" : "") + (i + 1);
+      return '<div class="tcard"><div class="tcard-n">' + n + "</div>" +
+        (m ? '<div class="tcard-t">' + rich(m[1].replace(/[.:]\s*$/, "")) + "</div>" + (m[2] ? "<p>" + rich(m[2]) + "</p>" : "")
+           : "<p>" + rich(body) + "</p>") + "</div>";
+    }).join("") + "</div>";
+  }
+  if (lines.length && lines.every(function (l) { return /^- /.test(l); })) {
+    return '<ul class="tlist">' + lines.map(function (l) { return "<li>" + rich(l.slice(2)) + "</li>"; }).join("") + "</ul>";
+  }
+  if (lines.length && lines.every(function (l) { return /^\d+\.\s/.test(l); })) {
+    return '<ol class="tlist">' + lines.map(function (l) {
+      var item = l.replace(/^\d+\.\s/, ""), m = item.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+      /* пункт-правило: «1. **Название.** пояснение» — название крупно, пояснение обычным текстом */
+      return "<li>" + (m ? '<span class="li-t">' + rich(m[1].replace(/[.:]\s*$/, "")) + "</span>" +
+        (m[2] ? '<span class="li-d">' + rich(m[2]) + "</span>" : "") : rich(item)) + "</li>";
+    }).join("") + "</ol>";
+  }
+  /* абзац, за которым идёт список: "Два правила:\n1. …\n2. …" */
+  var k = lines.findIndex ? lines.findIndex(function (l) { return /^(- |\+ |\d+\.\s)/.test(l); }) : -1;
+  if (k > 0 && lines.slice(k).every(function (l) { return /^(- |\+ |\d+\.\s)/.test(l); })) {
+    return "<p>" + rich(lines.slice(0, k).join(" ")) + "</p>" + block(lines.slice(k).join("\n"));
+  }
+  return "<p>" + rich(text) + "</p>";
 }
 
 function paras(body) {
   if (!body) return "";
   var list = isArray(body) ? body : [body];
-  return list.map(function (p) { return "<p>" + rich(p) + "</p>"; }).join("");
+  return list.map(block).join("");
 }
 
 function stepHead(tx, step) {
