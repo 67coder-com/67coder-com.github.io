@@ -1,0 +1,97 @@
+{
+  "n": 3,
+  "slug": "data-types",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-types",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9, for an online C++ course. Inside a dimly lit Mars research base, a small light scout drone hovers beside a vertical diagnostic console displaying segmented memory blocks of different sizes. The course mascot — two square brackets [ ] facing each other with two round cream eyes between them — inspects the illuminated memory segments. Outside a narrow viewport, the Martian ground stretches out. Use the attached image as the exact reference for the mascot. Style: minimal, geometric, flat shapes, no outlines, no text, no letters, no numbers, no logos, not cartoonish, calm and technical. Palette strictly: background #090B0F, surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 only on the memory segments glow. Render the Martian ground in desaturated warm greys, not red."
+    },
+    {
+      "id": "declare-variables",
+      "kind": "example",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sol = 14;\n    double battery = 91.5;\n    char zone = 'A';\n    bool online = true;\n\n    sol = 15;\n\n    cout << \"SOL: \" << sol << endl;\n    cout << \"BATTERY: \" << battery << \"%\" << endl;\n    cout << \"ZONE: \" << zone << endl;\n    cout << \"ONLINE: \" << online << endl;\n    return 0;\n}",
+      "focus": "double battery = 91.5;"
+    },
+    {
+      "id": "predict-sizeof",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"char: \" << sizeof(char) << endl;\n    cout << \"int: \" << sizeof(int) << endl;\n    cout << \"double: \" << sizeof(double) << endl;\n    cout << \"long: \" << sizeof(long) << endl;\n    return 0;\n}",
+      "expected": "char: 1\nint: 4\ndouble: 8\nlong: 4",
+      "focus": "sizeof(int)"
+    },
+    {
+      "id": "memory-map",
+      "kind": "explain"
+    },
+    {
+      "id": "first-variables",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude = 15;\n    double temp = -12.5;\n    \n    return 0;\n}",
+      "expected": "ALTITUDE: 24 M\nTEMP: -12.5 C",
+      "requires": ["int", "double", "cout"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude = 15;\n    double temp = -12.5;\n    altitude = 24;\n\n    cout << \"ALTITUDE: \" << altitude << \" M\" << endl;\n    cout << \"TEMP: \" << temp << \" C\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "break-type-safety",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int speed = 12;\n    speed = \"FAST\";\n    cout << \"SPEED: \" << speed << endl;\n    return 0;\n}",
+      "expected": "SPEED: 18",
+      "requires": ["int speed"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int speed = 12;\n    speed = 18;\n    cout << \"SPEED: \" << speed << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "measure-sizeof",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"INT BYTES: \" <<  << endl;\n    cout << \"DOUBLE BYTES: \" <<  << endl;\n    return 0;\n}",
+      "expected": "INT BYTES: 4\nDOUBLE BYTES: 8",
+      "requires": ["sizeof(int)", "sizeof(double)"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"INT BYTES: \" << sizeof(int) << endl;\n    cout << \"DOUBLE BYTES: \" << sizeof(double) << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "find-type-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int fuel = 80;\n    double gravity = 3.73;\n    int fuel = 60;\n    cout << \"FUEL: \" << fuel << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "fill-types",
+      "kind": "blanks",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    [[1]] sol = 14;\n    [[2]] altitude = 12.5;\n    sol = 15;\n    cout << \"BYTES: \" << [[3]](double) << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": ["int", "short", "long", "long long"],
+        "2": ["double", "float"],
+        "3": ["sizeof"]
+      }
+    },
+    {
+      "id": "check-typing",
+      "kind": "quiz",
+      "code": "int altitude = 15;\naltitude = \"HIGH\";",
+      "options": ["compile-error", "auto-switch", "prints-zero"],
+      "answer": "compile-error"
+    },
+    {
+      "id": "drone-memory-audit",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}",
+      "expected": "SOL: 14 (4 B)\nGRAVITY: 3.73 (8 B)\nSECTOR: A (1 B)\nACTIVE: 1 (1 B)",
+      "requires": ["int", "double", "char", "bool", "sizeof("],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sol = 14;\n    double gravity = 3.73;\n    char sector = 'A';\n    bool active = true;\n\n    cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;\n    cout << \"GRAVITY: \" << gravity << \" (\" << sizeof(gravity) << \" B)\" << endl;\n    cout << \"SECTOR: \" << sector << \" (\" << sizeof(sector) << \" B)\" << endl;\n    cout << \"ACTIVE: \" << active << \" (\" << sizeof(active) << \" B)\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

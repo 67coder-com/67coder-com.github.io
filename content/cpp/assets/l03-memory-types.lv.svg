@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" width="100%" height="100%">
+  <title>C++ pamatdatu tipu izmēri atmiņā</title>
+  <desc>Shēma attēlo četru C++ datu tipu aizņemto atmiņu baitos 32 bitu platformā: char aizņem 1 baitu, bool aizņem 1 baitu, int aizņem 4 baitus, bet double aizņem 8 baitus.</desc>
+
+  <!-- Fona pamatne -->
+  <rect width="880" height="360" rx="10" fill="#0D1117" />
+
+  <!-- Virsraksts -->
+  <text x="24" y="36" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">PAMATTIPU IZMĒRI ATMIŅĀ (32 BITU PLATFORMA)</text>
+
+  <!-- 1. Rinda: char (1 baits) -->
+  <rect x="24" y="54" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="88" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">char</tspan><tspan fill="#D8D0C2"> zone = </tspan><tspan fill="#A9B79B">'A'</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="70" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="88" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">1 baits</text>
+
+  <!-- 2. Rinda: bool (1 baits) -->
+  <rect x="24" y="122" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="156" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">bool</tspan><tspan fill="#D8D0C2"> ok = </tspan><tspan fill="#D1B784">true</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="138" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="156" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">1 baits (izvada 1 vai 0)</text>
+
+  <!-- 3. Rinda: int (4 baiti — galvenais misiņa akcents #B99A61) -->
+  <rect x="24" y="190" width="832" height="56" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="2" />
+  <text x="44" y="224" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">int</tspan><tspan fill="#D8D0C2"> sol = </tspan><tspan fill="#C9A882">14</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="388" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="426" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="464" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="224" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">4 baiti (arī long = 4)</text>
+
+  <!-- 4. Rinda: double (8 baiti) -->
+  <rect x="24" y="258" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="292" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">double</tspan><tspan fill="#D8D0C2"> bat = </tspan><tspan fill="#C9A882">91.5</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="388" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="426" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="464" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="502" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="540" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="578" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="616" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="292" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">8 baiti</text>
+
+  <!-- Apakšējā piezīme -->
+  <text x="24" y="342" fill="#8E887D" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">Katrs mainīgais atmiņā aizņem fiksētu baitu skaitu. Izmērs atkarīgs no tipa un platformas.</text>
+</svg>

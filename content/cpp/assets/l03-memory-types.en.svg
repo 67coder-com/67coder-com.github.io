@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" width="100%" height="100%">
+  <title>Memory sizes of fundamental C++ data types</title>
+  <desc>Diagram showing the memory footprint in bytes of four fundamental C++ types on a 32-bit platform: char takes 1 byte, bool takes 1 byte, int takes 4 bytes, and double takes 8 bytes.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="360" rx="10" fill="#0D1117" />
+
+  <!-- Header -->
+  <text x="24" y="36" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">FUNDAMENTAL TYPE SIZES IN MEMORY (32-BIT PLATFORM)</text>
+
+  <!-- Row 1: char (1 byte) -->
+  <rect x="24" y="54" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="88" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">char</tspan><tspan fill="#D8D0C2"> zone = </tspan><tspan fill="#A9B79B">'A'</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="70" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="88" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">1 byte</text>
+
+  <!-- Row 2: bool (1 byte) -->
+  <rect x="24" y="122" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="156" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">bool</tspan><tspan fill="#D8D0C2"> ok = </tspan><tspan fill="#D1B784">true</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="138" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="156" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">1 byte (prints 1 or 0)</text>
+
+  <!-- Row 3: int (4 bytes — single brass accent #B99A61) -->
+  <rect x="24" y="190" width="832" height="56" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="2" />
+  <text x="44" y="224" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">int</tspan><tspan fill="#D8D0C2"> sol = </tspan><tspan fill="#C9A882">14</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="388" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="426" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="464" y="206" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="224" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">4 bytes (long = 4 too)</text>
+
+  <!-- Row 4: double (8 bytes) -->
+  <rect x="24" y="258" width="832" height="56" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+  <text x="44" y="292" font-size="17" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+    <tspan fill="#D1B784">double</tspan><tspan fill="#D8D0C2"> bat = </tspan><tspan fill="#C9A882">91.5</tspan><tspan fill="#D8D0C2">;</tspan>
+  </text>
+  <rect x="350" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="388" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="426" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="464" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="502" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="540" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="578" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <rect x="616" y="274" width="32" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="836" y="292" text-anchor="end" fill="#D8D0C2" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">8 bytes</text>
+
+  <!-- Footer -->
+  <text x="24" y="342" fill="#8E887D" font-size="16" style="font-family: var(--font-sans, Inter, sans-serif)">Each variable occupies a fixed number of bytes in memory, set by its type and platform.</text>
+</svg>

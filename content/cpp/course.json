@@ -25,7 +25,11 @@
         {
           "n": 3,
           "slug": "data-types",
-          "locales": []
+          "locales": [],
+          "draft": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 4,
