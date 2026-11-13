@@ -67,7 +67,7 @@
           "kind": "deeper",
           "title": "Kas ir 1 baits un cik ietilpst 1 MB?",
           "body": [
-            "Viens baits sastāv no 8 bitiem — astoņām šūnām, kur katra glabā 0 vai 1. Tas dod $2^8 = 256$ dažādas kombinācijas vienā baitā.",
+            "Viens baits sastāv no 8 bitiem — astoņām šūnām, kur katra glabā 0 vai 1. Tas dod 2⁸ = 256 dažādas kombinācijas vienā baitā.",
             "Izlūka Sigma borta atmiņa mūsu kursā ir 1 MB jeb 1 048 576 baiti. Ja programma glabā vienu `int` (4 baiti), tas gandrīz neko nemaksā. Taču miljons `int` mērījumu aizņemtu jau 4 MB — četras reizes vairāk nekā visa Sigma operatīvā atmiņa."
           ]
         }

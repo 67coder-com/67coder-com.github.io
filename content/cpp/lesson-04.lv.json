@@ -20,7 +20,7 @@
       "body": [
         "syntax: {tips} {nosaukums} = {vērtība};\n- tips: veselo skaitļu tips — short, int, long long\n- nosaukums: mainīgā vārds\n- vērtība: vesels skaitlis, long long gadījumā ar sufiksu LL\n- ;: pabeidz teikumu — obligāts",
         "C++ piedāvā četrus galvenos veselo skaitļu izmērus, lai iegultajās sistēmās sabalansētu atmiņas taupīšanu un skaitļu ietilpību:",
-        "+ **short kompaktām vērtībām.** Aizņem 2 baitus (16 bitus). Glabā veselus skaitļus (-32768 līdz 32767). Piemērots leņķiem, mikrokontroleira tapu ID un maziem skaitītājiem.\n+ **int ikdienas darbam.** Aizņem 4 baitus (32 bitus). Glabā veselus skaitļus (-2147483648 līdz 2147483647). Standarta izvēle visās C++ programmās.\n+ **long sistēmas mērogam.** Aizņem 4 baitus 32 bitu vidē un Windows, bet 8 baitus 64 bitu Linux/macOS. Paredzamībai izvēlamies int vai long long.\n+ **long long astronomiskiem skaitļiem.** Aizņem 8 baitus (64 bitus). Glabā līdz pat ~9 kvintiljoniem ($9 \\times 10^{18}$). Izmanto laika zīmogiem mikrosekundēs un misijas pulksteņiem.",
+        "+ **short kompaktām vērtībām.** Aizņem 2 baitus (16 bitus). Glabā veselus skaitļus (-32768 līdz 32767). Piemērots leņķiem, mikrokontroleira tapu ID un maziem skaitītājiem.\n+ **int ikdienas darbam.** Aizņem 4 baitus (32 bitus). Glabā veselus skaitļus (-2147483648 līdz 2147483647). Standarta izvēle visās C++ programmās.\n+ **long sistēmas mērogam.** Aizņem 4 baitus 32 bitu vidē un Windows, bet 8 baitus 64 bitu Linux/macOS. Paredzamībai izvēlamies int vai long long.\n+ **long long astronomiskiem skaitļiem.** Aizņem 8 baitus (64 bitus). Glabā līdz pat ~9 kvintiljoniem (aptuveni 9 × 10¹⁸). Izmanto laika zīmogiem mikrosekundēs un misijas pulksteņiem.",
         "!> **32 bitu literāļa slazds.** C++ valodā kodā ierakstīts skaitlis (piemēram, 9000000000) pēc noklusējuma tiek uztverts kā 32 bitu `int`. Ja skaitlis pārsniedz 2,1 miljardu, tam obligāti jāpievieno sufikss `LL` (`9000000000LL`), pretējā gadījumā kompilators ziņos par skaitļa pārpildi vēl pirms tā piešķiršanas `long long` mainīgajam."
       ]
     },
@@ -28,7 +28,7 @@
       "eyebrow": "Binārais attēlojums",
       "title": "Biti, zīmes un robežas",
       "body": [
-        "Katrs veselo skaitļu tips aizņem fiksētu bitu skaitu $N$. Šie biti nodrošina tieši $2^N$ dažādas binārās kombinācijas.",
+        "Katrs veselo skaitļu tips aizņem fiksētu bitu skaitu: 16 biti sniedz 65 536 dažādas vērtības (2¹⁶), bet 32 biti — vairāk nekā 4,29 miljardus (2³²).",
         "> Divi galvenie veselo skaitļu režīmi:\n> 1. **signed (noklusējums).** Augstāko bitu atvēl zīmei (+/-). 16 bitu `short` glabā skaitļus no -32 768 līdz 32 767.\n> 2. **unsigned (bez zīmes).** Atsakās no negatīviem skaitļiem, divkāršojot pozitīvo maksimumu. `unsigned short` glabā no 0 līdz 65 535, bet `unsigned int` sasniedz 4 294 967 295.",
         "Ievēro: `unsigned` nepalielina atmiņas apjomu — tas tikai pārbīda iespējamo vērtību logu, lai tas sāktos no nulles. Lielumiem, kas fiziski nevar būt negatīvi (bākas tilpums, masīva garums, baitu skaits), `unsigned` garantē drošu stāvokli bez mīnus zīmes."
       ],
@@ -51,7 +51,7 @@
           "title": "Kā dators glabā negatīvus skaitļus (papildkods)",
           "body": [
             "Mūsdienu procesori negatīvus skaitļus glabā divnieka papildkodā (two's complement). 8 bitu baitā skaitlis 1 ir `00000001`, bet -1 tiek iegūts, apgriežot visus bitus un pieskaitot 1: `11111111`.",
-            "Ja `11111111` nolasa kā bezzīmes skaitli, tas ir 255 ($2^8 - 1$). 32 bitos visi vieninieki (`11111111...`) signed režīmā nozīmē -1, bet unsigned režīmā — tieši 4 294 967 295.",
+            "Ja `11111111` nolasa kā bezzīmes skaitli, tas ir 255 (2⁸ − 1). 32 bitos visi vieninieki (`11111111...`) signed režīmā nozīmē -1, bet unsigned režīmā — tieši 4 294 967 295.",
             "Kad Sigma degvielas sensors unsigned mainīgajā mēģināja no 0 atņemt nelielu mērījumu, vērtība «pārleca» pāri nullei un kļuva par `4 294 967 295`."
           ]
         }
@@ -63,7 +63,7 @@
         "Šajā programmā `unsigned short` mainīgais sasniedz savu maksimālo vērtību 65 535 un tad pieskaita 1.",
         "Mēģini uzminēt, ko šī programma izvadīs terminālī. Šis ir pirmais minējums, nevis pārbaudes darbs: ievadi savu prognozi un salīdzini to ar faktisko rezultātu."
       ],
-      "explain": "Kad `unsigned short` pārsniedz savu maksimālo vērtību (65 535), 17. pārnesuma bits aparatūras līmenī tiek atmests, un vērtība «pārlec» atpakaļ uz 0. C++ standarts garantē, ka bezzīmes skaitļiem pārpilde vienmēr notiek pēc moduļa $2^N$."
+      "explain": "Kad `unsigned short` pārsniedz savu maksimālo vērtību (65 535), 17. pārnesuma bits aparatūras līmenī tiek atmests, un vērtība «pārlec» atpakaļ uz 0. C++ standarts garantē, ka bezzīmes skaitļiem pārpilde vienmēr notiek pēc moduļa 2ⁿ."
     },
     "fix-short-overflow": {
       "title": "Piemērota diapazona izvēle",
@@ -95,7 +95,7 @@
         "compile-error": "Kompilators aptur darbu ar zīmes nesaderības kļūdu.",
         "becomes-negative": "Mainīgais nomaina tipu uz signed int un saglabā -10."
       },
-      "explain": "Tā kā `unsigned int` nevar glabāt negatīvus skaitļus, atņemot 50 no 40, skaitlis pārlec zem nulles atpakaļ uz 32 bitu maksimālo vērtību ($2^{32} - 10 = 4 294 967 286$). Tieši tā radās Sigma 4 miljardi litru."
+      "explain": "Tā kā `unsigned int` nevar glabāt negatīvus skaitļus, atņemot 50 no 40, skaitlis pārlec zem nulles atpakaļ uz 32 bitu maksimālo vērtību (2³² − 10 = 4 294 967 286). Tieši tā radās Sigma 4 miljardi litru."
     },
     "calibrate-fuel": {
       "title": "Kalibrē Sigma degvielas telemetriju",
@@ -115,7 +115,7 @@
         "Veseli skaitļi C++ valodā ir saistīti ar reāliem aparatūras reģistriem: `short` (2 baiti), `int` (4 baiti) un `long long` (8 baiti).",
         "Modifikators `unsigned` divkāršo pozitīvo diapazonu, atsakoties no mīnus zīmes, taču atņemšana zem 0 liek vērtībai pārlekt uz maksimālo robežu (kā 4,29 miljardi `unsigned int` gadījumā).",
         "Konstantēm, kas lielākas par 2,1 miljardu, kodā jāpievieno sufikss `LL` (`9000000000LL`), lai kompilators tās neuzskatītu par pārpildītu 32 bitu `int`.",
-        "Veselo skaitļu pārpilde reālā borta kodā notiek klusi: `signed` pārpilde izraisa nenoteiktu uzvedību, bet `unsigned` pārpildās cikliski pēc moduļa $2^N$.",
+        "Veselo skaitļu pārpilde reālā borta kodā notiek klusi: `signed` pārpilde izraisa nenoteiktu uzvedību, bet `unsigned` pārpildās cikliski pēc moduļa 2ⁿ.",
         "Nākamajā nodaļā noskaidrosim, kas notiek ar daļskaitļiem — un kāpēc aprēķins `5 / 2` nosēdina Sigma dronu krāterī, nevis uz nosēšanās laukuma."
       ]
     }

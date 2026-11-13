@@ -67,7 +67,7 @@
           "kind": "deeper",
           "title": "What is 1 byte and how much fits in 1 MB?",
           "body": [
-            "One byte consists of 8 bits — eight tiny cells that each hold 0 or 1. That gives $2^8 = 256$ distinct bit patterns in a single byte.",
+            "One byte consists of 8 bits — eight tiny cells that each hold 0 or 1. That gives 2⁸ = 256 distinct bit patterns in a single byte.",
             "In our course, Sigma's flight controller has 1 MB, or 1,048,576 bytes, of RAM. Storing a single `int` (4 bytes) costs almost nothing. Storing one million `int` sensor readings, however, would require 4 MB — four times Sigma's entire memory budget."
           ]
         }

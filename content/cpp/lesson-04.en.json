@@ -20,7 +20,7 @@
       "body": [
         "syntax: {type} {name} = {value};\n- type: integer type — short, int, long long\n- name: variable identifier\n- value: integer value, with LL suffix for long long\n- ;: ends the statement — required",
         "C++ provides four primary integer sizes to balance memory conservation and numerical capacity on embedded flight hardware:",
-        "+ **short for compact ranges.** Takes 2 bytes (16 bits). Holds whole numbers (-32768 to 32767). Ideal for sensor angles, pin IDs, and small counters.\n+ **int for everyday work.** Takes 4 bytes (32 bits). Holds whole numbers (-2147483648 to 2147483647). The standard default across C++ programs.\n+ **long for system scale.** Takes 4 bytes on 32-bit systems and Windows, but 8 bytes on 64-bit Linux/macOS. We rely on int or long long for predictable sizing.\n+ **long long for astronomical counts.** Takes 8 bytes (64 bits). Holds up to ~9 quintillion ($9 \\times 10^{18}$). Used for nanosecond timestamps and mission clocks.",
+        "+ **short for compact ranges.** Takes 2 bytes (16 bits). Holds whole numbers (-32768 to 32767). Ideal for sensor angles, pin IDs, and small counters.\n+ **int for everyday work.** Takes 4 bytes (32 bits). Holds whole numbers (-2147483648 to 2147483647). The standard default across C++ programs.\n+ **long for system scale.** Takes 4 bytes on 32-bit systems and Windows, but 8 bytes on 64-bit Linux/macOS. We rely on int or long long for predictable sizing.\n+ **long long for astronomical counts.** Takes 8 bytes (64 bits). Holds up to ~9 quintillion (about 9 × 10¹⁸). Used for nanosecond timestamps and mission clocks.",
         "!> **The 32-bit literal trap.** In C++, literal numbers written in code (such as 9000000000) default to `int` (32 bits). If a number exceeds 2.1 billion, you must append the `LL` suffix (`9000000000LL`), otherwise the compiler flags an integer constant overflow before assigning it to a `long long`."
       ]
     },
@@ -28,7 +28,7 @@
       "eyebrow": "Binary representation",
       "title": "Bits, signs, and ranges",
       "body": [
-        "Every integer type occupies a fixed number of bits $N$. These bits provide exactly $2^N$ distinct binary combinations.",
+        "Every integer type occupies a fixed number of bits: 16 bits provide 65,536 distinct values (2¹⁶), while 32 bits provide over 4.29 billion (2³²).",
         "> Two fundamental integer modes:\n> 1. **signed (default).** Reserves the highest bit for the algebraic sign (+/-). A 16-bit `short` ranges from -32,768 to 32,767.\n> 2. **unsigned.** Discards negative numbers to double the positive ceiling. An `unsigned short` ranges from 0 to 65,535, while `unsigned int` reaches 4,294,967,295.",
         "Notice that `unsigned` does not increase memory usage — it shifts the window of possible values to start at zero. For quantities that cannot physically be negative (such as drone fuel volume, array lengths, or byte counts), `unsigned` guarantees valid non-negative states."
       ],
@@ -42,7 +42,7 @@
             "On June 4, 1996, the European Space Agency launched the maiden flight of the Ariane 5 rocket (flight 501). Just 37 seconds after liftoff, the launcher veered sharply off path, broke up under aerodynamic stress, and triggered its autonomous self-destruct.",
             "The official inquiry board headed by Prof. Jacques-Louis Lions revealed the cause: a software module reused from the older Ariane 4 attempted to convert a 64-bit floating-point horizontal velocity value into a 16-bit signed integer (`short`).",
             "Ariane 5's higher horizontal velocity produced a value greater than 32,767. The hardware conversion triggered an unhandled overflow exception. Both primary and backup flight computers shut down simultaneously, leaving the guidance nozzles locked in an extreme angle.",
-            "The total payload loss exceeded $370 million. The catastrophe became computing history's most famous lesson in data type bounds and unchecked numerical conversions.",
+            "The total payload loss exceeded 370 million dollars. The catastrophe became computing history's most famous lesson in data type bounds and unchecked numerical conversions.",
             "Source: ESA Ariane 5 Flight 501 Failure Report by the Inquiry Board (1996, https://www.esa.int/esapub/bulletin/bullet89/lions89.htm)."
           ]
         },
@@ -51,7 +51,7 @@
           "title": "How computers store negative numbers (two's complement)",
           "body": [
             "Modern processors store negative numbers using two's complement. In an 8-bit byte, the number 1 is `00000001`, while -1 is represented by flipping all bits and adding 1: `11111111`.",
-            "If you interpret `11111111` as an unsigned number, it equals 255 ($2^8 - 1$). In 32 bits, all ones (`11111111...`) represent -1 in signed arithmetic, but exactly 4,294,967,295 in unsigned arithmetic.",
+            "If you interpret `11111111` as an unsigned number, it equals 255 (2⁸ − 1). In 32 bits, all ones (`11111111...`) represent -1 in signed arithmetic, but exactly 4,294,967,295 in unsigned arithmetic.",
             "When Sigma's fuel sensor subtracted a small reading from zero in an unsigned variable, the value wrapped under zero and became `4,294,967,295`."
           ]
         }
@@ -63,7 +63,7 @@
         "In this program, an `unsigned short` variable reaches its upper limit of 65,535 and then adds 1.",
         "Predict what this program prints to the terminal. This is a guess to build intuition, not a test: enter your prediction and compare it with the actual result."
       ],
-      "explain": "When an `unsigned short` exceeds its maximum value (65,535), the extra 17th bit is discarded by hardware, wrapping the value back to 0. Unsigned arithmetic in C++ is strictly guaranteed by the language standard to wrap modulo $2^N$."
+      "explain": "When an `unsigned short` exceeds its maximum value (65,535), the extra 17th bit is discarded by hardware, wrapping the value back to 0. Unsigned arithmetic in C++ is strictly guaranteed by the language standard to wrap modulo 2ⁿ."
     },
     "fix-short-overflow": {
       "title": "Choosing the right range",
@@ -95,7 +95,7 @@
         "compile-error": "The compiler stops compilation with an incompatible sign error.",
         "becomes-negative": "The variable changes its type to signed int and stores -10."
       },
-      "explain": "Because `unsigned int` cannot store negative numbers, subtracting 50 from 40 wraps under zero back from the maximum 32-bit value ($2^{32} - 10 = 4,294,967,286$). This is exactly how Sigma's tank reading became 4 billion."
+      "explain": "Because `unsigned int` cannot store negative numbers, subtracting 50 from 40 wraps under zero back from the maximum 32-bit value (2³² − 10 = 4,294,967,286). This is exactly how Sigma's tank reading became 4 billion."
     },
     "calibrate-fuel": {
       "title": "Calibrate Sigma's fuel telemetry",
@@ -115,7 +115,7 @@
         "Whole numbers in C++ are bound to physical hardware registers: `short` (2 bytes), `int` (4 bytes), and `long long` (8 bytes).",
         "The `unsigned` modifier doubles the maximum positive range by discarding negative numbers, but underflowing below 0 wraps back to the maximum ceiling (such as 4.29 billion in `unsigned int`).",
         "Literal constants larger than 2.1 billion must be written with the `LL` suffix (`9000000000LL`) to prevent 32-bit constant overflow warnings.",
-        "Integer overflow is silent in production: exceeding signed limits leads to undefined behavior, while unsigned types wrap modulo $2^N$.",
+        "Integer overflow is silent in production: exceeding signed limits leads to undefined behavior, while unsigned types wrap modulo 2ⁿ.",
         "In the next chapter, we will see what happens when numbers need fractional precision — and why calculating `5 / 2` in C++ can land a drone in a crater instead of the landing pad."
       ]
     }
