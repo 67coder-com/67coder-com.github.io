@@ -25,39 +25,14 @@
 
 ### Шаблон описания подраздела
 
-Обращение — на «jūs», как во всём курсе Moodle (на сайте — «tu», это нормальное различие). Латунь одна — на скобке и метке внизу. Между карточками кружок «VAI»: пути — выбор, а не два обязательных шага. Внизу «jebkurš ceļš», не «abi ceļi».
+Стиль — RNU (Rīgas Ziemeļvalstu augstskola): синий `#1A2F59`, лаймовый акцент `#C3C925`. Готовый шаблон — `docs/moodle_templates/lecture.lv.html`; бери его целиком и заменяй только:
 
-```html
-<p style="margin:0 0 8px;">Pēc šīs nodaļas jūs varēsiet:</p>
-<ul style="margin:0; padding-left:22px; line-height:1.65;">
-  <li>[результат 1 — с глагола];</li>
-  <li>[результат 2];</li>
-  <li>[результат 3].</li>
-</ul>
-<p style="margin:12px 0 0; color:#5A5F68;"><strong>Laiks:</strong> ap [X] minūtēm · [N] ekrāni, no tiem [M] praktiski.</p>
+- `[rezultāts 1…3]` — 3–5 результатов обучения, каждый с глагола и проверяемый: «uzrakstīt», «atrast», «izskaidrot», а не «iepazīties» и «saprast»;
+- `[X] [N] [M]` — честная оценка времени, число экранов и практических;
+- `N` в ссылке на интерактивную главу — номер главы без ведущего нуля;
+- `SAITE-UZ-PDF` — адрес файла «Teorija (PDF)» в этом же подразделе Moodle. Если пакет готовится до загрузки PDF, оставь `SAITE-UZ-PDF` — агент в браузере подставит адрес после загрузки файла.
 
-<p style="margin:28px 0 10px; font-family:monospace; font-size:12px; letter-spacing:1.6px; color:#656A72;">IZVĒLIETIES VIENU CEĻU</p>
-<div style="display:flex; flex-wrap:wrap; gap:16px;">
-  <div style="flex:1 1 240px; border:1px solid #DFDAD1; border-radius:8px; padding:18px 20px;">
-    <p style="margin:0; font-family:monospace; font-size:12px; letter-spacing:1.6px; color:#656A72;">INTERAKTĪVI</p>
-    <p style="margin:6px 0 0; line-height:1.6;">Īsi ekrāni, piemēri un koda redaktors tieši pārlūkā.</p>
-    <p style="margin:14px 0 0;"><a href="https://67coder.com/#/course/cpp/lv/lesson/N" target="_blank" style="display:inline-block; padding:8px 16px; border:1px solid #8C8578; border-radius:6px; color:#16181D; text-decoration:none;">Atvērt nodaļu 67coder →</a></p>
-  </div>
-  <div style="flex:0 0 auto; align-self:center; margin:0 auto; width:48px; height:48px; border-radius:999px; border:1px solid #DFDAD1; background:#FFFFFF; text-align:center; line-height:46px; font-family:monospace; font-size:12px; letter-spacing:1.4px; color:#656A72;">VAI</div>
-  <div style="flex:1 1 240px; border:1px solid #DFDAD1; border-radius:8px; padding:18px 20px;">
-    <p style="margin:0; font-family:monospace; font-size:12px; letter-spacing:1.6px; color:#656A72;">PDF</p>
-    <p style="margin:6px 0 0; line-height:1.6;">Visa nodaļa vienā lapā — lasīt, izdrukāt vai saglabāt. Atbildes ir beigās.</p>
-    <p style="margin:14px 0 0;"><a href="https://67coder.com/#/course/cpp/lv/print/N" target="_blank" style="display:inline-block; padding:8px 16px; border:1px solid #8C8578; border-radius:6px; color:#16181D; text-decoration:none;">Atvērt PDF versiju →</a></p>
-  </div>
-</div>
-<div style="margin:0 25%; height:18px; border:2px solid #B99A61; border-top:none; border-radius:0 0 12px 12px;"></div>
-<div style="width:2px; height:18px; background:#B99A61; margin:0 auto;"></div>
-<p style="text-align:center; margin:0;"><span style="display:inline-block; padding:6px 14px; border-radius:999px; background:#F0E5CC; color:#7A5F2A; font-family:monospace; font-size:12px; letter-spacing:1.6px;">JEBKURŠ CEĻŠ VED UZ PAŠPĀRBAUDI ↓</span></p>
-```
-
-EN — та же разметка: `After this chapter you will be able to:`, `Time:`, `CHOOSE ONE PATH`, `INTERACTIVE` / `Short screens, examples and a code editor right in the browser.` / `Open the chapter on 67coder →`, `PDF` / `The whole chapter on one page — read, print or save. Answers are at the end.` / `Open the PDF version →`, `EITHER PATH LEADS TO THE SELF-CHECK ↓`, между карточками кружок `OR`.
-
-Результаты обучения — 3–5 пунктов, каждый начинается с глагола и проверяем: «uzrakstīt», «atrast», «izskaidrot», а не «iepazīties» и «saprast». Время — честная оценка по экранам. Миссию в описание не вставляем.
+Обращение — на «jūs». Миссию в описание не вставляем: это практичный раздел, сюжет живёт в главе. Описания остальных разделов курса — общего, четырёх блоков и экзамена — лежат там же, в `docs/moodle_templates/`.
 
 ### Задание на сдачу кода
 

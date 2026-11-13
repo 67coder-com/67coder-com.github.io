@@ -1083,27 +1083,39 @@
   .exp-ey { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-faint); }
   .expected .codeblock { margin-top: 6px; }
 
-  /* ══ PDF для Moodle — стиль университета ══
-     Цвета — переменные: их заменят на цвета RNU, остальное не трогать. */
+  /* ══ PDF для Moodle — стиль RNU (Rīgas Ziemeļvalstu augstskola) ══
+     Цвета сняты со стилей rnu.lv: основной #1A2F59, акцент #C3C925,
+     текст #414141, ссылки #1863DC, глубокий синий #0B1832.
+     Шрифты: Overpass — заголовки, Inter — текст. */
   body.brand-moodle {
-    --m-accent: #1F3A5F;      /* основной цвет университета — заменить */
-    --m-accent-soft: #E8EDF3; /* светлый оттенок основного — заменить */
-    --m-ink: #1A1A1A;
-    --m-muted: #4A4F57;
-    --m-line: #D7DCE2;
+    --m-navy: #1A2F59; --m-navy-deep: #0B1832; --m-lime: #C3C925;
+    --m-ink: #414141; --m-muted: #6B7A99; --m-link: #1863DC;
+    --m-soft: #EEF1F7; --m-line: #DDE3EE;
   }
-  .brand-moodle .printdoc { color: var(--m-ink); }
-  .brand-moodle .p-head-moodle { border-bottom: 3px solid var(--m-accent); padding-bottom: 10px; }
-  .brand-moodle .p-head-moodle .p-course { margin-left: 0; text-align: left; color: var(--m-accent); }
-  .brand-moodle .printdoc h1, .brand-moodle .printdoc h2, .brand-moodle .printdoc h3 { color: var(--m-ink); }
-  .brand-moodle .printdoc h1 { color: var(--m-accent); }
-  .brand-moodle .p-num, .brand-moodle .p-label, .brand-moodle .p-tag { color: var(--m-accent); }
+  .brand-moodle .printdoc { color: var(--m-ink); font-family: Inter, var(--font-sans); }
+  .brand-moodle .printdoc h1, .brand-moodle .printdoc h2, .brand-moodle .printdoc h3,
+  .brand-moodle .tcard .tcard-t, .brand-moodle .li-t { font-family: Overpass, var(--font-display); color: var(--m-navy); }
+  .brand-moodle .printdoc h1 { font-weight: 700; font-size: 32px; }
+  .brand-moodle .printdoc h2 { font-weight: 600; font-size: 21px; }
+  .brand-moodle .p-head-moodle { position: relative; border-bottom: 3px solid var(--m-navy); padding-bottom: 10px; }
+  .brand-moodle .p-head-moodle::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 72px; height: 3px; background: var(--m-lime); }
+  .brand-moodle .p-head-moodle .p-course { margin-left: 0; text-align: left; color: var(--m-navy); font-family: Inter, var(--font-sans); letter-spacing: 1px; }
+  .brand-moodle .p-num, .brand-moodle .p-label, .brand-moodle .p-tag, .brand-moodle .exp-ey, .brand-moodle .cmp-ey { color: var(--m-navy); }
   .brand-moodle .p-step { border-top-color: var(--m-line); }
-  .brand-moodle .printdoc p, .brand-moodle .printdoc li { color: var(--m-ink); }
-  .brand-moodle .printdoc .callout { background: var(--m-accent-soft); border-color: var(--m-line); border-left-color: var(--m-accent); }
-  .brand-moodle .printdoc .tcard { border-color: var(--m-line); }
-  .brand-moodle .p-answers { border-top-color: var(--m-accent); }
-  .brand-moodle .p-sources a { color: var(--m-accent); }
+  .brand-moodle .printdoc p, .brand-moodle .printdoc li, .brand-moodle .tlist li, .brand-moodle .li-d { color: var(--m-ink); }
+  .brand-moodle .printdoc strong { color: var(--m-navy); }
+  .brand-moodle .printdoc .codeblock { background: #F3F5F9; border-color: var(--m-line); color: #1C2433; }
+  .brand-moodle .printdoc .codeblock .k { color: var(--m-navy); font-weight: 600; }
+  .brand-moodle .printdoc .codeblock .s { color: #2F6355; }
+  .brand-moodle .printdoc .codeblock .n { color: #8C5A2B; }
+  .brand-moodle .printdoc .codeblock .c { color: var(--m-muted); }
+  .brand-moodle .printdoc .ic { background: #EEF1F7; border-color: #EEF1F7; color: var(--m-navy); }
+  .brand-moodle .syn { background: var(--m-navy-deep); }
+  .brand-moodle .printdoc .callout { background: var(--m-soft); border-color: var(--m-line); border-left-color: var(--m-navy); }
+  .brand-moodle .printdoc .tcard { border-color: var(--m-line); border-top: 3px solid var(--m-navy); }
+  .brand-moodle ol.tlist li::before { border-color: var(--m-navy); color: var(--m-navy); }
+  .brand-moodle .p-answers { border-top-color: var(--m-navy); }
+  .brand-moodle .p-sources a { color: var(--m-link); }
 </style>
 </head>
 <body>
@@ -2976,7 +2988,16 @@ function showPrint(course, lesson, lang, token) {
       var wanted = printHash(course.id, lang, lesson.n);
       if (location.hash !== wanted) { history.replaceState(null, "", wanted); lastHash = wanted; }
       document.body.classList.add("is-print");
-      if (PDF_MODE) document.body.classList.add("brand-moodle");
+      if (PDF_MODE) {
+        document.body.classList.add("brand-moodle");
+        /* шрифты RNU — Overpass и Inter, с латышскими буквами (Google Fonts отдаёт latin-ext) */
+        if (!document.getElementById("rnu-fonts")) {
+          var lf = document.createElement("link");
+          lf.id = "rnu-fonts"; lf.rel = "stylesheet";
+          lf.href = "https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700&family=Inter:wght@400;500;600&display=swap";
+          document.head.appendChild(lf);
+        }
+      }
       document.title = String(lesson.n).padStart(2, "0") + " · " + (pair[1].title || "") + " — 67coder";
       paint(printView({ course: course, lang: lang, n: lesson.n }, pair[0], pair[1]));
       loadSvgSlots();
