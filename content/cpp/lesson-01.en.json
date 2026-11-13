@@ -8,7 +8,8 @@
       "body": [
         "The IRIS station terminal has been located. Your first objective is to transmit an initialization ping to the scout drone «Sigma». Radio signals between Earth and Mars take between 3 and 22 minutes one way, so the craft cannot wait for instructions from mission control — it must respond autonomously and immediately.",
         "This is not a hypothetical challenge. NASA's Ingenuity Mars helicopter sampled its navigation sensors 500 times per second to stay stable in the thin Martian air. Its core flight-control software was implemented in C++.",
-        "Python served on the same mission on Earth — for orbital trajectory modeling, ground operations, and data analytics. C++ dominates where deterministic speed is essential: in high-fidelity game engines like Unreal Engine, browser runtime engines like Chromium, and aerospace avionics."
+        "Python served on the same mission on Earth — for orbital trajectory modeling, ground operations, and data analytics. On flight hardware, C++ dominates where determinism and direct memory control are critical:",
+        "+ **Predictable speed.** C++ compiles straight to native CPU machine instructions with no interpreter overhead and no sudden garbage-collection pauses.\n+ **Direct hardware control.** You control exact bytes and memory layout with zero hidden background overhead.\n+ **Aerospace standard.** C++ powers real-time robotics, high-performance engines, and flight avionics across the solar system."
       ],
       "more": [
         {
@@ -46,56 +47,63 @@
     },
     "first-program": {
       "title": "Your first program, line by line",
+      "compareCaptions": [
+        "semicolon present → compiles cleanly",
+        "missing semicolon → compile error"
+      ],
       "body": [
-        "This is a complete, working C++ program. Each line serves an explicit engineering purpose.",
-        "`#include <iostream>` is a preprocessor directive that attaches the header file providing input and output streams. Without it, the compiler has no knowledge of `cout`.",
-        "`using namespace std;` instructs the compiler to look inside the standard library namespace by default, allowing shortened names.",
-        "`int main() { … }` represents the program's entry point. Execution of every C++ program strictly begins inside `main`, and all operational instructions reside between the curly braces.",
-        "`cout << \"IRIS: online\" << endl;` streams the text literal to the terminal output, and `endl` appends a newline marker. Every individual statement in C++ must terminate with a semicolon `;`.",
-        "`return 0;` signals to the operating system that the application executed and exited successfully."
+        "This is a complete, working C++ program. Every line serves an explicit engineering role in making the executable run.",
+        "syntax: cout << {text} << endl;\n- cout: character output stream connected to the terminal\n- <<: stream insertion operator pointing data toward the stream\n- text: characters in double quotes (\"...\")\n- endl: manipulator ending the line and flushing the stream\n- ;: statement terminator — mandatory in C++",
+        "Four core structural elements of the listing:\n+ **#include <iostream>.** Attaches standard input and output stream tools. Without it, the compiler has no knowledge of `cout`.\n+ **using namespace std;.** Tells the compiler to look in the standard library namespace by default so you don't have to write `std::` every time.\n+ **int main() { ... }.** The required entry point. Execution of every C++ program strictly begins inside `main()`, and all operational instructions reside between the curly braces.\n+ **return 0;.** Signals to the operating system that the application executed and exited successfully.",
+        "!> **Python habit to unlearn.** In Python, code executes top-to-bottom as a loose script without an entry function or semicolons. In C++, every statement must reside inside a function (entry point `main()`), and every statement must terminate with a semicolon `;`."
       ]
     },
     "predict-output": {
       "title": "What will appear on the terminal?",
       "body": [
-        "Examine the three sequential output commands below. Predict the exact text that will be printed on the screen.",
-        "This is an initial prediction, not a scored test: you are not expected to know the answer in advance. Think through how the stream works, make your guess, and compare it with reality."
+        "Examine the three sequential output commands below. Predict the exact text that will appear in the terminal window.",
+        "This is a prediction, not a graded test: you are not expected to know the answer in advance. Observe how the stream pushes data, make your guess, and compare it with the actual behavior."
       ],
-      "explain": "`cout` never injects spaces on its own. The space only exists because it was placed inside the quotes before `ONLINE`. A line break occurs only when prompted by `endl`."
+      "explain": "`cout` never injects automatic spaces. The space only exists because it was placed inside the quotes before `ONLINE`. A line break occurs only when prompted by `endl`."
     },
     "run-it": {
       "title": "Retype and send the first signal",
-      "task": "Type the program into the editor manually rather than copying and pasting. Then click «Run».",
+      "task": "Retype the complete starter program into the editor manually rather than copying and pasting to build muscle memory:\n1. Open `main()` with `#include <iostream>` and `using namespace std;`.\n2. Print `\"IRIS: online\"` with `cout` and `endl`.\n3. Return `0` and click «Run» to verify the output in the terminal.",
       "hint": "Pay close attention to every detail: curly braces `{ }`, quotation marks around strings, and the terminating semicolon `;`."
     },
     "break-and-see": {
       "title": "Break it and inspect the compiler",
-      "task": "Delete the semicolon `;` at the end of line 5 after `endl` and click «Run». Inspect the error diagnostic printed in the terminal. Then put the semicolon back and verify that the build succeeds.",
+      "task": "Deliberately break the program to observe how the compiler flags syntax errors:\n1. Delete the semicolon `;` at the end of line 5 after `endl`.\n2. Click «Run» and inspect the diagnostic message printed in the terminal.\n3. Restore the semicolon `;` and click «Run» to confirm that the build succeeds.",
       "hint": "Look for the message «expected ';' after expression». The caret symbol `^` points directly to where the compiler discovered the missing token.",
-      "solutionNote": "With the semicolon restored, the program compiles cleanly and outputs the message."
+      "solutionNote": "With the semicolon restored, compilation succeeds and the program outputs the message cleanly."
     },
     "how-it-runs": {
       "title": "Behind the «Run» button",
       "body": [
-        "A C++ program cannot run straight from source code text. First, the compiler parses your code for syntax correctness and translates it into machine code, building an executable binary.",
-        "If the source code contains even a single syntax error, the compiler halts immediately. No executable file is generated, and nothing runs. That is why deleting the semicolon produced no partial text — the program never reached runtime."
+        "A C++ program cannot run straight from source code text. First, the compiler parses your code against language grammar rules and translates it into native machine code, building an executable binary.",
+        "> Two strict rules of ahead-of-time compilation:\n> 1. **No binary on syntax error.** If even a single semicolon or brace is missing, the compiler halts immediately. No executable file is generated, and nothing runs.\n> 2. **Native machine speed.** Once compiled, machine code executes directly on the CPU without translation overhead or runtime interpretation."
       ],
       "alt": "Diagram: source code enters compiler, producing an executable that yields output. A syntax error halts compilation before execution.",
       "image": "assets/l01-compile-flow.en.svg"
     },
     "drop-namespace": {
       "title": "Code without the namespace",
-      "task": "This program has had the line `using namespace std;` removed. Run the code and read the diagnostic output. Fix the program without re-adding that line.",
-      "hint": "The compiler reports `cout` as undeclared and asks: «did you mean 'std::cout'?». Prefix both `cout` and `endl` with `std::`.",
+      "task": "This program has had the line `using namespace std;` removed:\n1. Click «Run» to see the compiler report `cout` as undeclared and ask: «did you mean 'std::cout'?».\n2. Fix the program by adding the prefix `std::` before both `cout` and `endl`.\n3. Run the code without re-adding the using directive.",
+      "hint": "Prefix both names: `std::cout` and `std::endl`. The double colon `::` is the scope resolution operator.",
       "solutionNote": "`std::cout` and `std::endl` explicitly identify the standard namespace, eliminating ambiguity."
     },
     "why-namespace": {
       "eyebrow": "Architecture",
       "title": "The `std` namespace",
+      "compareCaptions": [
+        "explicit prefix → always unambiguous",
+        "no prefix and no using → compiler error"
+      ],
       "body": [
-        "`cout` and `endl` are not language keywords like `int` or `return`. They are library utilities residing inside a dedicated scope known as the `std` namespace. Their canonical identity is `std::cout` — «`cout` inside `std`».",
-        "The directive `using namespace std;` tells the compiler: if an identifier is not found locally, look inside the `std` namespace automatically. This allows concise code.",
-        "Throughout this course, we will use `using namespace std;` to keep introductory listings clear. However, you now understand what `std::` signifies when reading production codebases."
+        "syntax: {namespace}::{name};\n- namespace: scope identifier — `std` for standard library\n- ::: scope resolution operator connecting name to namespace\n- name: library tool — `cout`, `endl`",
+        "`cout` and `endl` are not C++ keywords like `int` or `return`. They are standard library utilities residing inside a dedicated scope known as the `std` namespace. Their canonical identity is `std::cout` — «`cout` inside `std`».",
+        "Why namespaces matter in engineering:\n+ **Collision prevention.** If two separate navigation libraries both implement a `log()` function, prefixes resolve the ambiguity: `telemetry::log()` versus `sensor::log()`.\n+ **The using shortcut.** The directive `using namespace std;` tells the compiler: if an identifier is not found locally, look inside `std` automatically.\n+ **Course convention.** We use `using namespace std;` throughout introductory lessons to keep listings clear, while recognizing `std::` when inspecting production codebases.",
+        "!> **Namespace rule.** In real projects, never place `using namespace std;` inside header files (`.h` / `.hpp`). It injects thousands of names into every source file that includes that header, triggering silent naming conflicts."
       ],
       "more": [
         {
@@ -113,28 +121,29 @@
       "body": [
         "Sigma's diagnostic telemetry fails to compile. Locate and click directly on the line containing the syntax error."
       ],
-      "explain": "Line 5 is missing a semicolon `;` after `endl`. While Clang flags this exact position, some compilers report line 6 — which is why diagnosing errors often requires checking the preceding line."
+      "explain": "Line 5 is missing a semicolon `;` after `endl`. Notice that some compilers flag line 6, because the missing semicolon causes the compiler to keep parsing into the next command before realizing the statement was never closed."
     },
     "fill-gaps": {
       "title": "Restore the missing tokens",
       "body": [
-        "Three critical components have been stripped from this program skeleton. Fill in the blanks and verify your solution."
+        "Three critical components have been stripped from this program skeleton. Fill in the blanks to restore valid C++."
       ],
       "explain": "`iostream` provides input/output facilities, `std` is the standard library namespace, and `cout` is the standard character output stream."
     },
     "status-panel": {
       "title": "Build the Sigma status panel",
-      "task": "Write a complete program that outputs this exact three-line telemetry panel. Write each line using a distinct `cout` statement.",
-      "hint": "Start with the `main` skeleton and add three `cout` statements, each ending with `<< endl;`."
+      "task": "Write a complete C++ program to output Sigma's three-line telemetry panel in the format shown below:\n1. Include the `<iostream>` header and enable `using namespace std;`.\n2. In `main()`, print the header `=== SIGMA ===`.\n3. Print `FUEL: 87%` on the second line and `STATUS: READY` on the third line.\n4. End each line with `endl` and terminate each statement with a semicolon `;`.",
+      "hint": "Write three separate `cout << ... << endl;` statements inside `main()`."
     },
     "recap": {
       "title": "Mission 1 recap",
       "points": [
         "C++ is an ahead-of-time compiled language: source code is converted to machine code prior to execution. Syntax errors prevent the program from running entirely.",
-        "Program execution always starts at the `int main()` entry point and executes statements sequentially.",
-        "`cout` directs characters into the standard output stream without injecting automatic spaces; line breaks require `endl`.",
-        "Every complete C++ statement terminates with a semicolon `;`.",
-        "`cout` belongs to the `std::` namespace; `using namespace std;` enables writing concise shorthand."
+        "Program execution always starts at the `int main()` entry point and executes statements sequentially inside curly braces `{ }`.",
+        "`cout` directs characters into the standard output stream without injecting automatic spaces; line breaks require the `endl` manipulator.",
+        "Every complete C++ statement must terminate with a semicolon `;`.",
+        "`cout` and `endl` belong to the `std` namespace; `using namespace std;` enables writing concise shorthand in introductory code.",
+        "Mission status: Scout drone Sigma has responded to our initialization signal. In Chapter 2, we will stream sensor numbers and format telemetry output."
       ]
     }
   }

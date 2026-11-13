@@ -22,7 +22,7 @@
 
 ## Миссия
 - **Активный аппарат:** лёгкий разведчик IZLŪKS «Sigma» (SCOUT "Sigma").
-- **Что произошло:** найден терминал исследовательской станции IRIS на Марсе; отправлен первый сигнал дрону Sigma (`IRIS: online`, `SIGMA: signal received`), собрана простая текстовая панель статуса (`=== SIGMA ===`, `FUEL: 87%`, `STATUS: READY`).
+- **Что произошло:** найден терминал исследовательской станции IRIS на Марсе; отправлен первый сигнал дрону Sigma (`IRIS: online`, `SIGMA: signal received`), освоен компилятор, собрана текстовая панель статуса (`=== SIGMA ===`, `FUEL: 87%`, `STATUS: READY`).
 - **Что ведёт к следующей главе:** дрон Sigma проснулся и начинает присылать показания бортовых датчиков — нужно научиться выводить в одном потоке подписи и числовые значения, управлять переносами строк и оставлять комментарии в коде.
 
 ## Новые термины
@@ -40,10 +40,12 @@
 - manipulator (`endl`) / manipulators / проверено (`termini.gov.lv`)
 - string literal / virknes literālis / проверено (`termini.gov.lv`)
 - scope block (`{ }`) / bloks, figūriekavu apgabals / проверено (`termini.gov.lv`)
+- scope resolution operator (`::`) / apgabala izšķiršanas operators / проверено (`termini.gov.lv`)
 
 ## Использовано
 - **Архивная справка (`archive`, шаг `why-cpp`):** «Kā radās C++: no Bell Labs līdz kosmosam» / «Origins of C++: from Bell Labs to deep space» — Бьёрн Страуструп, Bell Labs (1979), «C with Classes» (Simula + C), переименование в C++ в 1983 г. (Рик Маситти, оператор инкремента `++`), принцип «не платишь за то, что не используешь». Источники: Bjarne Stroustrup — *A History of C++: 1979–1991* (`https://www.stroustrup.com/hopl2.pdf`), NASA NTRS — *FPP: A Modeling Language for F Prime* (`https://ntrs.nasa.gov/citations/20220012872`), GitHub ReadME Project — *Open Source on Mars* (`https://github.com/readme/featured/nasa-ingenuity-helicopter`).
 - **Блок «Dziļāk» (шаг `why-cpp`):** «Paredzamība pret negaidītām pauzēm» / «Determinism versus unexpected pauses» — прямой машинный код C++ против пауз автоматической сборки мусора (Garbage Collection) в Python/Java; вращение винтов марсианского дрона на 2700 об/мин.
 - **Блок «Dziļāk» (шаг `why-namespace`):** «Kāpēc lielos projektos izvairās no `using namespace`» / «Why large software systems avoid `using namespace`» — защита от конфликтов имён между библиотеками (`nav::log()` и `telemetry::log()`) и почему `using namespace std;` не пишут в заголовочных файлах больших проектов.
 - **Факты в основном тексте:** задержка связи Земля–Марс 3–22 мин в одну сторону; вертолёт NASA Ingenuity опрашивал датчики 500 раз в секунду, бортовое ПО на C++, а Python на той же миссии применялся на Земле для моделирования и анализа данных; примеры использования C++ — Unreal Engine, Chromium.
-- **Визуалы:** иллюстрация `assets/l01-terminal.png` (шаг `why-cpp`); SVG-схема компиляции `assets/l01-compile-flow.lv.svg` и `.en.svg` (шаг `how-it-runs`).
+- **Элементы эталонного формата:** интерактивные карточки `syntax:` (шаги `first-program`, `why-namespace`), карточки правил `+ **...**` (`tcard`, шаги `why-cpp`, `first-program`, `why-namespace`), блоки предостережений `!>` (шаги `first-program`, `why-namespace`), примеры `compare` с цветными подписями (шаги `first-program`, `why-namespace`), выноска `> Два правила компиляции` (шаг `how-it-runs`).
+- **Визуалы:** иллюстрация `assets/l01-why-cpp.jpg` (шаг `why-cpp`); SVG-схема компиляции `assets/l01-compile-flow.lv.svg` и `.en.svg` (шаг `how-it-runs`).
