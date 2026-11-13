@@ -1,0 +1,105 @@
+{
+  "n": 6,
+  "slug": "bool-char-string",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "system-diagnostics",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9, for an online C++ course. Inside the high-tech technical maintenance bay of Mars base IRIS. A faceted geometric scout drone Sigma in dark slate #151A22 and warm grey #B7B0A4 hovers docked at an illuminated diagnostic console terminal. The console terminal has a glowing rectangular monitor showing abstract digital diagnostic readouts composed purely of flat rectangular binary status blocks, horizontal progress/level bars, and segmented matrix grids in aged brass #B99A61. Standing on the floor near the console, observing the diagnostic readout, is the course mascot: refer directly to mascot-reference.png. The mascot consists strictly of two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them, exactly as in the reference image. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Background shows minimal geometric maintenance bay architecture (#151A22, #090B0F) and an observation window revealing flat Martian terrain in desaturated warm grey (#B7B0A4), strictly no red. Style: minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical and calm. Color palette strictly: #090B0F, #151A22, #B7B0A4, #D8D0C2, with aged brass #B99A61 only on the console display glow."
+    },
+    {
+      "id": "bool-flags",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "bool radar_ready = true;\nbool sensor_fault = false;",
+          "ok": true
+        },
+        {
+          "code": "bool radar_ready = True;\n// error: 'True' was not declared (C++ uses lowercase)",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-bool-char",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    bool active = true;\n    bool error = false;\n    char mode = 'S';\n    cout << active << \" \" << error << \" \" << mode << endl;\n    return 0;\n}",
+      "expected": "1 0 S",
+      "focus": "cout << active"
+    },
+    {
+      "id": "char-and-ascii",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "char tier = 'A';\n// 1 byte, single quotes",
+          "ok": true
+        },
+        {
+          "code": "char tier = \"A\";\n// error: invalid conversion from 'const char*' to 'char'",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "configure-status-flags",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // 1. Declare bool online initialized to true\n    // 2. Declare char sector initialized to 'D'\n    // 3. Print online, space, and sector on one line\n    \n    return 0;\n}",
+      "expected": "1 D",
+      "requires": ["bool", "char", "'D'", "online"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    bool online = true;\n    char sector = 'D';\n    cout << online << \" \" << sector << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "string-basics",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "#include <string>\nusing namespace std;\nstring callsign = \"IRIS-1\";",
+          "ok": true
+        },
+        {
+          "code": "string callsign = 'IRIS-1';\n// error: character constant too long for its type",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "string-operations-map",
+      "kind": "explain"
+    },
+    {
+      "id": "format-mission-log",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string station = \"LUNAR-BASE\";\n    string channel = \"ALPHA\";\n    \n    // 1. Combine station, \"/\", and channel into full_channel\n    // 2. Print full_channel\n    // 3. Print full_channel.length()\n    \n    return 0;\n}",
+      "expected": "LUNAR-BASE/ALPHA\n16",
+      "requires": ["string", "station + \"/\" + channel", ".length()"],
+      "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string station = \"LUNAR-BASE\";\n    string channel = \"ALPHA\";\n    string full_channel = station + \"/\" + channel;\n\n    cout << full_channel << endl;\n    cout << full_channel.length() << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "find-quote-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char sector = 'A';\n    char mode = \"D\";\n    cout << sector << \" \" << mode << endl;\n    return 0;\n}",
+      "answerLine": 6
+    },
+    {
+      "id": "fill-type-tokens",
+      "kind": "blanks",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    [[1]] ready = true;\n    [[2]] tier = 'S';\n    [[3]] callsign = \"IRIS-01\";\n    cout << ready << \" \" << tier << \" \" << callsign << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": ["bool", "char"],
+        "2": ["char", "bool"],
+        "3": ["string", "char"]
+      }
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

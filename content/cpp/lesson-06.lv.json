@@ -1,0 +1,127 @@
+{
+  "title": "bool, char un string",
+  "module": "1. bloks · Pamodināšana",
+  "steps": {
+    "system-diagnostics": {
+      "eyebrow": "Diagnostikas nodalījums",
+      "title": "Sistēmas stāvokļa karodziņu atjaunošana",
+      "body": [
+        "Pēc nosēšanās krāterī izlūka drons Sigma ir nogādāts bāzes IRIS tehniskās apkopes dokā. Mehāniskie mezgli ir veseli, bet borta dators pārstartē iekšējos reģistrus.",
+        "Pilnīgai sistēmas atjaunošanai ar skaitliskiem telemetrijas datiem vien nepietiek. Zondes diagnostikas konsolei nepieciešami loģiskie stāvokļu karodziņi mezglu gatavības pārbaudei, vienas rakstzīmes kodi sensoru režīmiem un teksta nosaukumi apakšsistēmu identificēšanai.",
+        "C++ nodrošina trīs specializētus tipus loģikai un tekstam:\n+ **bool loģiskajiem stāvokļiem.** Glabā vērtību true vai false. Aizņem 1 baitu atmiņas.\n+ **char vienai rakstzīmei.** Glabā vienu ASCII simbolu vienpēdiņās, piemēram, 'A' vai '8'. Aizņem 1 baitu atmiņas.\n+ **std::string teksta virknēm.** Glabā vārdus, teikumus vai identifikatorus dubultpēdiņās, piemēram, \"IRIS-01\". Nodrošina standarta bibliotēkas galvene <string>."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kā ASCII 1963. gadā standartizēja datoru saziņu",
+          "body": [
+            "Datoru pirmsākumos katrs aparatūras ražotājs izmantoja savu rakstzīmju kodējumu. IBM izmantoja BCD un vēlāk EBCDIC, savukārt citi izstrādāja 5 vai 6 bitu telegrāfa kodus. Viena datora sagatavotu magnētisko lenti cits dators nespēja nolasīt, jo skaitlis 1 vienā sistēmā nozīmēja burtu 'A', bet citā — burtu 'J'.",
+            "1963. gada maijā Amerikas Standartu asociācija (tagad ANSI) publicēja ASCII standartu (American Standard Code for Information Interchange). Tas ieviesa 7 bitu standartu ar 128 kodiem: kodi no 0 līdz 31 bija paredzēti vadības komandām (jauna rinda, zvanu signāls), no 48 līdz 57 — cipariem '0' līdz '9', no 65 līdz 90 — lielajiem latīņu burtiem 'A' līdz 'Z', un no 97 līdz 122 — mazajiem burtiem 'a' līdz 'z'.",
+            "Valoda C++ šo mantojumu saglabā tipā char, kas modernajās sistēmās aizņem 8 bitu baitu un tieši atbilst ASCII kodiem.",
+            "Avots: American Standard Code for Information Interchange, ASA X3.4-1963; Computer History Museum (https://www.computerhistory.org)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Kāpēc bool aizņem veselu baitu, nevis vienu bitu",
+          "body": [
+            "Loģiskais lielums attēlo bināru izvēli: 1 (true) vai 0 (false). Matemātiski šādam stāvoklim pietiktu ar vienu vienīgu bitu.",
+            "Tomēr modernās procesoru arhitektūras (x86-64, ARM) adresē atmiņu baitos, nevis atsevišķos bitos. Atmiņas kontrolieris nevar tieši piekļūt atsevišķam bitam — mazākā nolasāmā vienība ir 8 bitu baits.",
+            "Ja C++ glabātu bool vērtības pa vienam bitam, katrai nolasīšanai un ierakstīšanai procesoram nāktos ielādēt veselu baitu, veikt bitu maskēšanas darbības (AND/OR) un saglabāt to atpakaļ, ievērojami palēninot darbību. Piešķirot bool tipam 1 baitu (8 bitus), C++ nodrošina maksimālu ātrdarbību, samierinoties ar 7 neizmantotiem bitiem katram atsevišķam karodziņam."
+          ]
+        }
+      ]
+    },
+    "bool-flags": {
+      "title": "Loģiskie stāvokļi: bool",
+      "compareCaptions": [
+        "C++ atslēgvārdi: true un false (mazie burti)",
+        "sintakses kļūda: C++ nepazīst True ar lielo burtu"
+      ],
+      "body": [
+        "Tips bool (nosaukts par godu britu matemātiķim Džordžam Būlam) glabā loģiskās patiesuma vērtības.",
+        "syntax: bool {nosaukums} = {vertiba};\n- bool: loģiskā tipa atslēgvārds (1 baits)\n- nosaukums: mainīgā identifikators\n- vertiba: loģiskais literālis — `true` vai `false`\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "> Loģisko mainīgo pamatlikumi:\n> 1. **Tikai divi literāļi.** C++ pirmkodā loģiskās vērtības raksta tikai ar mazajiem burtiem: `true` un `false`.\n> 2. **cout pēc noklusējuma izvada 1 vai 0.** Nosūtot bool vērtību uz cout plūsmu, terminālī tiek izvadīts `1` (par true) vai `0` (par false). Teksts \"true\" netiek izvadīts, ja vien nav iestatīts std::boolalpha karodziņš.\n> 3. **Nulle ir false, pārējais ir true.** Valodā C++ skaitlis 0 nozīmē aplamu stāvokli (false), bet jebkurš cits skaitlis tiek uzskatīts par patiesu (true).",
+        "!> **Ieradums no Python.** Valodā Python loģiskās vērtības raksta ar lielo burtu (`True`, `False`). Valodā C++ uzraksts `True` vai `False` izraisīs kompilācijas kļūdu. Vienmēr lieto mazos burtus: `true` un `false`!"
+      ]
+    },
+    "predict-bool-char": {
+      "title": "Paredzi bool un char izvadi",
+      "body": [
+        "Apskati mainīgo deklarācijas un izvades komandu zemāk. Paredzi precīzu teksta rindu, ko programma izvadīs terminālī.",
+        "Pievērs uzmanību: `active` ir `true`, `error` ir `false`, un `mode` ir rakstzīme `'S'`."
+      ],
+      "explain": "Plūsma cout izvada skaitli '1' vērtībai true, skaitli '0' vērtībai false un tiešu simbolu 'S' tipam char. Atdalot ar atstarpēm, rezultāts ir \"1 0 S\". Valoda C++ nepievieno pēdiņas ap rakstzīmēm un neizvada vārdus \"true\"/\"false\"."
+    },
+    "char-and-ascii": {
+      "title": "Viena rakstzīme: char un ASCII",
+      "compareCaptions": [
+        "vienpēdiņas apzīmē 1 baita char literāli",
+        "dubultpēdiņas veido virkni (nevar piešķirt char tipam)"
+      ],
+      "body": [
+        "Tips char glabā tieši vienu simbolu: burtu, ciparu, pieturzīmi vai atstarpi. Atmiņā tas aizņem tieši 1 baitu (8 bitus).",
+        "syntax: char {nosaukums} = '{simbols}';\n- char: rakstzīmes tipa atslēgvārds (1 baits)\n- nosaukums: mainīgā identifikators\n- simbols: viens ASCII simbols vienpēdiņās\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "> Rakstzīmju literāļu pamatlikumi:\n> 1. **Tikai vienpēdiņas.** Viena simbola literāli obligāti liek vienpēdiņās: `'A'`, `'7'`, `'$'`, `'\\n'`.\n> 2. **Dubultpēdiņas pieder virknēm.** Simbols dubultpēdiņās (`\"A\"`) ir teksta virkne, nevis char. Mēģinot `\"A\"` piešķirt char mainīgajam, kompilators ziņos par kļūdu.\n> 3. **Iekšēji tie ir veseli skaitļi.** Katrs char glabā veselu skaitli — ASCII kodu. Simbols `'A'` atmiņā ir skaitlis 65, `'B'` ir 66, bet cipara simbols `'0'` ir 48. Tā kā char pamatā ir skaitlis, ar to var veikt pat aritmētiskas darbības.",
+        "!> **Ieradums no Python.** Valodā Python vienpēdiņas un dubultpēdiņas ir pilnīgi identiskas (`'teksts'` == `\"teksts\"`). Valodā C++ pēdiņu veids nosaka datu tipu: vienpēdiņas `''` nozīmē tieši vienu char, bet dubultpēdiņas `\"\"` — teksta virkni!"
+      ]
+    },
+    "configure-status-flags": {
+      "title": "Iestati diagnostikas stāvokļa karodziņus",
+      "task": "Inicializē zondes Sigma primāros diagnostikas karodziņus:\n1. Deklarē loģisko mainīgo `online` ar sākuma vērtību `true`.\n2. Deklarē rakstzīmes mainīgo `sector` ar vērtību `'D'` (Diagnostikas nodalījums).\n3. Izvadi ar `cout` mainīgo `online`, atstarpi `\" \"` un `sector` vienā rindā.",
+      "hint": "Uzraksti `bool online = true;` un `char sector = 'D';`, pēc tam izvadi tos: `cout << online << \" \" << sector << endl;`.",
+      "solutionNote": "Programma terminālī izvada `1 D`. Loģiskais karodziņš `online` attēlojas kā `1`, kam seko atstarpe un simbols `'D'`."
+    },
+    "string-basics": {
+      "title": "Teksta virknes: std::string",
+      "compareCaptions": [
+        "std::string ar dubultpēdiņām teksta virknēm",
+        "kļūda: vienpēdiņas nevar saturēt teksta virkni"
+      ],
+      "body": [
+        "Tips char spēj glabāt tikai vienu pašu simbolu. Lai programmā strādātu ar vārdiem, komandām un paziņojumiem, C++ piedāvā tipu std::string.",
+        "syntax: string {nosaukums} = \"{teksts}\";\n- string: teksta virknes tips no bibliotēkas `<string>`\n- nosaukums: mainīgā identifikators\n- teksts: patvaļīga rakstzīmju virkne dubultpēdiņās\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "> Darba pamatlikumi ar std::string:\n> 1. **Nepieciešama galvene <string>.** Lai izmantotu virkņu tipu, faila sākumā jāpievieno bibliotēka: `#include <string>`.\n> 2. **Obligātas dubultpēdiņas.** Teksta virknes vienmēr liek dubultpēdiņās: `\"IRIS-BASE\"`. Vienpēdiņu lietošana izraisīs kompilatora kļūdu.\n> 3. **Apvienošana ar operatoru +.** Virknes var savienot ar plusa zīmi (`+`), ja vismaz viens no elementiem jau ir string objekts: `string full = tag + \"/\" + code;`.\n> 4. **Garuma noteikšana ar .length().** Izsaucot metodi `.length()` pie jebkura string mainīgā, iegūst precīzu rakstzīmju skaitu tajā.",
+        "!> **Burtisko virkņu savienošanas slazds.** Nedrīkst saskaitīt divus burtiskus virkņu literāļus tieši (`\"IRIS\" + \"-01\"` nedarbojas, jo neviens no tiem vēl nav `std::string` objekts). Vismaz vienam saskaitāmajam jābūt `std::string` mainīgajam!"
+      ]
+    },
+    "string-operations-map": {
+      "eyebrow": "Atmiņas arhitektūra",
+      "title": "Tipu bool, char un string atmiņas izkārtojums",
+      "body": [
+        "Visi trīs neskaitliskie datu tipi pilda atšķirīgas funkcijas datora atmiņā.",
+        "> Arhitektūras salīdzinājums:\n> 1. **bool (1 baits).** Glabā vienu bināru stāvokli (0 vai 1). Tieša baitu adresācija bez bitu maskēšanas.\n> 2. **char (1 baits).** Glabā 8 bitu veselu skaitli, kas atbilst ASCII koda simbolam.\n> 3. **std::string (dinamiska virkne).** Atmiņā pārvalda secīgu char elementu buferi, automātiski sekojot līdzi virknes garumam un noslēdzošajām rakstzīmēm.",
+        "Kad zonde Sigma pārraida telemetrijas paketi, tās virsrakstā apvienots viena baita stāvokļa karodziņš, viena baita protokola kods un mainīga garuma misijas teksta virkne."
+      ],
+      "alt": "Atmiņas shēma ar 1 baitu bool, 1 baitu char un dinamisku std::string rakstzīmju virkni.",
+      "image": "assets/l06-string-memory.lv.svg"
+    },
+    "format-mission-log": {
+      "title": "Izveido formatētu telemetrijas kanālu",
+      "task": "Formatē sakaru kanāla adresi zondei Sigma:\n1. Apvieno virknes `station`, `\"/\"` un `channel`, izmantojot operatoru `+`, un saglabā rezultātu jaunā `string` mainīgajā `full_channel`.\n2. Pirmajā rindā izvadi `full_channel`.\n3. Otrajā rindā izvadi `full_channel.length()`.",
+      "hint": "Uzraksti `string full_channel = station + \"/\" + channel;`, pēc tam izvadi `full_channel` un `full_channel.length()` katru savā rindā ar `endl`.",
+      "solutionNote": "Apvienotā virkne ir `LUNAR-BASE/ALPHA`, un tās kopējais garums ir tieši 16 rakstzīmes."
+    },
+    "find-quote-bug": {
+      "title": "Atrodi pēdiņu kļūdu",
+      "task": "Noklikšķini uz koda rindas, kurā pieļauta pēdiņu lietojuma sintakses kļūda.",
+      "hint": "Pārbaudi, kādās pēdiņās iekļauts katrs literālis. Vienai rakstzīmei vajadzīgas vienpēdiņas `''`.",
+      "explain": "6. rindā uzrakstīts `char mode = \"D\";` ar dubultpēdiņām. Valodā C++ dubultpēdiņas apzīmē teksta virkni, ko nevar piešķirt char mainīgajam. Pareizs pieraksts ir `char mode = 'D';`."
+    },
+    "fill-type-tokens": {
+      "title": "Piešķir datu tipus misijas mainīgajiem",
+      "task": "Izvēlies atbilstošo C++ datu tipu katrai deklarācijai, balstoties uz piešķirto literāļa vērtību.",
+      "hint": "Loģiskajai vērtībai `true` nepieciešams `bool`, vienpēdiņām `'S'` — `char`, bet dubultpēdiņām `\"...\"` — `string`.",
+      "explain": "`ready = true` ir loģiskais karodziņš (`bool`), `'S'` ir viena ASCII rakstzīme (`char`), bet `\"IRIS-01\"` ir teksta virkne (`string`)."
+    },
+    "recap": {
+      "title": "Misijas kopsavilkums: Loģika, simboli un teksts",
+      "body": [
+        "Bāze IRIS ir veiksmīgi pārbaudījusi zondes Sigma diagnostikas telemetriju. Borta datora stāvokļa karodziņi, darbības režīmi un sakaru kanālu nosaukumi ir pareizi konfigurēti atmiņā.",
+        "+ **bool (1 baits).** Glabā `true` vai `false`. `cout` pēc noklusējuma izvada `1` vai `0`. C++ valodā nekad neraksta ar lielo burtu.\n+ **char (1 baits).** Glabā tieši vienu simbolu vienpēdiņās: `'A'`, `'9'`, `'\\n'`. Iekšēji atbilst 8 bitu veselam skaitlim (ASCII kodam).\n+ **std::string (dinamisks).** Glabā teksta virknes dubultpēdiņās: `\"IRIS-01\"`. Nepieciešama bibliotēka `#include <string>`. Apvieno ar `+` un nosaka garumu ar `.length()`.",
+        "| Tips | Izmērs | Literāļi / Formāts | Pielietojums zondes sistēmās |\n| :--- | :--- | :--- | :--- |\n| `bool` | 1 baits | `true`, `false` | Apakšsistēmu stāvokļa karodziņi (dokots, dzinējs ieslēgts) |\n| `char` | 1 baits | `'A'`, `'D'`, `'Z'` | Protokolu kodi, sensoru režīmi, telemetrijas atslēgas |\n| `std::string` | Dinamisks | `\"LUNAR-BASE/ALPHA\"` | Izsaukuma signāli, sakaru kanāli, kļūdu žurnāla ieraksti |",
+        "Nākamajā — 7. nodaļā — mēs apgūsim aritmētiskās izteiksmes un saliktos operatorus, lai aprēķinātu zondes lidojuma ātrumu, orbītas laiku un sensoru robežvērtības."
+      ]
+    }
+  }
+}

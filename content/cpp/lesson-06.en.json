@@ -1,0 +1,127 @@
+{
+  "title": "bool, char, and string",
+  "module": "Block 1 · Awakening",
+  "steps": {
+    "system-diagnostics": {
+      "eyebrow": "Diagnostics bay",
+      "title": "Rebooting the system flags",
+      "body": [
+        "Drone Sigma has been brought into the IRIS maintenance bay after its crater touchdown. Physical components are intact, but the flight computer is rebooting its internal state registers.",
+        "To prepare for full operational recovery, the diagnostic console needs more than just numerical data like integer counters and floating-point distances. The telemetry stream requires logical flags to indicate subsystem readiness, single-character codes to designate sensor operating modes, and textual labels to track component names.",
+        "C++ provides three distinct data types for logic and text:\n+ **bool for logical states.** Holds either true or false. Takes 1 byte of memory.\n+ **char for single characters.** Holds one ASCII symbol enclosed in single quotes like 'A' or '8'. Takes 1 byte of memory.\n+ **std::string for text sequences.** Holds words, sentences, or structured identifiers enclosed in double quotes like \"IRIS-01\". Dynamic size provided by the standard library header <string>."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "How ASCII standardized computing communication in 1963",
+          "body": [
+            "In the early days of computing, every hardware vendor invented their own character encoding. IBM used BCD and later EBCDIC, while others used proprietary 5-bit or 6-bit telegraphic codes. A magnetic tape written by one computer could not be read by another because the number 1 might mean the letter 'A' on one machine and the character 'J' on another.",
+            "In May 1963, the American Standards Association (now ANSI) published ASCII (American Standard Code for Information Interchange). It established a 7-bit standard mapping 128 codes: numbers 0 to 31 for control characters (such as newline, carriage return, and bell), 48 to 57 for digits '0' through '9', 65 to 90 for uppercase Latin letters 'A' to 'Z', and 97 to 122 for lowercase letters 'a' to 'z'.",
+            "C++ inherited this standard through the char type, which on modern platforms maps directly to 8-bit bytes containing ASCII codes.",
+            "Source: American Standard Code for Information Interchange, ASA X3.4-1963; Computer History Museum (https://www.computerhistory.org)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Why bool takes a whole byte instead of a single bit",
+          "body": [
+            "A boolean value represents a binary decision: 1 (true) or 0 (false). Mathematically, a single bit is sufficient to store this state.",
+            "However, modern CPU architectures (x86-64, ARM) are byte-addressable. The memory controller cannot directly address an individual bit on the RAM bus; the smallest addressable unit of memory is an 8-bit byte.",
+            "If C++ packed standard bool variables into individual bits, reading or writing a flag would require the processor to fetch an entire byte, execute bitwise masking operations (AND/OR), and write it back, introducing CPU overhead. By giving bool 1 byte (8 bits), C++ ensures fast, direct memory access at the cost of 7 unused bits per standalone flag."
+          ]
+        }
+      ]
+    },
+    "bool-flags": {
+      "title": "Logical states: bool",
+      "compareCaptions": [
+        "C++ keywords: true and false (lowercase)",
+        "syntax error: True is not recognized in C++"
+      ],
+      "body": [
+        "The bool type (named after British mathematician George Boole) stores boolean truth values.",
+        "syntax: bool {name} = {value};\n- bool: logical type keyword (1 byte)\n- name: variable identifier\n- value: boolean literal — `true` or `false`\n- ;: statement terminator — mandatory in C++",
+        "> Rules for boolean variables:\n> 1. **Only two valid literals.** In C++ source code, boolean values are written strictly in lowercase: `true` and `false`.\n> 2. **cout prints numeric 1 or 0 by default.** When you send a bool to cout, the stream prints `1` for true and `0` for false. It does not print the English word \"true\" unless explicitly configured with std::boolalpha.\n> 3. **Non-zero is true.** In C++, any non-zero integer converts to true, while 0 converts to false.",
+        "!> **Python habit to unlearn.** In Python, boolean literals are capitalized (`True`, `False`). In C++, writing `True` or `False` causes a compilation error ('True' was not declared in this scope). Always write `true` and `false` in lowercase!"
+      ]
+    },
+    "predict-bool-char": {
+      "title": "Predict boolean and character output",
+      "body": [
+        "Review the variable declarations and stream output below. Predict the exact line that prints to the console.",
+        "Notice how `active` is `true`, `error` is `false`, and `mode` is the character `'S'`."
+      ],
+      "explain": "The stream prints '1' for true, '0' for false, and the literal symbol 'S' for the char variable. Values separated by space literals produce \"1 0 S\". In C++, cout does not wrap characters in quotes or print textual \"true\"/\"false\"."
+    },
+    "char-and-ascii": {
+      "title": "Single characters: char and ASCII",
+      "compareCaptions": [
+        "single quotes enclose 1-byte char literal",
+        "double quotes create a string literal (cannot assign to char)"
+      ],
+      "body": [
+        "The char type stores a single symbol: a letter, digit, punctuation mark, or whitespace. It occupies exactly 1 byte (8 bits) in memory.",
+        "syntax: char {name} = '{symbol}';\n- char: character type keyword (1 byte)\n- name: variable identifier\n- symbol: single ASCII symbol in single quotes\n- ;: statement terminator — mandatory in C++",
+        "> Character literal rules:\n> 1. **Strictly single quotes.** A single character literal must be wrapped in single quotes: `'A'`, `'7'`, `'$'`, `'\\n'`.\n> 2. **Double quotes are strings.** Enclosing a character in double quotes (`\"A\"`) creates a string literal, not a char. Assigning `\"A\"` to a char causes a compilation error.\n> 3. **Integers under the hood.** Every char stores an integer ASCII code. The symbol `'A'` is stored as number 65, `'B'` is 66, and `'0'` is 48. Because char is an integer type, you can even perform arithmetic on it.",
+        "!> **Python habit to unlearn.** In Python, single and double quotes are completely interchangeable (`'hello'` == `\"hello\"`). In C++, quotes have strict type meaning: single quotes `''` mean exactly one char, and double quotes `\"\"` mean a string literal!"
+      ]
+    },
+    "configure-status-flags": {
+      "title": "Configure diagnostic status flags",
+      "task": "Initialize Sigma's primary diagnostic telemetry flags:\n1. Declare a boolean variable `online` initialized to `true`.\n2. Declare a character variable `sector` initialized to `'D'` (Diagnostic bay).\n3. Print `online`, a space `\" \"`, and `sector` to `cout`.",
+      "hint": "Write `bool online = true;` and `char sector = 'D';`, then stream them with `cout << online << \" \" << sector << endl;`.",
+      "solutionNote": "The program outputs `1 D`. The boolean `online` evaluates to `1`, followed by space and character `'D'`."
+    },
+    "string-basics": {
+      "title": "Text sequences: std::string",
+      "compareCaptions": [
+        "std::string with double quotes for text sequences",
+        "error: single quotes cannot hold text sequences"
+      ],
+      "body": [
+        "A single char holds only one symbol. To represent names, commands, and communication messages, C++ provides the std::string type.",
+        "syntax: string {name} = \"{text}\";\n- string: text sequence type from `<string>`\n- name: variable identifier\n- text: sequence of characters in double quotes\n- ;: statement terminator — mandatory in C++",
+        "> Working with std::string:\n> 1. **Include header <string>.** To use std::string, you must include the header file at the top of your program: `#include <string>`.\n> 2. **Double quotes are mandatory.** Strings are always wrapped in double quotes: `\"IRIS-BASE\"`. Using single quotes triggers a compiler error.\n> 3. **Concatenation with + operator.** You can glue strings together using the plus operator (`+`), provided at least one of the items is already a string: `string full = tag + \"/\" + code;`.\n> 4. **Finding length with .length().** Calling `.length()` on any string returns the exact number of characters it contains.",
+        "!> **Literal addition trap.** You cannot add two raw string literals directly with plus (`\"IRIS\" + \"-01\"` is invalid because neither side is yet a `std::string` object). At least one operand must be a `std::string` variable!"
+      ]
+    },
+    "string-operations-map": {
+      "eyebrow": "Memory architecture",
+      "title": "Memory layout of bool, char, and string",
+      "body": [
+        "The three non-numeric types fulfill distinct architectural roles in memory.",
+        "> Architectural comparison:\n> 1. **bool (1 byte).** Holds a single binary flag (0 or 1). Direct byte access without bit-masking.\n> 2. **char (1 byte).** Stores an 8-bit integer corresponding to an ASCII character code.\n> 3. **std::string (dynamic sequence).** Manages a dynamic buffer of char elements in memory, automatically tracking its size and terminating characters.",
+        "When drone Sigma transmits a packet, its header combines a single-byte operational flag, a single-byte protocol tier, and a variable-length mission payload string."
+      ],
+      "alt": "Memory diagram comparing 1-byte bool, 1-byte char, and dynamic std::string sequence.",
+      "image": "assets/l06-string-memory.en.svg"
+    },
+    "format-mission-log": {
+      "title": "Construct a formatted telemetry channel",
+      "task": "Format the communication channel path for drone Sigma:\n1. Combine `station`, `\"/\"`, and `channel` using the `+` operator, storing the result in a new `string` named `full_channel`.\n2. Print `full_channel` on the first line.\n3. Print `full_channel.length()` on the second line.",
+      "hint": "Declare `string full_channel = station + \"/\" + channel;`, then output `full_channel` and `full_channel.length()` on separate lines using `endl`.",
+      "solutionNote": "The combined string is `LUNAR-BASE/ALPHA`, which contains exactly 16 characters."
+    },
+    "find-quote-bug": {
+      "title": "Find the quote error",
+      "task": "Click on the line containing the syntax error where quotation types are mismatched.",
+      "hint": "Check how each character or string literal is enclosed. Single characters require single quotes `''`.",
+      "explain": "Line 6 declares `char mode = \"D\";` with double quotes. In C++, double quotes signify a string literal (`const char*`), which cannot be assigned to a `char`. The correct syntax is `char mode = 'D';`."
+    },
+    "fill-type-tokens": {
+      "title": "Assign types to mission variables",
+      "task": "Select the correct C++ data type for each variable declaration based on its literal value.",
+      "hint": "A boolean literal `true` requires `bool`, single quotes `'S'` require `char`, and double quotes `\"...\"` require `string`.",
+      "explain": "`ready = true` is a boolean flag (`bool`), `'S'` is a single ASCII character (`char`), and `\"IRIS-01\"` is a multi-character sequence (`string`)."
+    },
+    "recap": {
+      "title": "Mission summary: Logic, symbols, and text",
+      "body": [
+        "Base IRIS has verified Sigma's diagnostics telemetry. The flight computer's state flags, operational modes, and channel labels are properly registered in memory.",
+        "+ **bool (1 byte).** Holds `true` or `false`. `cout` prints `1` or `0` by default. Never capitalized in C++.\n+ **char (1 byte).** Stores a single character in single quotes: `'A'`, `'9'`, `'\\n'`. Under the hood, stores an 8-bit integer ASCII code.\n+ **std::string (dynamic).** Stores text sequences in double quotes: `\"IRIS-01\"`. Requires `#include <string>`. Concatenates with `+` and returns length with `.length()`.",
+        "| Type | Size | Literals / Format | Typical Space Role |\n| :--- | :--- | :--- | :--- |\n| `bool` | 1 byte | `true`, `false` | Subsystem status flags (docked, engine online) |\n| `char` | 1 byte | `'A'`, `'D'`, `'Z'` | Protocol modes, sensor tiers, telemetry keys |\n| `std::string` | Dynamic | `\"LUNAR-BASE/ALPHA\"` | Call signs, diagnostic logs, target identifiers |",
+        "Next in Chapter 7, we will unlock arithmetic expressions and compound operators to calculate drone velocity, orbital timing, and sensor thresholds."
+      ]
+    }
+  }
+}
