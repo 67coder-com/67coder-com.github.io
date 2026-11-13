@@ -33,8 +33,7 @@
         {
           "n": 4,
           "slug": "integers",
-          "locales": [],
-          "draft": [
+          "locales": [
             "lv",
             "en"
           ]
