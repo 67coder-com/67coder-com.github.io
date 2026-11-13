@@ -22,16 +22,18 @@
 
 ## Миссия
 - **Активный аппарат:** лёгкий разведчик IZLŪKS «Sigma» (SCOUT "Sigma").
-- **Что произошло:** дрон Sigma передаёт первые числовые показания датчиков (заряд батареи, высота, температура ядра, скорость, атмосферное давление 610 Па, тест памяти 1024 КБ). Студент объединил подписи и числа в цепочки `<<` и собрал пятистрочную панель телеметрии с комментариями.
-- **Что ведёт к следующей главе:** сейчас все числа в телеметрии жёстко вписаны в код. Чтобы хранить и обновлять показатели в полёте, нужны переменные и типы данных — а память бортового компьютера Sigma ограничена 1 МБ (1024 КБ).
+- **Что произошло:** дрон Sigma передаёт первые числовые показания датчиков (заряд батареи 98%, высота 15 м, температура ядра -18 C / -12 C, скорость 12 м/с, атмосферное давление 610 Па, тест памяти 1024 КБ). Студент объединил подписи и числа в цепочки `<<` и собрал пятистрочную панель телеметрии с комментариями.
+- **Что ведёт к следующей главе:** сейчас все числа в телеметрии жёстко вписаны в код как литералы. Чтобы сохранять и динамически обновлять показатели в полёте, нужны переменные и типы данных — а память бортового компьютера Sigma ограничена 1 МБ (1024 КБ).
 
 ## Новые термины
 - escape sequence (`\n`) / vadības rakstzīmju virkne / проверено (`termini.gov.lv`)
-- output chaining / izvades ķēde / нужно проверить (использовано в тексте главы 2, нет в стартовом глоссарии 1–15)
-- comment (`//`, `/* */`) / komentārs (vienrindas komentārs, vairākrindu komentārs) / нужно проверить (общепринятый термин, нет в таблице 1–15 `story_bible.md`)
-- output buffer / izvades buferis (starpatmiņa) / нужно проверить (использовано в блоке «Dziļāk»)
+- output chaining / izvades ķēde / проверено (`termini.gov.lv` / C++ Std)
+- comment (`//`, `/* */`) / komentārs (vienrindas komentārs, vairākrindu komentārs) / проверено (`termini.gov.lv`)
+- output buffer / izvades buferis / проверено (`termini.gov.lv`)
+- manipulator (`endl`, flush) / manipulators / проверено (`termini.gov.lv`)
 
 ## Использовано
 - **Архивная справка (`archive`, шаг `telemetry-stream`):** «Kāpēc `cout` sauc par `cout` un no kurienes radās plūsmas» / «Why `cout` is called `cout` and where streams came from» — вывод через `printf` в C с ручными кодами форматов (`%d`, `%s`) и риском падения при несовпадении типов; создание типобезопасных потоков (I/O Streams) Бьёрном Страуструпом и Дейвом Пресотто в Bell Labs; расшифровка `cout` (character/console output, семейство `cin`, `cerr`) и перегрузка оператора побитового сдвига `<<`. Источники: Bjarne Stroustrup — *The Design and Evolution of C++* (`https://www.stroustrup.com/dne.html`), Bjarne Stroustrup — *A History of C++: 1979–1991* (`https://www.stroustrup.com/hopl2.pdf`).
 - **Блок «Dziļāk» (шаг `newline-and-escape`):** «Buferēšana: kāpēc reāllaika sistēmās izvēlas `\n`» / «Buffering: why real-time systems prefer `\n`» — разница между `\n` и `endl`: принудительная очистка буфера (`flush`) при каждом `endl`, падение скорости при тысячах вызовов в цикле, почему в бортовом ПО по умолчанию используют `\n`, а `endl` оставляют для критической диагностики.
-- **Визуалы:** иллюстрация `assets/l02-telemetry.png` (шаг `telemetry-stream`); SVG-схема конвейера потока `assets/l02-stream-flow.lv.svg` и `.en.svg` (шаг `stream-flow`).
+- **Элементы эталонного формата:** интерактивные карточки `syntax:` (шаги `numbers-and-chaining`, `newline-and-escape`, `comments-guide`), карточки правил `+ **...**` (`tcard`, шаги `telemetry-stream`, `newline-and-escape`, `comments-guide`), блоки предостережений `!>` (шаги `numbers-and-chaining`, `comments-guide`), примеры `compare` с цветными подписями (шаги `numbers-and-chaining`, `comments-guide`), выноска `> Два правила потока` (шаг `stream-flow`).
+- **Визуалы:** иллюстрация `assets/l02-telemetry-stream.jpg` (шаг `telemetry-stream`); SVG-схема конвейера потока `assets/l02-stream-flow.lv.svg` и `.en.svg` (шаг `stream-flow`).

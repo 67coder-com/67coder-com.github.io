@@ -8,7 +8,7 @@
       "body": [
         "Scout Sigma is awake and transmitting its first sensor readings. The flight computer measures battery charge, altitude, and core system temperature. However, raw data arrives on the console as an unreadable continuous line.",
         "To build a clear instrument dashboard, your code needs to combine two elements: explanatory labels in quotes and physical measurement values as numbers. C++ lets you combine them within a single statement.",
-        "In this chapter, you will learn to link data into continuous output chains using the `<<` operator, control line breaks, and annotate your code with comments that the compiler completely ignores."
+        "Three core output principles at a glance:\n+ **Text in quotes.** Character strings (`\"BATTERY: \"`) are treated as literal text.\n+ **Numbers without quotes.** Numeric literals (`98`, `-12`) are treated as pure numbers that the computer can compute with.\n+ **Chaining with <<.** The `<<` operator connects multiple pieces in a single statement from left to right."
       ],
       "more": [
         {
@@ -34,31 +34,35 @@
     },
     "numbers-and-chaining": {
       "title": "Numbers and output chaining",
+      "compareCaptions": [
+        "chained stream with << → prints seamlessly",
+        "comma instead of << → comma operator trap"
+      ],
       "body": [
-        "In C++, numbers are written directly without quotes. Text inside quotes like `\"98\"` is treated as a string of characters, whereas `98` without quotes is a numeric value that the processor can compute with.",
-        "The stream insertion operator `<<` can be called multiple times in a single statement. This technique is known as chaining. Data flows into `cout` sequentially from left to right.",
-        "In the first line, the string `\"BATTERY: \"` enters the stream first, followed immediately by the number `98`, then the `\"%\"` sign, and finally the `endl` manipulator that advances the cursor to a new line."
+        "syntax: cout << {label} << {number} << {unit} << endl;\n- label: text description in double quotes\n- number: numeric literal without quotes (98, 15, -12)\n- unit: text suffix (\"%\", \" M\")\n- endl: manipulator ending the line and flushing the stream",
+        "In C++, numbers are written directly without quotes. Text inside quotes like `\"98\"` is treated as a string of characters, whereas `98` without quotes is a numeric value.",
+        "The stream insertion operator `<<` can be called repeatedly in a single statement. This is known as **chaining**. Data flows into `cout` sequentially from left to right, converting each element into characters on the fly.",
+        "!> **Python habit to unlearn.** In Python, `print(\"BATTERY:\", 98)` uses commas to separate items and inserts spaces automatically. In C++, items are chained using `<<`, and `cout` never inserts spaces between chained parts unless you explicitly write them inside your string literals."
       ]
     },
     "predict-output": {
       "title": "Predict the telemetry line",
       "body": [
-        "Examine the two lines of code below. Pay close attention to spaces inside the quotation marks and where `endl` is located.",
-        "Type the exact console output. This is an exercise in spotting syntax details, not an exam — trace the data flow carefully."
+        "Examine the two lines of code below. Pay close attention to spaces inside quotation marks and where `endl` is placed.",
+        "This is an exercise in spotting stream details, not a graded test: trace how the pieces enter `cout`, predict the exact terminal output, and compare it with the result."
       ],
       "explain": "On the first line, there is no space between `SOL:` and `14` because none was written inside quotes. On the second line, `C` directly follows `-18` without a space and without a trailing newline."
     },
     "first-chain": {
       "title": "Combine separate outputs into a chain",
-      "task": "Rewrite the three separate `cout` statements into a single statement using the `<<` chaining operator to print exactly: `SIGMA SPEED: 12 M/S`.",
-      "hint": "Start with `cout << \"SIGMA SPEED: \"` and continue with `<< 12 << \" M/S\" << endl;`. Remember the semicolon `;` at the end.",
-      "solutionNote": "All three components are now chained in a single statement with three `<<` operators."
+      "task": "Rewrite the three separate `cout` statements into a single statement using the `<<` chaining operator in the format shown below:\n1. Open with `cout << \"SIGMA SPEED: \"`.\n2. Chain the numeric literal `12`.\n3. Chain the text `\" M/S\"` and finish with `<< endl;`.",
+      "hint": "Write a single `cout` command: `cout << \"SIGMA SPEED: \" << 12 << \" M/S\" << endl;`."
     },
     "stream-flow": {
       "title": "How data travels to the screen",
       "body": [
-        "The `<<` operator acts like a conveyor belt. Each element is placed onto the stream and travels toward its destination: the terminal display. The arrival sequence is strictly determined by the left-to-right order of the `<<` operators.",
-        "The compiler automatically determines the data type of each segment: text remains text, while numeric values are converted into characters for visual rendering without manual format codes."
+        "The `<<` operator acts like a conveyor belt. Each element is placed onto the stream and travels toward its destination: the terminal display.",
+        "> Two principles of the output stream:\n> 1. **Left-to-right order.** Data enters `cout` strictly in the order `<<` operators appear.\n> 2. **Automatic type conversion.** The stream automatically converts numeric values into text characters without requiring manual format specifiers."
       ],
       "alt": "Diagram: a text literal, a numeric literal, and a manipulator pass sequentially through << operators into cout and appear on the terminal.",
       "image": "assets/l02-stream-flow.en.svg"
@@ -67,16 +71,16 @@
       "eyebrow": "Line formatting",
       "title": "The `\\n` escape sequence and the `endl` manipulator",
       "body": [
-        "So far we have relied on `endl` to break lines. You can also trigger a line break using the escape sequence `\\n` (newline) embedded directly inside quotation marks.",
-        "The character pair `\\n` is written as two characters in code, but the compiler translates it into a single control character: «move the cursor to the beginning of the next line». For example, `cout << \"A\\nB\\n\";` prints two lines.",
-        "Other standard escape sequences include `\\t` for a horizontal tab stop, `\\\"` to print double quotation marks inside a string, and `\\\\` to output a literal backslash."
+        "syntax: cout << \"{text1}\\n{text2}\\n\";\n- text1: first line of text\n- \\n: escape sequence that moves the cursor to a new line\n- text2: second line of text",
+        "Until now we have used `endl` to advance lines. You can also trigger line breaks using the escape sequence `\\n` (newline) embedded directly inside string literals.",
+        "Common escape sequences in C++:\n+ **\\n (newline).** Moves the cursor to the beginning of the next line.\n+ **\\t (tab).** Inserts a horizontal tab stop for column alignment.\n+ **\\\" (escaped quote).** Prints a double quotation mark inside a string literal without ending it.\n+ **\\\\ (escaped backslash).** Prints a single literal backslash character."
       ],
       "more": [
         {
           "kind": "deeper",
           "title": "Buffering: why real-time systems prefer `\\n`",
           "body": [
-            "The `endl` manipulator performs two operations: it inserts a newline character and immediately flushes the output buffer (performs `flush`).",
+            "The `endl` manipulator performs two distinct operations: it inserts a newline character and immediately flushes the output buffer (`flush`).",
             "Operating systems avoid sending output to screens or disks one character at a time because hardware I/O operations are slow. Data accumulates inside an internal memory buffer before being flushed in large blocks. If a flight loop calls `endl` thousands of times, the system is forced into continuous synchronous hardware writes, dropping throughput dramatically.",
             "In high-performance flight systems, `\\n` is the default choice for newlines. The `endl` manipulator is reserved for situations where output must appear on screen immediately before a potentially critical failure."
           ]
@@ -85,46 +89,51 @@
     },
     "escape-practice": {
       "title": "Two lines in one statement",
-      "task": "Write a program that prints two lines to the terminal using ONLY ONE `cout` statement and `\\n` escape characters:\n`SIGMA SENSORS: OK`\n`DRIFT: 0`",
-      "hint": "Embed `\\n` between the sensor status and `DRIFT`, and also at the very end: `cout << \"SIGMA SENSORS: OK\\nDRIFT: 0\\n\";`",
+      "task": "Write a complete program that outputs two lines of telemetry in the format shown below using ONLY ONE `cout` statement and `\\n` escape characters:\n1. Print `SIGMA SENSORS: OK` on the first line.\n2. Print `DRIFT: 0` on the second line.\n3. Terminate the statement with `;`.",
+      "hint": "Embed `\\n` between the status and `DRIFT`, and also at the very end: `cout << \"SIGMA SENSORS: OK\\nDRIFT: 0\\n\";`",
       "solutionNote": "A single `cout` statement with embedded `\\n` produces two distinct lines in the console without `endl`."
     },
     "comments-guide": {
       "eyebrow": "Code documentation",
       "title": "Mission log notes: comments",
+      "compareCaptions": [
+        "single-line comment // → clean and safe",
+        "unclosed /* → unterminated comment compile error"
+      ],
       "body": [
-        "Comments are explanatory notes for human engineers. The compiler discards them entirely — comments consume zero memory and have no effect on execution speed.",
-        "A single-line comment starts with two forward slashes `//`. Everything following them on that line is ignored by the compiler. It is typically used for inline notes.",
-        "A multi-line comment starts with `/*` and ends with `*/`. Everything between these markers is treated as a comment across any number of lines. Note: C++ does not allow nesting multi-line comments inside each other."
+        "syntax: // {note}\n/* {block} */\n- note: single-line comment ignored until the end of the line\n- block: multi-line comment spanning multiple lines",
+        "Comments are explanatory notes for human engineers. The compiler discards them entirely during the build — comments consume zero memory in the executable and have zero effect on execution speed.",
+        "Two styles of comments in C++:\n+ **Single-line comments // .** Starts with two forward slashes. Everything following them on that line is ignored by the compiler.\n+ **Multi-line comments /* ... */ .** Starts with `/*` and ends with `*/`. Everything between these markers is ignored across any number of lines.",
+        "!> **Comment trap.** Multi-line comments `/* ... */` cannot be nested. The very first `*/` encountered terminates the comment immediately, leaving any remaining closing tags or text to trigger syntax errors."
       ]
     },
     "find-comment-bug": {
       "title": "Find the defective comment",
       "body": [
-        "A syntax error in Sigma's telemetry code caused compilation to fail. Find and click on the line containing the mistake."
+        "A syntax error in Sigma's telemetry code caused compilation to fail. Locate and click directly on the line containing the mistake."
       ],
       "explain": "Line 7 opens a multi-line comment `/*` that is never closed with `*/`. Consequently, the compiler absorbed the `return` statement and reported «unterminated /* comment»."
     },
     "fill-telemetry": {
       "title": "Restore the pressure telemetry",
       "body": [
-        "Three connection elements were lost from the telemetry output line. Fill in the missing gaps so the program prints atmospheric pressure correctly."
+        "Three connection elements were lost from the telemetry output line. Fill in the missing blanks so the program prints atmospheric pressure correctly."
       ],
       "explain": "Operators `<<` join text and numbers, while `endl` or `'\\n'` terminates the line."
     },
     "telemetry-dashboard": {
       "title": "Build Sigma's telemetry dashboard",
-      "task": "Write a complete program that outputs a clean 5-line telemetry dashboard. Print numeric values without quotes using `<<` chaining. Include at least two single-line comments `//`:\n--- TELEMETRY: SIGMA ---\nALTITUDE: 24 M\nBATTERY: 91%\nCORE TEMP: -12 C\nSTATUS: OPERATIONAL",
+      "task": "Write a complete program that outputs a clean 5-line telemetry dashboard in the format shown below:\n1. Print numeric values without quotes using `<<` chaining.\n2. Output lines for header, `ALTITUDE: 24 M`, `BATTERY: 91%`, `CORE TEMP: -12 C`, and `STATUS: OPERATIONAL`.\n3. Include at least two single-line comments `//` explaining what the code does.\n4. End each line with `endl` or `\\n` and terminate every statement with `;`.",
       "hint": "Use a separate `cout` for each line, for example: `cout << \"BATTERY: \" << 91 << \"%\" << endl;`."
     },
     "recap": {
       "title": "Second mission recap",
       "points": [
-        "Numbers are written in C++ without quotation marks — the compiler recognizes them as numeric values and converts them for display.",
+        "Numbers are written in C++ without quotation marks — the compiler recognizes them as numeric values and converts them for display automatically.",
         "The `<<` operator chains text, numbers, and formatting commands into a single stream from left to right.",
         "The `\\n` escape sequence breaks lines inside strings without triggering a forced buffer flush, unlike `endl`.",
-        "Comments (`//` and `/* ... */`) document software logic and are completely stripped during compilation.",
-        "Currently, all metrics in our dashboard are hardcoded constants. To store and update live values during flight, the next lesson introduces variables and data types."
+        "Comments (`//` and `/* ... */`) document software logic and are completely stripped during compilation, taking zero bytes in memory.",
+        "Currently, all metrics in our dashboard are hardcoded constants. To store and update live values during flight, Chapter 3 introduces variables and data types."
       ]
     }
   }
