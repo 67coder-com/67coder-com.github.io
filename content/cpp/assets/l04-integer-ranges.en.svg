@@ -13,8 +13,8 @@
   <text x="44" y="88" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
     <tspan fill="#D1B784">short</tspan><tspan fill="#8E887D"> (16-bit signed)</tspan>
   </text>
-  <rect x="340" y="70" width="190" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
-  <text x="435" y="87" text-anchor="middle" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">-32,768 .. +32,767</text>
+  <rect x="410" y="70" width="195" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="507" y="87" text-anchor="middle" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">-32,768 .. +32,767</text>
   <text x="836" y="88" text-anchor="end" fill="#D8D0C2" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">2 bytes · 65,536 values</text>
 
   <!-- Row 2: unsigned short (16-bit unsigned) -->
@@ -22,8 +22,8 @@
   <text x="44" y="156" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
     <tspan fill="#7FB3A3">unsigned short</tspan><tspan fill="#8E887D"> (16-bit unsigned)</tspan>
   </text>
-  <rect x="340" y="138" width="190" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
-  <text x="435" y="155" text-anchor="middle" fill="#7FB3A3" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0 .. 65,535</text>
+  <rect x="410" y="138" width="195" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="507" y="155" text-anchor="middle" fill="#7FB3A3" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0 .. 65,535</text>
   <text x="836" y="156" text-anchor="end" fill="#D8D0C2" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">2 bytes · doubled positive</text>
 
   <!-- Row 3: int (32-bit signed) -->
@@ -31,8 +31,8 @@
   <text x="44" y="224" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
     <tspan fill="#D1B784">int</tspan><tspan fill="#8E887D"> (32-bit signed)</tspan>
   </text>
-  <rect x="340" y="206" width="190" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
-  <text x="435" y="223" text-anchor="middle" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">-2.14 B .. +2.14 B</text>
+  <rect x="410" y="206" width="195" height="24" rx="4" fill="#1D2430" stroke="#3A4352" stroke-width="1.5" />
+  <text x="507" y="223" text-anchor="middle" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">-2.14 B .. +2.14 B</text>
   <text x="836" y="224" text-anchor="end" fill="#D8D0C2" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">4 bytes · standard</text>
 
   <!-- Row 4: unsigned int (32-bit unsigned — brass accent #B99A61) -->
@@ -40,8 +40,8 @@
   <text x="44" y="292" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
     <tspan fill="#B99A61">unsigned int</tspan><tspan fill="#8E887D"> (32-bit unsigned)</tspan>
   </text>
-  <rect x="340" y="274" width="190" height="24" rx="4" fill="#1D2430" stroke="#B99A61" stroke-width="1.5" />
-  <text x="435" y="291" text-anchor="middle" fill="#B99A61" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0 .. 4,294,967,295</text>
+  <rect x="410" y="274" width="195" height="24" rx="4" fill="#1D2430" stroke="#B99A61" stroke-width="1.5" />
+  <text x="507" y="291" text-anchor="middle" fill="#B99A61" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0 .. 4,294,967,295</text>
   <text x="836" y="292" text-anchor="end" fill="#B99A61" font-size="15" style="font-family: var(--font-sans, Inter, sans-serif)">Sigma anomaly ceiling</text>
 
   <!-- Footer -->
