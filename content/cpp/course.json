@@ -41,7 +41,10 @@
         {
           "n": 5,
           "slug": "floating-point",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 6,

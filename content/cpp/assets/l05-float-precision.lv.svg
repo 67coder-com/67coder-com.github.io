@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" width="100%" height="100%">
+  <title>IEEE 754 daļskaitļu struktūra un precizitāte atmiņā</title>
+  <desc>Shēma salīdzina 32 bitu float un 64 bitu double tipu struktūru un precizitāti pēc IEEE 754 standarta. Float atvēl 1 zīmes bitu, 8 eksponentes bitus un 23 mantisas bitus, nodrošinot apmēram 7 zīmīgās desmitdaļu zīmes. Double atvēl 1 zīmes bitu, 11 eksponentes bitus un 52 mantisas bitus, nodrošinot 15 līdz 17 zīmīgās desmitdaļu zīmes.</desc>
+
+  <!-- Fons -->
+  <rect width="880" height="280" rx="10" fill="#0D1117" />
+
+  <!-- Virsraksts -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">IEEE 754 DAĻSKAITĻU STRUKTŪRA ATMIŅĀ</text>
+
+  <!-- === FLOAT (32 BITI / 4 BAITI) === -->
+  <g transform="translate(24, 52)">
+    <rect width="832" height="88" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="16" y="24" fill="#D8D0C2" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">float (4 baiti / 32 biti)</text>
+    <text x="816" y="24" text-anchor="end" fill="#8E887D" font-size="12" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">~7 ZĪMĪGIE CIPARI</text>
+
+    <!-- Segmenti -->
+    <!-- Zīme: 1 bits -->
+    <rect x="16" y="38" width="60" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="46" y="59" text-anchor="middle" fill="#8E887D" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">ZĪME: 1</text>
+
+    <!-- Eksponente: 8 biti -->
+    <rect x="82" y="38" width="220" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="192" y="59" text-anchor="middle" fill="#B7B0A4" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">EKSPONENTE: 8 BITI</text>
+
+    <!-- Mantisa: 23 biti (Misiņa akcents) -->
+    <rect x="308" y="38" width="508" height="34" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1.5" />
+    <text x="562" y="59" text-anchor="middle" fill="#D8D0C2" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MANTISA / FRAKCIJA: 23 BITI</text>
+  </g>
+
+  <!-- === DOUBLE (64 BITI / 8 BAITI) === -->
+  <g transform="translate(24, 156)">
+    <rect width="832" height="96" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="1.5" />
+    <text x="16" y="24" fill="#D8D0C2" font-size="16" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">double (8 baiti / 64 biti) — C++ noklusējums</text>
+    <text x="816" y="24" text-anchor="end" fill="#B99A61" font-size="12" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">~15—17 ZĪMĪGIE CIPARI</text>
+
+    <!-- Segmenti -->
+    <!-- Zīme: 1 bits -->
+    <rect x="16" y="42" width="60" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="46" y="63" text-anchor="middle" fill="#8E887D" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">ZĪME: 1</text>
+
+    <!-- Eksponente: 11 biti -->
+    <rect x="82" y="42" width="180" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="172" y="63" text-anchor="middle" fill="#B7B0A4" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">EKSPONENTE: 11 BITI</text>
+
+    <!-- Mantisa: 52 biti (Akcents) -->
+    <rect x="268" y="42" width="548" height="34" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1.5" />
+    <text x="542" y="63" text-anchor="middle" fill="#D8D0C2" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MANTISA / FRAKCIJA: 52 BITI (AUGSTA PRECIZITĀTE)</text>
+  </g>
+</svg>

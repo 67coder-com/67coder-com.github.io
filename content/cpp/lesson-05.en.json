@@ -1,0 +1,124 @@
+{
+  "title": "Floating-point numbers and precision",
+  "module": "Block 1 · Awakening",
+  "steps": {
+    "crater-landing": {
+      "eyebrow": "Flight anomaly",
+      "title": "The crater landing",
+      "body": [
+        "Scout drone Sigma was scheduled to touch down on the elevated landing platform of base IRIS. Instead, telemetry confirmed the drone landed 500 meters short, coming to rest on the rocky floor of a shallow Martian crater.",
+        "A post-flight log inspection revealed the cause. To calculate the final approach step, the onboard navigation routine divided 5 meters across 2 seconds using the expression `5 / 2`. In C++, dividing two whole numbers results in an integer: the fractional part was discarded, producing `2` meters instead of `2.5`.",
+        "Whole numbers and fractional numbers live under different mathematical rules in computing hardware:\n+ **Whole numbers (integers).** Quantities like 0, 14, and -300 stored in `int` or `long long`. Division between integers always truncates toward zero.\n+ **Fractional numbers (floating-point).** Continuous physical quantities like 3.73, -12.5, and 2.5 stored in `float` or `double`.\n+ **Promotion to decimals.** To obtain a decimal result from division, at least one number in the expression must have a decimal point (`5.0 / 2`)."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Why the Mars Climate Orbiter burned up in 1999",
+          "body": [
+            "On September 23, 1999, NASA's Mars Climate Orbiter approached the Red Planet to establish orbit after a nine-month interplanetary cruise. Instead of entering orbit at an intended safe altitude between 140 and 150 km, the spacecraft dipped down to just 57 km into the Martian atmosphere, where atmospheric friction ripped it apart.",
+            "The NASA mishap investigation board discovered an engineering unit mismatch between two software modules. Ground control software built by the spacecraft contractor (Lockheed Martin) calculated thruster impulse data in English imperial units (pound-force-seconds). The trajectory guidance system at NASA's Jet Propulsion Laboratory expected metric standard units (Newton-seconds).",
+            "One pound-force equals approximately 4.45 Newtons. Because the data transfer lacked explicit unit conversions and precision scaling, each small thruster maneuver accumulated an uncorrected navigation drift over 286 days.",
+            "The 327-million-dollar spacecraft was lost entirely. The disaster remains computing and aerospace history's most celebrated case study on unit contracts, numerical precision, and dimensional validation.",
+            "Source: Mars Climate Orbiter Mishap Investigation Board Phase I Report (NASA, November 1999, https://llis.nasa.gov/lesson/639)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Why 0.1 cannot be stored exactly in binary",
+          "body": [
+            "In decimal notation (base 10), fractions like 1/10 are written simply as 0.1 because 10 is divisible by 2 and 5. A fraction like 1/3, however, becomes an infinite repeating decimal: 0.333333…",
+            "Computers store fractional numbers in binary (base 2), which can only represent fractions whose denominators are powers of two (such as 1/2 = 0.5, 1/4 = 0.25, 1/8 = 0.125).",
+            "In base 2, the decimal fraction 0.1 becomes an infinite repeating binary fraction: 0.0001100110011… Because memory registers hold a finite number of bits, the processor cuts off the sequence. This tiny rounding discrepancy explains why adding 0.1 ten times in code may yield 0.9999999999999999 instead of exactly 1.0."
+          ]
+        }
+      ]
+    },
+    "float-vs-double": {
+      "title": "Float and double",
+      "compareCaptions": [
+        "float literal with f suffix → 4-byte float",
+        "no suffix → compiler treats decimal as 8-byte double"
+      ],
+      "body": [
+        "syntax: {type} {name} = {value};\n- type: floating-point type — float, double\n- name: variable identifier\n- value: decimal number with point, optional f suffix for float\n- ;: ends the statement — required",
+        "C++ provides two primary floating-point types according to the IEEE 754 standard:",
+        "+ **float for compact storage.** Takes 4 bytes (32 bits) in memory. Delivers about 7 decimal digits of precision. Written in source code with an `f` suffix (`3.73f`, `12.5f`). Used when conserving RAM on embedded sensors.\n+ **double for scientific accuracy.** Takes 8 bytes (64 bits) in memory. Delivers about 15 to 17 decimal digits of precision. This is the default choice for decimals across modern C++ programs.",
+        "!> **Literal suffix rule.** Any decimal number written without a suffix (such as `4.2` or `0.05`) defaults to `double`. If you assign `4.2` to a `float`, compilers issue a warning about potential loss of precision when truncating 64 bits to 32 bits."
+      ]
+    },
+    "predict-division": {
+      "title": "What does C++ division produce?",
+      "body": [
+        "Examine the four division operations below. Predict the exact output printed by each command.",
+        "This is an exercise in spotting integer truncation, not a graded test: think through how C++ treats whole numbers versus decimals, write down your prediction, and compare it with the result."
+      ],
+      "explain": "When both operands are integers (`5 / 2`), C++ performs integer division and truncates the fractional part, yielding `2`. When either operand has a decimal point (`5.0 / 2` or `5 / 2.0`), C++ promotes the operation to floating-point division, yielding `2.5`. In `1 / 4`, integer truncation yields `0`."
+    },
+    "integer-division-trap": {
+      "eyebrow": "Arithmetic mechanics",
+      "title": "The integer division trap",
+      "compareCaptions": [
+        "decimal operand → accurate 2.5",
+        "integer division → truncates to 2 before storing in double"
+      ],
+      "body": [
+        "A common pitfall for programmers is storing the result of an integer division inside a `double` variable.",
+        "> Two fundamental rules of C++ division:\n> 1. **Integer division truncates without rounding.** If both operands are whole numbers (`int`), the expression evaluates to an `int`. Any remainder is discarded immediately: `7 / 4` is `1`, `1 / 4` is `0`.\n> 2. **One decimal promotes the entire operation.** If at least one operand is floating-point (`5.0 / 2` or `5 / 2.0`), C++ promotes the other operand and computes a floating-point result.",
+        "Writing `double d = 5 / 2;` does not prevent truncation: the division `5 / 2` finishes first as integer `2`, and only then is the integer `2` converted into `2.0` and stored in `d`.",
+        "!> **Python habit to unlearn.** In Python 3, the single slash `/` always produces a float (`5 / 2` evaluates to `2.5`), while integer division requires `//`. In C++, the single slash `/` means integer division when given integers, and floating-point division when given decimals!"
+      ]
+    },
+    "fix-crater-math": {
+      "title": "Fix Sigma's descent calculation",
+      "task": "Sigma's landing routine calculated `dist` using integer division, causing the drone to touch down in a crater. Fix the calculation so `dist` evaluates accurately to 2.5 meters in the format shown below:\n1. Change the integer literal `5` to `5.0` (or `2` to `2.0`).\n2. Click «Run» and verify that the descent step prints `2.5 M`.",
+      "hint": "Change line 6 to: `double dist = 5.0 / 2;`.",
+      "solutionNote": "With `5.0` as a double operand, C++ executes floating-point division and stores `2.5` in `dist`."
+    },
+    "precision-map": {
+      "eyebrow": "Binary representation",
+      "title": "Floating-point precision in memory",
+      "body": [
+        "Under the IEEE 754 standard, floating-point numbers are partitioned into three binary components: a sign bit, an exponent that scales the value, and a mantissa (fraction) that stores the significant digits.",
+        "> Precision rule in space avionics:\n> 1. **float (23-bit mantissa).** Can distinguish values up to approximately 7 decimal digits. Accumulates visible drift over thousands of flight calculations.\n> 2. **double (52-bit mantissa).** Can distinguish values up to 15—17 decimal digits. The aerospace standard for autonomous navigation, orbital trajectories, and sensor integration.",
+        "Because memory is finite, floating-point values are approximations of continuous real numbers. In Sigma's navigation system, flight coordinates and landing vectors strictly rely on `double`."
+      ],
+      "alt": "Diagram comparing IEEE 754 binary layouts: float (32 bits, 23-bit mantissa, 7 digits) versus double (64 bits, 52-bit mantissa, 15 to 17 digits).",
+      "image": "assets/l05-float-precision.en.svg"
+    },
+    "measure-float": {
+      "title": "Measure precision types and burn time",
+      "task": "Complete Sigma's thruster burn calculation in the format shown below:\n1. Print `sizeof(float)` and `sizeof(double)`.\n2. Compute `burn_time` by dividing `fuel` (7.5) by `rate` (2.0).\n3. Output the burn time in seconds.",
+      "hint": "Write `double burn_time = fuel / rate;` and print the three values with `cout`.",
+      "solutionNote": "`float` occupies 4 bytes, `double` occupies 8 bytes, and dividing `7.5 / 2.0` yields `3.75 S` without rounding."
+    },
+    "find-division-bug": {
+      "title": "Find the hidden integer division",
+      "body": [
+        "Sigma's telemetry module reports a travel speed of `2 M/S` instead of the expected `2.5 M/S`. Locate and click on the line containing the truncation bug."
+      ],
+      "explain": "Line 7 executes `distance / seconds`. Because both `distance` and `seconds` are declared as `int`, integer division discards the remainder before the value is assigned to `speed`. To fix it, at least one variable must be cast or declared as `double`."
+    },
+    "fill-float-types": {
+      "title": "Restore telemetry types and literals",
+      "body": [
+        "Three critical tokens are missing from Sigma's telemetry calibration listing. Fill in the blanks so all calculations retain exact decimal precision."
+      ],
+      "explain": "`double` stores gravity accurately, `.0` prevents integer division on the descent step, and `float` matches the `4.5f` literal suffix."
+    },
+    "descent-trajectory": {
+      "title": "Calibrate the descent profile",
+      "task": "Write a complete program to calculate Sigma's final descent trajectory in the format shown below:\n1. Declare `altitude` (`double`) with value `12.5`.\n2. Declare `speed` (`double`) with value `2.5`.\n3. Compute descent time by dividing `altitude` by `speed`.\n4. Print `ALTITUDE: 12.5 M` and `DESCENT TIME: 5 S`.",
+      "hint": "Compute `double time = altitude / speed;` and stream both outputs with `cout` and `endl`."
+    },
+    "recap": {
+      "title": "Mission 5 recap",
+      "points": [
+        "C++ provides `float` (4 bytes, ~7 decimal digits) and `double` (8 bytes, ~15—17 decimal digits) for real numbers, with `double` as the standard default.",
+        "Dividing two integers (`5 / 2`) always performs integer division, discarding the remainder without rounding.",
+        "To perform floating-point division, at least one operand must be a decimal literal (`5.0 / 2` or `5 / 2.0`) or a floating-point variable.",
+        "Storing the result of an integer division into a `double` does not preserve decimals: the truncation occurs before the assignment.",
+        "Floating-point numbers in IEEE 754 are binary approximations with finite mantissa bits. In Chapter 6, we introduce logic and text types: `bool`, `char`, and `string`."
+      ]
+    }
+  }
+}

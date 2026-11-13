@@ -1,0 +1,102 @@
+{
+  "n": 5,
+  "slug": "floating-point",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "crater-landing",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9, for an online C++ course. Inside a dusty Martian crater, scout drone Sigma rests tilted on a rocky slope with carbon rotors stopped, just 500 meters away from the elevated concrete landing platform of base IRIS visible in the background. The course mascot — two square brackets [ ] facing each other with two round cream eyes between them — stands on a rocky ledge looking down at the drone with an analytical gaze. Style: minimal, geometric, flat shapes, no outlines, no text, no letters, no numbers, no logos, not cartoonish, calm and technical. Palette strictly: background #090B0F, surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 only on the drone navigation sensor glow. Render the Martian ground in desaturated warm greys, not red."
+    },
+    {
+      "id": "float-vs-double",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "double speed = 12.5;\nfloat alt = 4.2f;",
+          "ok": true
+        },
+        {
+          "code": "float alt = 4.2;\n// warning: conversion from double to float",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-division",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"5 / 2 = \" << 5 / 2 << endl;\n    cout << \"5.0 / 2 = \" << 5.0 / 2 << endl;\n    cout << \"5 / 2.0 = \" << 5 / 2.0 << endl;\n    cout << \"1 / 4 = \" << 1 / 4 << endl;\n    return 0;\n}",
+      "expected": "5 / 2 = 2\n5.0 / 2 = 2.5\n5 / 2.0 = 2.5\n1 / 4 = 0",
+      "focus": "5.0 / 2"
+    },
+    {
+      "id": "integer-division-trap",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "double d = 5.0 / 2;\n// d is 2.5",
+          "ok": true
+        },
+        {
+          "code": "double d = 5 / 2;\n// 5 / 2 evaluates to 2, then stored as 2.0",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "fix-crater-math",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int target = 5;\n    int step = 2;\n    double dist = 5 / 2;\n    cout << \"DESCENT STEP: \" << dist << \" M\" << endl;\n    return 0;\n}",
+      "expected": "DESCENT STEP: 2.5 M",
+      "requires": [".0"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int target = 5;\n    int step = 2;\n    double dist = 5.0 / 2;\n    cout << \"DESCENT STEP: \" << dist << \" M\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "precision-map",
+      "kind": "explain"
+    },
+    {
+      "id": "measure-float",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    double fuel = 7.5;\n    double rate = 2.0;\n    \n    return 0;\n}",
+      "expected": "FLOAT BYTES: 4\nDOUBLE BYTES: 8\nBURN TIME: 3.75 S",
+      "requires": ["sizeof(float)", "sizeof(double)", "fuel / rate"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    double fuel = 7.5;\n    double rate = 2.0;\n    double burn_time = fuel / rate;\n\n    cout << \"FLOAT BYTES: \" << sizeof(float) << endl;\n    cout << \"DOUBLE BYTES: \" << sizeof(double) << endl;\n    cout << \"BURN TIME: \" << burn_time << \" S\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "find-division-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance = 10;\n    int seconds = 4;\n    double speed = distance / seconds;\n    cout << \"SPEED: \" << speed << \" M/S\" << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "fill-float-types",
+      "kind": "blanks",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    [[1]] gravity = 3.73;\n    double descent_step = 5[[2]] / 2;\n    [[3]] rotor_thrust = 4.5f;\n    cout << \"GRAVITY: \" << gravity << endl;\n    cout << \"STEP: \" << descent_step << endl;\n    cout << \"THRUST: \" << rotor_thrust << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": ["double", "float"],
+        "2": [".0", ".0f"],
+        "3": ["float", "double"]
+      }
+    },
+    {
+      "id": "descent-trajectory",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+      "expected": "ALTITUDE: 12.5 M\nDESCENT TIME: 5 S",
+      "requires": ["double", "cout"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    double altitude = 12.5;\n    double speed = 2.5;\n    double time = altitude / speed;\n\n    cout << \"ALTITUDE: \" << altitude << \" M\" << endl;\n    cout << \"DESCENT TIME: \" << time << \" S\" << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

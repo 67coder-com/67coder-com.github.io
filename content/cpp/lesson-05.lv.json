@@ -1,0 +1,124 @@
+{
+  "title": "Daļskaitļi un precizitāte",
+  "module": "1. bloks · Pamodināšana",
+  "steps": {
+    "crater-landing": {
+      "eyebrow": "Lidojuma anomālija",
+      "title": "Nosēšanās krāterī",
+      "body": [
+        "Izlūka dronam Sigma bija jānolaižas uz bāzes IRIS paaugstinātās betona nosēšanās platformas. Tā vietā telemetrija apstiprināja, ka drons piezemējās 500 metrus par ātru seklā Marsa krātera akmeņainajā nogāzē.",
+        "Pēc lidojuma žurnāla analīze atklāja cēloni. Lai aprēķinātu pēdējo nolaišanās soli, borta programma dalīja 5 metrus ar 2 sekundēm, izmantojot izteiksmi `5 / 2`. Valodā C++ veselu skaitļu dalīšana vienmēr dod veselu skaitli: daļveida daļa tika vienkārši atmesta, un drons aprēķināja `2` metrus plānoto `2.5` vietā.",
+        "Veseli skaitļi un daļskaitļi aparatūras atmiņā pakļaujas atšķirīgiem likumiem:\n+ **Veseli skaitļi (integers).** Vērtības kā 0, 14 un -300 glabājas `int` vai `long long`. Divu veselu skaitļu dalīšana vienmēr atmet daļskaitļa atlikumu.\n+ **Daļskaitļi (floating-point).** Reāli fiziskie lielumi kā 3.73, -12.5 un 2.5 glabājas `float` vai `double` tipos.\n+ **Pāreja uz daļskaitļiem.** Lai dalīšanas rezultātā iegūtu daļskaitli, vismaz vienam izteiksmes skaitlim jābūt ar decimālo punktu (`5.0 / 2`)."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kāpēc Mars Climate Orbiter sadega atmosfērā 1999. gadā",
+          "body": [
+            "1999. gada 23. septembrī NASA starpplanētu zonde Mars Climate Orbiter pēc deviņu mēnešu lidojuma tuvojās Sarkanajai planētai, lai ieietu stabilā orbītā. Plānotā drošā augstuma vietā (starp 140 un 150 km) kosmiskais aparāts iegāja Marsa retinātajā atmosfērā tikai 57 km augstumā, kur berze to momentā iznīcināja.",
+            "Izmeklēšanas komisija atklāja kļūdu mērvienību saskaņošanā starp divām programmatūras daļām. Kosmiskā kuģa būvētāja (Lockheed Martin) zemes vadības programmatūra dzinēju impulsu aprēķināja angļu mārciņspēka sekundēs (lbf·s). Savukārt NASA JPL navigācijas sistēma saņemtos datus interpretēja kā metriskās sistēmas Ņūtona sekundes (N·s).",
+            "Viens mārciņspēks atbilst aptuveni 4.45 Ņūtoniem. Šīs atšķirības dēļ zondes navigācijas aprēķinos 286 lidojuma dienu laikā nepārtraukti uzkrājās neliela kļūda, kas izrādījās liktenīga.",
+            "Kopējie zaudējumi pārsniedza 327 miljonus dolāru. Šī katastrofa kļuva par vienu no slavenākajām mācībām kosmiskajā navigācijā par mērvienību precizitāti un skaitļu pārveidošanas noteikumiem.",
+            "Avots: Mars Climate Orbiter Mishap Investigation Board Phase I Report (NASA, November 1999, https://llis.nasa.gov/lesson/639)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Kāpēc datora atmiņā skaitli 0.1 nevar saglabāt precīzi",
+          "body": [
+            "Desmitu skaitīšanas sistēmā daļskaitlis 1/10 tiek pierakstīts vienkārši kā 0.1, jo bāze 10 dalās ar 2 un 5. Savukārt daļa 1/3 kļūst par bezgalīgu periodisku skaitli: 0.333333…",
+            "Dators visus datus glabā divnieku sistēmā (bāze 2), kur precīzi var attēlot tikai daļas, kuru saucējs ir divnieka pakāpe (1/2 = 0.5, 1/4 = 0.25, 1/8 = 0.125).",
+            "Divnieku sistēmā decimālais skaitlis 0.1 kļūst par bezgalīgu periodisku bināro daļu: 0.0001100110011… Tā kā datora reģistriem ir ierobežots bitu skaits, procesors šo virkni noapaļo. Šīs nelielās atšķirības dēļ, desmit reizes pieskaitot 0.1, rezultāts var būt 0.9999999999999999, nevis precīzi 1.0."
+          ]
+        }
+      ]
+    },
+    "float-vs-double": {
+      "title": "Float un double",
+      "compareCaptions": [
+        "literālis ar f sufiksu → 4 baitu float",
+        "bez sufiksa → kompilators traktē kā 8 baitu double"
+      ],
+      "body": [
+        "syntax: {tips} {nosaukums} = {vertiba};\n- tips: daļskaitļa tips — float, double\n- nosaukums: mainīgā identifikators\n- vertiba: skaitlis ar decimālo punktu, float gadījumā ar f sufiksu\n- ;: semikols — obligāts katras komandas noslēgums",
+        "Pēc IEEE 754 standarta C++ nodrošina divus galvenos daļskaitļu tipus:",
+        "+ **float kompaktākai atmiņai.** Aizņem 4 baitus (32 bitus). Nodrošina apmēram 7 zīmīgos desmitdaļu ciparus. Kodā to pieraksta ar sufiksu `f` (`3.73f`, `12.5f`). Izmanto, kad mikrokontrollerī jātaupa katrs baits.\n+ **double zinātniskai precizitātei.** Aizņem 8 baitus (64 bitus). Nodrošina 15 līdz 17 zīmīgos desmitdaļu ciparus. Tas ir noklusētais standarts reālajiem skaitļiem modernā C++.",
+        "!> **Literāļa sufiksa likums.** Jebkurš decimālais skaitlis kodā bez sufiksa (piemēram, `4.2` vai `0.05`) pēc noklusējuma ir `double`. Ja to mēģina piešķirt `float` mainīgajam, kompilators brīdina par iespējamu precizitātes zudumu, sašaurinot 64 bitus uz 32 bitiem."
+      ]
+    },
+    "predict-division": {
+      "title": "Ko aprēķinās dalīšana valodā C++?",
+      "body": [
+        "Aplūko četras dalīšanas darbības zemāk. Mēģini uzminēt precīzu izvadi katrai komandai.",
+        "Šis ir novērojuma uzdevums, nevis eksāmens: novērtē, kā C++ izturas pret veseliem skaitļiem un daļskaitļiem, izdari savu pieņēmumu un pārbaudi rezultātu."
+      ],
+      "explain": "Ja abi skaitļi ir veseli (`5 / 2`), C++ veic veselo skaitļu dalīšanu un atmet atlikumu, dodot `2`. Ja vismaz viens skaitlis ir ar punktu (`5.0 / 2` vai `5 / 2.0`), izteiksme kļūst par daļskaitļu dalīšanu, dodot `2.5`. Izteiksmē `1 / 4` veselo skaitļu dalīšana dod `0`."
+    },
+    "integer-division-trap": {
+      "eyebrow": "Aritmētikas mehānika",
+      "title": "Veselo skaitļu dalīšanas lamatas",
+      "compareCaptions": [
+        "daļskaitļa operands → precīzs 2.5",
+        "veselu skaitļu dalīšana → atmet atlikumu pirms saglabāšanas double"
+      ],
+      "body": [
+        "Bieža programmētāju kļūda ir mēģinājums saglabāt veselo skaitļu dalījumu `double` mainīgajā, cerot iegūt daļskaitli.",
+        "> Divi C++ dalīšanas pamatlikumi:\n> 1. **Veselu skaitļu dalīšana atmet atlikumu.** Ja abi operandi ir veseli skaitļi (`int`), rezultāts ir `int`. Jebkura daļveida daļa tiek nekavējoties atmesta: `7 / 4` dod `1`, `1 / 4` dod `0`.\n> 2. **Viens decimālais punkts maina visu aprēķinu.** Ja vismaz viens skaitlis ir daļskaitlis (`5.0 / 2` vai `5 / 2.0`), C++ pārveido visu operāciju par daļskaitļu aprēķinu.",
+        "Komanda `double d = 5 / 2;` nepasargā no kļūdas: vispirms izpildās `5 / 2`, dodot veselu `2`, un tikai pēc tam šis `2` tiek pārvērsts par `2.0` un saglabāts mainīgajā `d`.",
+        "!> **Ieradums no Python.** Valodā Python 3 parastā slīpsvītra `/` vienmēr dod daļskaitli (`5 / 2` ir `2.5`), bet veselo skaitļu dalīšanai lieto `//`. C++ viena slīpsvītra `/` strādā atkarībā no tipiem: veseliem skaitļiem tā vienmēr ir veselo skaitļu dalīšana!"
+      ]
+    },
+    "fix-crater-math": {
+      "title": "Salabo Sigma nosēšanās aprēķinu",
+      "task": "Drona nosēšanās programma aprēķināja soli `dist` ar veselu skaitļu dalīšanu, liekot dronam nolaisties krāterī. Salabo aprēķinu, lai `dist` būtu precīzi 2.5 metri formātā zemāk:\n1. Aizstāj skaitli `5` ar `5.0` (vai `2` ar `2.0`).\n2. Nospied «Palaist» un pārliecinies, ka terminālī parādās `2.5 M`.",
+      "hint": "Labo 6. rindiņu: `double dist = 5.0 / 2;`.",
+      "solutionNote": "Pievienojot `.0`, C++ izpilda daļskaitļu dalīšanu un saglabā precīzu vērtību `2.5`."
+    },
+    "precision-map": {
+      "eyebrow": "Binārā uzbūve",
+      "title": "Daļskaitļu precizitāte atmiņā",
+      "body": [
+        "Pēc IEEE 754 standarta katrs daļskaitlis sastāv no trim binārām daļām: zīmes bita, eksponentes (kas mērogo skaitli) un mantisas (kas glabā zīmīgos ciparus).",
+        "> Precizitātes likums kosmiskajā navigācijā:\n> 1. **float (23 bitu mantisa).** Saglabā apmēram 7 zīmīgos ciparus. Ilgstošos navigācijas aprēķinos kļūdas uzkrājas un rada novirzi.\n> 2. **double (52 bitu mantisa).** Nodrošina 15 līdz 17 zīmīgos ciparus. Standarta izvēle aviācijā, trajektoriju modelēšanā un sensoru integrācijā.",
+        "Tā kā atmiņas bitu skaits ir ierobežots, daļskaitļi datorā ir nepārtrauktu reālu skaitļu tuvinājumi. Drona Sigma navigācijā lidojuma koordinātām mēs izmantojam tikai `double`."
+      ],
+      "alt": "Shēma: IEEE 754 struktūra atmiņā — 32 bitu float (23 bitu mantisa, 7 cipari) pret 64 bitu double (52 bitu mantisa, 15 līdz 17 cipari).",
+      "image": "assets/l05-float-precision.lv.svg"
+    },
+    "measure-float": {
+      "title": "Izmēri precizitātes tipus un degšanas laiku",
+      "task": "Pabeidz drona dzinēja degšanas laika aprēķinu formātā zemāk:\n1. Izvadi `sizeof(float)` un `sizeof(double)`.\n2. Aprēķini `burn_time`, izdalot degvielu `fuel` (7.5) ar patēriņu `rate` (2.0).\n3. Izvadi dzinēja degšanas laiku sekundēs.",
+      "hint": "Izveido mainīgo `double burn_time = fuel / rate;` un izvadi visus trīs lielumus ar `cout`.",
+      "solutionNote": "`float` aizņem 4 baitus, `double` — 8 baitus, un `7.5 / 2.0` dod precīzas `3.75` sekundes bez noapaļošanas."
+    },
+    "find-division-bug": {
+      "title": "Atrodi slēpto veselo skaitļu dalīšanu",
+      "body": [
+        "Drona telemetrija ziņo par lidojuma ātrumu `2 M/S` gaidīto `2.5 M/S` vietā. Atrodi un uzklikšķini uz rindas ar kļūdu aprēķinā."
+      ],
+      "explain": "7. rindā tiek izpildīts `distance / seconds`. Tā kā abi mainīgie deklarēti kā `int`, veselo skaitļu dalīšana atmet atlikumu pirms vērtības piešķiršanas `double` mainīgajam `speed`. Lai to novērstu, vismaz vienam mainīgajam jābūt daļskaitlim."
+    },
+    "fill-float-types": {
+      "title": "Atjauno telemetrijas tipus un literāļus",
+      "body": [
+        "No Sigma telemetrijas koda ir pazuduši trīs svarīgi elementi. Aizpildi tukšos laukus, lai visi aprēķini saglabātu precīzas decimālās vērtības."
+      ],
+      "explain": "`double` nodrošina precīzu gravitāciju, `.0` novērš veselo skaitļu dalīšanas atlikuma zudumu, un `float` atbilst literālim ar sufiksu `4.5f`."
+    },
+    "descent-trajectory": {
+      "title": "Nokalibrē nolaišanās profilu",
+      "task": "Uzraksti pilnu programmu, kas aprēķina drona Sigma pēdējo nolaišanās posmu formātā zemāk:\n1. Deklarē `altitude` (`double`) ar vērtību `12.5`.\n2. Deklarē `speed` (`double`) ar vērtību `2.5`.\n3. Aprēķini nolaišanās laiku, izdalot `altitude` ar `speed`.\n4. Izvadi `ALTITUDE: 12.5 M` un `DESCENT TIME: 5 S`.",
+      "hint": "Aprēķini `double time = altitude / speed;` un izvadi abus datus ar `cout` un `endl`."
+    },
+    "recap": {
+      "title": "5. misijas kopsavilkums",
+      "points": [
+        "Reālajiem skaitļiem C++ nodrošina `float` (4 baiti, ~7 zīmīgie cipari) un `double` (8 baiti, ~15—17 zīmīgie cipari), kur `double` ir standarta izvēle.",
+        "Dalot divus veselus skaitļus (`5 / 2`), C++ vienmēr veic veselo skaitļu dalīšanu un atmet atlikumu bez noapaļošanas.",
+        "Lai iegūtu daļskaitli, vismaz vienam operandam jābūt decimālajam literālim (`5.0 / 2` vai `5 / 2.0`) vai daļskaitļa mainīgajam.",
+        "Veselo skaitļu dalījuma piešķiršana `double` mainīgajam neatjauno atlikumu — atmešana notiek vēl pirms saglabāšanas atmiņā.",
+        "Daļskaitļi IEEE 754 standartā ir bināri tuvinājumi ar ierobežotu mantisas bitu skaitu. 6. nodaļā mēs iepazīsim loģikas un teksta tipus: `bool`, `char` un `string`."
+      ]
+    }
+  }
+}
