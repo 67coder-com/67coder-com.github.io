@@ -1,0 +1,113 @@
+{
+  "title": "Masīvi",
+  "steps": {
+    "why-arrays": {
+      "eyebrow": "Datu vākšanas arhitektūra",
+      "title": "Kāpēc borta datoriem nepieciešami masīvi",
+      "body": [
+        "Laipni lūgti **3. blokā: DATI (Data)**. Bāzes IRIS nosēšanās platformā ir ieradies jaunais smagais transporta drons **KRAVAS 'Omega'**. Paredzēts masīvu ģeoloģisko iežu paraugu un dzīvības uzturēšanas konteineru pārvadāšanai, Omega izvieto virsmas sensoru virknes visā Marsa kanjonā.",
+        "Iedomājieties 5 temperatūras mērījumu saglabāšanu viena Marsa sola laikā. Bez masīviem būtu jāraksta:",
+        "```cpp\nint t0, t1, t2, t3, t4;\ncin >> t0 >> t1 >> t2 >> t3 >> t4;\n```",
+        "Ja sensoru skaits pieaug līdz 24 vai 1000 mērījumiem, atsevišķi mainīgie kļūst nepārvaldāmi. Pār atsevišķiem nosaukumiem `t0`, `t1`, `t2` nav iespējams palaist ciklu `for`.",
+        "**Masīvs (array)** atrisina šo problēmu, apvienojot fiksētu viena tipa elementu virkni zem viena nosaukuma nepārtrauktā atmiņas apgabalā:",
+        "```cpp\nint temps[5]; // Rezervē vietu 5 veseliem skaitļiem pēc kārtas\n```",
+        "Tagad borta dators var piekļūt katram mērījumam pēc tā kārtas numura — indeksa — izmantojot vienu vienīgu ciklu `for`."
+      ],
+      "archive": {
+        "title": "Statisko masīvu buferi reāllaika kosmiskajā programmatūrā",
+        "body": "Kosmiskajā avionikā — piemēram, Marsa visurgājēju Spirit, Opportunity un Curiosity borta datoros — dinamiskā atmiņas piešķiršana lidojuma laikā (heap atmiņa ar malloc vai new) ir stingri aizliegta. Dinamiskā atmiņa rada fragmentācijas risku un neparedzamu aizturi. Tā vietā lidojuma programmatūra jau kompilēšanas laikā rezervē fiksēta izmēra statiskos masīvus telemetrijas gredzenveida buferiem un sensoru logiem. Statiskie masīvi garantē deterministisku O(1) piekļuves laiku un novērš risku, ka kosmiskajam aparātam pēkšņi pietrūks atmiņas nosēšanās manevra laikā.",
+        "sources": [
+          "Gerard J. Holzmann, 'The Power of 10: Rules for Developing Safety-Critical Code', NASA JPL Laboratory for Reliable Software",
+          "NASA Software Engineering Handbook, 'Deterministic Memory Allocation in Spacecraft Command and Data Handling'"
+        ]
+      }
+    },
+    "array-syntax-and-index": {
+      "eyebrow": "Sintakse un indeksācija",
+      "title": "Masīvu deklarēšana un piekļuve pēc indeksa",
+      "compareCaptions": [
+        "Korekta masīva indeksācija: indeksi ir stingri no 0 līdz IZMĒRS - 1",
+        "Bīstama robežas pārkāpšana: indekss 5 piecu elementu masīvā neeksistē"
+      ],
+      "body": [
+        "Lai C++ valodā deklarētu masīvu, norāda elementu tipu, masīva nosaukumu un elementu skaitu kvadrātiekavās `[IZMĒRS]`:",
+        "```cpp\nint temps[5] = {-55, -40, -12, -30, -50};\n```",
+        "C++ izmanto **indeksāciju no nulles**. Pirmais elements vienmēr atrodas pie indeksa `0`:",
+        "- `temps[0]` ir `-55` (pirmais mērījums)",
+        "- `temps[1]` ir `-40` (otrais mērījums)",
+        "- `temps[4]` ir `-50` (piektais un pēdējais mērījums)",
+        "!> **Robežas likums par vienu vienību.** Masīvā ar izmēru `N` derīgie indeksi ir stingri no `0` līdz `N - 1`. `temps[5]` vispār NEEKSISTĒ! Mēģinājums piekļūt `temps[5]` nolasa svešu atmiņu ārpus masīva robežām (undefined behavior). Kosmiskajos borta datoros robežas pārkāpšana var sabojāt kaimiņu telemetrijas datus.",
+        "> **Standarta apiešanas šablons:**",
+        "> Masīva apstaigāšanai vienmēr izmanto stingro nevienādību `< IZMĒRS`:",
+        "> `for (int i = 0; i < 5; i++) { cout << temps[i]; }`"
+      ]
+    },
+    "predict-array-index": {
+      "eyebrow": "Atmiņas analīze",
+      "title": "Masīva elementa maiņas izsekošana",
+      "body": [
+        "Izsekojiet šai programmai, kurā masīva elements tiek atjaunināts pēc tā indeksa.",
+        "Nosakiet konsolē izdrukāto summas vērtību."
+      ]
+    },
+    "array-loop-traversal": {
+      "title": "Masīva aizpildīšana un nolasīšana ciklā",
+      "task": "Ieprogrammējiet drona Omega 4 kanālu termisko reģistratoru ar masīvu un ciklu `for`:\n1. Deklarējiet veselo skaitļu masīvu ar 4 elementiem: `int temps[4];`.\n2. Pirmajā ciklā `for` no `i = 0` līdz `i < 4`: nolasiet `temps[i]` no `cin`.\n3. Otrajā ciklā `for` no `i = 0` līdz `i < 4`: izdrukājiet `SENSOR #`, kam seko `i`, `: `, `temps[i]` un jauna rinda.",
+      "hint": "Rakstiet `for (int i = 0; i < 4; i++) { cin >> temps[i]; }`, kam seko otrs cikls ar `cout << \"SENSOR #\" << i << \": \" << temps[i] << endl;`.",
+      "solutionNote": "Cikls ar indeksu i no 0 līdz 3 secīgi piekļūst visiem 4 masīva elementiem."
+    },
+    "find-out-of-bounds-bug": {
+      "eyebrow": "Atkļūdošana",
+      "title": "Atrodiet izeju ārpus masīva robežām",
+      "body": [
+        "Šis telemetrijas cikls mēģina izdrukāt 4 vērtības no masīva.",
+        "Tomēr tajā ir kritiska robežas kļūda, kas mēģina nolasīt atmiņu ārpus masīva. Noklikšķiniet uz kļūdainās rindas."
+      ],
+      "explanation": "Masīvā ar 4 elementiem derīgie indeksi ir 0, 1, 2, 3. Nosacījums i <= 4 ļauj i sasniegt 4, mēģinot nolasīt telemetry[4], kas atrodas ārpus masīva atmiņas. Pareizajam nosacījumam jābūt i < 4."
+    },
+    "assemble-array-sum": {
+      "eyebrow": "Pārsona uzdevums",
+      "title": "Salieciet masīva summēšanas ciklu",
+      "body": [
+        "Transporta drons Omega pārvadā 3 iežu paraugu konteinerus. Jāaprēķina to kopējā masa.",
+        "Sakārtojiet koda blokus pareizā secībā, lai apstaigātu masīvu un summētu visu elementu vērtības mainīgajā `total_mass`."
+      ]
+    },
+    "sol-temperature-average": {
+      "title": "Marsa sola vidējā temperatūra",
+      "task": "Ieprogrammējiet drona Omega meteoroloģiskā moduļa sola temperatūras analizatoru:\n1. Deklarējiet masīvu ar 5 temperatūrām: `int sol_temps[5];`.\n2. Ciklā `for` no `i = 0` līdz `i < 5`: nolasiet `sol_temps[i]` no `cin` un pieskaitiet to akumulatoram `sum`.\n3. Aprēķiniet veselo skaitļu vidējo vērtību: `int avg = sum / 5;`.\n4. Izdrukājiet `TOTAL SUM: `, kam seko `sum` un jauna rinda.\n5. Izdrukājiet `AVERAGE TEMP: `, kam seko `avg` un jauna rinda.",
+      "hint": "Pirms cikla inicializējiet `int sum = 0;`. Ciklā: `cin >> sol_temps[i]; sum += sol_temps[i];`.",
+      "solutionNote": "Pie ievadēm -60, -50, -20, -30, -40 summa ir -200, un veselo skaitļu dalījums ar 5 dod vidējo -40."
+    },
+    "find-extreme-sensor": {
+      "title": "Maksimālās temperatūras atrašana masīvā",
+      "task": "Atrodiet maksimālo temperatūru starp 4 sensoru rādījumiem:\n1. Nolasiet 4 veselus skaitļus no `cin` masīvā `int temps[4];`.\n2. Inicializējiet `max_temp` ar masīva pirmo elementu: `int max_temp = temps[0];`.\n3. Ciklā `for` no `i = 1` līdz `i < 4`: ja `temps[i] > max_temp`, atjauniniet `max_temp = temps[i]`.\n4. Izdrukājiet `MAX TEMP: `, kam seko `max_temp` un jauna rinda.",
+      "hint": "Vienmēr piešķiriet max_temp sākuma vērtību temps[0], nevis 0, jo Marsa temperatūras visas var būt negatīvas!",
+      "solutionNote": "Inicializējot ar temps[0] (-45), vērtība -10 pareizi kļūst par maksimumu pat tad, ja visi skaitļi ir zem nulles."
+    },
+    "predict-array-search": {
+      "eyebrow": "Algoritmu analīze",
+      "title": "Lineārā meklēšana masīvā",
+      "body": [
+        "Izsekojiet lineārās meklēšanas algoritmam, kas meklē kļūdas kodu `309` diagnostikas kodu masīvā.",
+        "Nosakiet mainīgā `found_index` gala vērtību, ko izvadīs programma."
+      ]
+    },
+    "cargo-batch-analyzer": {
+      "title": "Kravas konteineru veselības monitors",
+      "task": "Ieprogrammējiet drona Omega konteineru telemetrijas skeneri:\n1. Nolasiet 5 radiācijas mērījumus no `cin` masīvā `int rad[5];`.\n2. Ciklā `for` no `i = 0` līdz `i < 5`: saskaitiet, cik konteineriem ir `rad[i] > 50` skaitītājā `hazardous`.\n3. Saskaitiet visu radiācijas rādījumu kopsummu akumulatorā `total_rad`.\n4. Atrodiet zemāko radiācijas vērtību mainīgajā `min_rad` (inicializējiet ar `rad[0]`).\n5. Izdrukājiet visus trīs rādītājus atsevišķās rindās:\n   `HAZARDOUS CONTAINERS: `, kam seko `hazardous`,\n   `TOTAL RADIATION: `, kam seko `total_rad`,\n   `LOWEST RADIATION: `, kam seko `min_rad`.",
+      "hint": "Inicializējiet `int hazardous = 0; int total_rad = 0; int min_rad = rad[0];` un apstrādājiet katru elementu vienā ciklā.",
+      "solutionNote": "Programma vienā masīva caurgājienā apvieno filtrēšanu, summēšanu un minimuma meklēšanu."
+    },
+    "recap": {
+      "eyebrow": "Kopsavilkums",
+      "title": "Masīvu pamati: kopsavilkums",
+      "body": [
+        "Šajā nodaļā jūs apguvāt, kā C++ glabā un apstrādā secīgas datu kopas, izmantojot **masīvus**:",
+        "| Masīva īpašība | Sintakse | Galvenais likums |\n| :--- | :--- | :--- |\n| **Deklarācija** | `int temps[5];` | Izmēram jābūt zināmam kompilēšanas laikā; nepārtraukta atmiņa |\n| **Inicializācija** | `int data[3] = {10, 20, 30};` | Nenorādītie elementi tiek aizpildīti ar nullēm `{0}` |\n| **Indeksācija no 0** | `data[0]` līdz `data[IZMĒRS - 1]` | Pirmais elements ir pie 0, pēdējais pie `IZMĒRS - 1` |\n| **Apiešanas šablons** | `for (int i = 0; i < IZMĒRS; i++)` | Vienmēr lietojiet stingro nevienādību `< IZMĒRS` |\n| **Robežu drošība** | `data[IZMĒRS]` ir aizliegts! | Iziešana ārpus robežām sabojā kaimiņu atmiņu |\n",
+        "> **Nākamais solis: 18. nodaļa — Divdimensiju masīvi (2D Arrays).**",
+        "> Tagad, kad Omega prot apstrādāt lineāras kravas rindas, kartogrāfam Delta ir nepieciešamas divdimensiju tabulas (`int map[rows][cols]`), lai veidotu Marsa virsmas un reljefa augstumu matricas."
+      ]
+    }
+  }
+}

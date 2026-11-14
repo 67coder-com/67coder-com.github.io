@@ -147,7 +147,10 @@
         {
           "n": 17,
           "slug": "arrays",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 18,

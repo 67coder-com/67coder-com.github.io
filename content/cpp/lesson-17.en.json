@@ -1,0 +1,113 @@
+{
+  "title": "Arrays",
+  "steps": {
+    "why-arrays": {
+      "eyebrow": "Data collection architecture",
+      "title": "Why flight computers need arrays",
+      "body": [
+        "Welcome to **Block 3: DATI (Data)**. Heavy cargo drone **KRAVAS 'Omega'** has touched down on the landing terrace of Base IRIS. Designed for transporting massive geological core samples and heavy life-support pods, Omega deploys sequential sensor arrays across the Martian terrain.",
+        "Consider logging 5 temperature samples during a Martian sol. Without arrays, you would have to write:",
+        "```cpp\nint t0, t1, t2, t3, t4;\ncin >> t0 >> t1 >> t2 >> t3 >> t4;\n```",
+        "If the sensor grid expands to 24 or 1,000 readings, separate variables become impossible to manage. You cannot loop over distinct variable names `t0`, `t1`, `t2` with a `for` loop.",
+        "An **array** solves this by grouping a fixed sequence of elements of the same type under a single name, allocated contiguously in memory:",
+        "```cpp\nint temps[5]; // Allocates space for 5 integers in a row\n```",
+        "Now the flight computer can access every measurement by its numerical position—its index—using a single `for` loop."
+      ],
+      "archive": {
+        "title": "Static array buffers in real-time spaceflight software",
+        "body": "In safety-critical avionics—such as the flight computers of the Mars Exploration Rovers (Spirit and Opportunity) and Curiosity—dynamic memory allocation (like heap allocation with malloc or new) is strictly forbidden during flight. Dynamic allocation risks heap fragmentation and unpredictable latency. Instead, flight software allocates fixed-size static arrays for telemetry ring buffers, sensor integration windows, and star-tracker attitude vectors at compile time. Static arrays guarantee deterministic O(1) memory access times and ensure the flight computer never runs out of memory unexpectedly during an atmospheric entry descent.",
+        "sources": [
+          "Gerard J. Holzmann, 'The Power of 10: Rules for Developing Safety-Critical Code', NASA JPL Laboratory for Reliable Software",
+          "NASA Software Engineering Handbook, 'Deterministic Memory Allocation in Spacecraft Command and Data Handling'"
+        ]
+      }
+    },
+    "array-syntax-and-index": {
+      "eyebrow": "Syntax and indexing",
+      "title": "Declaring and indexing arrays",
+      "compareCaptions": [
+        "Valid array indexing: indices run strictly from 0 to SIZE - 1",
+        "Dangerous out-of-bounds trap: index 5 does not exist in a 5-element array"
+      ],
+      "body": [
+        "To declare an array in C++, specify the element type, array name, and number of elements in square brackets `[SIZE]`:",
+        "```cpp\nint temps[5] = {-55, -40, -12, -30, -50};\n```",
+        "C++ uses **zero-based indexing**. The first element is always at index `0`:",
+        "- `temps[0]` is `-55` (first sample)",
+        "- `temps[1]` is `-40` (second sample)",
+        "- `temps[4]` is `-50` (fifth and final sample)",
+        "!> **The off-by-one boundary rule.** In an array of size `N`, the valid indices are strictly `0` through `N - 1`. `temps[5]` does NOT exist! Accessing `temps[5]` reads unallocated memory outside the array (undefined behavior). In aerospace flight software, boundary overruns can corrupt adjacent telemetry memory.",
+        "> **Standard traversal idiom:**",
+        "> Always loop from `0` with strict inequality `< SIZE`:",
+        "> `for (int i = 0; i < 5; i++) { cout << temps[i]; }`"
+      ]
+    },
+    "predict-array-index": {
+      "eyebrow": "Memory tracing",
+      "title": "Trace array element modification",
+      "body": [
+        "Trace this array program where an element is updated by index.",
+        "Determine the final sum printed to the console."
+      ]
+    },
+    "array-loop-traversal": {
+      "title": "Sensor array input and traversal",
+      "task": "Program Omega's 4-channel thermal logger using an array and `for` loops:\n1. Declare an integer array of size 4: `int temps[4];`.\n2. In a first `for` loop from `i = 0` to `i < 4`: read `temps[i]` from `cin`.\n3. In a second `for` loop from `i = 0` to `i < 4`: print `SENSOR #` followed by `i`, `: `, `temps[i]`, and a newline.",
+      "hint": "Write `for (int i = 0; i < 4; i++) { cin >> temps[i]; }` followed by a second loop that outputs `\"SENSOR #\" << i << \": \" << temps[i] << endl;`.",
+      "solutionNote": "Looping with index i from 0 to 3 accesses all 4 elements in order."
+    },
+    "find-out-of-bounds-bug": {
+      "eyebrow": "Debugging",
+      "title": "Identify out-of-bounds access",
+      "body": [
+        "This telemetry loop attempts to print 4 values from an array.",
+        "However, it contains a critical boundary bug that reads memory outside the array. Click on the line containing the error."
+      ],
+      "explanation": "In an array of size 4, indices are 0, 1, 2, 3. The loop condition `i <= 4` allows i to reach 4, causing `telemetry[4]` to read outside the array boundary. The condition should be `i < 4`."
+    },
+    "assemble-array-sum": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble array accumulator",
+      "body": [
+        "Heavy cargo drone Omega carries 3 sample containers. We need to calculate the total cargo mass.",
+        "Arrange the code blocks in correct order to traverse the array and sum all element values into `total_mass`."
+      ]
+    },
+    "sol-temperature-average": {
+      "title": "Martian sol average temperature",
+      "task": "Program a sol temperature analyzer for Omega's meteorological pod:\n1. Declare an array of 5 temperatures: `int sol_temps[5];`.\n2. In a `for` loop from `i = 0` to `i < 5`: read `sol_temps[i]` from `cin` and add it to an accumulator `sum`.\n3. Compute the integer average: `int avg = sum / 5;`.\n4. Print `TOTAL SUM: ` followed by `sum` and a newline.\n5. Print `AVERAGE TEMP: ` followed by `avg` and a newline.",
+      "hint": "Initialize `int sum = 0;` before the loop. Inside the loop: `cin >> sol_temps[i]; sum += sol_temps[i];`.",
+      "solutionNote": "For inputs -60, -50, -20, -30, -40, the sum is -200 and integer division by 5 yields -40."
+    },
+    "find-extreme-sensor": {
+      "title": "Find peak sensor temperature",
+      "task": "Find the maximum temperature logged across 4 sensor channels:\n1. Read 4 integers from `cin` into an array `int temps[4];`.\n2. Initialize `max_temp` with the first element: `int max_temp = temps[0];`.\n3. In a `for` loop from `i = 1` to `i < 4`: if `temps[i] > max_temp`, update `max_temp = temps[i]`.\n4. Print `MAX TEMP: ` followed by `max_temp` and a newline.",
+      "hint": "Always seed `max_temp` with `temps[0]` rather than 0, because Martian temperatures can all be negative!",
+      "solutionNote": "By initializing with temps[0] (-45), values like -10 correctly become the maximum even when all readings are below zero."
+    },
+    "predict-array-search": {
+      "eyebrow": "Algorithm tracing",
+      "title": "Trace linear search in array",
+      "body": [
+        "Trace this linear search algorithm looking for error code `309` in an array of diagnostic codes.",
+        "Determine the final value of `found_index` printed by the program."
+      ]
+    },
+    "cargo-batch-analyzer": {
+      "title": "Cargo container health monitor",
+      "task": "Program Omega's container batch telemetry scanner:\n1. Read 5 radiation readings from `cin` into an array `int rad[5];`.\n2. In a `for` loop from `i = 0` to `i < 5`: count how many containers have `rad[i] > 50` in a counter `hazardous`.\n3. Sum all radiation readings into an accumulator `total_rad`.\n4. Find the lowest radiation value in `min_rad` (initialized with `rad[0]`).\n5. Print the three metrics on separate lines:\n   `HAZARDOUS CONTAINERS: ` followed by `hazardous`,\n   `TOTAL RADIATION: ` followed by `total_rad`,\n   `LOWEST RADIATION: ` followed by `min_rad`.",
+      "hint": "Initialize `int hazardous = 0; int total_rad = 0; int min_rad = rad[0];` then process each element in a single loop.",
+      "solutionNote": "This program combines filtering, accumulation, and extremum search in a single array pass."
+    },
+    "recap": {
+      "eyebrow": "Summary",
+      "title": "Array fundamentals recap",
+      "body": [
+        "In this lesson, you learned how C++ stores and processes sequential datasets using **arrays**:",
+        "| Array feature | Syntax | Key rule |\n| :--- | :--- | :--- |\n| **Declaration** | `int temps[5];` | Size must be known at compile time; contiguous in memory |\n| **Initialization** | `int data[3] = {10, 20, 30};` | Unspecified elements default to 0 with `{0}` |\n| **Zero-based index** | `data[0]` to `data[SIZE - 1]` | First element is at index 0, last is at `SIZE - 1` |\n| **Traversal idiom** | `for (int i = 0; i < SIZE; i++)` | Always use strict inequality `< SIZE` to avoid boundary overruns |\n| **Boundary safety** | `data[SIZE]` is invalid! | Out-of-bounds access corrupts adjacent memory |\n",
+        "> **Next up: Chapter 18 — Divdimensiju masīvi (2D Arrays).**",
+        "> Now that Omega can process linear rows of cargo containers, Surveyor Delta needs two-dimensional grid tables (`int map[rows][cols]`) to map surface terrain and elevation contour matrices."
+      ]
+    }
+  }
+}

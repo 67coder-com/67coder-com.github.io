@@ -1,0 +1,105 @@
+{
+  "n": 17,
+  "slug": "arrays",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-arrays",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. On the heavy reinforced landing terrace of Mars Base IRIS at dusk. The newly introduced heavy cargo drone KRAVAS 'Omega' (powerful industrial matte slate/graphite hexagonal airframe, reinforced landing skids, heavy ducted lift rotors, ventral container clamp holding a cylindrical geological sample pod with glowing amber status LEDs) rests on the pad. In the Martian sky above, scout drone Sigma hovers in holding pattern. Across the foreground landing pad surface, five glowing aged-brass linear sensor markers lie arranged in a neat sequential memory-strip row, logging surface temperatures. Inside the observation outpost, the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them, inspects a holographic 1D data array on the tactical terminal. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, amber LEDs / sensor marker beams aged brass #B99A61, and holographic array grid muted sage #7FB3A3."
+    },
+    {
+      "id": "array-syntax-and-index",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int temps[5] = {-55, -40, -12, -30, -50};\n\nfor (int i = 0; i < 5; i++) {\n    cout << temps[i] << endl;\n}"
+        },
+        {
+          "code": "int temps[5] = {-55, -40, -12, -30, -50};\n\n// TRAP: index 5 is OUT OF BOUNDS!\nfor (int i = 0; i <= 5; i++) {\n    cout << temps[i] << endl;\n}"
+        }
+      ]
+    },
+    {
+      "id": "predict-array-index",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int log[4] = {10, 25, 30, 45};\n    log[1] = 90;\n    cout << log[0] + log[1] << endl;\n    return 0;\n}",
+      "expected": "100",
+      "focus": "log[1] = 90;"
+    },
+    {
+      "id": "array-loop-traversal",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int temps[4];\n\n    // 1. In for loop from i = 0 to i < 4:\n    //    read temps[i] from cin\n    // 2. In second for loop from i = 0 to i < 4:\n    //    print SENSOR # followed by i, \": \" and temps[i] and newline\n\n    return 0;\n}",
+      "expected": "SENSOR #0: -55\nSENSOR #1: -40\nSENSOR #2: -12\nSENSOR #3: -30",
+      "requires": ["temps[4]", "temps[i]"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int temps[4];\n\n    for (int i = 0; i < 4; i++) {\n        cin >> temps[i];\n    }\n\n    for (int i = 0; i < 4; i++) {\n        cout << \"SENSOR #\" << i << \": \" << temps[i] << endl;\n    }\n\n    return 0;\n}",
+      "stdin": "-55 -40 -12 -30\n"
+    },
+    {
+      "id": "find-out-of-bounds-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int telemetry[4] = {100, 200, 300, 400};\n\n    for (int i = 0; i <= 4; i++) {\n        cout << telemetry[i] << \" \";\n    }\n    cout << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "assemble-array-sum",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int main() {",
+        "    int cargo_weights[3] = {120, 250, 180};",
+        "    int total_mass = 0;",
+        "    for (int i = 0; i < 3; i++) {",
+        "        total_mass += cargo_weights[i];",
+        "    }",
+        "    cout << \"TOTAL CARGO MASS: \" << total_mass << \" KG\" << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "sol-temperature-average",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sol_temps[5];\n    int sum = 0;\n\n    // 1. In for loop i = 0 to 4: read sol_temps[i] from cin and add to sum\n    // 2. Compute integer average: int avg = sum / 5;\n    // 3. Print TOTAL SUM: followed by sum and newline\n    // 4. Print AVERAGE TEMP: followed by avg and newline\n\n    return 0;\n}",
+      "expected": "TOTAL SUM: -200\nAVERAGE TEMP: -40",
+      "requires": ["sol_temps[5]", "/ 5"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sol_temps[5];\n    int sum = 0;\n\n    for (int i = 0; i < 5; i++) {\n        cin >> sol_temps[i];\n        sum += sol_temps[i];\n    }\n\n    int avg = sum / 5;\n    cout << \"TOTAL SUM: \" << sum << endl;\n    cout << \"AVERAGE TEMP: \" << avg << endl;\n\n    return 0;\n}",
+      "stdin": "-60 -50 -20 -30 -40\n"
+    },
+    {
+      "id": "find-extreme-sensor",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int temps[4];\n    for (int i = 0; i < 4; i++) {\n        cin >> temps[i];\n    }\n\n    // 1. Initialize max_temp with the first element: int max_temp = temps[0];\n    // 2. In for loop i = 1 to i < 4:\n    //    if temps[i] > max_temp -> max_temp = temps[i]\n    // 3. Print MAX TEMP: followed by max_temp and newline\n\n    return 0;\n}",
+      "expected": "MAX TEMP: -10",
+      "requires": ["temps[4]", "max_temp = temps[0]", "temps[i] > max_temp"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int temps[4];\n    for (int i = 0; i < 4; i++) {\n        cin >> temps[i];\n    }\n\n    int max_temp = temps[0];\n    for (int i = 1; i < 4; i++) {\n        if (temps[i] > max_temp) {\n            max_temp = temps[i];\n        }\n    }\n    cout << \"MAX TEMP: \" << max_temp << endl;\n\n    return 0;\n}",
+      "stdin": "-45 -10 -80 -25\n"
+    },
+    {
+      "id": "predict-array-search",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int codes[5] = {101, 204, 309, 404, 500};\n    int found_index = -1;\n\n    for (int i = 0; i < 5; i++) {\n        if (codes[i] == 309) {\n            found_index = i;\n            break;\n        }\n    }\n    cout << \"FOUND AT INDEX: \" << found_index << endl;\n    return 0;\n}",
+      "expected": "FOUND AT INDEX: 2",
+      "focus": "if (codes[i] == 309) {"
+    },
+    {
+      "id": "cargo-batch-analyzer",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int rad[5];\n    for (int i = 0; i < 5; i++) {\n        cin >> rad[i];\n    }\n\n    // 1. Maintain hazardous counter (rad[i] > 50)\n    // 2. Accumulate total radiation sum\n    // 3. Find lowest radiation value (initialize min_rad with rad[0])\n    // 4. Print the three metrics:\n    //    HAZARDOUS CONTAINERS: count\n    //    TOTAL RADIATION: sum\n    //    LOWEST RADIATION: min_rad\n\n    return 0;\n}",
+      "expected": "HAZARDOUS CONTAINERS: 2\nTOTAL RADIATION: 260\nLOWEST RADIATION: 25",
+      "requires": ["rad[5]", "min_rad = rad[0]", "rad[i] > 50"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int rad[5];\n    for (int i = 0; i < 5; i++) {\n        cin >> rad[i];\n    }\n\n    int hazardous = 0;\n    int total_rad = 0;\n    int min_rad = rad[0];\n\n    for (int i = 0; i < 5; i++) {\n        if (rad[i] > 50) {\n            hazardous++;\n        }\n        total_rad += rad[i];\n        if (rad[i] < min_rad) {\n            min_rad = rad[i];\n        }\n    }\n\n    cout << \"HAZARDOUS CONTAINERS: \" << hazardous << endl;\n    cout << \"TOTAL RADIATION: \" << total_rad << endl;\n    cout << \"LOWEST RADIATION: \" << min_rad << endl;\n\n    return 0;\n}",
+      "stdin": "30 75 40 90 25\n"
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}
