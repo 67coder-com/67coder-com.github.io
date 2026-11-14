@@ -1,0 +1,106 @@
+{
+  "title": "vector",
+  "steps": {
+    "why-vector": {
+      "eyebrow": "Dynamic data architecture",
+      "title": "Why flight computers need dynamic arrays",
+      "body": [
+        "In previous missions, we stored telemetry in fixed arrays such as `int temps[5]` and `int map[3][3]`. Static arrays are fast and predictable, but they require knowing the exact element count at compile time.",
+        "Now Scout drone **IZLŪKS 'Sigma'** enters uncharted volcanic lava tubes beneath Mawrth Vallis. As Sigma navigates subterranean chasms, its lidar logs navigational beacon coordinates dynamically. Before entering the chasm, the flight computer cannot know whether the route will require 4 waypoints, 85 waypoints, or 300 waypoints.",
+        "If you declare a static array `int path[50];`, finding 51 waypoints will crash your program or corrupt critical memory. Conversely, reserving `int path[10000];` wastes valuable RAM if only 5 waypoints are detected.",
+        "C++ solves this with the dynamic array container: `std::vector` (provided by `#include <vector>`):",
+        "- **Dynamic capacity.** A vector starts empty and automatically expands in computer memory as new elements are added.",
+        "- **Contiguous storage.** Just like a traditional array, vector elements are stored in consecutive memory cells, granting instant $O(1)$ indexed access.",
+        "- **Self-tracking size.** A vector knows its own element count at all times via `.size()`."
+      ],
+      "archive": {
+        "title": "Dynamic containers vs static buffers in space exploration software",
+        "body": "In early spacecraft avionics, dynamic memory allocation was banned because heap fragmentation could cause missions to fail during critical maneuvers. However, modern planetary robotic systems—such as NASA's Mars 2020 Perseverance rover and ESA's ExoMars rover—rely on hybrid memory architectures. For high-level autonomous science planners and terrain-relative navigation (TRN) image matchers, C++ `std::vector` is widely used with pre-allocated capacity (`vec.reserve(expected_capacity)`). This combines the flexibility of dynamic containers with the latency guarantees of static memory buffers.",
+        "sources": [
+          "NASA Jet Propulsion Laboratory, 'C++ Coding Standard for Flight Software'",
+          "IEEE Aerospace Conference, 'Autonomous Navigation and Science Target Selection for Mars Rovers'"
+        ]
+      }
+    },
+    "vector-syntax-and-push": {
+      "eyebrow": "Syntax and operations",
+      "title": "Declaring vectors and appending with push_back",
+      "compareCaptions": [
+        "Correct dynamic growth: push_back dynamically appends elements to vector",
+        "Undefined memory access: writing to index 0 of an empty vector crashes"
+      ],
+      "body": [
+        "To use vectors, include the `<vector>` library header. The declaration specifies the element type inside angle brackets `<type>`:",
+        "```cpp\n#include <vector>\nusing namespace std;\n\nvector<int> waypoints; // Creates an empty vector of integers (size is 0)\n```",
+        "To append an element to the end of the vector, call the `.push_back(value)` member function:",
+        "```cpp\nwaypoints.push_back(120); // Adds 120 at index 0 (size becomes 1)\nwaypoints.push_back(180); // Adds 180 at index 1 (size becomes 2)\n```",
+        "You can inspect the current count of elements using `.size()`, and access elements with familiar array brackets `[i]`:",
+        "```cpp\ncout << waypoints.size(); // Prints: 2\ncout << waypoints[0];      // Prints: 120\n```",
+        "!> **The empty vector indexing trap.** When a vector is declared without an initial size (`vector<int> v;`), it contains **0 elements**. Writing `v[0] = 50;` is illegal out-of-bounds access! Always populate empty vectors using `.push_back()`, which allocates memory for the new element before writing to it."
+      ]
+    },
+    "predict-vector-push": {
+      "eyebrow": "State tracing",
+      "title": "Trace vector growth and pop_back",
+      "body": [
+        "Trace the execution of this navigational waypoint logger.",
+        "Determine the final output printed to the terminal console."
+      ],
+      "explain": "Initially, `waypoints` receives 100, 250, and 400 (size 3). Then `pop_back()` removes the last element (400), reducing the size to 2. Next, `push_back(350)` adds 350 to the end. The vector now holds `[100, 250, 350]` with `size() == 3`. Index 1 holds `250`. Output is `3 250`."
+    },
+    "vector-input-loop": {
+      "title": "Lidar elevation stream logger",
+      "task": "Program Scout drone Sigma's dynamic elevation logger:\n1. Read sample count `int n` from `cin`.\n2. Declare an empty integer vector `vector<int> elevations;`.\n3. In a `for` loop running `n` times: read `int val` from `cin` and append it to `elevations` using `elevations.push_back(val);`.\n4. In a second `for` loop from `i = 0` to `i < elevations.size()`: print `ELEVATION #` followed by `i`, `: `, `elevations[i]`, and a newline.",
+      "hint": "Declare `vector<int> elevations;` before the input loop. In the second loop, use `elevations.size()` to iterate safely through all elements.",
+      "solutionNote": "Using push_back allows the vector to accommodate any input size n dynamically."
+    },
+    "find-vector-size-bug": {
+      "eyebrow": "Boundary debugging",
+      "title": "Identify out-of-bounds vector loop",
+      "body": [
+        "This program initializes a 3-element coordinate vector and attempts to print each coordinate.",
+        "However, the loop condition causes a boundary crash on the final pass. Click on the line containing the bug."
+      ],
+      "explain": "Line 7 uses `i <= coords.size()`. In a vector with 3 elements, `coords.size()` is 3, so valid indices are strictly 0, 1, and 2. When `i` reaches 3, `coords[3]` accesses out-of-bounds memory! The condition should use strict inequality `i < coords.size()`."
+    },
+    "assemble-vector-filter": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble telemetry threshold filter",
+      "body": [
+        "Sigma has recorded raw sensor measurements, including negative noise readings. We need to filter and store only positive samples in a new vector `valid_data`.",
+        "Arrange the code blocks in correct order to scan `raw`, append positive readings into `valid_data`, and output the count of valid samples."
+      ]
+    },
+    "vector-sum-and-peak": {
+      "title": "Seismic signal peak and sum analyzer",
+      "task": "Program Sigma's acoustic echo processor:\n1. Read total signal count `int count` from `cin`.\n2. Read `count` integers into a `vector<int> signals;` using `.push_back()`.\n3. In a `for` loop, compute the `sum` of all elements in `signals`.\n4. In the same loop or a second pass, find the peak reading `max_signal` (initialized to `signals[0]`).\n5. Print `TOTAL SIGNAL: ` followed by `sum` and a newline.\n6. Print `PEAK SIGNAL: ` followed by `max_signal` and a newline.",
+      "hint": "Initialize `int sum = 0;` and `int max_signal = signals[0];`. Iterate from `i = 0` to `i < signals.size()` updating both.",
+      "solutionNote": "By initializing max_signal with signals[0], the peak detection works correctly even with negative readings."
+    },
+    "predict-vector-empty": {
+      "eyebrow": "Container inspection",
+      "title": "Vector empty status and stack operations",
+      "body": [
+        "Trace this program utilizing `.empty()` and `.pop_back()` on a sensor stack.",
+        "Determine the exact string output printed to the console."
+      ],
+      "explain": "The stack pushes 5 and 15, then `pop_back()` removes 15. The vector now holds only `[5]`. The condition `!stack.empty()` is true because the vector contains 1 element. It outputs `ACTIVE `, `stack.size()` (1), ` VAL `, and `stack[0]` (5), printing `ACTIVE 1 VAL 5`."
+    },
+    "drone-flight-path-logger": {
+      "title": "Sigma canyon trajectory audit",
+      "task": "Program an autonomous canyon flight path auditor for Scout drone Sigma:\n1. Read number of waypoints `int n` from `cin`.\n2. In a loop, read `n` altitude values into `vector<int> altitudes;` using `.push_back()`.\n3. Initialize counter `int high_altitude_count = 0;` and accumulator `int total_alt = 0;`.\n4. In a `for` loop over `altitudes`: add each altitude to `total_alt`, and if `altitudes[i] >= 100`, increment `high_altitude_count`.\n5. Print `WAYPOINTS LOGGED: ` followed by `altitudes.size()` and a newline.\n6. Print `TOTAL ALTITUDE: ` followed by `total_alt` and a newline.\n7. Print `HIGH ALTITUDE FIXES: ` followed by `high_altitude_count` and a newline.",
+      "hint": "Read all values with `altitudes.push_back(alt);` first, then run a traversal loop from `i = 0` to `i < altitudes.size()` to accumulate and count.",
+      "solutionNote": "This capstone combines dynamic collection, statistical aggregation, and condition filtering into a single aerospace workflow."
+    },
+    "recap": {
+      "eyebrow": "Summary",
+      "title": "Dynamic vectors recap",
+      "body": [
+        "In this mission, you unlocked dynamic memory collections in C++ using `std::vector`:",
+        "| Feature | Static array (`int a[N]`) | Dynamic vector (`vector<int> v`) |\n| :--- | :--- | :--- |\n| **Header** | Built-in | `#include <vector>` |\n| **Capacity** | Fixed at compile time | Grows dynamically at runtime |\n| **Appending** | Cannot expand | `v.push_back(value)` |\n| **Removing** | Cannot shrink | `v.pop_back()` |\n| **Size query** | Must track separately | `v.size()` |\n| **Emptiness** | No built-in test | `v.empty()` returns `true`/`false` |\n| **Index access** | `a[i]` | `v[i]` or safe `v.at(i)` |\n",
+        "> **Next up: Chapter 20 — Funkcijas: pamati (Functions: The Basics).**",
+        "> Now that our drones can store and process complex dynamic datasets, our programs are growing longer. In Chapter 20, we modularize our flight computer code into reusable, testable functions with parameters and return values."
+      ]
+    }
+  }
+}

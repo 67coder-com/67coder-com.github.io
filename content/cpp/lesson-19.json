@@ -1,0 +1,142 @@
+{
+  "n": 19,
+  "slug": "vector",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-vector",
+      "kind": "theory",
+      "image": "assets/l19-why-vector.jpg"
+    },
+    {
+      "id": "vector-syntax-and-push",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "#include <vector>\nusing namespace std;\n\nvector<int> v;\nv.push_back(10);\nv.push_back(20);\n// v.size() is now 2",
+          "ok": true
+        },
+        {
+          "code": "#include <vector>\nusing namespace std;\n\nvector<int> v;\nv[0] = 10; // Crash!\n// Empty vector has size 0,\n// index 0 does not exist yet",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-vector-push",
+      "kind": "predict",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> waypoints;\n    waypoints.push_back(100);\n    waypoints.push_back(250);\n    waypoints.push_back(400);\n    waypoints.pop_back();\n    waypoints.push_back(350);\n\n    cout << waypoints.size() << \" \" << waypoints[1] << endl;\n    return 0;\n}",
+      "expected": "3 250\n",
+      "options": [
+        "3 250",
+        "4 250",
+        "3 400",
+        "2 100"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "vector-input-loop",
+      "kind": "editor",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Declare empty vector<int> elevations\n    // 2. Read n integers using push_back\n    // 3. Print ELEVATION #i: val in a for loop\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<int> elevations;\n    for (int i = 0; i < n; i++) {\n        int val;\n        cin >> val;\n        elevations.push_back(val);\n    }\n\n    for (int i = 0; i < elevations.size(); i++) {\n        cout << \"ELEVATION #\" << i << \": \" << elevations[i] << endl;\n    }\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "3\n120 180 250\n",
+          "expected": "ELEVATION #0: 120\nELEVATION #1: 180\nELEVATION #2: 250\n"
+        },
+        {
+          "in": "2\n-40 -15\n",
+          "expected": "ELEVATION #0: -40\nELEVATION #1: -15\n"
+        },
+        {
+          "in": "4\n10 20 30 40\n",
+          "expected": "ELEVATION #0: 10\nELEVATION #1: 20\nELEVATION #2: 30\nELEVATION #3: 40\n"
+        }
+      ]
+    },
+    {
+      "id": "find-vector-size-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> coords = {12, 45, 78};\n    for (int i = 0; i <= coords.size(); i++) {\n        cout << coords[i] << endl;\n    }\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "assemble-vector-filter",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "#include <vector>",
+        "using namespace std;",
+        "int main() {",
+        "    vector<int> raw = {-15, 20, -5, 45, 80};",
+        "    vector<int> valid_data;",
+        "    for (int i = 0; i < raw.size(); i++) {",
+        "        if (raw[i] > 0) {",
+        "            valid_data.push_back(raw[i]);",
+        "        }",
+        "    }",
+        "    cout << \"VALID SAMPLES: \" << valid_data.size() << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "vector-sum-and-peak",
+      "kind": "editor",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    // 1. Read count integers into vector<int> signals with push_back\n    // 2. Calculate sum of all signals\n    // 3. Find max_signal initialized to signals[0]\n    // 4. Print TOTAL SIGNAL: sum\n    // 5. Print PEAK SIGNAL: max_signal\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    vector<int> signals;\n    for (int i = 0; i < count; i++) {\n        int s;\n        cin >> s;\n        signals.push_back(s);\n    }\n\n    int sum = 0;\n    int max_signal = signals[0];\n\n    for (int i = 0; i < signals.size(); i++) {\n        sum += signals[i];\n        if (signals[i] > max_signal) {\n            max_signal = signals[i];\n        }\n    }\n\n    cout << \"TOTAL SIGNAL: \" << sum << endl;\n    cout << \"PEAK SIGNAL: \" << max_signal << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "4\n15 80 45 90\n",
+          "expected": "TOTAL SIGNAL: 230\nPEAK SIGNAL: 90\n"
+        },
+        {
+          "in": "3\n-20 -5 -50\n",
+          "expected": "TOTAL SIGNAL: -75\nPEAK SIGNAL: -5\n"
+        },
+        {
+          "in": "5\n10 10 10 10 10\n",
+          "expected": "TOTAL SIGNAL: 50\nPEAK SIGNAL: 10\n"
+        }
+      ]
+    },
+    {
+      "id": "predict-vector-empty",
+      "kind": "predict",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> stack;\n    stack.push_back(5);\n    stack.push_back(15);\n    stack.pop_back();\n\n    if (!stack.empty()) {\n        cout << \"ACTIVE \" << stack.size() << \" VAL \" << stack[0] << endl;\n    } else {\n        cout << \"EMPTY\" << endl;\n    }\n    return 0;\n}",
+      "expected": "ACTIVE 1 VAL 5\n",
+      "options": [
+        "ACTIVE 1 VAL 5",
+        "ACTIVE 2 VAL 15",
+        "EMPTY",
+        "ACTIVE 1 VAL 15"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "drone-flight-path-logger",
+      "kind": "editor",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Read n altitude values into vector<int> altitudes with push_back\n    // 2. Count waypoints where altitude >= 100\n    // 3. Accumulate total altitude\n    // 4. Print WAYPOINTS LOGGED: altitudes.size()\n    // 5. Print TOTAL ALTITUDE: total\n    // 6. Print HIGH ALTITUDE FIXES: count\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<int> altitudes;\n    for (int i = 0; i < n; i++) {\n        int alt;\n        cin >> alt;\n        altitudes.push_back(alt);\n    }\n\n    int high_altitude_count = 0;\n    int total_alt = 0;\n\n    for (int i = 0; i < altitudes.size(); i++) {\n        total_alt += altitudes[i];\n        if (altitudes[i] >= 100) {\n            high_altitude_count++;\n        }\n    }\n\n    cout << \"WAYPOINTS LOGGED: \" << altitudes.size() << endl;\n    cout << \"TOTAL ALTITUDE: \" << total_alt << endl;\n    cout << \"HIGH ALTITUDE FIXES: \" << high_altitude_count << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "4\n80 120 150 90\n",
+          "expected": "WAYPOINTS LOGGED: 4\nTOTAL ALTITUDE: 440\nHIGH ALTITUDE FIXES: 2\n"
+        },
+        {
+          "in": "3\n50 60 70\n",
+          "expected": "WAYPOINTS LOGGED: 3\nTOTAL ALTITUDE: 180\nHIGH ALTITUDE FIXES: 0\n"
+        },
+        {
+          "in": "5\n100 110 120 130 140\n",
+          "expected": "WAYPOINTS LOGGED: 5\nTOTAL ALTITUDE: 600\nHIGH ALTITUDE FIXES: 5\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

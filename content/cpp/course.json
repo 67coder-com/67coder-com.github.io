@@ -163,7 +163,10 @@
         {
           "n": 19,
           "slug": "vector",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 20,

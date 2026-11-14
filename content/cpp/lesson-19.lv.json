@@ -1,0 +1,106 @@
+{
+  "title": "vector",
+  "steps": {
+    "why-vector": {
+      "eyebrow": "Dinamiskā datu arhitektūra",
+      "title": "Kāpēc borta datoriem nepieciešami dinamiskie masīvi",
+      "body": [
+        "Iepriekšējās misijās telemetriju saglabājām fiksētos masīvos, piemēram, `int temps[5]` un `int map[3][3]`. Statiskie masīvi ir ātri un uzticami, taču to izmēram jābūt precīzi zināmam jau programmas kompilēšanas brīdī.",
+        "Tagad izlūka drons **IZLŪKS 'Sigma'** dodas Mawrth Vallis pazemes lavas cauruļu un vulkānisko kanjonu izpētē. Virzoties cauri nezināmam aizai, Sigma ar lidaru reģistrē navigācijas bāku koordinātas. Pirms nolaišanās alā borta dators nevar paredzēt, cik punktus nāksies fiksēt: 4, 85 vai 300.",
+        "Ja deklarē statisku masīvu `int path[50];`, 51. koordinātas saņemšana izraisīs avāriju vai sabojās atmiņu. Savukārt rezervējot `int path[10000];`, tiek nelietderīgi izšķērdēta dārgā operatīvā atmiņa, ja atrastas tikai 5 bākas.",
+        "C++ standartbibliotēka piedāvā risinājumu — dinamisko masīvu konteineru: `std::vector` (no bibliotēkas `#include <vector>`):",
+        "- **Dinamiska ietilpība.** Vektors sākumā var būt tukšs un automātiski izplešas atmiņā, tiklīdz tiek pievienots jauns elements.",
+        "- **Nepārtraukta atmiņa.** Tāpat kā parastā masīvā, visi elementi atrodas secīgās atmiņas šūnās, nodrošinot tūlītēju $O(1)$ piekļuvi pēc indeksa.",
+        "- **Paškontrolēts izmērs.** Vektors jebkurā brīdī precīzi zina savu elementu skaitu, izmantojot metodi `.size()`."
+      ],
+      "archive": {
+        "title": "Dinamiskie konteineri pret statiskiem buferiem kosmiskajā programmēšanā",
+        "body": "Agrīnajā kosmiskajā avionikā dinamiskā atmiņas piešķiršana bija aizliegta, jo heap atmiņas fragmentācija kritiskā manevra laikā varēja izraisīt visas misijas zaudējumu. Tomēr modernajos planetārajos robotos — piemēram, NASA Mars 2020 Perseverance un ESA ExoMars — izmanto hibrīdu atmiņas arhitektūru. Augsta līmeņa autonomajiem plānotājiem un reljefa navigācijas kameru algoritmiem plaši izmanto C++ `std::vector` ar iepriekš rezervētu ietilpību (`vec.reserve(expected_capacity)`). Tas apvieno dinamisko konteineru elastību ar statiskās atmiņas garantēto ātrdarbību.",
+        "sources": [
+          "NASA Jet Propulsion Laboratory, 'C++ Coding Standard for Flight Software'",
+          "IEEE Aerospace Conference, 'Autonomous Navigation and Science Target Selection for Mars Rovers'"
+        ]
+      }
+    },
+    "vector-syntax-and-push": {
+      "eyebrow": "Sintakse un operācijas",
+      "title": "Vektoru deklarēšana un elementu pievienošana ar push_back",
+      "compareCaptions": [
+        "Korekta dinamiskā pievienošana: push_back paplašina vektora izmēru",
+        "Neatļauta atmiņas piekļuve: rakstīšana pie indeksa 0 tukšā vektorā izraisa avāriju"
+      ],
+      "body": [
+        "Lai izmantotu vektorus, programmas sākumā jāpievieno bibliotēka `<vector>`. Deklarējot vektoru, elementu tipu norāda leņķa iekavās `<tips>`:",
+        "```cpp\n#include <vector>\nusing namespace std;\n\nvector<int> waypoints; // Izveido tukšu veselo skaitļu vektoru (izmērs ir 0)\n```",
+        "Lai pievienotu jaunu elementu vektora beigās, izsauc dalībnieka funkciju `.push_back(vērtība)`:",
+        "```cpp\nwaypoints.push_back(120); // Pievieno 120 pie indeksa 0 (izmērs kļūst 1)\nwaypoints.push_back(180); // Pievieno 180 pie indeksa 1 (izmērs kļūst 2)\n```",
+        "Pašreizējo elementu skaitu uzzina ar `.size()`, bet elementiem piekļūst ar ierastajām kvadrātiekavām `[i]`:",
+        "```cpp\ncout << waypoints.size(); // Izdrukā: 2\ncout << waypoints[0];      // Izdrukā: 120\n```",
+        "!> **Tukša vektora indeksēšanas kļūda.** Ja vektors ir deklarēts bez sākotnējā izmēra (`vector<int> v;`), tajā ir **0 elementu**. Komanda `v[0] = 50;` ir rupjš robežas pārkāpums! Tukšu vektoru vienmēr piepilda ar `.push_back()`, kas vispirms rezervē jaunu šūnu un tikai tad ieraksta tajā vērtību."
+      ]
+    },
+    "predict-vector-push": {
+      "eyebrow": "Stāvokļa analīze",
+      "title": "Vektora izmēra un pop_back izsekošana",
+      "body": [
+        "Izsekojiet šī navigācijas bāku reģistratora izpildei.",
+        "Nosakiet konsolē izdrukāto galarezultātu."
+      ],
+      "explain": "Sākumā vektorā tiek pievienoti 100, 250 un 400 (izmērs 3). Pēc tam `pop_back()` izdzēš pēdējo elementu (400), un izmērs samazinās līdz 2. Nākamais `push_back(350)` beigās pievieno 350. Vektora saturs tagad ir `[100, 250, 350]`, tā `size()` ir 3, bet pie indeksa 1 atrodas `250`. Rezultāts ir `3 250`."
+    },
+    "vector-input-loop": {
+      "title": "Lidara augstumu plūsmas reģistrators",
+      "task": "Ieprogrammējiet izlūka Sigma dinamisku augstuma mērījumu reģistratoru:\n1. Nolasiet mērījumu skaitu `int n` no `cin`.\n2. Deklarējiet tukšu veselo skaitļu vektoru `vector<int> elevations;`.\n3. Ciklā `for`, kas izpildās `n` reizes: nolasiet `int val` no `cin` un pievienojiet to vektoram ar `elevations.push_back(val);`.\n4. Otrā ciklā `for` no `i = 0` līdz `i < elevations.size()`: izdrukājiet `ELEVATION #`, indeksu `i`, `: `, elementu `elevations[i]` un jaunu rindu.",
+      "hint": "Deklarējiet `vector<int> elevations;` pirms cikla. Otrajā ciklā izmantojiet `elevations.size()`, lai droši apstaigātu visus elementus.",
+      "solutionNote": "Izmantojot push_back, vektors pielāgojas jebkuram ievadītajam n izmēram dinamiski."
+    },
+    "find-vector-size-bug": {
+      "eyebrow": "Robežu atkļūdošana",
+      "title": "Vektora cikla robežas kļūdas atrašana",
+      "body": [
+        "Šī programma inicializē 3 elementu koordinātu vektoru un mēģina izdrukāt katru elementu.",
+        "Tomēr cikla nosacījums pēdējā solī mēģina nolasīt neatļautu atmiņu. Noklikšķiniet uz kļūdainās rindiņas."
+      ],
+      "explain": "Rindiņā 7 izmantots `i <= coords.size()`. Vektorā ar 3 elementiem `coords.size()` ir 3, tāpēc derīgie indeksi ir tikai 0, 1 un 2. Kad `i` sasniedz 3, `coords[3]` piekļūst ārpus atmiņas robežām! Pareizam nosacījumam jābūt ar stingro nevienādību `i < coords.size()`."
+    },
+    "assemble-vector-filter": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Telemetrijas sliekšņa filtra salikšana",
+      "body": [
+        "Sigma ir reģistrējusi neapstrādātus sensoru datus, tostarp negatīvus trokšņu mērījumus. Jaunā vektorā `valid_data` jāsaglabā tikai pozitīvie mērījumi.",
+        "Salieciet koda blokus pareizā secībā, lai pārbaudītu `raw`, pievienotu derīgos datus vektorā `valid_data` un izdrukātu derīgo paraugu skaitu."
+      ]
+    },
+    "vector-sum-and-peak": {
+      "title": "Seismisko signālu pīķa un summas analizators",
+      "task": "Ieprogrammējiet Sigma akustisko atbalsu analizatoru:\n1. Nolasiet kopējo signālu skaitu `int count` no `cin`.\n2. Nolasiet `count` veselus skaitļus vektorā `vector<int> signals;`, izmantojot `.push_back()`.\n3. Ciklā `for` aprēķiniet visu vektora elementu summu mainīgajā `sum`.\n4. Tajā pašā vai atsevišķā ciklā atrodiet lielāko vērtību `max_signal` (sākotnēji piešķirot `signals[0]`).\n5. Izdrukājiet `TOTAL SIGNAL: `, summu `sum` un jaunu rindu.\n6. Izdrukājiet `PEAK SIGNAL: `, pīķa vērtību `max_signal` un jaunu rindu.",
+      "hint": "Inicializējiet `int sum = 0;` un `int max_signal = signals[0];`. Ciklā no `0` līdz `signals.size()` atjauniniet abus lielumus.",
+      "solutionNote": "Inicializējot max_signal ar signals[0], pīķa noteikšana darbojas pareizi arī ar visām negatīvām vērtībām."
+    },
+    "predict-vector-empty": {
+      "eyebrow": "Konteinera pārbaude",
+      "title": "Vektora tukšuma un steka operāciju izsekošana",
+      "body": [
+        "Izsekojiet šai programmai, kas izmanto metodes `.empty()` un `.pop_back()` sensoru stekam.",
+        "Nosakiet precīzu konsolē izdrukāto teksta virkni."
+      ],
+      "explain": "Vektorā vispirms pievieno 5 un 15, pēc tam `pop_back()` noņem 15. Paliek tikai `[5]`. Nosacījums `!stack.empty()` ir patiess (vektors nav tukšs). Tiek izdrukāts `ACTIVE `, `stack.size()` (1), ` VAL ` un `stack[0]` (5), kopā dodot `ACTIVE 1 VAL 5`."
+    },
+    "drone-flight-path-logger": {
+      "title": "Sigma kanjona lidojuma trajektorijas audits",
+      "task": "Ieprogrammējiet izlūka Sigma autonomā kanjona lidojuma audita moduli:\n1. Nolasiet kontrolpunktu skaitu `int n` no `cin`.\n2. Ciklā nolasiet `n` augstuma vērtības vektorā `vector<int> altitudes;` ar `.push_back()`.\n3. Inicializējiet skaitītāju `int high_altitude_count = 0;` un summu `int total_alt = 0;`.\n4. Ciklā `for` pār `altitudes`: pieskaitiet katru augstumu pie `total_alt`, un, ja `altitudes[i] >= 100`, palieliniet `high_altitude_count`.\n5. Izdrukājiet `WAYPOINTS LOGGED: `, vektora izmēru `altitudes.size()` un jaunu rindu.\n6. Izdrukājiet `TOTAL ALTITUDE: `, kopējo augstumu `total_alt` un jaunu rindu.\n7. Izdrukājiet `HIGH ALTITUDE FIXES: `, skaitu `high_altitude_count` un jaunu rindu.",
+      "hint": "Vispirms nolasiet visus datus ar `altitudes.push_back(alt);`, tad ciklā no `0` līdz `altitudes.size()` veiciet summas un sliekšņa aprēķinus.",
+      "solutionNote": "Šis noslēguma uzdevums apvieno dinamisku datu vākšanu, kopsummas aprēķinu un sliekšņa filtrēšanu vienotā kosmiskās navigācijas plūsmā."
+    },
+    "recap": {
+      "eyebrow": "Kopsavilkums",
+      "title": "Dinamisko vektoru kopsavilkums",
+      "body": [
+        "Šajā misijā jūs apguvāt dinamiskās atmiņas konteinerus C++ valodā ar `std::vector`:",
+        "| Iespēja | Statiskais masīvs (`int a[N]`) | Dinamiskais vektors (`vector<int> v`) |\n| :--- | :--- | :--- |\n| **Bibliotēka** | Iebūvēta valodā | `#include <vector>` |\n| **Ietilpība** | Fiksēta kompilēšanas laikā | Dinamiski aug izpildes laikā |\n| **Pievienošana** | Nevar pievienot | `v.push_back(vērtība)` |\n| **Dzēšana no beigām** | Nevar dzēst | `v.pop_back()` |\n| **Izmēra noteikšana** | Jāseko pašam | `v.size()` |\n| **Tukšuma pārbaude** | Nav iebūvētas pārbaudes | `v.empty()` atgriež `true`/`false` |\n| **Piekļuve elementam** | `a[i]` | `v[i]` vai drošā `v.at(i)` |\n",
+        "> **Nākamā tēma: 20. nodaļa — Funkcijas: pamati (Functions: The Basics).**",
+        "> Kad mūsu droni spēj apstrādāt sarežģītas dinamiskas datu kopas, programmas kļūst garākas. 20. nodaļā mēs sadalīsim borta datora kodu atkārtoti izmantojamās funkcijās ar parametriem un atgriežamām vērtībām."
+      ]
+    }
+  }
+}
