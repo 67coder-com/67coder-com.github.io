@@ -1,0 +1,116 @@
+{
+  "title": "Ievade ar cin",
+  "module": "1. bloks · Pamodināšana",
+  "steps": {
+    "operator-console-prep": {
+      "eyebrow": "Lidojumu dispečera terminālis",
+      "title": "Operatora pults pieslēgšana",
+      "body": [
+        "Izlūkdrons Sigma atrodas bāzes IRIS starta laukumā, sagatavots pirmajam izlūklidojumam virs Mawrth Vallis plato. Iepriekšējās misijās visi lidojuma parametri tika ierakstīti tieši C++ pirmkodā kā nemainīgas konstantes.",
+        "Īstās kosmosa misijās parametru iešūšana kodā ir bīstama: maršruta punkti, lidojuma ātrums un atmosfēras apstākļi mainās ar katru izlidojumu. Lai programma būtu pielāgojama, borta datoram jāspēj saņemt ievades datus tieši no bāzes operatora programmas darbības laikā.",
+        "C++ nodrošina interaktīvu plūsmas ievadi caur standarta ievades konsoli:\n+ **Plūsma cin.** Tiek iekļauta automātiski ar `<iostream>`. Savieno programmu tieši ar operatora tastatūras ievadi.\n+ **Izgūšanas operators (>>).** Vērsts uz iekšu uz saņemošo mainīgo: `cin >> speed;`. Virziena bultiņa attēlo datu plūsmu.\n+ **Automātiska tipu parsēšana.** Atšķirībā no Python `input()`, kas vienmēr atgriež teksta virkni, `cin >>` automātiski nolasa datus vajadzīgajā tipā: veselos skaitļos, daļskaitļos vai virknēs."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kā standarta plūsmas Unix 1972. gadā mainīja skaitļošanu",
+          "body": [
+            "Agrīnajos lieldatoros katrai ārējai iekārtai bija savas asemblera komandas. Datu nolasīšanai no perfokartēm, magnētiskās lentes vai teletaipa bija nepieciešamas pilnīgi atšķirīgas instrukcijas, padarot programmu pārnešanu starp iekārtām neiespējamu.",
+            "1972. gadā Kens Tompsons un Deniss Ričijs Bell Labs radīja Unix standarta plūsmu arhitektūru: standarta ievadi (stdin), standarta izvadi (stdout) un kļūdu plūsmu (stderr). Jebkura programma varēja lasīt datus kā vienotu baitu plūsmu neatkarīgi no tā, vai avots bija tastatūra, automatizēts skripts vai fails.",
+            "1985. gadā Bjarne Stroustrups pielāgoja šo plūsmu filozofiju C++ valodai, piešķirot bīdīšanas operatoriem << un >> plūsmas nozīmi. Ševroni tika izvēlēti kā intuitīvas virziena bultiņas: << izvada datus uz ekrānu, bet >> izgūst datus iekšā programmas atmiņā.",
+            "Avots: Dennis Ritchie, 'The Evolution of the Unix Time-sharing System'; Bjarne Stroustrup, 'The Design and Evolution of C++' (Addison-Wesley, 1994)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Kā cin apstrādā ievades buferi 'zem pārsega'",
+          "body": [
+            "Kad jūs rakstāt terminālī, rakstzīmes uzkrājas operētājsistēmas buferī līdz taustiņa Enter nospiešanai. Kad C++ programma izpilda `cin >> value;`, plūsma sāk pārbaudīt bufera saturu pa vienai rakstzīmei.",
+            "Vispirms `cin` automātiski izlaiž visas sākuma atstarpes, tabulācijas un rindpārneses. Pēc tam tas nolasa visas secīgās rakstzīmes, kas atbilst mērķa mainīgā tipam. Piemēram, skaitlim `int` tiek lasīti cipari līdz pirmajai atstarpei vai burtam.",
+            "Pārējās neizmantotās rakstzīmes paliek buferī un gaida nākamo ievades komandu. Tas ļauj ar vienu ievades rindu aizpildīt vairākus mainīgos vienlaicīgi."
+          ]
+        }
+      ]
+    },
+    "cin-stream-basics": {
+      "eyebrow": "Konsoles izgūšana",
+      "title": "Vērtību nolasīšana ar cin",
+      "body": [
+        "Lai nolasītu datus no operatora, deklarējiet mainīgo atmiņā un novirziet plūsmas saturu tajā ar operatoru `cin >>`.",
+        "syntax: cin >> {variable};\n- cin: standarta konsoles ievades plūsma no `<iostream>`\n- >>: izgūšanas operators — virza plūsmas datus mainīgajā\n- variable: deklarēts mainīgais atmiņā, kurā saglabā datus\n- ;: komandas beigu zīme — obligāta valodā C++",
+        "> Konsoles ievades pamatnoteikumi:\n> 1. **Mainīgais jādeklarē iepriekš.** Nevar ievadīt datus neesošā mainīgajā. Vienmēr norādiet tipu vispirms: `int speed; cin >> speed;`.\n> 2. **Bultiņu virziens rāda iekšup.** `cout <<` izvada datus ĀRĀ uz termināļa ekrānu. `cin >>` virza datus IEKŠĀ programmas mainīgajā.\n> 3. **Vairākas vērtības vienā komandā.** Izgūšanu var apvienot ķēdē: `cin >> distance >> speed;`. Plūsma automātiski izmanto atstarpes vai Enter, lai atdalītu vērtības.",
+        "!> **Python ieradums, kas jāaizmirst.** Valodā Python ievade vienmēr atgriež tekstu: `speed = int(input())`. Valodā C++ manuāla pārveidošana nav vajadzīga! Mainīgā tips nosaka, kā `cin` nolasa un interpretē ienākošos datus."
+      ],
+      "alt": "Diagramma, kas salīdzina plūsmu virzienus: cout << izvada datus uz ekrānu, bet cin >> ievada datus mainīgajā.",
+      "image": "assets/l08-stream-arrows.lv.svg",
+      "compareCaptions": [
+        "Korekts izgūšanas operators >> virza datus mainīgajā",
+        "Sintakses kļūda: izvades operators << nevar nolasīt datus mainīgajā"
+      ]
+    },
+    "predict-cin-math": {
+      "title": "Paredziet plūsmas aprēķinu",
+      "task": "Kādu rezultātu izvadīs programma, ja terminālī ievada 3 4?",
+      "hint": "cin >> a >> b piešķir 3 mainīgajam a un 4 mainīgajam b. Aprēķiniet a * b + 2 pēc standarta prioritātēm.",
+      "explain": "Komanda `cin >> a >> b` iestata `a = 3` un `b = 4`. Izteiksme `3 * 4 + 2` vispirms izpilda reizināšanu `3 * 4 = 12` un tad saskaitīšanu `12 + 2 = 14`."
+    },
+    "read-flight-params": {
+      "title": "Nolasiet misijas lidojuma parametrus",
+      "task": "Nokonfigurējiet Sigmas dispečera datoru:\n1. Nolasiet `distance` un `speed` no `cin`.\n2. Aprēķiniet lidojuma ilgumu: `int hours = distance / speed;`.\n3. Izvadiet `DURATION: `, kam seko `hours` un ` H` jaunā rindā.",
+      "hint": "Izmantojiet `cin >> distance >> speed;`, pēc tam izdrukājiet `\"DURATION: \" << hours << \" H\" << endl;`.",
+      "solutionNote": "Ja ievadīti skaitļi 120 un 40, dalījums 120 / 40 dod 3 stundas."
+    },
+    "cin-strings-and-whitespace": {
+      "eyebrow": "Teksta virkņu izgūšana",
+      "title": "Kā cin apstrādā atstarpes un vārdus",
+      "body": [
+        "Teksta identifikatorus var nolasīt tieši `std::string` mainīgajā ar operatoru `cin >>`.",
+        "> Atstarpju atdalīšanas likums:\n> Nolasot tekstu ar `cin >> text;`, plūsma apstājas pie pirmās atstarpes, tabulācijas vai rindpārneses. Visi nākamie vārdi paliek gaidīt ievades buferī!",
+        "Ja operators ievada `MAWRTH VALLIS`, komanda `cin >> sector;` nolasīs tikai `MAWRTH`. Lai nolasītu otro vārdu atsevišķā mainīgajā, izmanto ķēdi: `cin >> word1 >> word2;`."
+      ],
+      "compareCaptions": [
+        "Viens string mainīgais nolasa tikai pirmo vārdu līdz atstarpei",
+        "Divi string mainīgie nolasa abus ar atstarpi atdalītos vārdus"
+      ]
+    },
+    "reading-full-lines-getline": {
+      "eyebrow": "Veselas rindas ievade",
+      "title": "Rindu ar atstarpēm nolasīšana ar getline",
+      "body": [
+        "Misijas žurnāla ierakstos, sektoru nosaukumos un ziņojumos bieži ir vairāki vārdi ar atstarpēm. Lai nolasītu visu rindu līdz taustiņa Enter nospiešanai, C++ piedāvā funkciju `getline()`.",
+        "syntax: getline(cin, {target});\n- getline: standarta bibliotēkas funkcija, kas nolasa pilnu rindu\n- cin: ievades plūsma, no kuras lasīt\n- target: `std::string` mainīgais, kurā saglabā visu rindu\n- ;: komandas beigu zīme — obligāta valodā C++",
+        "> Kad kuru ievades veidu izvēlēties:\n> 1. **Skaitļiem (int, double).** Lietojiet `cin >> num;` — tas automātiski izlaiž sākuma atstarpes un nolasa ciparus.\n> 2. **Atsevišķiem vārdiem vai komandu kodiem.** Lietojiet `cin >> word;` — ideāli piemērots viena vārda kodiem kā `SIGMA` vai `RUNWAY-1`.\n> 3. **Pilniem nosaukumiem vai teikumiem ar atstarpēm.** Lietojiet `getline(cin, text);` — nolasa visas rakstzīmes, ieskaitot atstarpes, līdz Enter."
+      ],
+      "compareCaptions": [
+        "getline nolasa pilnu rindu kopā ar atstarpēm",
+        "cin >> apstājas pie pirmās atstarpes"
+      ]
+    },
+    "find-chevron-bug": {
+      "title": "Atrodiet ievades virziena kļūdu",
+      "task": "Noklikšķiniet uz rindas ar sintakses kļūdu, kurā sajaukts plūsmas virziens.",
+      "hint": "Rūpīgi aplūkojiet bultiņas blakus cin.",
+      "explain": "Rindā 8 ir uzrakstīts `cin << distance;`. Operatori `<<` ir paredzēti izvadei ar `cout`. Datu ievadei nepieciešams izgūšanas operators `cin >> distance;`."
+    },
+    "fill-cin-sequence": {
+      "title": "Pabeidziet konsoles dialogu",
+      "task": "Izvēlieties pareizos plūsmas virziena operatorus augstuma nolasīšanai un mērķa izdrukāšanai.",
+      "hint": "Datu ievadei mainīgajā nepieciešams >>, bet izvadei terminālī — <<.",
+      "explain": "`cin >> altitude;` ievada datus no konsoles mainīgajā, bet `cout << ...` izvada tekstu uz ekrāna."
+    },
+    "drone-dispatch-console": {
+      "title": "Drona izlidošanas dispečera konsole",
+      "task": "Uzrakstiet izlūkdrona Sigma starta vadības programmu:\n1. Nolasiet mērķa sektora nosaukumu pirmajā rindā ar `getline(cin, target);`.\n2. Nolasiet attālumu un ātrumu otrajā rindā ar `cin >> distance >> speed;`.\n3. Aprēķiniet lidojuma laiku: `int time = distance / speed;`.\n4. Izvadiet `TARGET: `, kam seko `target`.\n5. Izvadiet `TIME: `, kam seko `time` un ` H`.",
+      "hint": "Izsauciet `getline(cin, target);`, tad `cin >> distance >> speed;`, aprēķiniet `time = distance / speed;` un izdrukājiet abas rindas ar `endl`.",
+      "solutionNote": "Ievadot sektoru 'Mawrth Vallis' un parametrus 180 km ar 60 km/h, programma izvada 3 stundas."
+    },
+    "recap": {
+      "title": "8. misijas kopsavilkums: Interaktīvā konsole atbloķēta",
+      "body": [
+        "Bāze IRIS ir pārbaudījusi dispečera konsoli. Izlūkdrons Sigma ir gatavs saņemt lidojuma datus un koordinātas interaktīvi no misijas vadības centra.",
+        "| Ievades veids | Sintakse | Atstarpju apstrāde | Tipiskais lietojums kosmosa misijā |\n| :--- | :--- | :--- | :--- |\n| `cin >> int/double` | `cin >> val;` | Izlaiž sākuma atstarpes, nolasa skaitli | Lidojuma augstums, ātrums, koordinātas |\n| `cin >> string` | `cin >> word;` | Apstājas pie pirmās atstarpes / rindpārneses | Izsaukuma signāli, statusa kodi, atslēgvārdi |\n| `getline()` | `getline(cin, str);` | Nolasa visu rindu, ieskaitot atstarpes | Sektoru pilnie nosaukumi, misijas žurnāli |",
+        "Apsveicam ar 1. bloka «Pamodināšana» pabeigšanu! Jūs esat apguvuši C++ programmas uzbūvi, pamata tipus, atmiņas izmērus, aritmētiskos operatorus un konsoles ievadi/izvadi. Tālāk 2. blokā «Lēmumi» (Decisions) mēs apgūsim nosacījumus `if` un `else`, lai droni spētu patstāvīgi pieņemt lēmumus skarbajos Marsa apstākļos."
+      ]
+    }
+  }
+}

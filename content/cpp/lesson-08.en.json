@@ -1,0 +1,116 @@
+{
+  "title": "Input with cin",
+  "module": "Block 1 · Awakening",
+  "steps": {
+    "operator-console-prep": {
+      "eyebrow": "Flight dispatch terminal",
+      "title": "Connecting the operator console",
+      "body": [
+        "Scout drone Sigma is staged on the launch pad at base IRIS, ready for its primary reconnaissance flight over the Mawrth Vallis plateau. In previous missions, all flight parameters were hardcoded directly into the C++ source code as constants.",
+        "In real aerospace operations, hardcoding flight targets is dangerous: mission waypoints, flight velocities, and atmospheric conditions change with every dispatch. To make programs flexible, the flight computer must receive input values directly from the human operator during runtime.",
+        "C++ provides interactive stream input through the standard input console:\n+ **The cin stream.** Included automatically in `<iostream>`. Connects your program directly to the operator's keyboard input.\n+ **The extraction operator (>>).** Points inward toward the receiving variable: `cin >> speed;`. Direction mnemonic mirrors data flow.\n+ **Automatic type parsing.** Unlike Python's `input()` which always returns text, `cin` reads directly into typed variables: integers, doubles, or strings."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "How Unix standard streams transformed computing in 1972",
+          "body": [
+            "In early mainframe computing, every peripheral device had its own proprietary assembly commands. Reading from a punched card reader, magnetic tape drive, or teletype required completely different low-level instructions, making programs impossible to move between machines.",
+            "In 1972, Ken Thompson and Dennis Ritchie revolutionized operating system design at Bell Labs by introducing standard streams in Unix: standard input (stdin), standard output (stdout), and standard error (stderr). Any program could read from a uniform stream of bytes, regardless of whether the source was a keyboard, an automated script, or a disk file.",
+            "In 1985, Bjarne Stroustrup adapted this stream philosophy for C++ by overloading the bitshift operators << and >>. The chevrons were chosen as intuitive flow arrows: << pushes data out to the display, while >> extracts data inward into program memory.",
+            "Source: Dennis Ritchie, 'The Evolution of the Unix Time-sharing System'; Bjarne Stroustrup, 'The Design and Evolution of C++' (Addison-Wesley, 1994)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "How cin parses stream buffers under the hood",
+          "body": [
+            "When you type in the terminal, characters accumulate in an operating system buffer until you press Enter. When your C++ program runs `cin >> value;`, the stream inspects the buffer character by character.",
+            "First, `cin` automatically skips any leading whitespace characters (spaces, tabs, and newlines). Next, it reads all consecutive characters that match the target variable's type. For an integer, it consumes digits until it encounters a non-digit character like a space or letter.",
+            "The unconsumed characters remain in the input buffer, waiting for the next input statement. This allows multiple variables to be extracted from a single input line smoothly."
+          ]
+        }
+      ]
+    },
+    "cin-stream-basics": {
+      "eyebrow": "Console extraction",
+      "title": "Reading values with cin",
+      "body": [
+        "To read data from the operator, declare a variable in memory and extract the stream contents into it using `cin >>`.",
+        "syntax: cin >> {variable};\n- cin: standard console input stream from `<iostream>`\n- >>: extraction operator — directs stream data into variable\n- variable: declared memory location where data is stored\n- ;: statement terminator — mandatory in C++",
+        "> Rules for console input:\n> 1. **Variable must be declared first.** You cannot read into a non-existent variable. Always declare its type beforehand: `int speed; cin >> speed;`.\n> 2. **Chevron direction points inward.** `cout <<` pushes data OUT to the terminal screen. `cin >>` pulls data IN to your program variables.\n> 3. **Multiple extractions in one line.** You can chain extractions: `cin >> distance >> speed;`. The stream automatically uses spaces or enters to separate values.",
+        "!> **Python habit to unlearn.** In Python, input always arrives as a string: `speed = int(input())`. In C++, you never convert input manually! The type of your variable dictates how `cin` interprets the incoming characters."
+      ],
+      "alt": "Diagram comparing stream directions: cout << pushing outward to screen vs cin >> pulling inward to variable in memory.",
+      "image": "assets/l08-stream-arrows.en.svg",
+      "compareCaptions": [
+        "Valid extraction operator >> pulls data into variable",
+        "Syntax error: insertion operator << cannot read into variable"
+      ]
+    },
+    "predict-cin-math": {
+      "title": "Predict stream calculation",
+      "task": "Given the terminal input 3 4, what will this program output?",
+      "hint": "cin >> a >> b assigns 3 to a and 4 to b. Evaluate a * b + 2 using standard operator precedence.",
+      "explain": "The extraction `cin >> a >> b` assigns `a = 3` and `b = 4`. The arithmetic expression `3 * 4 + 2` evaluates `3 * 4 = 12` first, then `12 + 2 = 14`."
+    },
+    "read-flight-params": {
+      "title": "Read mission flight parameters",
+      "task": "Configure Sigma's dispatch computer:\n1. Read `distance` and `speed` from `cin`.\n2. Calculate flight duration: `int hours = distance / speed;`.\n3. Output `DURATION: ` followed by `hours` and ` H` on a new line.",
+      "hint": "Use `cin >> distance >> speed;`, then print `\"DURATION: \" << hours << \" H\" << endl;`.",
+      "solutionNote": "With input 120 and 40, 120 / 40 yields 3 hours."
+    },
+    "cin-strings-and-whitespace": {
+      "eyebrow": "String extraction",
+      "title": "How cin handles whitespace and words",
+      "body": [
+        "You can read textual identifiers directly into a `std::string` variable using `cin >>`.",
+        "> Whitespace delimiter rule:\n> When reading text with `cin >> text;`, the stream stops reading at the very first whitespace character (space, tab, or newline). Any subsequent words remain in the input buffer!",
+        "If an operator enters `MAWRTH VALLIS`, the statement `cin >> sector;` reads only `MAWRTH`. To capture the second word into another variable, you chain extractions: `cin >> word1 >> word2;`."
+      ],
+      "compareCaptions": [
+        "Single string variable reads only first word before space",
+        "Chained extractions read two words separated by space into distinct variables"
+      ]
+    },
+    "reading-full-lines-getline": {
+      "eyebrow": "Full-line input",
+      "title": "Reading lines with spaces using getline",
+      "body": [
+        "Mission logs, target designations, and telemetry descriptions often contain spaces. To read an entire line of text until the user presses Enter, C++ provides `getline()`.",
+        "syntax: getline(cin, {target});\n- getline: standard library function that reads a full line\n- cin: input stream to read from\n- target: `std::string` variable that receives the full line\n- ;: statement terminator — mandatory in C++",
+        "> When to use which input tool:\n> 1. **Numbers (int, double).** Use `cin >> num;` — it automatically ignores leading whitespace and parses numerical digits.\n> 2. **Single words or command tags.** Use `cin >> word;` — ideal for single-token codes like `SIGMA` or `RUNWAY-1`.\n> 3. **Full names or sentences with spaces.** Use `getline(cin, text);` — reads all characters including spaces until the Enter key."
+      ],
+      "compareCaptions": [
+        "getline reads the complete line including spaces",
+        "cin >> cuts off at the first space character"
+      ]
+    },
+    "find-chevron-bug": {
+      "title": "Find the input direction bug",
+      "task": "Click on the line containing the compiler syntax error where stream direction is inverted.",
+      "hint": "Look closely at the chevrons next to cin.",
+      "explain": "Line 8 uses `cin << distance;`. The chevrons `<<` are for output with `cout`. Reading input requires the extraction operator `cin >> distance;`."
+    },
+    "fill-cin-sequence": {
+      "title": "Complete the console conversation",
+      "task": "Choose the correct stream direction operators for reading altitude and printing the target.",
+      "hint": "Input into a variable requires >>, while output to the terminal requires <<.",
+      "explain": "`cin >> altitude;` pulls input from the console into the variable, and `cout << ...` pushes text to the display."
+    },
+    "drone-dispatch-console": {
+      "title": "Drone dispatch console",
+      "task": "Write the launch dispatch program for Scout drone Sigma:\n1. Read the target sector name on the first line using `getline(cin, target);`.\n2. Read distance and speed from the second line using `cin >> distance >> speed;`.\n3. Compute flight duration: `int time = distance / speed;`.\n4. Output `TARGET: ` followed by `target`.\n5. Output `TIME: ` followed by `time` and ` H`.",
+      "hint": "Call `getline(cin, target);`, then `cin >> distance >> speed;`, calculate `time = distance / speed;`, and print both lines with `endl`.",
+      "solutionNote": "With sector 'Mawrth Vallis' and flight metrics 180 km at 60 km/h, the program outputs 3 hours."
+    },
+    "recap": {
+      "title": "Mission 8 recap: Interactive console unlocked",
+      "body": [
+        "Base IRIS has verified the dispatch console. Scout drone Sigma is now ready to receive operational coordinates and parameters interactively from mission control.",
+        "| Input Method | Syntax | Whitespace Behavior | Typical Space Role |\n| :--- | :--- | :--- | :--- |\n| `cin >> int/double` | `cin >> val;` | Skips leading whitespace, parses digits | Flight altitude, speed, coordinates |\n| `cin >> string` | `cin >> word;` | Stops at first space / newline | Call signs, status codes, protocol tags |\n| `getline()` | `getline(cin, str);` | Reads entire line including spaces | Target sectors, mission logs, names |",
+        "Congratulations on completing Block 1: Awakening (Pamodināšana)! You have mastered C++ program structure, primitive types, memory size, arithmetic operators, and console input/output. Next in Block 2 (Decisions / Lēmumi), we will unlock autonomous branching with `if` and `else` so drones can navigate unpredictable Martian terrain independently."
+      ]
+    }
+  }
+}

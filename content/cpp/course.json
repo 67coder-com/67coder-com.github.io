@@ -65,7 +65,10 @@
         {
           "n": 8,
           "slug": "cin",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         }
       ]
     },

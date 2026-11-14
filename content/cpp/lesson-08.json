@@ -1,0 +1,101 @@
+{
+  "n": 8,
+  "slug": "cin",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "operator-console-prep",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. Inside the flight telemetry and dispatch room of Mars base IRIS at dawn. In the foreground, an industrial tactical console terminal with illuminated displays showing telemetry parameters and an active prompt. Sitting attentively at the console terminal, holding a data stylus, is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Through a large reinforced panoramic observation window in the background, Scout drone Sigma rests ready on the launch pad under a starry space sky and soft amber Martian horizon. Style: minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 on the telemetry display and drone vent glow."
+    },
+    {
+      "id": "cin-stream-basics",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int speed;\ncin >> speed;\n// valid: extraction operator >> pulls input into variable",
+          "ok": true
+        },
+        {
+          "code": "int speed;\ncin << speed;\n// syntax error: invalid operands to binary expression ('istream' and 'int')",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-cin-math",
+      "kind": "predict",
+      "stdin": "3 4",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a * b + 2 << endl;\n    return 0;\n}",
+      "expected": "14",
+      "focus": "a * b + 2"
+    },
+    {
+      "id": "read-flight-params",
+      "kind": "editor",
+      "lang": "cpp",
+      "stdin": "120 40",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance;\n    int speed;\n\n    // 1. Read distance and speed from cin\n    // 2. Calculate flight duration: int hours = distance / speed;\n    // 3. Print DURATION: <hours> H\n\n    return 0;\n}",
+      "expected": "DURATION: 3 H",
+      "requires": ["cin >>", "distance / speed"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance;\n    int speed;\n\n    cin >> distance >> speed;\n    int hours = distance / speed;\n\n    cout << \"DURATION: \" << hours << \" H\" << endl;\n    return 0;\n}"
+    },
+    {
+      "id": "cin-strings-and-whitespace",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "string sector;\ncin >> sector;\n// input: \"MAWRTH VALLIS\"\n// sector becomes \"MAWRTH\" (stops at first space)",
+          "ok": true
+        },
+        {
+          "code": "string word1, word2;\ncin >> word1 >> word2;\n// input: \"MAWRTH VALLIS\"\n// word1 = \"MAWRTH\", word2 = \"VALLIS\"",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "id": "reading-full-lines-getline",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "string mission_name;\ngetline(cin, mission_name);\n// input: \"Mawrth Vallis Recon\"\n// mission_name = \"Mawrth Vallis Recon\" (reads full line)",
+          "ok": true
+        },
+        {
+          "code": "string mission_name;\ncin >> mission_name;\n// input: \"Mawrth Vallis Recon\"\n// mission_name = \"Mawrth\" (cuts off at space)",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "find-chevron-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance;\n    int speed;\n    cout << \"Enter parameters:\" << endl;\n    cin << distance;\n    cin >> speed;\n    cout << \"MISSION: \" << distance << \" KM\" << endl;\n    return 0;\n}",
+      "answerLine": 8
+    },
+    {
+      "id": "fill-cin-sequence",
+      "kind": "blanks",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude;\n    cout << \"ALTITUDE:\" << endl;\n    cin [[1]] altitude;\n    int target = altitude + 100;\n    cout [[2]] \"TARGET: \" << target << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": [">>"],
+        "2": ["<<"]
+      }
+    },
+    {
+      "id": "drone-dispatch-console",
+      "kind": "editor",
+      "lang": "cpp",
+      "stdin": "Mawrth Vallis\n180 60",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string target;\n    int distance;\n    int speed;\n\n    // 1. Read the target sector line using getline(cin, target)\n    // 2. Read distance and speed using cin\n    // 3. Calculate int time = distance / speed;\n    // 4. Print TARGET: <target> and TIME: <time> H\n\n    return 0;\n}",
+      "expected": "TARGET: Mawrth Vallis\nTIME: 3 H",
+      "requires": ["getline(cin", "distance / speed"],
+      "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string target;\n    int distance;\n    int speed;\n\n    getline(cin, target);\n    cin >> distance >> speed;\n\n    int time = distance / speed;\n\n    cout << \"TARGET: \" << target << endl;\n    cout << \"TIME: \" << time << \" H\" << endl;\n    return 0;\n}"
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

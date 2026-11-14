@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <title>C++ plūsmu virzieni: Izvade (cout) pret Ievadi (cin)</title>
+  <desc>Diagramma parāda C++ datu plūsmu virzienus. Kreisais panelis attēlo cout ar ievietošanas operatoru (&lt;&lt;), kas nosūta datus no atmiņas uz termināli. Labais panelis attēlo cin ar izgūšanas operatoru (&gt;&gt;), kas ievada datus no tastatūras programmā.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="320" rx="10" fill="#0D1117" />
+
+  <!-- Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">PLŪSMAS VIRZIENS: IZVADE (COUT &lt;&lt;) PRET IEVADI (CIN &gt;&gt;)</text>
+
+  <!-- Left Card: Output cout << -->
+  <g transform="translate(24, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#8E887D" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">IZVADE: DATI PLŪST ĀRĀ UZ EKRĀNU</text>
+    
+    <!-- Code block -->
+    <rect x="20" y="44" width="364" height="42" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="71" fill="#D8D0C2" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cout <tspan fill="#7FB3A3">&lt;&lt;</tspan> speed <tspan fill="#7FB3A3">&lt;&lt;</tspan> endl;</text>
+
+    <!-- Source: Program Variable in Memory -->
+    <rect x="20" y="112" width="150" height="64" rx="6" fill="#1E2530" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="95" y="136" text-anchor="middle" fill="#7FB3A3" font-size="11" letter-spacing="1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MAINĪGAIS ATMIŅĀ</text>
+    <text x="95" y="160" text-anchor="middle" fill="#D8D0C2" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">speed = 40</text>
+
+    <!-- Flow Arrow Pointing Left (<<) out to terminal -->
+    <g transform="translate(182, 134)">
+      <line x1="0" y1="10" x2="40" y2="10" stroke="#7FB3A3" stroke-width="2.5" />
+      <polygon points="44,10 34,5 34,15" fill="#7FB3A3" />
+      <text x="22" y="-4" text-anchor="middle" fill="#7FB3A3" font-size="14" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">&lt;&lt;</text>
+    </g>
+
+    <!-- Target: Terminal Screen -->
+    <rect x="234" y="112" width="150" height="64" rx="6" fill="#1E2530" stroke="#2A313C" stroke-width="1.5" />
+    <text x="309" y="136" text-anchor="middle" fill="#8E887D" font-size="11" letter-spacing="1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">TERMINĀĻA EKRĀNS</text>
+    <text x="309" y="160" text-anchor="middle" fill="#D8D0C2" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">40</text>
+
+    <!-- Summary note -->
+    <rect x="20" y="196" width="364" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="218" fill="#D8D0C2" font-size="13" style="font-family: var(--font-sans, Inter, sans-serif)">Ievietošanas operators <tspan fill="#7FB3A3" font-weight="bold" font-family="monospace">&lt;&lt;</tspan> virza datus <tspan fill="#7FB3A3">uz āru</tspan>.</text>
+  </g>
+
+  <!-- Right Card: Input cin >> -->
+  <g transform="translate(452, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="1.5" />
+    <text x="20" y="28" fill="#B99A61" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">IEVADE: DATI PLŪST IEKŠĀ MAINĪGAJĀ</text>
+    
+    <!-- Code block -->
+    <rect x="20" y="44" width="364" height="42" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1" />
+    <text x="35" y="71" fill="#D8D0C2" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cin <tspan fill="#B99A61">&gt;&gt;</tspan> speed;</text>
+
+    <!-- Source: Terminal Keyboard Input -->
+    <rect x="20" y="112" width="150" height="64" rx="6" fill="#1E2530" stroke="#2A313C" stroke-width="1.5" />
+    <text x="95" y="136" text-anchor="middle" fill="#8E887D" font-size="11" letter-spacing="1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">TASTATŪRAS IEVADE</text>
+    <text x="95" y="160" text-anchor="middle" fill="#D8D0C2" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">40 [Enter]</text>
+
+    <!-- Flow Arrow Pointing Right (>>) in to variable -->
+    <g transform="translate(182, 134)">
+      <line x1="0" y1="10" x2="40" y2="10" stroke="#B99A61" stroke-width="2.5" />
+      <polygon points="44,10 34,5 34,15" fill="#B99A61" />
+      <text x="22" y="-4" text-anchor="middle" fill="#B99A61" font-size="14" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">&gt;&gt;</text>
+    </g>
+
+    <!-- Target: Program Variable in Memory -->
+    <rect x="234" y="112" width="150" height="64" rx="6" fill="#1E2530" stroke="#B99A61" stroke-width="1.5" />
+    <text x="309" y="136" text-anchor="middle" fill="#B99A61" font-size="11" letter-spacing="1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MAINĪGAIS ATMIŅĀ</text>
+    <text x="309" y="160" text-anchor="middle" fill="#D8D0C2" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">speed = 40</text>
+
+    <!-- Summary note -->
+    <rect x="20" y="196" width="364" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="218" fill="#D8D0C2" font-size="13" style="font-family: var(--font-sans, Inter, sans-serif)">Izgūšanas operators <tspan fill="#B99A61" font-weight="bold" font-family="monospace">&gt;&gt;</tspan> ievada datus <tspan fill="#B99A61">iekšup</tspan>.</text>
+  </g>
+</svg>
