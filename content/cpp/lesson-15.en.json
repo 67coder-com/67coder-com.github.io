@@ -1,0 +1,110 @@
+{
+  "title": "break and continue",
+  "steps": {
+    "obstacle-detection": {
+      "eyebrow": "Dynamic flight control",
+      "title": "Obstacle avoidance: Controlling loop execution",
+      "body": [
+        "Scout drone Sigma is flying a low-altitude survey corridor inside the Mawrth Vallis gorge. Under nominal conditions, a counter loop `for` visits sectors 1 through 10 in automated succession.",
+        "However, real planetary terrain is unpredictable. A sudden canyon rockfall can obstruct the flight path, an unexpected dust vortex can blind optical navigation, or an overheating thruster can demand immediate landing.",
+        "When an emergency occurs, the drone cannot blindly continue to sectors 5, 6, and 7 waiting for the loop counter to expire. It must possess the ability to abort the remaining loop entirely.",
+        "Conversely, if one specific sector is merely shadowed by a cliff, the drone might skip scanning that single sector and immediately proceed to the next. In C++, these two real-time interventions are handled by `break` and `continue`."
+      ],
+      "archive": {
+        "title": "Reactive obstacle avoidance in autonomous planetary rovers",
+        "body": [
+          "On the Mars Curiosity and Perseverance rovers, autonomous driving software (AutoNav) runs a high-rate stereo-vision obstacle detection loop.",
+          "While evaluating potential driving arcs, the algorithm loops across prospective path vectors. If point-cloud disparity algorithms detect a hazardous boulder or drop-off on an arc, the computer does not waste processing time analyzing the rest of that dangerous path.",
+          "It uses early loop termination (`break`) to abandon the blocked arc immediately and evaluate the next corridor. Such early-exit patterns are essential in embedded aerospace systems where real-time CPU cycles are constrained."
+        ],
+        "sources": [
+          "NASA JPL, 'Autonomous Hazard Detection and Avoidance on Mars 2020'",
+          "Mark Maimone et al., 'Autonomous Navigation for Mars Exploration Rovers'"
+        ]
+      }
+    },
+    "break-in-loops": {
+      "eyebrow": "Immediate loop termination",
+      "title": "The break statement in loops",
+      "compareCaptions": [
+        "Clean early exit: break immediately halts the loop upon meeting the trigger condition",
+        "Clumsy flag logic: auxiliary boolean variable clutters condition and requires extra checks"
+      ],
+      "body": [
+        "You already encountered `break` in Chapter 11 inside `switch` statements to prevent fall-through. When placed inside a loop (`for`, `while`, or `do-while`), `break` performs an even more dramatic action:",
+        "**It immediately terminates the loop entirely!**",
+        "Execution instantly leaps past the loop's closing brace `}`, continuing with the very next statement in the program.",
+        "> **Innermost loop rule:** If loops are nested within one another, `break` only exits the **innermost** loop in which it resides. Outer enclosing loops will continue running."
+      ]
+    },
+    "predict-break-output": {
+      "eyebrow": "Loop tracing",
+      "title": "Tracing early termination",
+      "task": "What output will this program produce? Trace the counter values until the break triggers.",
+      "hint": "The loop counts from i = 1 to 6. When i reaches 4, the if condition triggers break. Does 4 get printed?",
+      "explain": "For `i = 1`, `2`, and `3`, the condition `i == 4` is false, so `123` is printed. When `i` becomes 4, the `if` condition succeeds and executes `break;`. The loop terminates immediately without printing 4, and the trailing exclamation mark `!` is output, producing `123!`."
+    },
+    "canyon-obstacle-abort": {
+      "title": "Canyon obstacle abort controller",
+      "task": "Program Scout drone Sigma's patrol route with an early obstacle abort:\n1. Read the blocked sector number `int obstacle` from `cin`.\n2. In a `for` loop for `int sector = 1` up to and including `5` (`sector <= 5`):\n3. If `sector == obstacle`, print `OBSTACLE AT SECTOR ` followed by `sector`, a newline, and immediately exit the loop with `break;`.\n4. Otherwise (`else`), print `SECTOR ` followed by `sector`, ` CLEARED`, and a newline.\n5. After the loop completes, print `PATROL ENDED` and a newline.",
+      "hint": "Use `if (sector == obstacle) { cout << \"OBSTACLE AT SECTOR \" << sector << endl; break; } else { ... }`.",
+      "solutionNote": "With obstacle at 3, sectors 1 and 2 clear successfully, sector 3 prints the obstacle alert, and break terminates the loop."
+    },
+    "continue-skip-iteration": {
+      "eyebrow": "Skipping an iteration",
+      "title": "The continue statement: Jump to next cycle",
+      "compareCaptions": [
+        "Clean guard clause: continue skips the remainder of iteration cleanly at the top",
+        "Inverted if nesting: wrapping the entire body inside an if statement creates unnecessary indentation"
+      ],
+      "body": [
+        "While `break` completely abandons the entire loop, `continue` is much gentler:",
+        "**It skips only the remainder of the CURRENT iteration!**",
+        "When `continue` is reached, execution jumps immediately to the end of the loop body for that single pass:",
+        "- In a `for` loop: execution jumps straight to the **update expression** (`i++`), tests the condition, and proceeds with the next iteration.",
+        "- In a `while` loop: execution jumps straight to the **condition check**.",
+        "!> **The while-continue trap.** If you call `continue` in a `while` loop before incrementing your counter variable, the counter is never updated, creating an infinite loop! Always ensure the counter variable is updated before `continue` runs."
+      ]
+    },
+    "predict-continue-output": {
+      "eyebrow": "Loop tracing",
+      "title": "Predicting filtered iteration output",
+      "task": "What output will this program produce? Trace which numbers are skipped by continue.",
+      "hint": "The expression i % 2 == 0 checks whether i is an even number. If even, continue skips the cout statement.",
+      "explain": "When `i` is 2 or 4, `i % 2 == 0` evaluates to true, triggering `continue;` and skipping the `cout` statement. Only odd numbers (1, 3, 5) reach the output line, producing `135`."
+    },
+    "shadow-sector-bypass": {
+      "title": "Shadow sector bypass filter",
+      "task": "Program Sigma's LiDAR scanner to skip shadowed sectors using `continue`:\n1. Read shadowed sector number `int shadow` from `cin`.\n2. In a `for` loop for `int sector = 1` up to and including `5` (`sector <= 5`):\n3. If `sector == shadow`, print `SKIPPING SHADOW SECTOR ` followed by `sector`, a newline, and skip to the next iteration with `continue;`.\n4. Print `SCANNING SECTOR ` followed by `sector` and a newline.\n5. After the loop completes, print `SCAN COMPLETE` and a newline.",
+      "hint": "Write `if (sector == shadow) { cout << \"SKIPPING SHADOW SECTOR \" << sector << endl; continue; }` followed by the regular scanning print.",
+      "solutionNote": "With shadow sector 2, sector 2 triggers the bypass and skips scanning, while sectors 1, 3, 4, and 5 are scanned."
+    },
+    "find-continue-while-trap": {
+      "title": "The while-continue infinite loop trap",
+      "task": "Click on the line causing this program to lock up in an infinite loop.",
+      "hint": "Look at line 8: when sector is 3, what does continue do? Does sector++ ever execute?",
+      "explain": "On line 8, `continue;` jumps immediately back to `while (sector <= 5)`. Because `sector++` on line 11 is skipped, `sector` remains 3 forever! The condition `3 <= 5` stays permanently true, freezing the program in an infinite loop."
+    },
+    "predict-break-vs-continue": {
+      "eyebrow": "Combined flow control",
+      "title": "Predicting combined break and continue",
+      "task": "What sequence of digits will this program output? Trace both break and continue conditions.",
+      "hint": "When i == 2, continue skips printing. When i == 5, break terminates the loop completely.",
+      "explain": "For `i = 1`, prints 1. For `i = 2`, `continue` skips printing. For `i = 3`, prints 3. For `i = 4`, prints 4. For `i = 5`, `break` halts the loop before printing 5 or 6. The output is `134`."
+    },
+    "search-target-beacon": {
+      "title": "Bonus challenge: Emergency beacon frequency scanner",
+      "task": "Search frequency channels until an emergency beacon signal is detected:\n1. Read the target beacon frequency `int target` from `cin`.\n2. In a `for` loop from `int freq = 100` up to and including `104` (`freq <= 104`):\n3. If `freq == target`, print `BEACON FOUND AT ` followed by `freq`, a newline, and terminate search with `break;`.\n4. Otherwise (`else`), print `SEARCHING ` followed by `freq` and a newline.\n5. After the loop completes, print `SEARCH SEQUENCE FINISHED` and a newline.",
+      "hint": "Use `if (freq == target) { cout << \"BEACON FOUND AT \" << freq << endl; break; } else { cout << \"SEARCHING \" << freq << endl; }`.",
+      "solutionNote": "With target 102, frequencies 100 and 101 are searched, 102 triggers the match, and break concludes the search."
+    },
+    "recap": {
+      "title": "Mission 15 summary: Loop control mastered",
+      "body": [
+        "Congratulations! You now possess full control over loops in C++. Drones Sigma and Delta can dynamically abort hazardous routes with `break` and skip unviable data sectors with `continue`.",
+        "| Statement | Effect on current loop | What executes next | Common beginner trap |\n| :--- | :--- | :--- | :--- |\n| `break;` | Immediately terminates the loop | First statement after loop closing brace `}` | Confusing with `break` in `switch` |\n| `continue;` | Skips remainder of current iteration | Loop update (`for`) or condition test (`while`) | Skipping counter increment in `while` -> freeze |",
+        "Next, in Chapter 16, awaits Block 2's grand finale: **PRAKTIKUMS: skenēšanas cikls**! We will synthesize every looping construct (`while`, `do-while`, `for`, `break`, `continue`) into a complete autonomous sector mapping mission."
+      ]
+    }
+  }
+}

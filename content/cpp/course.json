@@ -126,7 +126,10 @@
         {
           "n": 15,
           "slug": "break-continue",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 16,

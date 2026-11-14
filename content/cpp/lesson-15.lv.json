@@ -1,0 +1,110 @@
+{
+  "title": "break un continue",
+  "steps": {
+    "obstacle-detection": {
+      "eyebrow": "Dinamiskā lidojuma vadība",
+      "title": "Šķēršļu apiešana: Ciklu izpildes kontrole",
+      "body": [
+        "Izlūks Sigma veic zema augstuma izpētes lidojumu Mawrth Vallis kanjona aizā. Normālos apstākļos skaitītāja cikls `for` secīgi apseko sektorus no 1 līdz 10.",
+        "Tomēr reāls planētas reljefs ir neparedzams. Pēkšņs klinšu nogruvums var bloķēt lidojuma koridoru, putekļu virpulis var padarīt aklu optisko navigāciju, vai dzinēja pārkaršana var pieprasīt tūlītēju nosēšanos.",
+        "Ārkārtas situācijā drons nevar akli turpināt lidot uz 5., 6. un 7. sektoru, gaidot, kamēr cikla skaitītājs beigsies. Tam ir jāspēj pilnībā pārtraukt atlikušo cikla izpildi.",
+        "Un otrādi: ja viens konkrēts sektors atrodas dziļā klints ēnā, drons var izlaist tikai šī viena punkta skenēšanu un uzreiz pāriet pie nākamā. Valodā C++ šīs divas reāllaika iejaukšanās komandas nodrošina `break` un `continue`."
+      ],
+      "archive": {
+        "title": "Reaktīvā šķēršļu apiešana autonomajos Marsa pašgājējos",
+        "body": [
+          "Marsa pašgājējos Curiosity un Perseverance autonomās braukšanas sistēma (AutoNav) nepārtraukti izpilda augstas frekvences stereoredzes šķēršļu noteikšanas ciklu.",
+          "Vērtējot iespējamos kustības lokus, algoritms ciklā pārbauda katru ceļa vektoru. Ja punktu mākoņa analīze pamana bīstamu akmeni vai krauju, dators neiznieko procesora laiku bīstamā loka atlikušās daļas aprēķinam.",
+          "Tas izmanto agrīno cikla pārtraukšanu (`break`), lai nekavējoties pamestu bloķēto ceļu un pārietu pie nākamā koridora analīzes. Šāds agrīnās iziešanas princips ir kritiski svarīgs iegultajās borta sistēmās ar ierobežotiem procesora resursiem."
+        ],
+        "sources": [
+          "NASA JPL, 'Autonomous Hazard Detection and Avoidance on Mars 2020'",
+          "Mark Maimone et al., 'Autonomous Navigation for Mars Exploration Rovers'"
+        ]
+      }
+    },
+    "break-in-loops": {
+      "eyebrow": "Tūlītēja cikla pārtraukšana",
+      "title": "Komanda break ciklos",
+      "compareCaptions": [
+        "Tīra agrīnā iziešana: break nekavējoties pārtrauc ciklu, tiklīdz izpildās bīstamības nosacījums",
+        "Smagnēja karodziņu loģika: papildu bool mainīgais sarežģī nosacījumu un prasa liekas pārbaudes"
+      ],
+      "body": [
+        "Jūs jau iepazināt komandu `break` 11. nodaļā `switch` konstrukcijā, kur tā novērsa caurkritumu. Ievietota ciklā (`for`, `while` vai `do-while`), komanda `break` veic vēl nozīmīgāku darbību:",
+        "**Tā nekavējoties pilnībā pārtrauc visu ciklu!**",
+        "Izpilde tūlīt pārlec pāri cikla noslēdzošajai figūriekavai `}` uz pašu nākamo programmas komandu.",
+        "> **Iekšējā cikla likums:** Ja cikli ir ievietoti viens otrā (ligzdoti cikli), `break` pārtrauc tikai to **pašu iekšējāko** ciklu, kurā tas tieši atrodas. Ārējie cikli turpina savu darbu."
+      ]
+    },
+    "predict-break-output": {
+      "eyebrow": "Cikla gaitas izsekošana",
+      "title": "Agrīnās iziešanas prognoze",
+      "task": "Kādu izvadi dos šī programma? Izsekojiet skaitītāja vērtības, līdz nostrādā break.",
+      "hint": "Cikls skaita no i = 1 līdz 6. Kad i sasniedz 4, if nosacījums izsauc break. Vai skaitlis 4 tiek izvadīts?",
+      "explain": "Pie `i = 1`, `2` un `3` nosacījums `i == 4` ir aplams, tādēļ tiek izvadīts `123`. Kad `i` kļūst 4, `if` nosacījums ir patiess un izpilda `break;`. Cikls tūlīt beidzas bez skaitļa 4 izvadīšanas, un programma izvada izsaukuma zīmi `!`, kopā iegūstot `123!`."
+    },
+    "canyon-obstacle-abort": {
+      "title": "Kanjona šķēršļa avārijas pārtraukšana",
+      "task": "Ieprogrammējiet drona Sigma patruļas maršrutu ar avārijas pārtraukšanu pie šķēršļa:\n1. Nolasiet bloķētā sektora numuru `int obstacle` no `cin`.\n2. Ciklā `for` no `int sector = 1` līdz un ieskaitot `5` (`sector <= 5`):\n3. Ja `sector == obstacle`, izvadiet `OBSTACLE AT SECTOR `, kam seko `sector`, jauna rinda, un tūlīt izejiet no cikla ar `break;`.\n4. Citādi (`else`), izvadiet `SECTOR `, kam seko `sector`, ` CLEARED` un jauna rinda.\n5. Pēc cikla beigām izvadiet `PATROL ENDED` un jaunu rindu.",
+      "hint": "Lietojiet `if (sector == obstacle) { cout << \"OBSTACLE AT SECTOR \" << sector << endl; break; } else { ... }`.",
+      "solutionNote": "Pie šķēršļa 3. sektorā sektori 1 un 2 tiek apsekoti veiksmīgi, 3. sektors izvada trauksmi, un break noslēdz ciklu."
+    },
+    "continue-skip-iteration": {
+      "eyebrow": "Iterācijas izlaišana",
+      "title": "Komanda continue: Lēciens uz nākamo soli",
+      "compareCaptions": [
+        "Tīrs aizsardzības nosacījums: continue eleganti izlaiž atlikušo iterācijas daļu jau sākumā",
+        "Apgriezta ligzdošana: visa cikla ķermeņa ievietošana if blokā rada lieku atkāpes līmeni"
+      ],
+      "body": [
+        "Kamēr `break` pilnībā pārtrauc visu ciklu, komanda `continue` darbojas daudz saudzīgāk:",
+        "**Tā izlaiž tikai PAŠREIZĒJĀS iterācijas atlikušo daļu!**",
+        "Sasniedzot `continue`, izpilde nekavējoties pārlec uz cikla ķermeņa pašām beigām šajā konkrētajā solī:",
+        "- Ciklā `for`: izpilde pārlec uzreiz pie **soļa izteiksmes** (`i++`), pārbauda nosacījumu un turpina ar nākamo soli.",
+        "- Ciklā `while`: izpilde pārlec uzreiz pie **nosacījuma pārbaudes**.",
+        "!> **Cikla while-continue slazds.** Ja ciklā `while` izsaucat `continue` PIRMS skaitītāja palielināšanas, skaitītājs nekad netiek atjaunināts, radot bezgalīgu ciklu! Vienmēr pārliecinieties, ka mainīgais tiek izmainīts pirms `continue` izsaukuma."
+      ]
+    },
+    "predict-continue-output": {
+      "eyebrow": "Cikla gaitas izsekošana",
+      "title": "Filtrētas iterācijas prognoze",
+      "task": "Kādu izvadi dos šī programma? Izsekojiet, kuri skaitļi tiek izlaisti ar continue.",
+      "hint": "Izteiksme i % 2 == 0 pārbauda, vai i ir pāra skaitlis. Ja pāra, continue izlaiž cout komandu.",
+      "explain": "Kad `i` ir 2 vai 4, nosacījums `i % 2 == 0` ir patiess, izpildot `continue;` un izlaižot `cout` komandu. Termināli sasniedz tikai nepāra skaitļi (1, 3, 5), veidojot izvadi `135`."
+    },
+    "shadow-sector-bypass": {
+      "title": "Ēnas sektora apiešanas filtrs",
+      "task": "Ieprogrammējiet drona Sigma lidara filtru ēnas sektoru izlaišanai ar `continue`:\n1. Nolasiet ēnas sektora numuru `int shadow` no `cin`.\n2. Ciklā `for` no `int sector = 1` līdz un ieskaitot `5` (`sector <= 5`):\n3. Ja `sector == shadow`, izvadiet `SKIPPING SHADOW SECTOR `, kam seko `sector`, jauna rinda, un izlaidiet soli ar `continue;`.\n4. Izvadiet `SCANNING SECTOR `, kam seko `sector` un jauna rinda.\n5. Pēc cikla beigām izvadiet `SCAN COMPLETE` un jaunu rindu.",
+      "hint": "Rakstiet `if (sector == shadow) { cout << \"SKIPPING SHADOW SECTOR \" << sector << endl; continue; }`, kam seko parastā skenēšanas rinda.",
+      "solutionNote": "Pie ēnas sektora 2 tas tiek izlaists, bet sektori 1, 3, 4 un 5 tiek sekmīgi noskenēti."
+    },
+    "find-continue-while-trap": {
+      "title": "Cikla while-continue bezgalīgā slazda atrašana",
+      "task": "Noklikšķiniet uz rindas, kuras dēļ programma nonāk bezgalīgā ciklā.",
+      "hint": "Pārbaudiet 8. rindu: kad sector ir 3, ko dara continue? Vai sector++ rinda vispār tiek sasniegta?",
+      "explain": "8. rindā esošais `continue;` pārlec atpakaļ pie `while (sector <= 5)`. Tā kā 11. rindas komanda `sector++` tiek apieta, `sector` uz visiem laikiem paliek 3! Nosacījums `3 <= 5` ir patiess mūžīgi, iesaldējot programmu bezgalīgā ciklā."
+    },
+    "predict-break-vs-continue": {
+      "eyebrow": "Kombinēta plūsmas kontrole",
+      "title": "Kombinētu break un continue darbību prognoze",
+      "task": "Kādu ciparu virkni izvadīs programma? Izsekojiet abus nosacījumus.",
+      "hint": "Kad i == 2, continue izlaiž izvadi. Kad i == 5, break pilnībā pārtrauc ciklu.",
+      "explain": "Pie `i = 1` izvada 1. Pie `i = 2` komanda `continue` izlaiž izvadi. Pie `i = 3` izvada 3. Pie `i = 4` izvada 4. Pie `i = 5` komanda `break` aptur ciklu, pirms tiek izvadīts 5 vai 6. Rezultāts ir `134`."
+    },
+    "search-target-beacon": {
+      "title": "Papilduzdevums: Avārijas bākas frekvenču meklētājs",
+      "task": "Meklējiet frekvenču kanālus, līdz tiek uztverts avārijas bākas signāls:\n1. Nolasiet meklējamās bākas frekvenci `int target` no `cin`.\n2. Ciklā `for` no `int freq = 100` līdz un ieskaitot `104` (`freq <= 104`):\n3. Ja `freq == target`, izvadiet `BEACON FOUND AT `, kam seko `freq`, jauna rinda, un pārtrauciet meklēšanu ar `break;`.\n4. Citādi (`else`), izvadiet `SEARCHING `, kam seko `freq` un jauna rinda.\n5. Pēc cikla beigām izvadiet `SEARCH SEQUENCE FINISHED` un jaunu rindu.",
+      "hint": "Lietojiet `if (freq == target) { cout << \"BEACON FOUND AT \" << freq << endl; break; } else { cout << \"SEARCHING \" << freq << endl; }`.",
+      "solutionNote": "Meklējot 102, frekvences 100 un 101 tiek pārmeklētas, 102 uztver signālu un break noslēdz meklēšanu."
+    },
+    "recap": {
+      "title": "15. misijas kopsavilkums: Ciklu kontrole apgūta",
+      "body": [
+        "Apsveicam! Jūs esat apguvuši pilnu ciklu vadības arsenālu valodā C++. Izlūks Sigma un kartogrāfs Delta tagad spēj elastīgi reaģēt uz šķēršļiem ar `break` un apiet nederīgus datu sektorus ar `continue`.",
+        "| Komanda | Ietekme uz pašreizējo ciklu | Kas izpildās nākamais | Biežākā kļūda |\n| :--- | :--- | :--- | :--- |\n| `break;` | Nekavējoties pārtrauc visu ciklu | Pirmā komanda aiz cikla figūriekavas `}` | Sajaukšana ar break komandu switch blokā |\n| `continue;` | Izlaiž tikai tekošās iterācijas atlikumu | Cikla solis (`for`) vai nosacījuma pārbaude (`while`) | Skaitītāja maiņas izlaišana ciklā while -> iesalšana |",
+        "Nākamajā, 16. nodaļā mūs gaida 2. bloka lielais fināls: **PRAKTIKUMS: skenēšanas cikls**! Mēs apvienosim visus apgūtos ciklus (`while`, `do-while`, `for`), nosacījumus un plūsmas kontroli pilnā autonomā sektora kartēšanas misijā."
+      ]
+    }
+  }
+}
