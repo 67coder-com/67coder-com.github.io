@@ -62,7 +62,7 @@
       "body": [
         "Cikla `for` soļa izteiksme neaprobežojas tikai ar `i++`. Jūs varat skaitīt atpakaļ vai lēkt ar jebkuru soli:",
         "- **Skaitīšana atpakaļ:** `for (int i = 10; i > 0; i--)` samazina skaitītāju katrā solī, lieliski noderot starta laika atskaitei.",
-        "- **Solis par $K$:** `for (int i = 0; i <= 100; i += 20)` palielina vērtību par 20 katrā solī, noderot pakāpeniskai telemetrijas kāpņu pārbaudei.",
+        "- **Pielāgots solis (piem., +20):** `for (int i = 0; i <= 100; i += 20)` palielina vērtību par 20 katrā solī, noderot pakāpeniskai telemetrijas kāpņu pārbaudei.",
         "!> **Obligātā piešķiršana.** Soļa izteiksmei ir reāli jāmaina skaitītāja vērtība! Uzrakstot vienkārši `i + 2`, skaitlis tiek aprēķināts, bet netiek saglabāts, atstājot `i` nemainīgu un iesaldējot ciklu. Vienmēr lietojiet piešķiršanas operatorus, piemēram, `i += 2` vai `i -= 2`."
       ]
     },
@@ -102,7 +102,7 @@
       "title": "14. misijas kopsavilkums: Skaitītāja cikls apgūts",
       "body": [
         "Apsveicam! Jūs esat apguvuši ciklu `for` valodā C++. Izlūks Sigma tagad spēj veikt precīzu daudzpunktu patruļu, pakāpeniski kāpināt lidojuma augstumu un apstrādāt fiksētas datu sērijas.",
-        "| Cikla veids | Labākais pielietojums kosmosā | Sintakses anatomija | Biežākā iesācēju kļūda |\n| :--- | :--- | :--- | :--- |\n| `for` | Zināms iterāciju skaits (kontrolpunkti, datu paketes) | `(init; cond; update)` | Robežas kļūda (`<` vietā `<=`) |\n| `while` | Nezināms iterāciju skaits (gaidot sensora gatavību) | `(condition)` | Aizmirsts solis -> bezgalīgs cikls |\n| `do-while` | Garantēta $\\ge 1$ izpilde (mērījums pirms pārbaudes) | `do { } while ();` | Aizmirsts noslēdzošais semikols `;` |",
+        "| Cikla veids | Labākais pielietojums kosmosā | Sintakses anatomija | Biežākā iesācēju kļūda |\n| :--- | :--- | :--- | :--- |\n| `for` | Zināms iterāciju skaits (kontrolpunkti, datu paketes) | `(init; cond; update)` | Robežas kļūda (`<` vietā `<=`) |\n| `while` | Nezināms iterāciju skaits (gaidot sensora gatavību) | `(condition)` | Aizmirsts solis -> bezgalīgs cikls |\n| `do-while` | Garantēta ≥ 1 izpilde (mērījums pirms pārbaudes) | `do { } while ();` | Aizmirsts noslēdzošais semikols `;` |",
         "Kas notiek, ja 10 kontrolpunktu lidojuma vidū tuvuma sensors pēkšņi pamana stāvu klints sienu tieši priekšā? Mums ir nekavējoties jāpārtrauc maršruts, negaidot, kamēr skaitītājs sasniegs 10!",
         "15. nodaļā mēs apgūsim cikla vadības komandas: `break` un `continue` — iegūstot pilnīgu reāllaika kontroli pār jebkuru lidojuma ciklu."
       ]

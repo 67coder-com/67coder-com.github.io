@@ -62,7 +62,7 @@
       "body": [
         "The update expression in a `for` loop is not limited to `i++`. You can decrement or step by arbitrary increments:",
         "- **Counting down:** `for (int i = 10; i > 0; i--)` decrements on each pass, ideal for launch countdowns.",
-        "- **Stepping by $K$:** `for (int i = 0; i <= 100; i += 20)` advances by 20 on each iteration, ideal for stepped telemetry ladders.",
+        "- **Custom step (e.g. +20):** `for (int i = 0; i <= 100; i += 20)` advances by 20 on each iteration, ideal for stepped telemetry ladders.",
         "!> **Assignment requirement.** The update expression must actually modify the counter variable! Writing `i + 2` simply computes a number without storing it, leaving `i` unchanged and locking the loop in an infinite freeze. Always use assignment operators like `i += 2` or `i -= 2`."
       ]
     },
@@ -102,7 +102,7 @@
       "title": "Mission 14 summary: Counter loops mastered",
       "body": [
         "Congratulations! You have mastered the `for` loop in C++. Scout drone Sigma can now traverse multi-waypoint patrol corridors, execute stepped climb profiles, and batch-process fixed arrays of telemetry.",
-        "| Loop type | Best aerospace application | Syntax anatomy | Typical beginner trap |\n| :--- | :--- | :--- | :--- |\n| `for` | Known iteration count (waypoints, batches) | `(init; cond; update)` | Off-by-one (`<` vs `<=`) |\n| `while` | Unknown count (waiting for sensor readiness) | `(condition)` | Forgetting update -> freeze |\n| `do-while` | Guaranteed $\\ge 1$ execution (sampling before test) | `do { } while ();` | Omitting trailing semicolon `;` |",
+        "| Loop type | Best aerospace application | Syntax anatomy | Typical beginner trap |\n| :--- | :--- | :--- | :--- |\n| `for` | Known iteration count (waypoints, batches) | `(init; cond; update)` | Off-by-one (`<` vs `<=`) |\n| `while` | Unknown count (waiting for sensor readiness) | `(condition)` | Forgetting update -> freeze |\n| `do-while` | Guaranteed ≥ 1 execution (sampling before test) | `do { } while ();` | Omitting trailing semicolon `;` |",
         "What happens if during a 10-waypoint flight, a proximity sensor suddenly detects a jagged rock wall directly ahead? We must immediately abort the remaining route without waiting for the counter to reach 10!",
         "In Chapter 15, we unlock loop control statements: `break` and `continue` — granting total real-time control over executing loops."
       ]
