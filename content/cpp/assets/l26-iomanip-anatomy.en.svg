@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad26" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="100%" stop-color="#141B26"/>
+    </linearGradient>
+    <linearGradient id="headerGrad26" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#D1B784"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="840" height="440" rx="12" fill="url(#bgGrad26)" stroke="#232E3F" stroke-width="2"/>
+
+  <!-- Title Banner -->
+  <text x="40" y="44" fill="url(#headerGrad26)" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="1.2">C++ &lt;iomanip&gt; STREAM FORMATTING ARCHITECTURE</text>
+  <text x="40" y="68" fill="#8E9DAE" font-family="system-ui, sans-serif" font-size="13">Controlling column widths, field alignments, decimal rounding, and sticky vs single-shot stream states</text>
+
+  <!-- Section 1: Field Width & Alignment (Left vs Right) -->
+  <g transform="translate(40, 95)">
+    <rect width="365" height="155" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="365" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#D1B784" font-family="monospace" font-size="13" font-weight="bold">1. COLUMN WIDTH: setw(8)</text>
+
+    <!-- Right Alignment (Default) -->
+    <text x="14" y="54" fill="#8E9DAE" font-family="sans-serif" font-size="12">Default / right aligned:</text>
+    <text x="14" y="72" fill="#7FB3A3" font-family="monospace" font-size="11">cout &lt;&lt; right &lt;&lt; setw(8) &lt;&lt; 42.5;</text>
+    
+    <!-- Cells row 1 -->
+    <g transform="translate(14, 80)">
+      <!-- 8 cells of 22px each -->
+      <rect x="0" y="0" width="22" height="24" fill="#1C2433" stroke="#32425A"/>
+      <rect x="23" y="0" width="22" height="24" fill="#1C2433" stroke="#32425A"/>
+      <rect x="46" y="0" width="22" height="24" fill="#1C2433" stroke="#32425A"/>
+      <rect x="69" y="0" width="22" height="24" fill="#1C2433" stroke="#32425A"/>
+      <rect x="92" y="0" width="22" height="24" fill="#243428" stroke="#3F6B60"/>
+      <text x="103" y="17" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">4</text>
+      <rect x="115" y="0" width="22" height="24" fill="#243428" stroke="#3F6B60"/>
+      <text x="126" y="17" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">2</text>
+      <rect x="138" y="0" width="22" height="24" fill="#243428" stroke="#3F6B60"/>
+      <text x="149" y="17" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">.</text>
+      <rect x="161" y="0" width="22" height="24" fill="#243428" stroke="#3F6B60"/>
+      <text x="172" y="17" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">5</text>
+      <text x="195" y="17" fill="#6B7A99" font-family="sans-serif" font-size="11">← padded on left</text>
+    </g>
+
+    <!-- Left Alignment -->
+    <text x="14" y="122" fill="#8E9DAE" font-family="sans-serif" font-size="12">Left aligned:</text>
+    <text x="14" y="138" fill="#7FB3A3" font-family="monospace" font-size="11">cout &lt;&lt; left &lt;&lt; setw(8) &lt;&lt; 42.5;</text>
+  </g>
+
+  <!-- Section 2: Floating Point Precision (fixed vs scientific) -->
+  <g transform="translate(435, 95)">
+    <rect width="365" height="155" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="365" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold">2. PRECISION: fixed + setprecision(2)</text>
+
+    <text x="14" y="54" fill="#E08272" font-family="sans-serif" font-size="12">WITHOUT fixed (counts significant digits!):</text>
+    <text x="14" y="70" fill="#E08272" font-family="monospace" font-size="11">cout &lt;&lt; setprecision(2) &lt;&lt; 12.3456; // "12"</text>
+
+    <line x1="14" y1="84" x2="350" y2="84" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="14" y="104" fill="#7FB3A3" font-family="sans-serif" font-size="12">WITH fixed (exact digits after decimal):</text>
+    <text x="14" y="122" fill="#D1B784" font-family="monospace" font-size="12">cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; 12.3456;</text>
+    <rect x="14" y="128" width="130" height="20" rx="4" fill="#172A28" stroke="#3F6B60" stroke-width="1"/>
+    <text x="24" y="143" fill="#7FB3A3" font-family="monospace" font-size="12" font-weight="bold">Output: "12.35"</text>
+  </g>
+
+  <!-- Section 3: Stream Persistence Rules -->
+  <g transform="translate(40, 270)">
+    <rect width="760" height="140" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="760" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#E4DCDB" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">3. CRITICAL RULE: PERSISTENT ("STICKY") VS SINGLE-SHOT MANIPULATORS</text>
+
+    <g transform="translate(20, 48)">
+      <!-- Single Shot Card -->
+      <rect width="345" height="74" rx="6" fill="#2E1B1D" stroke="#D9634D" stroke-width="1.5"/>
+      <text x="14" y="22" fill="#F09B8B" font-family="monospace" font-size="13" font-weight="bold">SINGLE-SHOT: setw(N)</text>
+      <text x="14" y="42" fill="#E4DCDB" font-family="sans-serif" font-size="11">Only affects the IMMEDIATE NEXT variable!</text>
+      <text x="14" y="60" fill="#D8D0C2" font-family="monospace" font-size="11">cout &lt;&lt; setw(5) &lt;&lt; 1 &lt;&lt; 2; // "    12"</text>
+    </g>
+
+    <g transform="translate(395, 48)">
+      <!-- Sticky Card -->
+      <rect width="345" height="74" rx="6" fill="#172A28" stroke="#3F6B60" stroke-width="1.5"/>
+      <text x="14" y="22" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold">STICKY: fixed, left, right, setprecision()</text>
+      <text x="14" y="42" fill="#E4DCDB" font-family="sans-serif" font-size="11">Stays active for ALL subsequent outputs until changed!</text>
+      <text x="14" y="60" fill="#D1B784" font-family="monospace" font-size="11">cout &lt;&lt; fixed &lt;&lt; setprecision(1); // persists</text>
+    </g>
+  </g>
+</svg>

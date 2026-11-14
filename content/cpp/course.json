@@ -224,7 +224,10 @@
         {
           "n": 26,
           "slug": "iomanip",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 27,

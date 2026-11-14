@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <!-- Sky & Atmosphere Gradients -->
+    <linearGradient id="martianSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141824"/>
+      <stop offset="50%" stop-color="#2D1E24"/>
+      <stop offset="85%" stop-color="#8C4B33"/>
+      <stop offset="100%" stop-color="#D17B49"/>
+    </linearGradient>
+
+    <!-- Cockpit Interior -->
+    <linearGradient id="cockpitHull" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E121A"/>
+      <stop offset="60%" stop-color="#151A24"/>
+      <stop offset="100%" stop-color="#080B10"/>
+    </linearGradient>
+
+    <!-- Hologram Glow Gradients -->
+    <linearGradient id="holoAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#E5C78A" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <linearGradient id="holoCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4C9482" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7FB3A3" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <linearGradient id="hologramPlate" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1C2E35" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#121D24" stop-opacity="0.88"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outside Martian Panoramic Window (Background) -->
+  <rect x="0" y="0" width="960" height="540" fill="url(#martianSky)"/>
+
+  <!-- Distant Martian Canyons & Crater Ridges -->
+  <path d="M 0 340 L 80 310 L 190 325 L 340 285 L 460 305 L 610 270 L 760 315 L 890 290 L 960 305 L 960 540 L 0 540 Z" fill="#4A2019" opacity="0.9"/>
+  <path d="M 0 375 L 120 340 L 260 360 L 410 325 L 580 350 L 730 320 L 870 345 L 960 335 L 960 540 L 0 540 Z" fill="#2E1310"/>
+
+  <!-- Setting Mars Sun -->
+  <circle cx="560" cy="240" r="32" fill="#FFE5A3" opacity="0.9"/>
+  <circle cx="560" cy="240" r="65" fill="#FFC466" opacity="0.25" filter="url(#neonGlow)"/>
+
+  <!-- Cockpit Structural Frame & Windows -->
+  <path d="M 0 0 L 960 0 L 960 540 L 0 540 Z M 60 45 L 900 45 L 900 410 L 60 410 Z" fill="url(#cockpitHull)"/>
+  <!-- Window Pillars -->
+  <line x1="310" y1="45" x2="280" y2="410" stroke="#1D2433" stroke-width="12"/>
+  <line x1="650" y1="45" x2="680" y2="410" stroke="#1D2433" stroke-width="12"/>
+
+  <!-- Lower Avionics Desk Console -->
+  <polygon points="0,420 960,420 960,540 0,540" fill="#10151E"/>
+  <polygon points="60,420 900,420 940,540 20,540" fill="#161C27" stroke="#253040" stroke-width="2"/>
+
+  <!-- Holographic Flight Telemetry Table (Mid-Air Display) -->
+  <!-- Floating angled panel -->
+  <g transform="translate(140, 110)">
+    <!-- Base Plate -->
+    <rect x="0" y="0" width="460" height="270" rx="12" fill="url(#hologramPlate)" stroke="#4A7572" stroke-width="1.8" filter="url(#neonGlow)"/>
+
+    <!-- Header Grid Line -->
+    <rect x="18" y="18" width="424" height="34" rx="6" fill="#1C383D" stroke="#5E998E" stroke-width="1"/>
+    
+    <!-- Abstract Header Indicators (No Letters) -->
+    <rect x="35" y="30" width="45" height="10" rx="3" fill="#D1B784"/>
+    <rect x="140" y="30" width="65" height="10" rx="3" fill="#7FB3A3"/>
+    <rect x="260" y="30" width="60" height="10" rx="3" fill="#7FB3A3"/>
+    <rect x="370" y="30" width="50" height="10" rx="3" fill="#D1B784"/>
+
+    <!-- Row 1 -->
+    <rect x="18" y="64" width="424" height="38" rx="4" fill="#122329" stroke="#2B464A" stroke-width="0.8"/>
+    <rect x="35" y="78" width="55" height="9" rx="2" fill="#E4DCDB" opacity="0.85"/>
+    <rect x="145" y="76" width="40" height="13" rx="3" fill="#B99A61"/>
+    <rect x="255" y="78" width="65" height="9" rx="2" fill="#7FB3A3" opacity="0.9"/>
+    <!-- Level Bar Gauge -->
+    <rect x="360" y="78" width="65" height="9" rx="4" fill="#1F3635"/>
+    <rect x="360" y="78" width="52" height="9" rx="4" fill="#7FB3A3"/>
+
+    <!-- Row 2 -->
+    <rect x="18" y="112" width="424" height="38" rx="4" fill="#122329" stroke="#2B464A" stroke-width="0.8"/>
+    <rect x="35" y="126" width="65" height="9" rx="2" fill="#E4DCDB" opacity="0.85"/>
+    <rect x="145" y="124" width="40" height="13" rx="3" fill="#B99A61"/>
+    <rect x="255" y="126" width="50" height="9" rx="2" fill="#7FB3A3" opacity="0.9"/>
+    <rect x="360" y="126" width="65" height="9" rx="4" fill="#1F3635"/>
+    <rect x="360" y="126" width="38" height="9" rx="4" fill="#D1B784"/>
+
+    <!-- Row 3 -->
+    <rect x="18" y="160" width="424" height="38" rx="4" fill="#122329" stroke="#2B464A" stroke-width="0.8"/>
+    <rect x="35" y="174" width="48" height="9" rx="2" fill="#E4DCDB" opacity="0.85"/>
+    <rect x="145" y="172" width="40" height="13" rx="3" fill="#B99A61"/>
+    <rect x="255" y="174" width="70" height="9" rx="2" fill="#7FB3A3" opacity="0.9"/>
+    <rect x="360" y="174" width="65" height="9" rx="4" fill="#1F3635"/>
+    <rect x="360" y="174" width="60" height="9" rx="4" fill="#7FB3A3"/>
+
+    <!-- Row 4 (Footer Summary) -->
+    <rect x="18" y="208" width="424" height="44" rx="6" fill="#193339" stroke="#487870" stroke-width="1.2"/>
+    <rect x="35" y="224" width="75" height="12" rx="3" fill="#D1B784"/>
+    <circle cx="380" cy="230" r="7" fill="#7FB3A3"/>
+    <circle cx="405" cy="230" r="7" fill="#B99A61"/>
+  </g>
+
+  <!-- Holographic Projector Emitter Base on Desk -->
+  <ellipse cx="370" cy="425" rx="140" ry="24" fill="#182A32" stroke="#4F857D" stroke-width="2"/>
+  <ellipse cx="370" cy="425" rx="90" ry="14" fill="#2E5351" opacity="0.6"/>
+  <!-- Light beam rays connecting projector to hologram -->
+  <polygon points="280,425 460,425 580,380 160,380" fill="url(#holoCyan)" opacity="0.15"/>
+
+  <!-- Robot Mascot IRIS [ o o ] -->
+  <g transform="translate(690, 260)">
+    <!-- Shadow -->
+    <ellipse cx="65" cy="180" rx="55" ry="16" fill="#07090D" opacity="0.8"/>
+
+    <!-- Mascot Torso / Chassis -->
+    <rect x="25" y="80" width="80" height="85" rx="16" fill="#1C2433" stroke="#374863" stroke-width="2.5"/>
+    <!-- Chest Badge Meter -->
+    <rect x="42" y="100" width="46" height="24" rx="6" fill="#0D131D" stroke="#2B3A52" stroke-width="1.5"/>
+    <circle cx="53" cy="112" r="4" fill="#7FB3A3"/>
+    <circle cx="65" cy="112" r="4" fill="#D1B784"/>
+    <circle cx="77" cy="112" r="4" fill="#7FB3A3"/>
+
+    <!-- Neck Connector -->
+    <rect x="52" y="65" width="26" height="18" rx="4" fill="#2B364A"/>
+
+    <!-- Mascot Head (Rounded Cube) -->
+    <rect x="10" y="0" width="110" height="72" rx="22" fill="#242F42" stroke="#465A7B" stroke-width="3"/>
+    
+    <!-- Visor Screen -->
+    <rect x="22" y="14" width="86" height="44" rx="14" fill="#0A0E17" stroke="#1F2A3D" stroke-width="2"/>
+
+    <!-- Characteristic Horizontal Pill Eyes [ o o ] -->
+    <rect x="36" y="26" width="22" height="18" rx="8" fill="#7FB3A3" filter="url(#neonGlow)"/>
+    <rect x="72" y="26" width="22" height="18" rx="8" fill="#7FB3A3" filter="url(#neonGlow)"/>
+    <!-- Pupillary Sparkles -->
+    <circle cx="44" cy="33" r="3" fill="#FFFFFF"/>
+    <circle cx="80" cy="33" r="3" fill="#FFFFFF"/>
+
+    <!-- Antenna / Sensor Rod -->
+    <line x1="65" y1="0" x2="65" y2="-22" stroke="#465A7B" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="65" cy="-26" r="6" fill="#D1B784" filter="url(#neonGlow)"/>
+
+    <!-- Left Arm gesturing towards hologram -->
+    <path d="M 25 105 Q -25 120 -40 85" fill="none" stroke="#2B364A" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="-42" cy="85" r="7" fill="#7FB3A3"/>
+  </g>
+</svg>
