@@ -1,0 +1,111 @@
+{
+  "title": "Cikls for",
+  "steps": {
+    "why-for-loop": {
+      "eyebrow": "Noteikta navigācija",
+      "title": "Koordinātu apsekošana: Nepieciešamība pēc skaitītāja cikla",
+      "body": [
+        "Diagnostika ir pabeigta, un dzinēju sistēmas ziņo par normālu stāvokli. Izlūks Sigma paceļas Marsa debesīs virs Mawrth Vallis, lai veiktu automātisku aerofotografēšanas misiju.",
+        "Borta datorā ir ielādēts precīzs lidojuma plāns ar kontrolpunktu koordinātām. Uzdevums nav bezgalīga gaidīšana: Sigmai ir stingrā secībā jāapmeklē tieši 10 kontrolpunkti, pirms tā atgriežas bāzē.",
+        "Lai gan cikls `while` spēj darboties kā skaitītājs, tas prasa daudz lieku darbību: mainīgā izveidošanu pirms cikla, nosacījumu iekavās un obligātu atcerēšanos palielināt skaitītāju cikla ķermenī.",
+        "Ja aizmirstat skaitītāju palielināt, programma iesalst. Ja mainīgo izveidojat ārpusē, tas piesārņo atmiņu. Situācijām, kad atkārtojumu skaits ir zināms iepriekš, valodā C++ ir paredzēts skaitītāja cikls: `for`."
+      ],
+      "archive": {
+        "title": "Deterministiska kontrolpunktu navigācija borta datoros",
+        "body": [
+          "Mūsdienu aviācijas un dronu lidojuma vadības sistēmās (FMS — Flight Management System) maršrutus modelē kā diskrētu navigācijas kontrolpunktu (waypoint) sarakstu ar platuma, garuma un mērķa augstuma koordinātām.",
+          "Automātiskās kartēšanas laikā borta datori apstrādā punktus ar stingru determinismu: aprēķina tuvošanās rādiusu, novirzes leņķi un reģistrē atmosfēras mērījumus katrā atsevišķā punktā.",
+          "Kosmonautikas borta programmās skaitītāja cikls (`for`) ir zelta standarts, jo visi trīs iterācijas parametri — inicializācija, beigu nosacījums un skaitītāja solis — atrodas vienuviet vienā pārskatāmā rindā, novēršot aizmirstus soļus un bezgalīgus ciklus."
+        ],
+        "sources": [
+          "FAA, 'Advanced Avionics Handbook' (FAA-H-8083-6)",
+          "NASA Ames Research Center, 'Autonomous Flight Management for Unmanned Aircraft Systems'"
+        ]
+      }
+    },
+    "for-syntax-and-parts": {
+      "eyebrow": "Skaitītāja cikla anatomija",
+      "title": "Cikls for: Sintakse un darbības mehānisms",
+      "compareCaptions": [
+        "Kompakts for cikls: inicializācija, nosacījums un solis apvienoti vienā pārskatāmā galvenē",
+        "Izkliedēts while cikls: skaitītājs noplūst ārējā atmiņā un tā maiņa ir atdalīta no pārbaudes"
+      ],
+      "body": [
+        "syntax: for ({init}; {condition}; {update}) { {body} }\n- init: izveido un inicializē skaitītāju; izpildās VIENU REIZI pirms cikla sākuma\n- condition: pārbauda PIRMS katras iterācijas; ja aplams, cikls beidzas\n- update: izmaina skaitītāju PĒC katras iterācijas\n- body: komandu bloks, ko izpilda katrā solī",
+        "Cikla `for` galvene iekavās apvieno trīs vadības izteiksmes, ko atdala divi semikoli `;`:",
+        "1. **Inicializācija (`int i = 0`):** Izpildās precīzi vienu reizi, ieejot ciklā.",
+        "2. **Nosacījums (`i < 5`):** Pārbauda pirms katras iterācijas. Ja patiess, izpildās ķermenis; ja aplams, cikls noslēdzas.",
+        "3. **Solis (`i++`):** Automātiski izpildās tūlīt pēc cikla ķermeņa pabeigšanas, pirms nākamās nosacījuma pārbaudes.",
+        "> **Darbības apgabala likums:** Ja mainīgais ir deklarēts cikla galvenē (`int i = 0`), tas eksistē **tikai un vienīgi** šī cikla iekšienē! Tiklīdz cikls beidzas, mainīgais `i` tiek dzēsts no atmiņas un nevar nejauši sabojāt turpmāko programmas kodu."
+      ]
+    },
+    "predict-for-output": {
+      "eyebrow": "Cikla gaitas izsekošana",
+      "title": "Skaitītāja reizināšanas prognoze",
+      "task": "Kādu izvadi dos šī programma? Izsekojiet mainīgā i vērtības katrā iterācijā.",
+      "hint": "Skaitītājs i sākas ar 1 un palielinās par 1, kamēr i <= 4. Katrā solī tas izvada i * 10 un atstarpi.",
+      "explain": "Cikls izpildās 4 reizes: pie `i = 1` izvada `10 `, pie `i = 2` izvada `20 `, pie `i = 3` izvada `30 `, un pie `i = 4` izvada `40 `. Kad `i` kļūst 5, nosacījums `5 <= 4` kļūst aplams (false) un cikls beidzas."
+    },
+    "waypoint-surveyor": {
+      "title": "Kontrolpunktu maršruta reģistrators",
+      "task": "Ieprogrammējiet drona Sigma kontrolpunktu fiksatoru ar ciklu `for`:\n1. Nolasiet kopējo kontrolpunktu skaitu `int n` no `cin`.\n2. Ciklā `for` no `int i = 1` līdz un ieskaitot `n` (`i <= n`), ar soli `i++`: izvadiet `WAYPOINT #`, kam seko `i` un jauna rinda.\n3. Pēc cikla beigām izvadiet `ROUTE COMPLETE` un jaunu rindu.",
+      "hint": "Rakstiet `for (int i = 1; i <= n; i++) { cout << \"WAYPOINT #\" << i << endl; }`, kam seko noslēguma ziņojums.",
+      "solutionNote": "Pie ievades 3 cikls izpildās vērtībām i = 1, 2 un 3, izvadot trīs punktu paziņojumus un pēc tam ROUTE COMPLETE."
+    },
+    "counting-down-and-steps": {
+      "eyebrow": "Pielāgoti soļi",
+      "title": "Atpakaļskaitīšana un pielāgots solis",
+      "compareCaptions": [
+        "Korekta vērtības samazināšana: saliktais piešķiršanas operators i -= 2 atjaunina skaitītāju",
+        "Kļūda bez piešķiršanas: izteiksme i - 2 aprēķina vērtību, bet nesaglabā to atpakaļ mainīgajā i"
+      ],
+      "body": [
+        "Cikla `for` soļa izteiksme neaprobežojas tikai ar `i++`. Jūs varat skaitīt atpakaļ vai lēkt ar jebkuru soli:",
+        "- **Skaitīšana atpakaļ:** `for (int i = 10; i > 0; i--)` samazina skaitītāju katrā solī, lieliski noderot starta laika atskaitei.",
+        "- **Solis par $K$:** `for (int i = 0; i <= 100; i += 20)` palielina vērtību par 20 katrā solī, noderot pakāpeniskai telemetrijas kāpņu pārbaudei.",
+        "!> **Obligātā piešķiršana.** Soļa izteiksmei ir reāli jāmaina skaitītāja vērtība! Uzrakstot vienkārši `i + 2`, skaitlis tiek aprēķināts, bet netiek saglabāts, atstājot `i` nemainīgu un iesaldējot ciklu. Vienmēr lietojiet piešķiršanas operatorus, piemēram, `i += 2` vai `i -= 2`."
+      ]
+    },
+    "predict-countdown": {
+      "eyebrow": "Reversā iterācija",
+      "title": "Starta laika atskaites prognoze",
+      "task": "Kādu tekstu izvadīs šī programma? Rūpīgi izsekojiet atskaites vērtības.",
+      "hint": "Skaitītājs t sākas ar 3 un samazinās ar t--, kamēr t > 0. Kas notiek, kad t sasniedz 0?",
+      "explain": "Skaitītājs izvada 3, 2 un 1. Kad `t` kļūst 0, nosacījums `0 > 0` ir aplams (false). Cikls beidzas, un programma tūlīt izvada `GO`, kopā veidojot tekstu `321GO`."
+    },
+    "altitude-stepper": {
+      "title": "Pakāpeniskās augstuma uzņemšanas kontrolieris",
+      "task": "Ieprogrammējiet drona Sigma pakāpenisko pacelšanos:\n1. Nolasiet sākuma augstumu `int start` un maksimālo augstumu `int max_alt` no `cin`.\n2. Ciklā `for`, sākot ar `int alt = start`, kamēr `alt <= max_alt`, ar soli `alt += 20`: izvadiet `ALTITUDE: `, kam seko `alt` un jauna rinda.\n3. Pēc cikla beigām izvadiet `LEVEL FLIGHT ESTABLISHED` un jaunu rindu.",
+      "hint": "Rakstiet `for (int alt = start; alt <= max_alt; alt += 20) { cout << \"ALTITUDE: \" << alt << endl; }`.",
+      "solutionNote": "Pie ievades 20 un 60 augstums pakāpeniski pieaug caur 20, 40 un 60, pirms tiek izvadīts paziņojums par horizontālu lidojumu."
+    },
+    "find-fencepost-bug": {
+      "title": "Žoga staba kļūda: Robežas audits",
+      "task": "Noklikšķiniet uz rindas, kurā viena simbola kļūda salīdzināšanā liek dronam izlaist pēdējo kontrolpunktu.",
+      "hint": "Pārbaudiet 7. rindu: cikls sākas ar i = 1 un pārbauda i < waypoints. Kas notiek, kad i sasniedz 5?",
+      "explain": "7. rindā rakstīts `for (int i = 1; i < waypoints; i++)`. Tā kā izmantots `<`, nevis `<=`, pie vērtības 5 cikls pārtrauc darbu, un 5. sektors netiek apsekots vispār! Šo klasisko kļūdu sauc par žoga staba kļūdu (Fencepost error jeb Off-by-one). Pareizs nosacījums ir `i <= waypoints`."
+    },
+    "predict-scope-leak": {
+      "eyebrow": "Darbības apgabals",
+      "title": "Akumulatora mainīgā redzamība",
+      "task": "Kādu skaitli izvadīs šī programma? Izsekojiet soļu vērtību uzkrāšanu.",
+      "hint": "total ir deklarēts pirms cikla ar vērtību 0. Cikls izpildās pie step = 1, 2, 3, pieskaitot katru vērtību pie total.",
+      "explain": "Cikls izpildās 3 reizes: `total` uzkrāj 0 + 1 + 2 + 3 = 6. Tā kā `total` tika deklarēts pirms cikla, tā vērtība saglabājas arī pēc cikla beigām un tiek izvadīta terminālī."
+    },
+    "solar-radiation-sum": {
+      "title": "Papilduzdevums: Saules radiācijas akumulators",
+      "task": "Uzkrājiet fiksētas telemetrijas mērījumu sērijas summu:\n1. Nolasiet mērījumu skaitu `int count` no `cin`.\n2. Definējiet akumulatoru `int sum = 0;`.\n3. Ciklā `for` no `int i = 0` līdz `i < count`: nolasiet `int reading` ar `cin >> reading;` un pieskaitiet to pie `sum`.\n4. Pēc cikla beigām izvadiet `TOTAL RADIATION: `, kam seko `sum` un jauna rinda.",
+      "hint": "Lietojiet `for (int i = 0; i < count; i++) { int reading; cin >> reading; sum += reading; }`.",
+      "solutionNote": "Pie skaita 4 un vērtībām 15 20 25 10 cikls saskaita 4 mērījumus, iegūst 70 un izvada TOTAL RADIATION: 70."
+    },
+    "recap": {
+      "title": "14. misijas kopsavilkums: Skaitītāja cikls apgūts",
+      "body": [
+        "Apsveicam! Jūs esat apguvuši ciklu `for` valodā C++. Izlūks Sigma tagad spēj veikt precīzu daudzpunktu patruļu, pakāpeniski kāpināt lidojuma augstumu un apstrādāt fiksētas datu sērijas.",
+        "| Cikla veids | Labākais pielietojums kosmosā | Sintakses anatomija | Biežākā iesācēju kļūda |\n| :--- | :--- | :--- | :--- |\n| `for` | Zināms iterāciju skaits (kontrolpunkti, datu paketes) | `(init; cond; update)` | Robežas kļūda (`<` vietā `<=`) |\n| `while` | Nezināms iterāciju skaits (gaidot sensora gatavību) | `(condition)` | Aizmirsts solis -> bezgalīgs cikls |\n| `do-while` | Garantēta $\\ge 1$ izpilde (mērījums pirms pārbaudes) | `do { } while ();` | Aizmirsts noslēdzošais semikols `;` |",
+        "Kas notiek, ja 10 kontrolpunktu lidojuma vidū tuvuma sensors pēkšņi pamana stāvu klints sienu tieši priekšā? Mums ir nekavējoties jāpārtrauc maršruts, negaidot, kamēr skaitītājs sasniegs 10!",
+        "15. nodaļā mēs apgūsim cikla vadības komandas: `break` un `continue` — iegūstot pilnīgu reāllaika kontroli pār jebkuru lidojuma ciklu."
+      ]
+    }
+  }
+}

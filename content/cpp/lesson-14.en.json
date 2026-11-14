@@ -1,0 +1,111 @@
+{
+  "title": "The for loop",
+  "steps": {
+    "why-for-loop": {
+      "eyebrow": "Determined navigation",
+      "title": "Surveying coordinates: The need for a counter loop",
+      "body": [
+        "Diagnostics are complete and propulsion systems report nominal status. Scout drone Sigma lifts off into the Martian sky above Mawrth Vallis to execute an automated aerial survey.",
+        "The flight computer holds an ordered flight plan consisting of exact waypoint coordinates. The objective is not an open-ended wait; rather, Sigma must visit precisely 10 waypoints in strict sequence before returning to the dock.",
+        "While a `while` loop can simulate counters, it requires manual setup: declaring a variable before the loop, writing a condition in parentheses, and remembering to manually increment the counter inside the body.",
+        "If you forget to increment, the program freezes. If you declare variables outside, they clutter global memory. For situations where the number of repetitions is known in advance, C++ provides the counter loop: `for`."
+      ],
+      "archive": {
+        "title": "Deterministic waypoint navigation in flight computers",
+        "body": [
+          "In modern avionics and UAV flight management systems (FMS), flight routes are modeled as discrete sequences of navigational waypoints (fixes) defined by latitude, longitude, and target altitude.",
+          "During automated survey legs, flight computers iterate through waypoints with strict determinism: evaluating proximity spheres, calculating drift angles, and logging atmospheric data at each waypoint.",
+          "Counter loops (`for`) are universally preferred in aerospace mission routines because all three iteration parameters — initialization, termination condition, and stepping increment — are colocated in a single, auditable header line, preventing omitted counter updates and eliminating infinite loops."
+        ],
+        "sources": [
+          "FAA, 'Advanced Avionics Handbook' (FAA-H-8083-6)",
+          "NASA Ames Research Center, 'Autonomous Flight Management for Unmanned Aircraft Systems'"
+        ]
+      }
+    },
+    "for-syntax-and-parts": {
+      "eyebrow": "Counter loop anatomy",
+      "title": "The for loop: Syntax and mechanics",
+      "compareCaptions": [
+        "Self-contained for loop: initialization, condition, and increment packaged cleanly in one header",
+        "Scattered while loop: counter variable leaks into outer scope and update is separated from condition"
+      ],
+      "body": [
+        "syntax: for ({init}; {condition}; {update}) { {body} }\n- init: creates and initializes counter variable; runs ONCE before first iteration\n- condition: tested BEFORE every iteration; if false, loop terminates\n- update: modifies counter variable AFTER every iteration\n- body: statement block executed during each iteration",
+        "The `for` loop header packs three critical control expressions between its parentheses, separated by two semicolons `;`:",
+        "1. **Initialization (`int i = 0`):** Executed exactly once when entering the loop.",
+        "2. **Condition (`i < 5`):** Evaluated before each iteration. If true, the body runs; if false, the loop ends.",
+        "3. **Update (`i++`):** Automatically executed immediately after each loop pass, before re-checking the condition.",
+        "> **Variable scope rule:** When a variable is declared inside the `for` header (`int i = 0`), it exists **strictly inside** the loop body! The moment the loop finishes, `i` is destroyed and cannot accidentally corrupt subsequent code."
+      ]
+    },
+    "predict-for-output": {
+      "eyebrow": "Loop tracing",
+      "title": "Tracing counter multiplication",
+      "task": "What output will this program produce? Trace the values of i on each iteration.",
+      "hint": "The counter i starts at 1 and increments by 1 while i <= 4. On each pass it prints i * 10 followed by a space.",
+      "explain": "The loop executes 4 times: for `i = 1` it outputs `10 `, for `i = 2` it outputs `20 `, for `i = 3` it outputs `30 `, and for `i = 4` it outputs `40 `. When `i` increments to 5, the condition `5 <= 4` evaluates to false, terminating the loop."
+    },
+    "waypoint-surveyor": {
+      "title": "Waypoint navigation tracker",
+      "task": "Program Scout drone Sigma's waypoint logger using a `for` loop:\n1. Read total number of waypoints `int n` from `cin`.\n2. In a `for` loop from `int i = 1` up to and including `n` (`i <= n`), stepping by `i++`: print `WAYPOINT #` followed by `i` and a newline.\n3. After the loop completes, print `ROUTE COMPLETE` and a newline.",
+      "hint": "Write `for (int i = 1; i <= n; i++) { cout << \"WAYPOINT #\" << i << endl; }` followed by the completion message.",
+      "solutionNote": "With input 3, the loop iterates for i = 1, 2, and 3, outputting three waypoint milestones before logging ROUTE COMPLETE."
+    },
+    "counting-down-and-steps": {
+      "eyebrow": "Custom increments",
+      "title": "Counting backwards and custom stepping",
+      "compareCaptions": [
+        "Valid descending assignment: compound assignment operator i -= 2 updates loop counter",
+        "No-op expression bug: i - 2 computes a value but never stores it back into i, causing infinite loop"
+      ],
+      "body": [
+        "The update expression in a `for` loop is not limited to `i++`. You can decrement or step by arbitrary increments:",
+        "- **Counting down:** `for (int i = 10; i > 0; i--)` decrements on each pass, ideal for launch countdowns.",
+        "- **Stepping by $K$:** `for (int i = 0; i <= 100; i += 20)` advances by 20 on each iteration, ideal for stepped telemetry ladders.",
+        "!> **Assignment requirement.** The update expression must actually modify the counter variable! Writing `i + 2` simply computes a number without storing it, leaving `i` unchanged and locking the loop in an infinite freeze. Always use assignment operators like `i += 2` or `i -= 2`."
+      ]
+    },
+    "predict-countdown": {
+      "eyebrow": "Reverse iteration",
+      "title": "Launch countdown prediction",
+      "task": "What output will this program produce? Trace the countdown values carefully.",
+      "hint": "The counter t starts at 3 and decrements with t-- while t > 0. When t reaches 0, does the loop continue?",
+      "explain": "The counter produces 3, 2, and 1. When `t` decrements to 0, the test `0 > 0` evaluates to false. The loop terminates and execution immediately prints `GO`, producing the full string `321GO`."
+    },
+    "altitude-stepper": {
+      "title": "Stepped altitude ascent controller",
+      "task": "Program Sigma's stepped altitude ascent ladder:\n1. Read initial altitude `int start` and maximum altitude `int max_alt` from `cin`.\n2. In a `for` loop starting at `int alt = start`, while `alt <= max_alt`, stepping by `alt += 20`: print `ALTITUDE: ` followed by `alt` and a newline.\n3. After the loop completes, print `LEVEL FLIGHT ESTABLISHED` and a newline.",
+      "hint": "Write `for (int alt = start; alt <= max_alt; alt += 20) { cout << \"ALTITUDE: \" << alt << endl; }`.",
+      "solutionNote": "With input 20 and 60, altitude advances through 20, 40, and 60 before leveling off."
+    },
+    "find-fencepost-bug": {
+      "title": "The Fencepost trap: Off-by-one audit",
+      "task": "Click on the line where an off-by-one comparison causes the drone to skip the final waypoint.",
+      "hint": "Examine line 7: the loop starts at i = 1 and checks i < waypoints. What happens when i reaches 5?",
+      "explain": "Line 7 reads `for (int i = 1; i < waypoints; i++)`. Because `<` is used instead of `<=`, the loop terminates when `i` reaches 5, omitting sector 5 entirely! This classic bug is called the Fencepost or Off-by-one error. The condition should be `i <= waypoints`."
+    },
+    "predict-scope-leak": {
+      "eyebrow": "Scope isolation",
+      "title": "Accumulator variable scope",
+      "task": "What number will this program output? Trace the accumulation of step values.",
+      "hint": "total is declared outside the loop with 0. The loop runs for step = 1, 2, 3, adding each to total.",
+      "explain": "The loop runs 3 times: `total` accumulates 0 + 1 + 2 + 3 = 6. Because `total` was declared outside the `for` loop, its accumulated value persists after the loop finishes and is output by `cout`."
+    },
+    "solar-radiation-sum": {
+      "title": "Bonus challenge: Solar radiation accumulator",
+      "task": "Accumulate a fixed series of telemetry sensor samples:\n1. Read sample count `int count` from `cin`.\n2. Declare accumulator `int sum = 0;`.\n3. In a `for` loop from `int i = 0` to `i < count`: read `int reading` from `cin` with `cin >> reading;` and add `reading` to `sum`.\n4. After the loop terminates, print `TOTAL RADIATION: ` followed by `sum` and a newline.",
+      "hint": "Use `for (int i = 0; i < count; i++) { int reading; cin >> reading; sum += reading; }`.",
+      "solutionNote": "With count 4 and values 15 20 25 10, the loop sums the 4 samples to 70 and prints TOTAL RADIATION: 70."
+    },
+    "recap": {
+      "title": "Mission 14 summary: Counter loops mastered",
+      "body": [
+        "Congratulations! You have mastered the `for` loop in C++. Scout drone Sigma can now traverse multi-waypoint patrol corridors, execute stepped climb profiles, and batch-process fixed arrays of telemetry.",
+        "| Loop type | Best aerospace application | Syntax anatomy | Typical beginner trap |\n| :--- | :--- | :--- | :--- |\n| `for` | Known iteration count (waypoints, batches) | `(init; cond; update)` | Off-by-one (`<` vs `<=`) |\n| `while` | Unknown count (waiting for sensor readiness) | `(condition)` | Forgetting update -> freeze |\n| `do-while` | Guaranteed $\\ge 1$ execution (sampling before test) | `do { } while ();` | Omitting trailing semicolon `;` |",
+        "What happens if during a 10-waypoint flight, a proximity sensor suddenly detects a jagged rock wall directly ahead? We must immediately abort the remaining route without waiting for the counter to reach 10!",
+        "In Chapter 15, we unlock loop control statements: `break` and `continue` — granting total real-time control over executing loops."
+      ]
+    }
+  }
+}

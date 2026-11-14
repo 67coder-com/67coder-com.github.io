@@ -1,0 +1,102 @@
+{
+  "n": 14,
+  "slug": "for",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-for-loop",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. High above the Martian canyon Mawrth Vallis in mid-morning sunlight. Scout drone Sigma glides forward through a succession of holographic glowing waypoint rings suspended in the thin air, tracing a geometric flight corridor toward distant plateaus. Far below on the canyon floor, heavy surveyor drone Delta scans geological strata. Inside the forward avionics observation dome at Mars base IRIS, the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them, observes a tactical flight corridor path screen. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 on the holographic waypoint navigation rings and thruster trails."
+    },
+    {
+      "id": "for-syntax-and-parts",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "for (int i = 0; i < 5; i++) {\n    cout << i << \" \";\n}",
+          "ok": true
+        },
+        {
+          "code": "int i = 0;\nwhile (i < 5) {\n    cout << i << \" \";\n    i++;\n} // variable i leaks outside the loop!",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-for-output",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    for (int i = 1; i <= 4; i++) {\n        cout << i * 10 << \" \";\n    }\n    return 0;\n}",
+      "expected": "10 20 30 40 ",
+      "focus": "for (int i = 1; i <= 4; i++)"
+    },
+    {
+      "id": "waypoint-surveyor",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. for loop from i = 1 up to and including n (i <= n)\n    // 2. print: WAYPOINT #<i>\n    // 3. after loop print: ROUTE COMPLETE\n\n    return 0;\n}",
+      "expected": "WAYPOINT #1\nWAYPOINT #2\nWAYPOINT #3\nROUTE COMPLETE",
+      "requires": ["for", "<=", "++"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    for (int i = 1; i <= n; i++) {\n        cout << \"WAYPOINT #\" << i << endl;\n    }\n    cout << \"ROUTE COMPLETE\" << endl;\n\n    return 0;\n}",
+      "stdin": "3\n"
+    },
+    {
+      "id": "counting-down-and-steps",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "for (int i = 10; i >= 0; i -= 2) {\n    cout << i << \" \";\n}",
+          "ok": true
+        },
+        {
+          "code": "for (int i = 10; i >= 0; i - 2) {\n    cout << i << \" \"; // bug: i - 2 does not reassign to i!\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-countdown",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    for (int t = 3; t > 0; t--) {\n        cout << t;\n    }\n    cout << \"GO\";\n    return 0;\n}",
+      "expected": "321GO",
+      "focus": "for (int t = 3; t > 0; t--) {"
+    },
+    {
+      "id": "altitude-stepper",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int start, max_alt;\n    cin >> start >> max_alt;\n\n    // 1. for loop: int alt = start; alt <= max_alt; alt += 20\n    // 2. print: ALTITUDE: <alt>\n    // 3. after loop print: LEVEL FLIGHT ESTABLISHED\n\n    return 0;\n}",
+      "expected": "ALTITUDE: 20\nALTITUDE: 40\nALTITUDE: 60\nLEVEL FLIGHT ESTABLISHED",
+      "requires": ["for", "<=", "+= 20"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int start, max_alt;\n    cin >> start >> max_alt;\n\n    for (int alt = start; alt <= max_alt; alt += 20) {\n        cout << \"ALTITUDE: \" << alt << endl;\n    }\n    cout << \"LEVEL FLIGHT ESTABLISHED\" << endl;\n\n    return 0;\n}",
+      "stdin": "20 60\n"
+    },
+    {
+      "id": "find-fencepost-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int waypoints = 5;\n    cout << \"STARTING PATROL...\" << endl;\n    for (int i = 1; i < waypoints; i++) {\n        cout << \"SECTOR \" << i << \" CLEAR\" << endl;\n    }\n    cout << \"PATROL FINISHED\" << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "predict-scope-leak",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int total = 0;\n    for (int step = 1; step <= 3; step++) {\n        total += step;\n    }\n    cout << total;\n    return 0;\n}",
+      "expected": "6",
+      "focus": "for (int step = 1; step <= 3; step++) {\n        total += step;\n    }"
+    },
+    {
+      "id": "solar-radiation-sum",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n    int sum = 0;\n\n    // 1. for loop from int i = 0 to i < count\n    // 2. read int reading from cin, add reading to sum\n    // 3. after loop print: TOTAL RADIATION: <sum>\n\n    return 0;\n}",
+      "expected": "TOTAL RADIATION: 70",
+      "requires": ["for", "cin >> reading;", "sum +="],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n    int sum = 0;\n\n    for (int i = 0; i < count; i++) {\n        int reading;\n        cin >> reading;\n        sum += reading;\n    }\n    cout << \"TOTAL RADIATION: \" << sum << endl;\n\n    return 0;\n}",
+      "stdin": "4 15 20 25 10\n"
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

@@ -118,7 +118,10 @@
         {
           "n": 14,
           "slug": "for",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 15,
