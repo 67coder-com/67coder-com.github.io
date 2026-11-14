@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad30" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="100%" stop-color="#141B26"/>
+    </linearGradient>
+    <linearGradient id="headerGrad30" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#D1B784"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="840" height="440" rx="12" fill="url(#bgGrad30)" stroke="#232E3F" stroke-width="2"/>
+
+  <!-- Title Banner -->
+  <text x="40" y="44" fill="url(#headerGrad30)" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="1.2">PLŪSMAS KĻŪDU APSTRĀDE UN AIZSARGĀJOŠĀ VALIDĀCIJA</text>
+  <text x="40" y="68" fill="#8E9DAE" font-family="system-ui, sans-serif" font-size="13">Kļūdu konstatēšana ar cin.fail(), karodziņu notīrīšana ar cin.clear(), bufera atbrīvošana un drošas noklusējuma vērtības</text>
+
+  <!-- Flowchart: The Stream Failure & Recovery Cycle -->
+  <!-- 1. Ievade -->
+  <g transform="translate(40, 100)">
+    <rect width="210" height="150" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="210" height="30" rx="8" fill="#1B2536"/>
+    <text x="14" y="20" fill="#D1B784" font-family="monospace" font-size="12" font-weight="bold">1. NOLASĪŠANA</text>
+
+    <text x="14" y="54" fill="#E4DCDB" font-family="monospace" font-size="11">int reading;</text>
+    <text x="14" y="72" fill="#7FB3A3" font-family="monospace" font-size="11">cin &gt;&gt; reading;</text>
+    
+    <text x="14" y="102" fill="#8E9DAE" font-family="sans-serif" font-size="11">Ievade: <tspan fill="#F09B8B" font-family="monospace">"GLITCH"</tspan></text>
+    <text x="14" y="122" fill="#6B7A99" font-family="sans-serif" font-size="10">Gaidīja skaitli, saņēma tekstu!</text>
+  </g>
+
+  <!-- Bultiņa 1 -> 2 -->
+  <path d="M 260 175 L 290 175" stroke="#E08272" stroke-width="2"/>
+
+  <!-- 2. Kļūdas stāvoklis -->
+  <g transform="translate(300, 100)">
+    <rect width="220" height="150" rx="8" fill="#221518" stroke="#D9634D" stroke-width="1.8"/>
+    <rect x="0" y="0" width="220" height="30" rx="8" fill="#331A1E"/>
+    <text x="14" y="20" fill="#F09B8B" font-family="monospace" font-size="12" font-weight="bold">2. PLŪSMA NOBLOKĒTA!</text>
+
+    <text x="14" y="54" fill="#F09B8B" font-family="monospace" font-size="11">if (cin.fail()) // TRUE!</text>
+    <text x="14" y="80" fill="#E4DCDB" font-family="sans-serif" font-size="11">Plūsma nonāk kļūdas stāvoklī.</text>
+    <text x="14" y="100" fill="#F09B8B" font-family="sans-serif" font-size="11" font-weight="bold">VISAS turpmākās ievades neizdodas!</text>
+    <text x="14" y="122" fill="#8E9DAE" font-family="sans-serif" font-size="10">Bojātie simboli iestrēgst buferī.</text>
+  </g>
+
+  <!-- Bultiņa 2 -> 3 -->
+  <path d="M 530 175 L 560 175" stroke="#7FB3A3" stroke-width="2"/>
+
+  <!-- 3. Atjaunošanas protokols -->
+  <g transform="translate(570, 100)">
+    <rect width="230" height="150" rx="8" fill="#132321" stroke="#3F6B60" stroke-width="1.8"/>
+    <rect x="0" y="0" width="230" height="30" rx="8" fill="#1A332E"/>
+    <text x="14" y="20" fill="#7FB3A3" font-family="monospace" font-size="12" font-weight="bold">3. ATIESTATĪŠANA</text>
+
+    <text x="14" y="54" fill="#7FB3A3" font-family="monospace" font-size="11">cin.clear();</text>
+    <text x="110" y="54" fill="#8E9DAE" font-family="sans-serif" font-size="10">// Notīra karodziņu</text>
+
+    <text x="14" y="74" fill="#7FB3A3" font-family="monospace" font-size="11">string junk; cin &gt;&gt; junk;</text>
+    <text x="14" y="94" fill="#8E9DAE" font-family="sans-serif" font-size="10">// Izmet bojātos datus</text>
+
+    <text x="14" y="118" fill="#D1B784" font-family="monospace" font-size="11">reading = 50;</text>
+    <text x="110" y="118" fill="#8E9DAE" font-family="sans-serif" font-size="10">// Rezerves vērtība</text>
+
+    <text x="14" y="136" fill="#7FB3A3" font-family="sans-serif" font-size="10">Sistēma atkal darbspējīga!</text>
+  </g>
+
+  <!-- Apakšējā sadaļa: Aizsargājošā diapazonu validācija -->
+  <g transform="translate(40, 275)">
+    <rect width="760" height="135" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="760" height="30" rx="8" fill="#1B2536"/>
+    <text x="14" y="20" fill="#E4DCDB" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">AIZSARGĀJOŠĀ PROGRAMMĒŠANA: SENSORU RĀDĪJUMU PĀRBAUDE</text>
+
+    <g transform="translate(20, 42)">
+      <!-- 1: Kļūdu kodi -->
+      <rect x="0" y="0" width="345" height="74" rx="6" fill="#1C2433" stroke="#32425A"/>
+      <text x="14" y="22" fill="#D1B784" font-family="monospace" font-size="12" font-weight="bold">KĻŪDU ROBEŽVĒRTĪBAS</text>
+      <text x="14" y="42" fill="#8E9DAE" font-family="sans-serif" font-size="11">Sensori pārraida -999 aparatūras atteices gadījumā:</text>
+      <text x="14" y="60" fill="#D1B784" font-family="monospace" font-size="11">if (val == -999) val = DEFAULT_VAL;</text>
+
+      <!-- 2: Diapazoni -->
+      <rect x="375" y="0" width="345" height="74" rx="6" fill="#1C2433" stroke="#32425A"/>
+      <text x="14" y="22" fill="#7FB3A3" font-family="monospace" font-size="12" font-weight="bold">DIAPAZONU IEROBEŽOŠANA</text>
+      <text x="14" y="42" fill="#8E9DAE" font-family="sans-serif" font-size="11">Fizisko lidojuma parametru kontrole:</text>
+      <text x="14" y="60" fill="#7FB3A3" font-family="monospace" font-size="11">if (val &lt; 0 || val &gt; 100) val = clamp(val);</text>
+    </g>
+  </g>
+</svg>

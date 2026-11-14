@@ -256,7 +256,10 @@
         {
           "n": 30,
           "slug": "errors",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 31,

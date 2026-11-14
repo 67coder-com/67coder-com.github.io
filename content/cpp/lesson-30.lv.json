@@ -1,0 +1,48 @@
+{
+  "title": "Kļūdu apstrāde un ievades aizsardzība",
+  "steps": {
+    "why-defensive-input": {
+      "title": "Avionikas kļūmju noturība",
+      "content": "### Skarbā Marsa vide\n\nSpēcīgas Marsa putekļu vētras laikā izlūka drons Sigma manevrē starp elektrostatiskiem izlādes lādiņiem, radiācijas uzliesmojumiem un nestabiliem sensoru signāliem.\n\nKas notiek, ja sensora kļūme pa telemetrijas maģistrāli pārraida nekorektu tekstu vai negatīvu kļūdas kodu (`-999`)?\n\nStandarta C++ programmā, mēģinot nolasīt tekstu vesela skaitļa mainīgajā (`cin >> skaitlis`), ievades plūsma aktivizē **`failbit`**:\n1. Mainīgais paliek neaizpildīts (vai tiek iestatīts uz 0).\n2. Plūsma pāriet kļūdas stāvoklī (`cin.fail() == true`).\n3. **VISAS turpmākās ievades klusējot neizdodas**, cikli sāk bezgalīgi griezties un drona vadības sistēma sasalst!\n\nLai izdzīvotu dziļā kosmosa autonomijā, borta programmatūrai ir jāizmanto **aizsargājošā programmēšana**:\n- Jākonstatē kļūmes ar `cin.fail()`.\n- Jānotīra plūsmas kļūdas karodziņi ar `cin.clear()`.\n- Jāatbrīvo buferis no bojātajiem simboliem.\n- Jāpārbauda skaitļu robežas un kļūmju gadījumā jāaizstāj tie ar drošām rezerves vērtībām."
+    },
+    "stream-failure-and-recovery": {
+      "title": "Plūsmas atjaunošanas protokols",
+      "content": "### Plūsmas atiestatīšana 3 soļos\n\nKad `cin` saņem datus, kas neatbilst mērķa mainīgā tipam, tas iestata iekšēju kļūdas karodziņu.\n\n![C++ kļūdu atjaunošanas arhitektūra](assets/l30-errors-anatomy.lv.svg)\n\n#### Atiestatīšanas secība\n\n```cpp\nint reading;\ncin >> reading;\n\nif (cin.fail()) {\n    // 1. Notīra kļūdas karodziņus, lai plūsma atkal varētu darboties\n    cin.clear();\n\n    // 2. Nolasa un izmet bojāto teksta fragmentu\n    string junk;\n    cin >> junk;\n\n    // 3. Pāriet uz drošu noklusējuma vērtību\n    reading = 50;\n}\n```\n\n#### Diapazonu pārbaude\nPat ja ievades sintakse ir pareiza, aparatūra var pārraidīt kļūdu kodus (piemēram, `-999` sensora atvienošanās brīdī) vai fiziski neiespējamas vērtības (augstums `-50` vai baterija `150`).\n\nAizsargājošs kods vienmēr pārbauda robežas:\n```cpp\nif (reading < 0 || reading > 100) {\n    reading = 50; // Izmanto avārijas rezerves vērtību\n}\n```"
+    },
+    "inspect-cin-fail-flag": {
+      "title": "Diagnostika: Plūsmas kļūdas stāvoklis",
+      "content": "### Paredzi izvadi\n\nAnalizē plūsmas nolasīšanas kodu, kurā vesela skaitļa vietā tiek saņemts teksts (`\"ERROR\"`).\n\nKāda vērtība tiks izvadīta terminālī?"
+    },
+    "audit-infinite-fail-loop": {
+      "title": "Diagnostika: Nobloķētas plūsmas audits",
+      "content": "### Atrodi atjaunošanas kļūdu\n\nProgrammētājs pamanīja, ka plūsma ir kļūdas stāvoklī, taču mēģināja izmest bojāto tekstu **pirms** kļūdas karodziņa notīrīšanas! Tā kā `failbit` joprojām ir aktīvs, izmešanas nolasīšana pilnībā neizdodas!\n\nNoklikšķini uz koda rindas, kurā mēģināts lasīt no nobloķētas plūsmas."
+    },
+    "write-safe-integer-reader": {
+      "title": "Sensoru kalibrācija: Diapazonu aizsardzība",
+      "content": "### Robežu kontrole\n\nNolasi veselu skaitli `reading` no standarta ievades.\n\nDerīgiem sensora rādījumiem ir jābūt robežās `[0, 100]`. Ja `reading` ir mazāks par `0` VAI lielāks par `100`, aizstāj to ar drošo rezerves vērtību `50`.\n\nIzvadi `VALIDATED READING: <reading>` jaunā rindā.",
+      "task": "1. Funkcijā `main()` nolasi `reading` no `cin`.\n2. Ja `reading < 0 || reading > 100`, piešķir `reading = 50`.\n3. Izvadi `VALIDATED READING: <reading>` ar jaunu rindu."
+    },
+    "predict-cin-clear-recovery": {
+      "title": "Diagnostika: Veiksmīga plūsmas atiestatīšana",
+      "content": "### Paredzi atjaunošanas gaitu\n\nIzseko plūsmas atjaunošanas secību: `fail()` konstatēšana, `clear()` izsaukums, bojāto datu izmešana un nākamā skaitļa nolasīšana.\n\nKāda vērtība tiks izvadīta terminālī?"
+    },
+    "parsons-stream-recovery-pipeline": {
+      "title": "Avionikas montāža: Drošais nolasītājs",
+      "content": "### Saliec aizsargāto nolasīšanas funkciju\n\nSakārto koda blokus, lai izveidotu funkciju `read_safe_int(istream &in, int fallback)`, kura pārbauda kļūmes, notīra plūsmu, izmet bojāto fragmentu un droši atgriež rezerves vērtību."
+    },
+    "write-telemetry-sanitizer": {
+      "title": "Telemetrijas tīrīšana: Bojāto datu filtrēšana",
+      "content": "### Aparatūras kļūmju novēršana\n\nSensori augsta radiācijas fona zonās reizēm pārraida kļūdu kodus (`-999` vai ekstrēmus pīķus `> 100`).\n\nIevade:\n1. Vesels skaitlis `n` (mērījumu skaits).\n2. `n` veseli skaitļi.\n\nApstrāde:\n- Derīgiem mērījumiem jābūt `sample >= 0 && sample <= 100`.\n- Saskaiti, cik mērījumi ir derīgi.\n- Aprēķini derīgo mērījumu summu.\n\nIzvade:\n`VALID SAMPLES: <skaits>`\n`TOTAL VALID SUM: <summa>`",
+      "task": "1. Funkcijā `main()` nolasi `n`.\n2. Ciklā `n` reizes nolasi katru mērījumu `sample`.\n3. Saskaiti derīgos paraugus (`sample >= 0 && sample <= 100`) un summē to vērtības.\n4. Izvadi `VALID SAMPLES: <skaits>`.\n5. Izvadi `TOTAL VALID SUM: <summa>`."
+    },
+    "capstone-avionics-fault-tolerant-controller": {
+      "title": "Autonomais kļūmjpārlēces kontrolieris",
+      "content": "### Rezerves līniju un kļūmju apstrādes komplekss\n\nIzveido pilnu Sigmas kļūmjpārlēces sensoru vadības moduli.\n\nIevade:\n1. Skaitlis `n` (sensoru kanālu skaits).\n2. `n` rindas, kur katrā ir:\n   `int id`, `int reading` un `int fallback_val`.\n\nKatram kanālam:\n- Ja `reading < 0` VAI `reading > 100`, paziņo par kļūmi! Izmanto `fallback_val` kā gala rādījumu un palielini `fault_count`.\n- Pretējā gadījumā izmanto `reading`.\n- Izvadi `SENSOR <id>: <gala_rādījums>`.\n\nPēc visiem `n` kanāliem izvadi kopsavilkumu:\n`FAULT COUNT: <fault_count>`\n`TOTAL TELEMETRY: <visu gala rādījumu summa>`",
+      "task": "1. Nolasi `n` no `cin`.\n2. Ciklā `n` reizes nolasi `id`, `reading` un `fallback_val`.\n3. Pārbaudi diapazonu `[0, 100]` un kļūmes gadījumā izmanto rezerves vērtību.\n4. Izvadi `SENSOR <id>: <gala_rādījums>` katram kanālam.\n5. Izvadi `FAULT COUNT: <kļūmju skaits>`.\n6. Izvadi `TOTAL TELEMETRY: <kopējā summa>`."
+    },
+    "recap": {
+      "title": "Kopsavilkums: Kļūdu apstrāde un aizsardzība",
+      "content": "### 30. nodaļa pabeigta: Nesalaužama lidojumu programmatūra\n\nIzlūka drons Sigma tagad spēj pamanīt anomālijas, atjaunot bojātas plūsmas un saglabāt stabilu lidojumu visbīstamākajos apstākļos.\n\n#### Aizsargājošās programmēšanas kontrolsaraksts\n\n| Mehānisms | C++ konstrukcija | Darbība |\n| :--- | :--- | :--- |\n| **Kļūmes konstatēšana** | `cin.fail()` | Atgriež `true`, ja ievades tips nesakrita |\n| **Karodziņu notīrīšana** | `cin.clear()` | Atiestata `failbit`, lai varētu atkal lasīt |\n| **Bufera atbrīvošana** | `string j; cin >> j;` | Izmet bojāto fragmentu no plūsmas bufera |\n| **Robežu kontrole** | `val = clamp(val)` | Aizstāj neatļautus rādījumus ar drošām vērtībām |\n| **Kļūdu kodi** | `if (val == -999)` | Atpazīst un izolē atvienotu sensoru datus |\n\n> [!NOTE]\n> Iebūvētajās un lidojumu vadības sistēmās aizsargājošās pārbaudes un statusa kodi ir daudz drošāki par smagajiem C++ izņēmumiem (`try/catch`), jo tie garantē paredzamu izpildes laiku bez negaidītiem sastingumiem!\n\nNākamajās, 31. un 32. nodaļās: **Lielais noslēguma projekts (`project-part1` un `project-part2`)** — visu 30 nodaļu zināšanu apvienošana pilnā autonomā Marsa flotes vadības arhitektūrā!"
+    }
+  }
+}
