@@ -116,7 +116,8 @@ try {
     "content/",
     "docs/handover/",
     "docs/author_rules.md",
-    "tools/"
+    "tools/",
+    "index.html"
   ].filter((p) => fs.existsSync(path.join(ROOT, p)));
 
   runGit(["add", ...pathsToAdd]);
