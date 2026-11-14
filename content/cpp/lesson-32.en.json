@@ -1,0 +1,48 @@
+{
+  "title": "Capstone Project II: Autonomous Mission & Course Finale",
+  "steps": {
+    "why-autonomous-mission": {
+      "title": "The Canyon Expedition Launches",
+      "content": "### The Grand Horizon of Valles Marineris\n\nThe Martian dawn breaks in shades of copper, amber, and gold across the towering cliffs of Valles Marineris. On the observation terrace, robot mascot **IRIS [ o o ]** monitors the telemetry console as the propulsion drives roar to life.\n\nAll three drones of the autonomous fleet take flight in tight formation:\n- **Scout Drone Sigma** leads the vanguard, scanning deep ravines.\n- **Survey Drone Delta** maps mineral deposits across the canyon floor.\n- **Heavy Drone Omega** secures cargo delivery to the forward scientific base.\n\nThis final chapter is the culmination of your entire journey through C++. Every loop, every condition, every vector, function reference, struct, and defensive stream check you built has led to this moment.\n\nTogether, we will run the final autonomous navigation simulation, verify obstacle detection, track energy depletion across flight waypoints, and generate the definitive mission completion report!"
+    },
+    "mission-pipeline-architecture": {
+      "title": "Full Flight Simulation Architecture",
+      "content": "### The Complete Aerospace Software Pipeline\n\nThe Capstone Phase II architecture coordinates the entire mission from pre-flight checks to final touchdown:\n\n![Autonomous Mission Pipeline](assets/l32-final2-launch.en.svg)\n\n#### 1. Pre-Flight Fleet Qualification\n- Dynamic roster: `vector<DroneReport> fleet`.\n- Validates energy reserves before clearing flight paths.\n\n#### 2. The Autonomous Simulation Engine\n- Iterates through coordinate waypoints `(x, y)`.\n- Evaluates Manhattan navigation cost: `abs(dx) + abs(dy)`.\n- Tests proximity to geological hazards via `is_hazard()`.\n- Halts execution safely if power reserves become depleted.\n\n#### 3. Formatted Mission Debrief\n- Industrial-grade formatted telemetry reports powered by `<iomanip>` (`setw`, `left`, `right`).\n- Aggregates squadron flight distance, operational readiness, and final mission status."
+    },
+    "inspect-flight-state-evolution": {
+      "title": "Diagnostics: Positional Telemetry Step",
+      "content": "### Predict the Output\n\nAnalyze this drone state update as it advances its coordinates and expends battery power.\n\nWhat is printed to standard output?"
+    },
+    "audit-mission-loop-condition": {
+      "title": "Code Audit: Out-of-Bounds Iteration Bug",
+      "content": "### Spot the Off-by-One Danger\n\nA navigational flight loop crashes when traversing its waypoint vector because the loop condition attempts to access one element beyond the vector size!\n\nClick the loop line where `<=` is incorrectly used instead of `<`."
+    },
+    "write-hazard-obstacle-detector": {
+      "title": "Flight Navigation: Hazard Proximity Sensor",
+      "content": "### Collision Avoidance Gate\n\nImplement the hazard avoidance function `is_hazard`.\n\nA waypoint at `(x, y)` is considered a hazard if its Manhattan distance to the hazard zone `(hx, hy)` is strictly less than `safe_dist`:\n`(abs(x - hx) + abs(y - hy)) < safe_dist`\n\nInput format:\nFive integers on one line: `x y hx hy safe_dist`.\n\nOutput format:\n`HAZARD: 1` if within dangerous proximity, or `HAZARD: 0` if clear.",
+      "task": "1. Define function `bool is_hazard(int x, int y, int hx, int hy, int safe_dist)` returning `true` if `(abs(x - hx) + abs(y - hy)) < safe_dist`, and `false` otherwise.\n2. In `main()`, read `x`, `y`, `hx`, `hy`, and `safe_dist` from `cin`.\n3. Call `is_hazard` and output `HAZARD: <1 or 0>` followed by a newline."
+    },
+    "predict-fleet-mission-summary": {
+      "title": "Diagnostics: Energy Depletion Tracing",
+      "content": "### Predict the Output\n\nTrace the execution of this mission power drain loop as it executes 3 successive propulsion burns.\n\nWhat is the surviving battery value printed to standard output?"
+    },
+    "parsons-mission-simulation-loop": {
+      "title": "Modular Assembly: Safe Flight Loop",
+      "content": "### Assemble the Navigational Safeguard\n\nReorder the code blocks to construct an autonomous flight loop that steps through waypoints, deducts battery power, and safely aborts if battery reaches zero or below."
+    },
+    "write-drone-flight-simulator": {
+      "title": "Avionics Core: Multi-Waypoint Flight Simulator",
+      "content": "### Trajectory Simulation Engine\n\nSimulate an autonomous drone expedition from origin `(0, 0)` across `n` waypoints.\n\nInput:\n1. Two integers: `battery` and `n` (number of waypoints).\n2. `n` pairs of coordinates: `x y`.\n\nSimulation Rules:\n- Current position begins at `(0, 0)`.\n- Moving to `(x, y)` costs `cost = abs(x - cur_x) + abs(y - cur_y)` battery units.\n- If `cost > battery`, the drone cannot reach the waypoint: immediately print `MISSION ABORTED` and terminate the simulation.\n- Otherwise, deduct `cost` from `battery` and update current position to `(x, y)`.\n- If all `n` waypoints are reached without failure, print:\n  `MISSION SUCCESS`\n  `REMAINING BATTERY: <battery>`\n  `FINAL POS: (<cur_x>, <cur_y>)`",
+      "task": "1. In `main()`, read `battery` and `n` from `cin`.\n2. Initialize `cur_x = 0`, `cur_y = 0`, and `bool aborted = false`.\n3. Loop `n` times reading `x` and `y`.\n4. If `abs(x - cur_x) + abs(y - cur_y) > battery`, output `MISSION ABORTED`, set `aborted = true`, and break.\n5. Otherwise deduct movement cost from `battery` and update coordinates.\n6. If not aborted, output `MISSION SUCCESS`, `REMAINING BATTERY: <battery>`, and `FINAL POS: (<cur_x>, <cur_y>)`."
+    },
+    "capstone-stage2-grand-finale": {
+      "title": "Capstone Phase II: Grand Squadron Mission Director",
+      "content": "### The Grand Mission Debrief\n\nConstruct the final mission control debriefing program that compiles squadron telemetry into an executive flight board.\n\nInput format:\n1. Integer `n` (number of drones in squadron).\n2. `n` lines, each containing:\n   `int id`, `string name`, `int battery`, `int distance`, `string status`.\n\nProcessing & Output:\n1. Output formatted table header:\n   `DRONE        BATTERY    DISTANCE      STATUS`\n   (Columns: name left-aligned width 8, battery right width 10, distance right width 12, status right width 12).\n2. For each drone, output its record with identical alignments and widths.\n3. Output `TOTAL DISTANCE: <sum of distance> KM`.\n4. Output `FLEET STATUS: <n> DRONES OPERATIONAL`.",
+      "task": "1. Read integer `n` and store drone reports into `vector<DroneReport> fleet`.\n2. Output the table header using `left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\"`.\n3. Loop over `fleet` and print each drone row with identical column widths.\n4. Calculate total distance and output `TOTAL DISTANCE: <total_dist> KM`.\n5. Output `FLEET STATUS: <n> DRONES OPERATIONAL`."
+    },
+    "recap": {
+      "title": "Mission Accomplished: Course Graduation!",
+      "content": "### Congratulations, Flight Engineer!\n\nYou have successfully completed all 32 chapters of **C++ Programming: Mission IRIS**!\n\n#### Your Journey from Rookie to Aerospace Software Engineer\n\n```\n[Chapter 1: First Pulse]  ──>  Hello World, Output Streams, Compilers\n          │\n[Chapters 2–8: Flight Systems] ──>  Types, Math, Logic, Branching, Loops\n          │\n[Chapters 9–16: Navigation] ──>  Array Memories, Traversal, 2D Radar, Algorithms\n          │\n[Chapters 17–24: Fleet Core] ──>  Vectors, Dynamic Storage, Functions, Scope, References\n          │\n[Chapters 25–30: Avionics Bus] ──>  Strings, iomanip Formatting, Structs, fstream Files, Defensive IO\n          │\n[Chapters 31–32: Capstone] ──>  Full Autonomous Multi-Drone Space Mission Architecture!\n```\n\n#### What You Have Achieved\n- **Rigorous Thinking:** Writing deterministic, memory-safe, crash-resilient code.\n- **Data Architecture:** Structuring complex real-world entities into clean models.\n- **Algorithmic Mastery:** Navigating 2D spaces, optimizing resources, and filtering sensor noise.\n- **Professional Presentation:** Formatted reporting, robust error recovery, and modular design.\n\nRobot mascot **IRIS [ o o ]** and the entire squadron salute you. Submit your final capstone project for grading, review your flight logs, and carry your C++ engineering mastery into the next frontier!"
+    }
+  }
+}

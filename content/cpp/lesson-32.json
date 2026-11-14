@@ -1,0 +1,132 @@
+{
+  "n": 32,
+  "slug": "final-2",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-autonomous-mission",
+      "kind": "theory",
+      "image": "assets/l32-why-final2.svg"
+    },
+    {
+      "id": "mission-pipeline-architecture",
+      "kind": "theory"
+    },
+    {
+      "id": "inspect-flight-state-evolution",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nstruct Drone {\n    int x, y;\n    int battery;\n};\n\nint main() {\n    Drone d = {0, 0, 100};\n    d.x += 15;\n    d.y += 20;\n    d.battery -= 35;\n    cout << \"POS:(\" << d.x << \",\" << d.y << \") BAT:\" << d.battery << endl;\n    return 0;\n}",
+      "expected": "POS:(15,20) BAT:65\n",
+      "options": [
+        "POS:(15,20) BAT:65",
+        "POS:(0,0) BAT:100",
+        "POS:(15,20) BAT:35",
+        "POS:(20,15) BAT:65"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "audit-mission-loop-condition",
+      "kind": "clickline",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Waypoint { int x, y; };\n\nint main() {\n    vector<Waypoint> path = {{10, 10}, {20, 20}, {30, 30}};\n    for (size_t i = 0; i <= path.size(); i++) {\n        cout << \"WAYPOINT \" << path[i].x << endl;\n    }\n    return 0;\n}",
+      "answerLine": 9
+    },
+    {
+      "id": "write-hazard-obstacle-detector",
+      "kind": "editor",
+      "stdin": "15 20 18 22 10\n",
+      "initial": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\n// 1. Define bool is_hazard(int x, int y, int hx, int hy, int safe_dist)\n\nint main() {\n    int x, y, hx, hy, safe_dist;\n    cin >> x >> y >> hx >> hy >> safe_dist;\n\n    // 2. Call is_hazard\n    // 3. Output: HAZARD: <1 or 0>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nbool is_hazard(int x, int y, int hx, int hy, int safe_dist) {\n    return (abs(x - hx) + abs(y - hy)) < safe_dist;\n}\n\nint main() {\n    int x, y, hx, hy, safe_dist;\n    cin >> x >> y >> hx >> hy >> safe_dist;\n\n    bool haz = is_hazard(x, y, hx, hy, safe_dist);\n    cout << \"HAZARD: \" << (haz ? 1 : 0) << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "15 20 18 22 10\n",
+          "expected": "HAZARD: 1\n"
+        },
+        {
+          "in": "10 10 50 50 20\n",
+          "expected": "HAZARD: 0\n"
+        },
+        {
+          "in": "0 0 5 5 10\n",
+          "expected": "HAZARD: 0\n"
+        }
+      ]
+    },
+    {
+      "id": "predict-fleet-mission-summary",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery = 100;\n    int steps = 3;\n    int drain_per_step = 25;\n    for (int i = 0; i < steps; i++) {\n        battery -= drain_per_step;\n    }\n    cout << \"SURVIVING BATTERY: \" << battery << endl;\n    return 0;\n}",
+      "expected": "SURVIVING BATTERY: 25\n",
+      "options": [
+        "SURVIVING BATTERY: 25",
+        "SURVIVING BATTERY: 75",
+        "SURVIVING BATTERY: 0",
+        "SURVIVING BATTERY: 50"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "parsons-mission-simulation-loop",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int main() {",
+        "    int battery = 80;",
+        "    int waypoints = 3;",
+        "    for (int i = 0; i < waypoints; i++) {",
+        "        battery -= 20;",
+        "        if (battery <= 0) {",
+        "            cout << \"ABORT\" << endl;",
+        "            return 0;",
+        "        }",
+        "    }",
+        "    cout << \"SURVIVED: \" << battery << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "write-drone-flight-simulator",
+      "kind": "editor",
+      "stdin": "100 2\n10 10\n30 30\n",
+      "initial": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int battery, n;\n    cin >> battery >> n;\n\n    int cur_x = 0, cur_y = 0;\n    bool aborted = false;\n\n    // 1. Loop n times reading x and y\n    // 2. cost = abs(x - cur_x) + abs(y - cur_y)\n    // 3. if cost > battery -> print \"MISSION ABORTED\" and set aborted = true, break\n    // 4. else battery -= cost, cur_x = x, cur_y = y\n    // 5. if not aborted, print:\n    //    \"MISSION SUCCESS\"\n    //    \"REMAINING BATTERY: <battery>\"\n    //    \"FINAL POS: (<cur_x>, <cur_y>)\"\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int battery, n;\n    cin >> battery >> n;\n\n    int cur_x = 0, cur_y = 0;\n    bool aborted = false;\n\n    for (int i = 0; i < n; i++) {\n        int x, y;\n        cin >> x >> y;\n        int cost = abs(x - cur_x) + abs(y - cur_y);\n        if (cost > battery) {\n            cout << \"MISSION ABORTED\" << endl;\n            aborted = true;\n            break;\n        }\n        battery -= cost;\n        cur_x = x;\n        cur_y = y;\n    }\n\n    if (!aborted) {\n        cout << \"MISSION SUCCESS\" << endl;\n        cout << \"REMAINING BATTERY: \" << battery << endl;\n        cout << \"FINAL POS: (\" << cur_x << \", \" << cur_y << \")\" << endl;\n    }\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "100 2\n10 10\n30 30\n",
+          "expected": "MISSION SUCCESS\nREMAINING BATTERY: 40\nFINAL POS: (30, 30)\n"
+        },
+        {
+          "in": "25 2\n10 10\n50 50\n",
+          "expected": "MISSION ABORTED\n"
+        },
+        {
+          "in": "50 1\n20 20\n",
+          "expected": "MISSION SUCCESS\nREMAINING BATTERY: 10\nFINAL POS: (20, 20)\n"
+        }
+      ]
+    },
+    {
+      "id": "capstone-stage2-grand-finale",
+      "kind": "editor",
+      "stdin": "3\n1 SIGMA 85 45 READY\n2 DELTA 70 60 SURVEY\n3 OMEGA 90 25 CARGO\n",
+      "initial": "#include <iostream>\n#include <iomanip>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct DroneReport {\n    int id;\n    string name;\n    int battery;\n    int distance;\n    string status;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Read n drone reports into vector<DroneReport> fleet\n    // 2. Print header: left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\"\n    // 3. Print each drone row with identical widths\n    // 4. Output TOTAL DISTANCE: <sum of distance> KM\n    // 5. Output FLEET STATUS: <n> DRONES OPERATIONAL\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <iomanip>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct DroneReport {\n    int id;\n    string name;\n    int battery;\n    int distance;\n    string status;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<DroneReport> fleet;\n    for (int i = 0; i < n; i++) {\n        int id, bat, dist;\n        string name, status;\n        cin >> id >> name >> bat >> dist >> status;\n        fleet.push_back({id, name, bat, dist, status});\n    }\n\n    cout << left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\" << endl;\n\n    int total_dist = 0;\n    for (size_t i = 0; i < fleet.size(); i++) {\n        cout << left << setw(8) << fleet[i].name << right << setw(10) << fleet[i].battery << setw(12) << fleet[i].distance << setw(12) << fleet[i].status << endl;\n        total_dist += fleet[i].distance;\n    }\n\n    cout << \"TOTAL DISTANCE: \" << total_dist << \" KM\" << endl;\n    cout << \"FLEET STATUS: \" << n << \" DRONES OPERATIONAL\" << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "3\n1 SIGMA 85 45 READY\n2 DELTA 70 60 SURVEY\n3 OMEGA 90 25 CARGO\n",
+          "expected": "DRONE        BATTERY    DISTANCE      STATUS\nSIGMA             85          45       READY\nDELTA             70          60      SURVEY\nOMEGA             90          25       CARGO\nTOTAL DISTANCE: 130 KM\nFLEET STATUS: 3 DRONES OPERATIONAL\n"
+        },
+        {
+          "in": "2\n1 ALPHA 95 100 PATROL\n2 BETA 80 50 RETURN\n",
+          "expected": "DRONE        BATTERY    DISTANCE      STATUS\nALPHA             95         100      PATROL\nBETA              80          50      RETURN\nTOTAL DISTANCE: 150 KM\nFLEET STATUS: 2 DRONES OPERATIONAL\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="100%" height="100%">
+  <defs>
+    <!-- Sky & Canyon Gradients in Brand Palette -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#090B0F" />
+      <stop offset="45%" stop-color="#1A1F2C" />
+      <stop offset="80%" stop-color="#3A2C27" />
+      <stop offset="100%" stop-color="#5C3D2E" />
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="60%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FCEFD2" stop-opacity="1" />
+      <stop offset="25%" stop-color="#D1B784" stop-opacity="0.8" />
+      <stop offset="60%" stop-color="#B99A61" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#090B0F" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="canyonFar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3D2924" />
+      <stop offset="100%" stop-color="#1F1513" />
+    </linearGradient>
+    <linearGradient id="canyonMid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2A1B18" />
+      <stop offset="100%" stop-color="#130D0C" />
+    </linearGradient>
+    <linearGradient id="terraceGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#151A22" />
+      <stop offset="50%" stop-color="#1F2633" />
+      <stop offset="100%" stop-color="#10141B" />
+    </linearGradient>
+    <linearGradient id="goldHolo" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D1B784" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#B99A61" stop-opacity="0.1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Martian Sky -->
+  <rect width="1200" height="630" fill="url(#skyGrad)" />
+
+  <!-- Distant Martian Dawn Sun -->
+  <circle cx="780" cy="270" r="160" fill="url(#sunGlow)" />
+  <circle cx="780" cy="270" r="32" fill="#FFF9ED" />
+
+  <!-- Far Canyon Wall Silhouettes (Valles Marineris) -->
+  <path d="M 0 350 L 140 310 L 290 335 L 430 280 L 580 320 L 740 260 L 890 300 L 1040 250 L 1200 290 L 1200 630 L 0 630 Z" fill="url(#canyonFar)" opacity="0.9" />
+
+  <!-- Mid-Distance Layer with Chasm Depths -->
+  <path d="M 0 390 L 180 360 L 320 410 L 510 350 L 690 395 L 850 330 L 1020 380 L 1200 320 L 1200 630 L 0 630 Z" fill="url(#canyonMid)" />
+
+  <!-- Atmospheric Canyon Dust Shimmer -->
+  <ellipse cx="650" cy="380" rx="450" ry="40" fill="#D1B784" opacity="0.15" />
+  <ellipse cx="780" cy="340" rx="280" ry="25" fill="#7FB3A3" opacity="0.12" />
+
+  <!-- Flight Path Energy Corridors (Cyan/Gold vectors) -->
+  <path d="M 380 430 Q 600 320 880 230" fill="none" stroke="#7FB3A3" stroke-width="2.5" stroke-dasharray="8 6" opacity="0.75" />
+  <path d="M 360 450 Q 640 360 980 280" fill="none" stroke="#D1B784" stroke-width="2" stroke-dasharray="6 6" opacity="0.65" />
+  <path d="M 340 470 Q 560 390 790 320" fill="none" stroke="#B99A61" stroke-width="2" stroke-dasharray="10 5" opacity="0.6" />
+
+  <!-- DRONE 1: SIGMA (Lead Scout Drone in Flight) -->
+  <g transform="translate(860, 220) scale(1.1)">
+    <!-- Drone Body -->
+    <polygon points="0,-10 32,0 0,10 -14,0" fill="#D1B784" />
+    <polygon points="0,-6 24,0 0,6 -8,0" fill="#FFF9ED" />
+    <!-- Rotor Arms & Discs -->
+    <line x1="-12" y1="-18" x2="16" y2="18" stroke="#7FB3A3" stroke-width="2" />
+    <line x1="-12" y1="18" x2="16" y2="-18" stroke="#7FB3A3" stroke-width="2" />
+    <ellipse cx="-12" cy="-18" rx="14" ry="4" fill="#7FB3A3" opacity="0.5" />
+    <ellipse cx="16" cy="18" rx="14" ry="4" fill="#7FB3A3" opacity="0.5" />
+    <ellipse cx="-12" cy="18" rx="14" ry="4" fill="#7FB3A3" opacity="0.5" />
+    <ellipse cx="16" cy="-18" rx="14" ry="4" fill="#7FB3A3" opacity="0.5" />
+    <!-- Propulsion Trail -->
+    <line x1="-14" y1="0" x2="-45" y2="0" stroke="#7FB3A3" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+  </g>
+
+  <!-- DRONE 2: DELTA (Survey Drone Formation Right) -->
+  <g transform="translate(960, 275) scale(0.9)">
+    <polygon points="0,-12 36,0 0,12 -16,0" fill="#B99A61" />
+    <polygon points="0,-8 28,0 0,8 -10,0" fill="#D1B784" />
+    <line x1="-14" y1="-20" x2="18" y2="20" stroke="#7FB3A3" stroke-width="1.8" />
+    <line x1="-14" y1="20" x2="18" y2="-20" stroke="#7FB3A3" stroke-width="1.8" />
+    <ellipse cx="-14" cy="-20" rx="13" ry="3.5" fill="#7FB3A3" opacity="0.45" />
+    <ellipse cx="18" cy="20" rx="13" ry="3.5" fill="#7FB3A3" opacity="0.45" />
+    <ellipse cx="-14" cy="20" rx="13" ry="3.5" fill="#7FB3A3" opacity="0.45" />
+    <ellipse cx="18" cy="-20" rx="13" ry="3.5" fill="#7FB3A3" opacity="0.45" />
+    <line x1="-16" y1="0" x2="-40" y2="0" stroke="#D1B784" stroke-width="2.5" stroke-linecap="round" opacity="0.75" />
+  </g>
+
+  <!-- DRONE 3: OMEGA (Heavy Drone Formation High Left) -->
+  <g transform="translate(770, 310) scale(0.95)">
+    <polygon points="0,-14 40,0 0,14 -18,0" fill="#8F7242" />
+    <polygon points="0,-9 30,0 0,9 -12,0" fill="#B99A61" />
+    <line x1="-15" y1="-22" x2="20" y2="22" stroke="#7FB3A3" stroke-width="2" />
+    <line x1="-15" y1="22" x2="20" y2="-22" stroke="#7FB3A3" stroke-width="2" />
+    <ellipse cx="-15" cy="-22" rx="15" ry="4" fill="#7FB3A3" opacity="0.45" />
+    <ellipse cx="20" cy="22" rx="15" ry="4" fill="#7FB3A3" opacity="0.45" />
+    <ellipse cx="-15" cy="22" rx="15" ry="4" fill="#7FB3A3" opacity="0.45" />
+    <ellipse cx="20" cy="-22" rx="15" ry="4" fill="#7FB3A3" opacity="0.45" />
+    <line x1="-18" y1="0" x2="-42" y2="0" stroke="#7FB3A3" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+  </g>
+
+  <!-- Foreground Observation Terrace & Launch Bastion -->
+  <polygon points="0,460 380,410 420,630 0,630" fill="url(#terraceGrad)" />
+  <polyline points="0,460 380,410" stroke="#B99A61" stroke-width="3" />
+  <polyline points="10,475 365,428" stroke="#7FB3A3" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Terrace Navigation Beacon Mast -->
+  <line x1="360" y1="412" x2="360" y2="340" stroke="#D1B784" stroke-width="3" />
+  <circle cx="360" cy="336" r="6" fill="#7FB3A3" />
+  <circle cx="360" cy="336" r="14" fill="#7FB3A3" opacity="0.3" />
+
+  <!-- Mission Control Holographic Console -->
+  <path d="M 120 480 L 260 460 L 280 560 L 140 580 Z" fill="#0C1017" stroke="#B99A61" stroke-width="1.8" />
+  <!-- Holographic Globe Projection -->
+  <ellipse cx="200" cy="455" rx="48" ry="16" fill="url(#goldHolo)" />
+  <circle cx="200" cy="425" r="26" fill="none" stroke="#7FB3A3" stroke-width="1.5" opacity="0.8" />
+  <ellipse cx="200" cy="425" rx="26" ry="10" fill="none" stroke="#D1B784" stroke-width="1.2" opacity="0.7" />
+  <ellipse cx="200" cy="425" rx="10" ry="26" fill="none" stroke="#7FB3A3" stroke-width="1.2" opacity="0.7" />
+  <circle cx="200" cy="425" r="4" fill="#FFF9ED" />
+
+  <!-- MASCOT IRIS [ o o ] — Standing on the Terrace in Celebration! -->
+  <g transform="translate(260, 430)">
+    <!-- Shadow -->
+    <ellipse cx="20" cy="100" rx="36" ry="9" fill="#090B0F" opacity="0.8" />
+
+    <!-- Robot Legs -->
+    <rect x="6" y="74" width="7" height="24" rx="3.5" fill="#7FB3A3" />
+    <rect x="27" y="74" width="7" height="24" rx="3.5" fill="#7FB3A3" />
+    <ellipse cx="9.5" cy="98" rx="6" ry="3" fill="#D1B784" />
+    <ellipse cx="30.5" cy="98" rx="6" ry="3" fill="#D1B784" />
+
+    <!-- Robot Torso -->
+    <rect x="0" y="32" width="40" height="44" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="2.2" />
+    <!-- Battery / Heart indicator -->
+    <rect x="8" y="44" width="24" height="12" rx="3" fill="#090B0F" stroke="#7FB3A3" stroke-width="1" />
+    <rect x="10" y="46" width="20" height="8" rx="2" fill="#7FB3A3" />
+
+    <!-- Right Arm: Waving High in Course Graduation Triumph -->
+    <path d="M 38 40 Q 56 22 62 4" fill="none" stroke="#D1B784" stroke-width="5" stroke-linecap="round" />
+    <circle cx="63" cy="3" r="5.5" fill="#7FB3A3" />
+
+    <!-- Left Arm: Resting on Console -->
+    <path d="M 2 40 Q -10 52 -18 58" fill="none" stroke="#D1B784" stroke-width="4.5" stroke-linecap="round" />
+    <circle cx="-19" cy="59" r="4.5" fill="#7FB3A3" />
+
+    <!-- Robot Head: Cute signature rounded box -->
+    <rect x="-4" y="0" width="48" height="30" rx="7" fill="#1A212D" stroke="#D1B784" stroke-width="2.4" />
+    <!-- Visor -->
+    <rect x="0" y="5" width="40" height="20" rx="4" fill="#090B0F" />
+
+    <!-- Expressive Glowing Mascot Eyes [ o o ] -->
+    <circle cx="12" cy="15" r="5" fill="#7FB3A3" />
+    <circle cx="12" cy="15" r="2.2" fill="#FFFFFF" />
+    <circle cx="28" cy="15" r="5" fill="#7FB3A3" />
+    <circle cx="28" cy="15" r="2.2" fill="#FFFFFF" />
+
+    <!-- Top Antenna with Signal Sparkle -->
+    <line x1="20" y1="0" x2="20" y2="-12" stroke="#B99A61" stroke-width="2" />
+    <circle cx="20" cy="-14" r="3.5" fill="#D1B784" />
+    <circle cx="20" cy="-14" r="7" fill="#7FB3A3" opacity="0.4" />
+  </g>
+</svg>

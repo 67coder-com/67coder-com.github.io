@@ -272,7 +272,10 @@
         {
           "n": 32,
           "slug": "final-2",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         }
       ]
     }
