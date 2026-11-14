@@ -1,0 +1,133 @@
+{
+  "title": "switch and the ternary operator",
+  "module": "Block 2 · Decisions",
+  "steps": {
+    "command-dispatcher-prep": {
+      "eyebrow": "Fleet expansion",
+      "title": "Meet Surveyor Delta",
+      "body": [
+        "Mission IRIS above the Mawrth Vallis plateau enters a major new phase. Joining light scout drone Sigma is the fleet's second specialized vehicle — heavy survey drone KARTOGRĀFS 'Delta'.",
+        "Delta is equipped with reinforced carbon armor, high-torque dual-rotor lifting shrouds, and a full suite of precision exploration hardware: a topography LiDAR scanner, multispectral cameras, and mineral spectrometers. To direct these scientific instruments, base IRIS transmits discrete single-character dispatch codes (`'S'`, `'L'`, `'C'`, `'H'`).",
+        "Evaluating such commands with a lengthy `if / else if` cascade quickly becomes cluttered: the expression `cmd ==` must be repeated on every single branch. C++ provides a specialized construct named `switch` — a fast and elegant command dispatcher designed to route execution based on discrete integer or character codes."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Why switch compiles to jump tables in machine code",
+          "body": [
+            "In an `if / else if` chain, the CPU must evaluate each condition sequentially. If a cascade contains 10 branches, reaching the final branch requires 10 distinct comparison operations — linear time complexity O(N).",
+            "In contrast, for a dense `switch` statement, modern C++ compilers frequently synthesize a jump table. This is an array-like table of machine code addresses stored directly in memory: the numeric value of the selector character or integer acts as an immediate index offset, allowing the CPU to execute a single branch instruction straight to the matching target.",
+            "Jump tables provide constant execution time O(1) regardless of branch count. In mission-critical avionics firmware where control loops operate at strict millisecond deadlines, `switch` delivers deterministic, low-latency command routing.",
+            "Sources: Bjarne Stroustrup, 'The C++ Programming Language' (4th Edition, Addison-Wesley); Agner Fog, 'Optimizing subroutines in assembly language'."
+          ]
+        }
+      ]
+    },
+    "switch-syntax-and-case": {
+      "eyebrow": "Discrete selection",
+      "title": "The switch statement and case labels",
+      "body": [
+        "The `switch` statement evaluates a single selector variable and branches directly to the matching `case` label.",
+        "syntax: switch ({expr}) {\n    case {val1}:\n        {action1};\n        break;\n    default:\n        {fallback};\n        break;\n}\n- expr: an integer or character (char) being tested\n- case: keyword marking an exact target value with a trailing colon\n- val1: compile-time constant literal (such as 1 or 'S')\n- break: statement terminating execution and exiting the switch block\n- default: fallback branch executed if no case values matched",
+        "> Strict type constraint rule:\n> The `switch` statement accepts ONLY integral types (`int`, `short`) and characters (`char`). In C++, it is strictly forbidden to use `switch` with floating-point numbers (`double`) or strings (`string`)!",
+        "Every `case` branch typically concludes with a `break;` statement. This signals to the compiler that the required actions are complete and execution should jump out of the `switch` block."
+      ],
+      "compareCaptions": [
+        "Clean switch dispatcher: variable named once, discrete targets organized in a tidy column",
+        "Cluttered if/else cascade: repetitive syntax and redundant typing of variable cmd at every step"
+      ]
+    },
+    "fallthrough-and-break": {
+      "eyebrow": "Control flow",
+      "title": "The break statement and fall-through",
+      "body": [
+        "Unlike many other programming languages, C++ case labels do not implicitly terminate execution.",
+        "If you omit the `break;` statement at the conclusion of a case, execution does not halt: it simply 'falls through' into the subsequent `case` and executes its instructions as well! This behavior is known as fall-through.",
+        "!> **The missing break trap.** If you forget `break;`, the drone will execute the requested directive and continue cascading straight through all following cases until it hits a break or reaches the closing brace. In flight operations, this can accidentally trigger emergency subroutines!"
+      ],
+      "alt": "Diagram illustrating switch control flow: direct jump to matching case, execution, clean exit via break, and unintended fall-through when break is missing.",
+      "image": "assets/l11-switch-flow.en.svg"
+    },
+    "predict-switch-fallthrough": {
+      "title": "Predict fall-through behavior",
+      "task": "What text will this program output? This is a prediction before running — trace the execution path carefully.",
+      "hint": "Variable mode is 'B'. Find case 'B': and trace downward. Where does the next break; appear?",
+      "explain": "Because `mode` equals `'B'`, execution jumps directly to `case 'B':` and prints `2`. Since no `break;` terminates this case, execution falls through into `case 'C':`, prints `3`, and only then encounters `break;`. The combined output is `23`."
+    },
+    "surveyor-command-dispatcher": {
+      "title": "Surveyor Delta command dispatcher",
+      "task": "Program drone Delta's instrument activator with `switch (command)`:\n1. If `command == 'S'`, print `SURVEY: ACTIVE` and exit with `break;`.\n2. If `command == 'L'`, print `LIDAR: ACTIVE` and exit with `break;`.\n3. In all other cases (`default:`), print `COMMAND: UNKNOWN` and `break;`.",
+      "hint": "Use `switch (command) { case 'S': cout << \"SURVEY: ACTIVE\" << endl; break; ... }`.",
+      "solutionNote": "Because command holds 'S', the first case matches and prints SURVEY: ACTIVE."
+    },
+    "find-switch-bug": {
+      "title": "Locate the missing break bug",
+      "task": "Click on the line where a missing break causes execution to inadvertently fall through into emergency mode.",
+      "hint": "Check what is missing at the conclusion of case 1: before the next case begins.",
+      "explain": "Line 8 is missing a `break;` after `cout << \"MODE: NORMAL\" << endl;`. Due to this omission, selecting mode 1 causes the program to print the normal message and immediately bleed into emergency mode!"
+    },
+    "grouping-switch-cases": {
+      "eyebrow": "Intentional fall-through",
+      "title": "Stacking multiple case labels",
+      "body": [
+        "Fall-through is not always a mistake. In fact, it provides a clean, idiomatic technique for binding multiple inputs to the exact same routine.",
+        "A classic aerospace telemetry example involves handling both uppercase and lowercase command characters. If an operator enters either `'M'` or `'m'`, both should initiate mapping mode:",
+        "+ **Label stacking.** Place `case 'M':` directly above `case 'm':` with no intervening statements and no `break`. If the first matches, execution falls directly into the shared body.\n+ **Eliminating duplication.** This eliminates the need to copy-paste identical function calls and keeps the codebase concise and maintainable."
+      ],
+      "compareCaptions": [
+        "Clean stacking: both case labels share a single implementation body and one break",
+        "Redundant duplication: copy-pasting the same instructions and break across multiple cases"
+      ]
+    },
+    "dispatch-telemetry-mode": {
+      "title": "Interactive flight mode dispatcher",
+      "task": "Program Surveyor Delta's mission mode selector using console `cin`:\n1. Read character `cmd` from `cin`.\n2. Using `switch (cmd)` route execution:\n   - `'R'`: print `MODE: RECON`\n   - `'M'`: print `MODE: MAPPING`\n   - `'H'`: print `MODE: RETURN HOME`\n   - `default:`: print `MODE: INVALID`\n3. Ensure every branch ends with `break;`.",
+      "hint": "Read with `cin >> cmd;`, then write `switch (cmd) { case 'R': ... break; ... }`.",
+      "solutionNote": "Given input 'M', the case 'M': branch executes and prints MODE: MAPPING."
+    },
+    "ternary-operator": {
+      "eyebrow": "Compact inline expression",
+      "title": "The ternary operator (?:)",
+      "body": [
+        "Occasionally, flight code does not require an entire branching block with statements — it simply needs to select between two values based on a boolean condition.",
+        "syntax: {condition} ? {value_true} : {value_false}\n- condition: boolean test yielding true or false\n- ?: question mark separating condition from the truth value\n- value_true: result returned if condition is true\n- :: colon separating true result from false result\n- value_false: result returned if condition is false",
+        "> Statement versus expression:\n> The `if / else` construct is a **statement** — it directs control flow but does not evaluate to a value. The ternary operator `?:` is an **expression** — it computes and yields a concrete value that can be assigned directly to a variable or streamed into `cout`!"
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "The ternary operator as an expression in C++",
+          "body": [
+            "Because the ternary operator yields an expression value, it allows developers to initialize immutable `const` variables: `const int limit = is_eco ? 50 : 100;`. With an `if / else` statement, this would be impossible without declaring a non-const variable and reassigning it later.",
+            "Ternary expressions can also be embedded directly in output streams: `cout << (battery >= 20 ? \"OK\" : \"LOW\");`. Notice that parentheses around the ternary expression are mandatory here because stream insertion `<<` has higher operator precedence than `?:`.",
+            "Engineering rule of thumb: reserve the ternary operator strictly for simple, binary value assignments. Never nest ternary operators inside each other — nested conditionals drastically impair readability and introduce subtle logic bugs."
+          ]
+        }
+      ],
+      "compareCaptions": [
+        "Concise single line: ternary operator initializes variable directly with the chosen value",
+        "Verbose 5 lines: traditional if/else requires separate declaration and split assignment blocks"
+      ]
+    },
+    "predict-ternary-output": {
+      "title": "Predict ternary evaluation",
+      "task": "What word will this program output?",
+      "hint": "Evaluate the condition battery >= 20 with battery equal to 15. Which value — before or after the colon — is selected?",
+      "explain": "Because `battery` holds 15, the condition `15 >= 20` evaluates to false. The ternary operator selects the expression following the colon `:`, so the program outputs `RED`."
+    },
+    "delta-mission-controller": {
+      "title": "Bonus challenge: Surveyor instrument controller",
+      "task": "Combine the ternary operator and `switch` inside Delta's instrument monitor:\n1. Read tool selector `char tool` and battery charge `int battery` from `cin`.\n2. Use the ternary operator to choose power mode: if `battery >= 40`, power is `\"FULL\"`, otherwise `\"ECO\"`.\n3. Handle `'L'`: print `TOOL: LIDAR | POWER: ` followed by power mode and newline.\n4. Handle `'C'`: print `TOOL: CAMERA | POWER: ` followed by power mode and newline.\n5. In all other cases (`default:`): print `TOOL: STANDBY` and newline.",
+      "hint": "Use `string power = (battery >= 40) ? \"FULL\" : \"ECO\";`, followed by `switch (tool)` with corresponding output lines.",
+      "solutionNote": "With input 'L' and 60, battery 60 >= 40 sets power mode to FULL, and case 'L': prints TOOL: LIDAR | POWER: FULL."
+    },
+    "recap": {
+      "title": "Mission 11 summary: Command dispatcher active",
+      "body": [
+        "Base IRIS confirms operational readiness: KARTOGRĀFS 'Delta' has joined the IRIS exploration squadron and processes incoming payload commands with high-speed dispatch logic.",
+        "| Construct | Syntax | Best aerospace application |\n| :--- | :--- | :--- |\n| `if / else if` | `if (x < 10) ...` | Continuous ranges, floating-point numbers, multi-criteria expressions |\n| `switch / case` | `switch (cmd) ...` | Discrete constants (char, int), rapid command dispatchers |\n| Ternary `?:` | `cond ? a : b` | Compact inline value selection in assignments or direct streaming |",
+        "Next, in Chapter 12, awaits Block 2's major PRACTICUM: «Safety system». We will synthesize every branching and logical concept learned so far (`if`, `else`, `&&`, `||`, `!`, `switch`, `?:`) into a unified, resilient flight safety controller protecting both drones Sigma and Delta."
+      ]
+    }
+  }
+}

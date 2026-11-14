@@ -1,0 +1,113 @@
+{
+  "n": 11,
+  "slug": "switch-ternary",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "command-dispatcher-prep",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. On an elevated industrial survey launch pad overlooking the Martian plateau Mawrth Vallis at sunrise. In the foreground, the heavy surveyor drone KARTOGRĀFS 'Delta' with dark carbon-slate armor, twin heavy-lift rotor shrouds, and an amber illuminated LiDAR aperture sits calibrated next to agile Scout drone Sigma. In the background, geometric modular structures of Mars base IRIS against a warm desaturated grey Martian horizon. Standing at an auxiliary tactical dispatch terminal, inputting telemetry mode codes, is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Style: minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 on the LiDAR aperture glow and terminal screen."
+    },
+    {
+      "id": "switch-syntax-and-case",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "switch (cmd) {\n    case 'S': cout << \"SURVEY\"; break;\n    case 'L': cout << \"LIDAR\"; break;\n    default: cout << \"UNKNOWN\";\n}",
+          "ok": true
+        },
+        {
+          "code": "if (cmd == 'S') {\n    cout << \"SURVEY\";\n} else if (cmd == 'L') {\n    cout << \"LIDAR\";\n} else {\n    cout << \"UNKNOWN\";\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "fallthrough-and-break",
+      "kind": "explain"
+    },
+    {
+      "id": "predict-switch-fallthrough",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char mode = 'B';\n    switch (mode) {\n        case 'A': cout << 1; break;\n        case 'B': cout << 2;\n        case 'C': cout << 3; break;\n        default: cout << 4;\n    }\n    return 0;\n}",
+      "expected": "23",
+      "focus": "case 'B': cout << 2;"
+    },
+    {
+      "id": "surveyor-command-dispatcher",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char command = 'S';\n\n    // 1. Write switch (command)\n    // 2. Handle 'S' -> SURVEY: ACTIVE\n    // 3. Handle 'L' -> LIDAR: ACTIVE\n    // 4. Handle default -> COMMAND: UNKNOWN\n\n    return 0;\n}",
+      "expected": "SURVEY: ACTIVE",
+      "requires": ["switch", "case 'S':", "case 'L':", "break", "default:"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char command = 'S';\n\n    switch (command) {\n        case 'S':\n            cout << \"SURVEY: ACTIVE\" << endl;\n            break;\n        case 'L':\n            cout << \"LIDAR: ACTIVE\" << endl;\n            break;\n        default:\n            cout << \"COMMAND: UNKNOWN\" << endl;\n            break;\n    }\n\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "find-switch-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int code = 1;\n    cout << \"DISPATCHING...\" << endl;\n    switch (code) {\n        case 1:\n            cout << \"MODE: NORMAL\" << endl;\n        case 2:\n            cout << \"MODE: EMERGENCY\" << endl;\n            break;\n        default:\n            cout << \"MODE: UNKNOWN\" << endl;\n    }\n    return 0;\n}",
+      "answerLine": 8
+    },
+    {
+      "id": "grouping-switch-cases",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "switch (cmd) {\n    case 'M':\n    case 'm':\n        cout << \"MAPPING\";\n        break;\n}",
+          "ok": true
+        },
+        {
+          "code": "switch (cmd) {\n    case 'M':\n        cout << \"MAPPING\";\n        break;\n    case 'm':\n        cout << \"MAPPING\";\n        break;\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "dispatch-telemetry-mode",
+      "kind": "editor",
+      "lang": "cpp",
+      "stdin": "M",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char cmd;\n\n    // 1. Read cmd from cin\n    // 2. Using switch (cmd):\n    //    'R' -> MODE: RECON\n    //    'M' -> MODE: MAPPING\n    //    'H' -> MODE: RETURN HOME\n    //    default -> MODE: INVALID\n\n    return 0;\n}",
+      "expected": "MODE: MAPPING",
+      "requires": ["cin >>", "switch", "case 'R':", "case 'M':", "case 'H':", "default:"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char cmd;\n    cin >> cmd;\n\n    switch (cmd) {\n        case 'R':\n            cout << \"MODE: RECON\" << endl;\n            break;\n        case 'M':\n            cout << \"MODE: MAPPING\" << endl;\n            break;\n        case 'H':\n            cout << \"MODE: RETURN HOME\" << endl;\n            break;\n        default:\n            cout << \"MODE: INVALID\" << endl;\n            break;\n    }\n\n    return 0;\n}"
+    },
+    {
+      "id": "ternary-operator",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "string mode = (battery >= 20) ? \"CRUISE\" : \"ECO\";",
+          "ok": true
+        },
+        {
+          "code": "string mode;\nif (battery >= 20) {\n    mode = \"CRUISE\";\n} else {\n    mode = \"ECO\";\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-ternary-output",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery = 15;\n    cout << (battery >= 20 ? \"GREEN\" : \"RED\") << endl;\n    return 0;\n}",
+      "expected": "RED",
+      "focus": "(battery >= 20 ? \"GREEN\" : \"RED\")"
+    },
+    {
+      "id": "delta-mission-controller",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "stdin": "L 60",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    char tool;\n    int battery;\n\n    // 1. Read tool and battery from cin\n    // 2. Use ternary operator to set string power = ... (\"FULL\" if battery >= 40, else \"ECO\")\n    // 3. Use switch (tool):\n    //    'L' -> TOOL: LIDAR | POWER: <power>\n    //    'C' -> TOOL: CAMERA | POWER: <power>\n    //    default -> TOOL: STANDBY\n\n    return 0;\n}",
+      "expected": "TOOL: LIDAR | POWER: FULL",
+      "requires": ["cin >>", "?", ":", "switch", "case 'L':", "case 'C':", "default:"],
+      "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    char tool;\n    int battery;\n    cin >> tool >> battery;\n\n    string power = (battery >= 40) ? \"FULL\" : \"ECO\";\n\n    switch (tool) {\n        case 'L':\n            cout << \"TOOL: LIDAR | POWER: \" << power << endl;\n            break;\n        case 'C':\n            cout << \"TOOL: CAMERA | POWER: \" << power << endl;\n            break;\n        default:\n            cout << \"TOOL: STANDBY\" << endl;\n            break;\n    }\n\n    return 0;\n}"
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

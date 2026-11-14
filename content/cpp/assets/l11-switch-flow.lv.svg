@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <title>C++ switch vadības plūsma: break pret caurkritumu</title>
+  <desc>Diagramma attēlo switch teikuma izpildes plūsmu. Kreisais panelis parāda pareizu izpildi ar break, kur programma tūlīt iziet no switch bloka. Labais panelis parāda kļūdu bez break, kur izpilde nekontrolēti caurkrīt nākamajā case zarā.</desc>
+
+  <!-- Fons -->
+  <rect width="880" height="320" rx="10" fill="#0D1117" />
+
+  <!-- Virsraksts -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">SWITCH VADĪBAS PLŪSMA: BREAK; PRET CAURKRITUMU</text>
+
+  <!-- Kreisais panelis: Pareiza izpilde ar break; -->
+  <g transform="translate(24, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="20" y="28" fill="#7FB3A3" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1. PAREIZI: ZARAM IR BREAK;</text>
+
+    <!-- Koda bloks -->
+    <rect x="20" y="44" width="364" height="136" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="70" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#D1B784">case</tspan> <tspan fill="#A9B79B">'S'</tspan>:</text>
+    <text x="55" y="92" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cout &lt;&lt; <tspan fill="#A9B79B">"SURVEY"</tspan>;</text>
+    <rect x="50" y="102" width="76" height="24" rx="3" fill="#151A22" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="58" y="118" fill="#7FB3A3" font-size="14" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">break;</text>
+    <text x="35" y="146" fill="#8E887D" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#8E887D">case</tspan> 'L': ...</text>
+
+    <!-- Bultiņa: iziet ārā -->
+    <path d="M 135 114 L 330 114 L 330 200" fill="none" stroke="#7FB3A3" stroke-width="2" />
+    <polygon points="330,204 325,194 335,194" fill="#7FB3A3" />
+    <text x="180" y="106" fill="#7FB3A3" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">IZIET NO SWITCH →</text>
+
+    <!-- Rezultāts -->
+    <rect x="20" y="196" width="364" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="218" fill="#D8D0C2" font-size="13" style="font-family: var(--font-sans, Inter, sans-serif)">Izvade: <tspan fill="#7FB3A3" font-weight="bold" font-family="monospace">SURVEY</tspan> (tikai prasītais)</text>
+  </g>
+
+  <!-- Labais panelis: Kļūda bez break (caurkritums) -->
+  <g transform="translate(452, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#CE8A78" stroke-width="1.5" />
+    <text x="20" y="28" fill="#CE8A78" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">2. KĻŪDA: AIZMIRSTS BREAK; (CAURKRITUMS)</text>
+
+    <!-- Koda bloks -->
+    <rect x="20" y="44" width="364" height="136" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="70" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#D1B784">case</tspan> <tspan fill="#A9B79B">'S'</tspan>:</text>
+    <text x="55" y="92" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cout &lt;&lt; <tspan fill="#A9B79B">"SURVEY"</tspan>;</text>
+    <text x="55" y="112" fill="#CE8A78" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">// nav break!</text>
+    <text x="35" y="136" fill="#CE8A78" font-size="14" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#CE8A78">case</tspan> 'L':</text>
+    <text x="55" y="158" fill="#CE8A78" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cout &lt;&lt; "LIDAR";</text>
+
+    <!-- Bultiņa: caurkritums uz leju -->
+    <line x1="28" y1="94" x2="28" y2="148" stroke="#CE8A78" stroke-width="2.5" stroke-dasharray="3" />
+    <polygon points="28,152 23,142 33,142" fill="#CE8A78" />
+    <text x="300" y="114" text-anchor="middle" fill="#CE8A78" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">CAURKRĪT ↓</text>
+
+    <!-- Rezultāts -->
+    <rect x="20" y="196" width="364" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="218" fill="#CE8A78" font-size="13" style="font-family: var(--font-sans, Inter, sans-serif)">Izvade: <tspan font-weight="bold" font-family="monospace">SURVEYLIDAR</tspan> (kļūda!)</text>
+  </g>
+</svg>

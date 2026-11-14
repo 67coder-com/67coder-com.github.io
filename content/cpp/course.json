@@ -94,7 +94,10 @@
         {
           "n": 11,
           "slug": "switch-ternary",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 12,

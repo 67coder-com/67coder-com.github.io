@@ -1,0 +1,133 @@
+{
+  "title": "switch un ternārais operators",
+  "module": "2. bloks · Lēmumi",
+  "steps": {
+    "command-dispatcher-prep": {
+      "eyebrow": "Flotes papildinājums",
+      "title": "Iepazīstieties ar Kartogrāfu Delta",
+      "body": [
+        "Misija IRIS virs Mawrth Vallis plato sasniedz jaunu posmu. Viegajam izlūkam Sigma pievienojas otrais flotes aparāts — smagais izpētes drons KARTOGRĀFS «Delta».",
+        "Delta ir aprīkota ar masīviem divu rotoru dzinējiem, pastiprinātu bruņojumu un jaudīgiem zinātniskajiem instrumentiem: reljefa skenēšanas lidaru (LiDAR), multispektrālo kameru un iežu spektrometru. Lai kontrolētu tik daudzus neatkarīgus mezglus, no bāzes IRIS tiek sūtītas īsas viena simbola komandas (`'S'`, `'L'`, `'C'`, `'H'`).",
+        "Pārbaudīt šādas komandas ar garu `if / else if` kaskādi kļūst nepārskatāmi: mainīgais `cmd ==` ir jāatkārto katrā rindā. Valoda C++ piedāvā specializētu konstrukciju `switch` — ātru un elegantu komandu dispečeru, kas izvēlas vajadzīgo darbību pēc viena simbola vai vesela skaitļa."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kāpēc switch kompilējas par lēcienu tabulām (Jump Tables)",
+          "body": [
+            "Kaskādē `if / else if` procesoram ir secīgi jāizpilda katrs salīdzinājums viens pēc otra. Ja kaskādē ir 10 zari, pēdējā zara sasniegšanai nepieciešamas 10 atsevišķas pārbaudes — tas ir lineārs laiks O(N).",
+            "Turpretī operatoram `switch` C++ kompilators bieži ģenerē tā saukto lēcienu tabulu (Jump Table). Tā ir masīvam līdzīga adrešu tabula mašīnkodā: simbola vai skaitļa vērtība tieši nosaka nobīdi atmiņā, un procesors uzreiz veic vienu lēcienu uz vajadzīgo koda vietu.",
+            "Lēcienu tabulas nodrošina konstantu izpildes laiku O(1) neatkarīgi no zaru skaita. Reāllaika lidojuma sistēmās, kur vadības ciklam jāreaģē milisekundēs, `switch` nodrošina prognozējamu un ātru komandu izpildi.",
+            "Avots: Bjarne Stroustrup, 'The C++ Programming Language' (4th Edition, Addison-Wesley); Agner Fog, 'Optimizing subroutines in assembly language'."
+          ]
+        }
+      ]
+    },
+    "switch-syntax-and-case": {
+      "eyebrow": "Diskrētā izvēle",
+      "title": "Operators switch un case iezīmes",
+      "body": [
+        "Operators `switch` novērtē vienu mainīgo un nekavējoties pāriet pie atbilstošās `case` iezīmes.",
+        "syntax: switch ({expr}) {\n    case {val1}:\n        {action1};\n        break;\n    default:\n        {fallback};\n        break;\n}\n- expr: vesels skaitlis vai rakstzīme (char), ko pārbauda\n- case: atslēgvārds konkrētai vērtībai ar kolu beigās\n- val1: nemainīga konstante (piem., 1 vai 'S')\n- break: komanda, kas pārtrauc un iziet no switch bloka\n- default: noklusējuma zars, ja neviena case vērtība nesakrita",
+        "> Datu tipu ierobežojuma likums:\n> Operators `switch` darbojas TIKAI ar veseliem skaitļiem (`int`, `short`) un rakstzīmēm (`char`). Valodā C++ ir kategoriski aizliegts izmantot `switch` ar daļskaitļiem (`double`) vai teksta virknēm (`string`)!",
+        "Katram `case` zaram parasti pievieno komandu `break;`. Tā signalizē kompilatoram, ka dotā zara darbības ir pabeigtas un jāiziet ārā no `switch` figūriekavām."
+      ],
+      "compareCaptions": [
+        "Pārskatāms switch dispečers: mainīgais nosaukts vienreiz, vērtības sakārtotas stabiņā",
+        "Pārslogots if/else kaskāds: lieka koda un mainīgā nosaukuma cmd dublēšana katrā solī"
+      ]
+    },
+    "fallthrough-and-break": {
+      "eyebrow": "Plūsmas vadība",
+      "title": "Komanda break un caurkritums (fall-through)",
+      "body": [
+        "Atšķirībā no daudzām citām programmēšanas valodām, C++ valodā `case` iezīme pati par sevi nepārtrauc koda izpildi.",
+        "Ja zara beigās netiek uzrakstīts `break;`, programma neapstājas, bet 'iekrīt' nākamajā `case` zarā un turpina izpildīt tā komandas! Šo fenomenu sauc par caurkritumu (fall-through).",
+        "!> **Aizmirstā break slazds.** Ja aizmirsīsiet `break;`, drons izpildīs gan prasīto komandu, gan visas nākamās komandas pēc kārtas, līdz sastaps `break;` vai bloka beigas. Kosmosa misijā tas var novest pie nejaušas avārijas sistēmu aktivizēšanas!"
+      ],
+      "alt": "Shēma attēlo switch izpildes plūsmu: tiešais lēciens uz sakritušo case, koda izpilde, izeja ar break un kļūmīgais caurkritums bez break.",
+      "image": "assets/l11-switch-flow.lv.svg"
+    },
+    "predict-switch-fallthrough": {
+      "title": "Paredziet caurkrituma sekas",
+      "task": "Kādu skaitli izvadīs programma? Šis ir minējums pirms palaišanas — sekojiet bultiņām kodā.",
+      "hint": "Mainīgais mode ir 'B'. Atrodiet case 'B': un sekojiet izpildei. Kurā vietā ir nākamais break;?",
+      "explain": "Mainīgais `mode` ir `'B'`, tādēļ programma lec uz `case 'B':` un izvada `2`. Tā kā aiz šīs rindas nav `break;`, izpilde caurkrīt uz `case 'C':`, izvada `3`, un tikai tad sastop `break;`. Kopējais izvadītais teksts ir `23`."
+    },
+    "surveyor-command-dispatcher": {
+      "title": "Kartogrāfa Delta komandu mezgls",
+      "task": "Noprogrammējiet drona Delta rīku aktivizācijas dispečeru ar `switch (command)`:\n1. Ja `command == 'S'`, izvadiet `SURVEY: ACTIVE` un pārtrauciet ar `break;`.\n2. Ja `command == 'L'`, izvadiet `LIDAR: ACTIVE` un pārtrauciet ar `break;`.\n3. Noklusējuma gadījumā (`default:`), izvadiet `COMMAND: UNKNOWN` un `break;`.",
+      "hint": "Lietojiet `switch (command) { case 'S': cout << \"SURVEY: ACTIVE\" << endl; break; ... }`.",
+      "solutionNote": "Tā kā mainīgais command ir 'S', izpildās pirmais zars un tiek izvadīts SURVEY: ACTIVE."
+    },
+    "find-switch-bug": {
+      "title": "Atrodiet trūkstošā break kļūdu",
+      "task": "Noklikšķiniet uz rindas ar kļūdu, kur aizmirsts break un izpilde kļūdaini caurkrīt uz avārijas režīmu.",
+      "hint": "Pārbaudiet, kas trūkst zara case 1: beigās pirms nākamā case.",
+      "explain": "Rindā 8 aiz `cout << \"MODE: NORMAL\" << endl;` trūkst komandas `break;`. Šīs kļūdas dēļ programma pie koda 1 izpildītu normālo režīmu un uzreiz arī avārijas režīmu no case 2!"
+    },
+    "grouping-switch-cases": {
+      "eyebrow": "Apzināts caurkritums",
+      "title": "Vairāku case iezīmju apvienošana",
+      "body": [
+        "Caurkritums ne vienmēr ir kļūda. Dažreiz tas ir ļoti ērts paņēmiens, lai vairākām dažādām ievadēm piešķirtu vienu un to pašu darbību.",
+        "Tipisks piemērs kosmosa telemetrijā ir lielo un mazo burtu apstrāde. Ja operators terminālī ievada `'M'` vai `'m'`, abos gadījumos jāaktivizē kartēšana:",
+        "+ **Iezīmju grupēšana.** Novietojiet `case 'M':` un `case 'm':` vienu zem otras bez koda un bez `break`. Ja sakritīs pirmais, tas automātiski iekritīs otrajā un izpildīs kopīgo komandu.\n+ **Koda tīrība.** Šāda pieeja novērš funkciju izsaukumu kopēšanu un saglabā programmu īsu un viegli lasāmu."
+      ],
+      "compareCaptions": [
+        "Eleganta grupēšana: abas iezīmes izmanto vienu koda bloku un vienu break",
+        "Lieka koda dublēšana: viena un tā pati darbība un break pārrakstīti divreiz"
+      ]
+    },
+    "dispatch-telemetry-mode": {
+      "title": "Interaktīvais misijas dispečers",
+      "task": "Noprogrammējiet drona režīmu selektoru no konsoles `cin`:\n1. Nolasiet simbolu `cmd` no konsoles.\n2. Ar `switch (cmd)` apstrādājiet režīmus:\n   - `'R'`: izvadiet `MODE: RECON`\n   - `'M'`: izvadiet `MODE: MAPPING`\n   - `'H'`: izvadiet `MODE: RETURN HOME`\n   - `default:`: izvadiet `MODE: INVALID`\n3. Neaizmirstiet pievienot `break;` katram zaram.",
+      "hint": "Nolasiet ar `cin >> cmd;`, pēc tam uzrakstiet `switch (cmd) { case 'R': ... break; ... }`.",
+      "solutionNote": "Ievadot 'M', izpildās zars case 'M': un terminālī tiek izvadīts MODE: MAPPING."
+    },
+    "ternary-operator": {
+      "eyebrow": "Kompakta izteiksme",
+      "title": "Ternārais operators (?:)",
+      "body": [
+        "Dažreiz mums nevajag veselu `if / else` bloku ar darbībām — mēs vienkārši vēlamies izvēlēties vienu no divām vērtībām atkarībā no nosacījuma.",
+        "syntax: {condition} ? {value_true} : {value_false}\n- condition: loģiskais nosacījums, kas dod true vai false\n- ?: jautājuma zīme atdala nosacījumu no patiesās vērtības\n- value_true: rezultāts, ja nosacījums ir patiess\n- :: kols atdala patieso vērtību no aplamās\n- value_false: rezultāts, ja nosacījums ir aplams",
+        "> Galvenā atšķirība: teikums pret izteiksmi:\n> `if / else` ir **teikums** (statement) — tas vada koda plūsmu, bet pats par sevi nav vērtība. Ternārais operators `?:` ir **izteiksme** (expression) — tas aprēķina un atgriež gatavu vērtību, ko var uzreiz saglabāt mainīgajā vai nodot tieši plūsmā `cout`!"
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "Ternārais operators kā izteiksme C++ sintaksē",
+          "body": [
+            "Tā kā ternārais operators atgriež vērtību, tas ļauj inicializēt nemainīgus konstantes mainīgos (`const`): `const int limit = is_eco ? 50 : 100;`. Ar parasto `if / else` tas nebūtu iespējams bez mainīgā deklarēšanas kā mainīga un vēlākas piešķiršanas.",
+            "Ternāro operatoru var ievietot tieši `cout` ķēdē: `cout << (battery >= 20 ? \"OK\" : \"LOW\");`. Šeit iekavas ap ternāro izteiksmi ir obligātas, jo plūsmas operatoram `<<` ir augstāka prioritāte nekā `?:`.",
+            "Inženieru stila likums: izmantojiet ternāro operatoru tikai vienkāršām divu vērtību izvēlēm. Nekad nelieciet ternāros operatorus vienu otrā (ligzdotos) — tas padara kodu grūti salasāmu un rada kļūdas."
+          ]
+        }
+      ],
+      "compareCaptions": [
+        "Kompakta viena rinda: ternārais operators uzreiz piešķir vērtību mainīgajam",
+        "Smagnējas 5 rindas: parastais if/else prasa atsevišķu deklarāciju un koda zarošanos"
+      ]
+    },
+    "predict-ternary-output": {
+      "title": "Paredziet ternārā operatora izvadi",
+      "task": "Kādu vārdu terminālī izvadīs programma?",
+      "hint": "Izvērtējiet nosacījumu battery >= 20, ja battery ir 15. Kura vērtība — pirms vai pēc kola — tiks izvēlēta?",
+      "explain": "Tā kā `battery` ir 15, nosacījums `15 >= 20` ir aplams (false). Ternārais operators izvēlas vērtību aiz kola `:`, tādēļ programma izvada `RED`."
+    },
+    "delta-mission-controller": {
+      "title": "Papilduzdevums: Kartogrāfa instrumentu panelis",
+      "task": "Apvienojiet ternāro operatoru un `switch` drona Delta borta kontrolierī:\n1. Nolasiet instrumenta kodu `char tool` un baterijas līmeni `int battery` no `cin`.\n2. Ar ternāro operatoru nosakiet jaudas režīmu: ja `battery >= 40`, jauda ir `\"FULL\"`, citādi `\"ECO\"`.\n3. Apstrādājiet `'L'`: izvadiet `TOOL: LIDAR | POWER: `, kam seko jaudas režīms un jauna rinda.\n4. Apstrādājiet `'C'`: izvadiet `TOOL: CAMERA | POWER: `, kam seko jaudas režīms un jauna rinda.\n5. Pārējos gadījumos (`default:`): izvadiet `TOOL: STANDBY` un jaunu rindu.",
+      "hint": "Lietojiet `string power = (battery >= 40) ? \"FULL\" : \"ECO\";`, kam seko `switch (tool)` ar atbilstošajām izvades rindām.",
+      "solutionNote": "Ievadot 'L' un 60, baterija 60 >= 40 iestata jaudu uz FULL, un case 'L': izvada TOOL: LIDAR | POWER: FULL."
+    },
+    "recap": {
+      "title": "11. misijas kopsavilkums: Komandu dispečers gatavs",
+      "body": [
+        "Bāze IRIS ziņo par gatavību: KARTOGRĀFS «Delta» ir sekmīgi integrēts misijas vadības tīklā un spēj zibenīgi apstrādāt zinātnisko instrumentu komandas.",
+        "| Konstrukcija | Sintakse | Labākais pielietojums kosmosa misijā |\n| :--- | :--- | :--- |\n| `if / else if` | `if (x < 10) ...` | Diapazoni, peldošā punkta skaitļi, salikti loģiskie nosacījumi |\n| `switch / case` | `switch (cmd) ...` | Fiksēti diskrēti kodi (char, int), komandu dispečeri |\n| Ternārais `?:` | `cond ? a : b` | Ātra vienas vērtības izvēle piešķiršanā vai tiešā cout izvadē |",
+        "Nākamajā, 12. nodaļā mūs gaida 2. bloka lielais PRAKTIKUMS: «Drošības sistēma». Mēs apvienosim visus apgūtos nosacījumus (`if`, `else`, `&&`, `||`, `!`, `switch`) vienotā, integrētā abu dronu Sigma un Delta aizsardzības sistēmā."
+      ]
+    }
+  }
+}
