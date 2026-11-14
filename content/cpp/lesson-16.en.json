@@ -1,0 +1,100 @@
+{
+  "title": "PRACTICUM: Sector scanning loop",
+  "steps": {
+    "scan-architecture": {
+      "eyebrow": "Practicum architecture",
+      "title": "Autonomous sector scanning loop",
+      "body": [
+        "Welcome to the **Block 2 Capstone Practicum**. Because Earth transmission latency ranges from 3 to 22 minutes, Scout drone Sigma and Surveyor drone Delta must survey the rugged Mawrth Vallis canyon corridor entirely autonomously.",
+        "An autonomous scanning cycle combines all three loop constructs and loop control statements learned across Block 2 into a robust multi-phase state machine:",
+        "- **Pre-flight calibration (`while` / `do-while`):** The drone stabilizes its inertial sensors and waits for telemetry handshake before takeoff.",
+        "- **Grid tier traversal (`for`):** The flight computer sweeps through predetermined altitude tiers and waypoint coordinates.",
+        "- **Stream noise rejection (`continue`):** Unreadable shadowed terrain readings or low-intensity noise packets are skipped without stalling the sweep.",
+        "- **Emergency hazard override (`break`):** Sensor faults, critical rockfalls, or thermal spikes immediately terminate the sweep and preserve flight telemetry.",
+        "Let us integrate these components step by step to build the complete autonomous canyon survey engine."
+      ],
+      "archive": {
+        "title": "Autonomous mapping and scanning architectures in planetary probes",
+        "body": "Planetary observation missions—such as the Mars Reconnaissance Orbiter (MRO) with its CRISM spectrometer and HiRISE camera—rely on deterministic scanning loops executed by onboard RAD750 flight computers. Slew maneuvers step through structured grid coordinates (`for` loop topology), while individual spectrometer channel integrations run polling loops (`while`/`do-while`) with strict timeout guards. When optical sensor buffers detect atmospheric dust obscuration, sub-tier acquisitions are flagged and skipped (`continue`), while sudden inertial navigation divergence triggers an immediate fail-safe abort (`break`) to hold safe-mode orbit.",
+        "sources": [
+          "NASA Jet Propulsion Laboratory, 'CRISM Instrument Overview and Operational Sequencing' (MRO Project Documentation)",
+          "IEEE Aerospace Conference, 'Fault Protection and Autonomous Recovery in Deep Space Flight Software'"
+        ]
+      }
+    },
+    "predict-composite-scan": {
+      "eyebrow": "Loop tracing",
+      "title": "Predict composite loop output",
+      "body": [
+        "Trace the execution of this composite sector scan loop combining `continue` and `break`.",
+        "Determine the final value of `valid_points` printed by the program."
+      ]
+    },
+    "sensor-warmup-while": {
+      "title": "Inertial gyro calibration loop",
+      "task": "Program Sigma's gyro calibration routine using a `while` loop:\n1. Read initial drift `int drift` and step decrease `int step` from `cin`.\n2. While `drift > 5`: subtract `step` from `drift` using `drift -= step`, then print `CALIBRATING: ` followed by `drift` and a newline.\n3. After the loop terminates, print `SENSOR STABILIZED` and a newline.",
+      "hint": "Write `while (drift > 5) { drift -= step; cout << \"CALIBRATING: \" << drift << endl; }` followed by the completion message.",
+      "solutionNote": "With input 20 and 5, drift drops from 20 to 15, 10, and 5. At 5, the condition 5 > 5 is false, terminating calibration."
+    },
+    "elevation-sweep-for": {
+      "title": "Stepped altitude ladder survey",
+      "task": "Program Delta's stepped altitude ladder survey using a `for` loop:\n1. Read minimum altitude `int min_alt` and maximum altitude `int max_alt` from `cin`.\n2. Maintain an accumulator `int total_samples = 0` initialized to 0.\n3. In a `for` loop starting at `int alt = min_alt`, continuing while `alt <= max_alt`, stepping by `alt += 25`: add 10 to `total_samples` using `total_samples += 10`, and print `TIER: ` followed by `alt` and a newline.\n4. After the loop completes, print `TOTAL SAMPLES: ` followed by `total_samples` and a newline.",
+      "hint": "Use `for (int alt = min_alt; alt <= max_alt; alt += 25) { total_samples += 10; cout << \"TIER: \" << alt << endl; }`.",
+      "solutionNote": "For bounds 50 to 100, the loop runs for tiers 50, 75, and 100, accumulating 30 total samples."
+    },
+    "find-scanner-bug": {
+      "eyebrow": "Debugging",
+      "title": "Locate the freeze hazard",
+      "body": [
+        "The following while loop was intended to sample sectors 1 through 5 while skipping sector 3.",
+        "However, the flight computer enters an infinite freeze when executed. Click on the exact line responsible for the infinite loop."
+      ],
+      "explanation": "At sample = 3, the `continue` statement immediately jumps back to the `while (sample <= 5)` condition without executing `sample++`. Because `sample` remains 3 forever, the loop hangs in an infinite freeze. In a `while` loop, counter updates must happen before `continue`, or the loop should be structured as a `for` loop."
+    },
+    "telemetry-sample-dowhile": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble handshake sampling loop",
+      "body": [
+        "Surveyor Delta must perform at least one telemetry sampling attempt before checking if the signal lock threshold (>= 50) is reached.",
+        "Arrange the code blocks in the correct order to construct a valid `do-while` sampling routine."
+      ]
+    },
+    "shadow-filter-continue": {
+      "title": "Solar flux noise filter",
+      "task": "Program Sigma's solar panel flux scanner using a `for` loop with `continue`:\n1. Read the number of sensor cells `int count` from `cin`.\n2. Maintain an accumulator `int active_power = 0` initialized to 0.\n3. In a `for` loop from `i = 1` up to and including `count` (`i <= count`): read an integer `reading` from `cin`.\n4. If `reading < 20`, skip the rest of the current iteration using `continue`.\n5. Otherwise, add `reading` to `active_power` using `active_power += reading` and print `CELL #` followed by `i` and `: VALID` on a new line.\n6. After the loop finishes, print `ACTIVE POWER: ` followed by `active_power` and a newline.",
+      "hint": "Inside the loop: `cin >> reading; if (reading < 20) { continue; } active_power += reading; cout << \"CELL #\" << i << \": VALID\" << endl;`.",
+      "solutionNote": "Readings 10 and 15 are skipped by continue, while 45 and 30 are accumulated, yielding 75 total power."
+    },
+    "thermal-spike-break": {
+      "title": "Corridor thermal abort safeguard",
+      "task": "Program Sigma's thermal hazard safeguard using a `for` loop with `break`:\n1. Read the maximum number of scan sectors `int max_sectors` from `cin`.\n2. Maintain a counter `int completed = 0` initialized to 0.\n3. In a `for` loop from sector `s = 1` up to and including `max_sectors` (`s <= max_sectors`): read integer temperature `temp` from `cin`.\n4. If `temp >= 100`: print `THERMAL SPIKE AT SECTOR ` followed by `s` and a newline, then immediately terminate the loop with `break`.\n5. Otherwise: increment `completed++` and print `SECTOR ` followed by `s` and `: NOMINAL` on a new line.\n6. After the loop, print `COMPLETED SECTORS: ` followed by `completed` and a newline.",
+      "hint": "Check `if (temp >= 100) { cout << \"THERMAL SPIKE AT SECTOR \" << s << endl; break; }` before incrementing `completed`.",
+      "solutionNote": "When sector 3 registers 108 deg C, the loop logs the thermal spike and terminates immediately, logging 2 completed sectors."
+    },
+    "predict-sector-grid": {
+      "eyebrow": "Nested loop tracing",
+      "title": "Predict 2D grid scan trace",
+      "body": [
+        "Predict the output of this nested coordinate sweep simulating a two-dimensional canyon scan pass.",
+        "Pay careful attention to which coordinate points are skipped by the inner loop's `continue`."
+      ]
+    },
+    "capstone-sector-scanner": {
+      "title": "Autonomous sector scanner engine",
+      "task": "Program the complete autonomous canyon sector scanner for Sigma and Delta:\n1. Read the total number of survey waypoints `int n` from `cin`.\n2. Initialize three tracking variables: `int valid_points = 0`, `int total_telemetry = 0`, `int max_signal = 0`.\n3. In a `for` loop from `i = 1` up to and including `n` (`i <= n`): read integer `signal` from `cin`.\n4. If `signal < 0`: print `CRITICAL FAILURE AT POINT ` followed by `i` and a newline, then immediately abort the loop with `break`.\n5. If `signal == 0`: print `POINT ` followed by `i` and `: SHADOW SKIPPED` on a new line, then skip to the next iteration with `continue`.\n6. Otherwise (valid signal): increment `valid_points++`, add `signal` to `total_telemetry`, and if `signal > max_signal` update `max_signal = signal`; then print `POINT ` followed by `i` and `: SIGNAL ` followed by `signal` on a new line.\n7. After the loop completes, print the three summary metrics on separate lines: `VALID POINTS: ` followed by `valid_points`, `TOTAL TELEMETRY: ` followed by `total_telemetry`, and `PEAK SIGNAL: ` followed by `max_signal`.",
+      "hint": "Handle the `signal < 0` abort first, then `signal == 0` continue, then accumulate valid metrics.",
+      "solutionNote": "This program combines counting, filtering, emergency exit, accumulation, and peak tracking in a single autonomous flight loop."
+    },
+    "recap": {
+      "eyebrow": "Block 2 completion",
+      "title": "Block 2 summary: Decision architecture complete",
+      "body": [
+        "Congratulations! You have completed **Block 2: LĒMUMI (Decisions)**. With branching and loops mastered, your drones can now execute complex, autonomous mission protocols without human intervention.",
+        "Here is the complete navigation decision matrix of C++ control structures:",
+        "| Construct | Primary aerospace role | Header / Condition | Loop control tools |\n| :--- | :--- | :--- | :--- |\n| `if / else` | Range checks, telemetry safety gates | `if (wind > 20)` | `&&`, `\\|\\|`, `!` |\n| `switch / case` | Discrete command code dispatching | `switch (command)` | `case 'L':`, `break;` |\n| `while` | Indefinite wait (sensor warm-up, polling) | `while (drift > 5)` | Pre-check, caution with `continue` |\n| `do-while` | Guaranteed >= 1 pass (handshake sampling) | `do { } while (retry)` | Post-check, trailing semicolon `;` |\n| `for` | Deterministic bounds (waypoints, ladders) | `(init; cond; update)` | `break` aborts, `continue` advances |\n",
+        "> **Looking ahead to Block 3: DATI (Data).**",
+        "> Processing individual readings in a stream works well, but what happens when Delta must store 10,000 elevation samples, analyze past terrain contours, or sort sensor readings? In **Chapter 17: Masīvi (Arrays)**, we begin storing collections of data in memory."
+      ]
+    }
+  }
+}

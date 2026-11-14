@@ -1,0 +1,100 @@
+{
+  "title": "PRAKTIKUMS: skenēšanas cikls",
+  "steps": {
+    "scan-architecture": {
+      "eyebrow": "Praktikuma arhitektūra",
+      "title": "Autonoms sektora skenēšanas cikls",
+      "body": [
+        "Laipni lūgti **2. bloka noslēguma praktikumā**. Tā kā sakaru aizture ar Zemi ir no 3 līdz 22 minūtēm, izlūkam Sigma un kartogrāfam Delta sarežģītais Mawrth Vallis kanjona koridors ir jāapseko pilnīgi autonomi.",
+        "Autonoms skenēšanas cikls apvieno visas trīs 2. blokā apgūtās ciklu konstrukcijas un vadības operatorus drošā daudzfāzu stāvokļu mašīnā:",
+        "- **Pirmslidojuma kalibrācija (`while` / `do-while`):** Drons stabilizē inerciālos sensorus un sagaida telemetrijas gatavību pirms pacelšanās.",
+        "- **Režģa ešelonu apsekošana (`for`):** Borta dators secīgi iziet cauri iepriekš noteiktiem augstuma līmeņiem un kontrolpunktiem.",
+        "- **Plūsmas trokšņu noraidīšana (`continue`):** Nenolasāmi ēnainu sektoru dati vai vāji traucējumu signāli tiek izlaisti, neapturot kopējo skenēšanu.",
+        "- **Avārijas apstāšanās (`break`):** Sensoru atteice, bīstams klinšu nogruvums vai termiskais lēciens nekavējoties pārtrauc lidojumu un saglabā uzkrātos datus.",
+        "Soli pa solim apvienosim šos elementus, lai izveidotu pilnvērtīgu kanjona autonomās skenēšanas programmu."
+      ],
+      "archive": {
+        "title": "Autonomās kartēšanas un skenēšanas arhitektūras kosmiskajos aparātos",
+        "body": "Planetāro novērojumu misijas — piemēram, Mars Reconnaissance Orbiter (MRO) ar CRISM spektrometru un HiRISE kameru — balstās uz deterministiskiem skenēšanas cikliem, ko izpilda borta datori RAD750. Koordinātu režģa pārvietošanās izmanto `for` cikla topoloģiju, savukārt spektrometra kanālu integrācija izmanto aptaujas ciklus (`while`/`do-while`) ar stingriem noildzes taimeriem. Ja optiskie sensori fiksē putekļu aizsegumu, attiecīgie apakšposmi tiek atzīmēti un izlaisti (`continue`), bet pēkšņa navigācijas kļūda izraisa tūlītēju avārijas izeju (`break`), lai pārietu drošajā orbītas režīmā.",
+        "sources": [
+          "NASA Jet Propulsion Laboratory, 'CRISM Instrument Overview and Operational Sequencing' (MRO Project Documentation)",
+          "IEEE Aerospace Conference, 'Fault Protection and Autonomous Recovery in Deep Space Flight Software'"
+        ]
+      }
+    },
+    "predict-composite-scan": {
+      "eyebrow": "Cikla izpildes analīze",
+      "title": "Saliktā cikla rezultāta noteikšana",
+      "body": [
+        "Izsekojiet šī saliktā skenēšanas cikla izpildei, kurā apvienoti operatori `continue` un `break`.",
+        "Nosakiet programmas izdrukāto mainīgā `valid_points` gala vērtību."
+      ]
+    },
+    "sensor-warmup-while": {
+      "title": "Inerciālā žiroskopa kalibrācijas cikls",
+      "task": "Ieprogrammējiet drona Sigma žiroskopa kalibrāciju ar ciklu `while`:\n1. Nolasiet sākuma d線fu `int drift` un samazinājuma soli `int step` no `cin`.\n2. Kamēr `drift > 5`: atņemiet `step` no `drift` ar `drift -= step` un izdrukājiet `CALIBRATING: `, kam seko `drift` un jauna rinda.\n3. Pēc cikla beigām izdrukājiet `SENSOR STABILIZED` un jaunu rindu.",
+      "hint": "Rakstiet `while (drift > 5) { drift -= step; cout << \"CALIBRATING: \" << drift << endl; }`, kam seko noslēguma ziņojums.",
+      "solutionNote": "Pie ievades 20 un 5 d線fs krītas no 20 uz 15, 10 un 5. Pie 5 nosacījums 5 > 5 kļūst aplams un cikls beidzas."
+    },
+    "elevation-sweep-for": {
+      "title": "Augstuma ešelonu pakāpeniskā skenēšana",
+      "task": "Ieprogrammējiet drona Delta augstuma pakāpienu apsekošanu ar ciklu `for`:\n1. Nolasiet minimālo augstumu `int min_alt` un maksimālo augstumu `int max_alt` no `cin`.\n2. Izveidojiet akumulatoru `int total_samples = 0`, inicializētu ar 0.\n3. Ciklā `for` no `int alt = min_alt`, kamēr `alt <= max_alt`, ar soli `alt += 25`: pieskaitiet 10 pie `total_samples` ar `total_samples += 10` un izdrukājiet `TIER: `, kam seko `alt` un jauna rinda.\n4. Pēc cikla beigām izdrukājiet `TOTAL SAMPLES: `, kam seko `total_samples` un jauna rinda.",
+      "hint": "Lietojiet `for (int alt = min_alt; alt <= max_alt; alt += 25) { total_samples += 10; cout << \"TIER: \" << alt << endl; }`.",
+      "solutionNote": "Pie robežām 50 un 100 cikls izpildās ešeloniem 50, 75 un 100, uzkrājot kopā 30 paraugus."
+    },
+    "find-scanner-bug": {
+      "eyebrow": "Atkļūdošana",
+      "title": "Atrodiet bezgalīgā cikla slazdu",
+      "body": [
+        "Šim ciklam while bija jāpārbauda paraugi no 1 līdz 5, izlaižot 3. paraugu.",
+        "Tomēr borta dators izpildes laikā bezgalīgi iesalst. Noklikšķiniet uz tās koda rindas, kuras dēļ cikls nekad nebeidzas."
+      ],
+      "explanation": "Pie sample = 3 komanda continue nekavējoties pāriet uz cikla galveni while (sample <= 5), neizpildot sample++. Mainīgais sample paliek 3 uz visiem laikiem, izraisot bezgalīgu ciklu. Ciklā while skaitītāja solis jāveic pirms continue, vai arī jāizmanto cikls for."
+    },
+    "telemetry-sample-dowhile": {
+      "eyebrow": "Pārsona uzdevums",
+      "title": "Salieciet telemetrijas nolasīšanas ciklu",
+      "body": [
+        "Kartogrāfam Delta ir jāveic vismaz viens telemetrijas mērījuma mēģinājums, pirms tiek pārbaudīts signāla uztveršanas slieksnis (>= 50).",
+        "Sakārtojiet koda blokus pareizā secībā, lai izveidotu korektu `do-while` nolasīšanas ciklu."
+      ]
+    },
+    "shadow-filter-continue": {
+      "title": "Saules bateriju plūsmas trokšņu filtrs",
+      "task": "Ieprogrammējiet Sigma saules paneļu mērījumu apstrādi ar ciklu `for` un `continue`:\n1. Nolasiet sensoru šūnu skaitu `int count` no `cin`.\n2. Izveidojiet akumulatoru `int active_power = 0`, inicializētu ar 0.\n3. Ciklā `for` ar `i = 1` līdz `count` ieskaitot (`i <= count`): nolasiet skaitli `reading` no `cin`.\n4. Ja `reading < 20`, izlaidiet atlikušo koda daļu ar komandu `continue`.\n5. Pretējā gadījumā pieskaitiet `reading` pie `active_power` ar `active_power += reading` un izdrukājiet `CELL #`, kam seko `i` un `: VALID` jaunā rindā.\n6. Pēc cikla beigām izdrukājiet `ACTIVE POWER: `, kam seko `active_power` un jauna rinda.",
+      "hint": "Cikla iekšienē: `cin >> reading; if (reading < 20) { continue; } active_power += reading; cout << \"CELL #\" << i << \": VALID\" << endl;`.",
+      "solutionNote": "Mērījumi 10 un 15 tiek izlaisti ar continue, bet 45 un 30 tiek pieskaitīti, dodot kopējo jaudu 75."
+    },
+    "thermal-spike-break": {
+      "title": "Termiskās pārslodzes avārijas pārtraukšana",
+      "task": "Ieprogrammējiet drošības pārbaudi ar ciklu `for` un komandu `break`:\n1. Nolasiet maksimālo skenējamo sektoru skaitu `int max_sectors` no `cin`.\n2. Izveidojiet skaitītāju `int completed = 0`, inicializētu ar 0.\n3. Ciklā `for` sektoram `s = 1` līdz `max_sectors` ieskaitot (`s <= max_sectors`): nolasiet temperatūru `temp` no `cin`.\n4. Ja `temp >= 100`: izdrukājiet `THERMAL SPIKE AT SECTOR `, kam seko `s` un jauna rinda, un nekavējoties pārtrauciet ciklu ar `break`.\n5. Pretējā gadījumā palieliniet `completed++` un izdrukājiet `SECTOR `, kam seko `s` un `: NOMINAL` jaunā rindā.\n6. Pēc cikla beigām izdrukājiet `COMPLETED SECTORS: `, kam seko `completed` un jauna rinda.",
+      "hint": "Pārbaudiet `if (temp >= 100) { cout << \"THERMAL SPIKE AT SECTOR \" << s << endl; break; }` pirms completed palielināšanas.",
+      "solutionNote": "Kad 3. sektorā temperatūra sasniedz 108 grādus, cikls fiksē pārslodzi un nekavējoties apstājas, uzrādot 2 pabeigtus sektorus."
+    },
+    "predict-sector-grid": {
+      "eyebrow": "Ligzdoto ciklu analīze",
+      "title": "Koordinātu režģa skenēšanas gaita",
+      "body": [
+        "Nosakiet divdimensiju kanjona režģa koordinātu izdrukas gaitu ligzdotajā ciklā.",
+        "Pievērsiet uzmanību tam, kuri koordinātu punkti tiek izlaisti ar iekšējā cikla komandu `continue`."
+      ]
+    },
+    "capstone-sector-scanner": {
+      "title": "Autonoms kanjona sektora skeneris",
+      "task": "Ieprogrammējiet pilnu autonomā kanjona sektora skenera loģiku drōniem Sigma un Delta:\n1. Nolasiet kontrolpunktu kopējo skaitu `int n` no `cin`.\n2. Inicializējiet trīs uzskaites mainīgos: `int valid_points = 0`, `int total_telemetry = 0`, `int max_signal = 0`.\n3. Ciklā `for` no `i = 1` līdz `n` ieskaitot (`i <= n`): nolasiet signāla vērtību `signal` no `cin`.\n4. Ja `signal < 0`: izdrukājiet `CRITICAL FAILURE AT POINT `, kam seko `i` un jauna rinda, un tūlīt pārtrauciet ciklu ar `break`.\n5. Ja `signal == 0`: izdrukājiet `POINT `, kam seko `i` un `: SHADOW SKIPPED` jaunā rindā, un pārejiet pie nākamā soļa ar `continue`.\n6. Pretējā gadījumā (derīgs signāls): palieliniet `valid_points++`, pieskaitiet `signal` pie `total_telemetry`, ja `signal > max_signal`, atjauniniet `max_signal = signal`, un izdrukājiet `POINT `, kam seko `i` un `: SIGNAL ` ar `signal` jaunā rindā.\n7. Pēc cikla beigām izdrukājiet trīs kopsavilkuma rindas: `VALID POINTS: `, kam seko `valid_points`, `TOTAL TELEMETRY: `, kam seko `total_telemetry`, un `PEAK SIGNAL: `, kam seko `max_signal` (katru savā rindā).",
+      "hint": "Vispirms apstrādājiet avāriju `signal < 0` ar break, tad ēnu `signal == 0` ar continue, un beigās uzkrājiet derīgos datus.",
+      "solutionNote": "Šī programma vienā autonomā lidojuma ciklā apvieno skaitīšanu, filtrēšanu, avārijas izeju, summēšanu un maksimuma meklēšanu."
+    },
+    "recap": {
+      "eyebrow": "2. bloka noslēgums",
+      "title": "2. bloka kopsavilkums: lēmumu arhitektūra pabeigta",
+      "body": [
+        "Apsveicam! Jūs esat pabeiguši **2. bloku: LĒMUMI (Decisions)**. Apgūstot zarošanos un ciklus, jūsu droni spēj izpildīt sarežģītus, autonomus misijas protokolus bez pastāvīgas operatora iejaukšanās.",
+        "Šeit ir pilna C++ vadības konstrukciju navigācijas matrica:",
+        "| Konstrukcija | Galvenā loma kosmosā | Galvene / Nosacījums | Vadības rīki ciklā |\n| :--- | :--- | :--- | :--- |\n| `if / else` | Diapazonu pārbaude, telemetrijas drošības vārti | `if (wind > 20)` | `&&`, `\\|\\|`, `!` |\n| `switch / case` | Diskrētu komandu kodu sadale | `switch (command)` | `case 'L':`, `break;` |\n| `while` | Nenoteikta gaidīšana (sensoru sildīšana, aptauja) | `while (drift > 5)` | Pārbaude pirms, uzmanīgi ar `continue` |\n| `do-while` | Garantēta >= 1 izpilde (mērījuma nolasīšana) | `do { } while (retry)` | Pārbaude pēc, semikols `;` beigās |\n| `for` | Deterministiskas robežas (kontrolpunkti, kāpnes) | `(init; cond; update)` | `break` pārtrauc, `continue` turpina |\n",
+        "> **Skatoties uz 3. bloku: DATI (Data).**",
+        "> Atsevišķu mērījumu apstrāde plūsmā darbojas lieliski, bet kas notiek, kad kartogrāfam Delta jāglabā 10 000 augstuma punktu, jāanalizē pagātnes reljefa profili vai jāsakārto sensoru dati? **17. nodaļā: Masīvi (Arrays)** mēs sākam glabāt datu kolekcijas operatīvajā atmiņā."
+      ]
+    }
+  }
+}

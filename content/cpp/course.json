@@ -134,7 +134,10 @@
         {
           "n": 16,
           "slug": "practicum-scan",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         }
       ]
     },
