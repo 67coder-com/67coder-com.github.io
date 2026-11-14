@@ -145,11 +145,13 @@ async function main() {
     jobs.get(key).where.push(where);
   };
 
+  const targetLesson = process.argv[2] ? parseInt(process.argv[2], 10) : null;
   const courses = JSON.parse(fs.readFileSync(path.join(CONTENT, "courses.json"), "utf8")).courses || [];
   for (const c of courses.filter((x) => x.status === "live")) {
     const dir = path.join(CONTENT, c.id);
     const struct = JSON.parse(fs.readFileSync(path.join(dir, "course.json"), "utf8"));
     for (const l of (struct.modules || []).flatMap((m) => m.lessons || [])) {
+      if (targetLesson && l.n !== targetLesson) continue;
       const langs = [...new Set([...(l.locales || []), ...(l.draft || [])])];
       if (!langs.length) continue;
       const sFile = path.join(dir, `lesson-${pad2(l.n)}.json`);
