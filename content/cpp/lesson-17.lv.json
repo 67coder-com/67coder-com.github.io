@@ -6,12 +6,18 @@
       "title": "Kāpēc borta datoriem nepieciešami masīvi",
       "body": [
         "Laipni lūgti **3. blokā: DATI (Data)**. Bāzes IRIS nosēšanās platformā ir ieradies jaunais smagais transporta drons **KRAVAS 'Omega'**. Paredzēts masīvu ģeoloģisko iežu paraugu un dzīvības uzturēšanas konteineru pārvadāšanai, Omega izvieto virsmas sensoru virknes visā Marsa kanjonā.",
-        "Iedomājieties 5 temperatūras mērījumu saglabāšanu viena Marsa sola laikā. Bez masīviem būtu jāraksta:",
-        "```cpp\nint t0, t1, t2, t3, t4;\ncin >> t0 >> t1 >> t2 >> t3 >> t4;\n```",
-        "Ja sensoru skaits pieaug līdz 24 vai 1000 mērījumiem, atsevišķi mainīgie kļūst nepārvaldāmi. Pār atsevišķiem nosaukumiem `t0`, `t1`, `t2` nav iespējams palaist ciklu `for`.",
-        "**Masīvs (array)** atrisina šo problēmu, apvienojot fiksētu viena tipa elementu virkni zem viena nosaukuma nepārtrauktā atmiņas apgabalā:",
-        "```cpp\nint temps[5]; // Rezervē vietu 5 veseliem skaitļiem pēc kārtas\n```",
-        "Tagad borta dators var piekļūt katram mērījumam pēc tā kārtas numura — indeksa — izmantojot vienu vienīgu ciklu `for`."
+        "Iedomājieties 5 ārējo sensoru temperatūras mērījumu saglabāšanu viena Marsa sola laikā. Bez masīviem katrs sensors būtu jādeklarē un jānolasa kā atsevišķs, izolēts mainīgais:",
+        "```cpp\nint t0;\nint t1;\nint t2;\nint t3;\nint t4;\n\ncin >> t0;\ncin >> t1;\ncin >> t2;\ncin >> t3;\ncin >> t4;\n```",
+        "Ja sensoru skaits pieaug līdz 24, 100 vai 1000 mērījumiem, atsevišķi mainīgie kļūst pilnīgi nepārvaldāmi. Pār atsevišķiem nosaukumiem `t0`, `t1`, `t2` nav iespējams palaist ciklu `for`, jo mainīgo nosaukumus programmas izpildes laikā nevar aprēķināt.",
+        "**Masīvs (array)** šo problēmu atrisina pēc būtības. Masīvs ir datu struktūra, kas apvieno fiksētu viena tipa elementu virkni vienā nepārtrauktā datora operatīvās atmiņas (RAM) apgabalā:",
+        "- Visiem masīva elementiem ir **viens kopīgs nosaukums**.",
+        "- Elementi atmiņā atrodas stingri viens aiz otra secīgās šūnās.",
+        "- Katram elementam var piekļūt acumirklī $O(1)$ laikā pēc tā kārtas numura — **indeksa** (nobīdes no masīva sākuma).",
+        "Masīva pamata deklarācijas sintakse prasa norādīt elementu tipu, masīva nosaukumu un fiksētu izmēru kvadrātiekavās:",
+        "```cpp\ntips nosaukums[IZMĒRS];\n```",
+        "Piemēram, rezervējot vietu Omega 5 temperatūras mērījumiem vienā rindiņā:",
+        "```cpp\nint temps[5]; // Rezervē vietu 5 secīgiem veseliem skaitļiem atmiņā\n```",
+        "Tagad borta dators var sistemātiski apstrādāt katru mērījumu, izmantojot vienu vienīgu skaitītāja ciklu."
       ],
       "archive": {
         "title": "Statisko masīvu buferi reāllaika kosmiskajā programmatūrā",
@@ -32,14 +38,15 @@
       "body": [
         "Lai C++ valodā deklarētu masīvu, norāda elementu tipu, masīva nosaukumu un elementu skaitu kvadrātiekavās `[IZMĒRS]`:",
         "```cpp\nint temps[5] = {-55, -40, -12, -30, -50};\n```",
+        "Šeit `int` ir katra elementa tips, `temps` — masīva nosaukums, bet `[5]` norāda fiksēto ietilpību. Figūriekavas `{...}` piešķir katrai šūnai sākotnējo vērtību.",
         "C++ izmanto **indeksāciju no nulles**. Pirmais elements vienmēr atrodas pie indeksa `0`:",
-        "- `temps[0]` ir `-55` (pirmais mērījums)",
+        "- `temps[0]` ir `-55` (pirmais mērījums pie nobīdes 0)",
         "- `temps[1]` ir `-40` (otrais mērījums)",
         "- `temps[4]` ir `-50` (piektais un pēdējais mērījums)",
         "!> **Robežas likums par vienu vienību.** Masīvā ar izmēru `N` derīgie indeksi ir stingri no `0` līdz `N - 1`. `temps[5]` vispār NEEKSISTĒ! Mēģinājums piekļūt `temps[5]` nolasa svešu atmiņu ārpus masīva robežām (undefined behavior). Kosmiskajos borta datoros robežas pārkāpšana var sabojāt kaimiņu telemetrijas datus.",
-        "> **Standarta apiešanas šablons:**",
-        "> Masīva apstaigāšanai vienmēr izmanto stingro nevienādību `< IZMĒRS`:",
-        "> `for (int i = 0; i < 5; i++) { cout << temps[i]; }`"
+        "Masīva apiešanai (katra elementa apmeklēšanai) vienmēr izmanto ciklu `for`, sākot no indeksa `0` un ar stingro nevienādību `< IZMĒRS`:",
+        "```cpp\nfor (int i = 0; i < 5; i++) {\n    cout << temps[i] << endl;\n}\n```",
+        "Tā kā nosacījums ir `i < 5`, cikls izpildās pie `i = 0, 1, 2, 3, 4` un nekavējoties apstājas, kad `i` sasniedz `5`, droši novēršot kļūdainu nolasīšanu ārpus masīva robežām."
       ]
     },
     "predict-array-index": {

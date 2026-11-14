@@ -6,12 +6,18 @@
       "title": "Why flight computers need arrays",
       "body": [
         "Welcome to **Block 3: DATI (Data)**. Heavy cargo drone **KRAVAS 'Omega'** has touched down on the landing terrace of Base IRIS. Designed for transporting massive geological core samples and heavy life-support pods, Omega deploys sequential sensor arrays across the Martian terrain.",
-        "Consider logging 5 temperature samples during a Martian sol. Without arrays, you would have to write:",
-        "```cpp\nint t0, t1, t2, t3, t4;\ncin >> t0 >> t1 >> t2 >> t3 >> t4;\n```",
-        "If the sensor grid expands to 24 or 1,000 readings, separate variables become impossible to manage. You cannot loop over distinct variable names `t0`, `t1`, `t2` with a `for` loop.",
-        "An **array** solves this by grouping a fixed sequence of elements of the same type under a single name, allocated contiguously in memory:",
-        "```cpp\nint temps[5]; // Allocates space for 5 integers in a row\n```",
-        "Now the flight computer can access every measurement by its numerical position—its index—using a single `for` loop."
+        "Consider logging temperature readings from 5 separate external sensors during a Martian sol. Without arrays, you would have to declare and read each sensor as an individual, isolated variable:",
+        "```cpp\nint t0;\nint t1;\nint t2;\nint t3;\nint t4;\n\ncin >> t0;\ncin >> t1;\ncin >> t2;\ncin >> t3;\ncin >> t4;\n```",
+        "If the sensor grid expands to 24, 100, or 1,000 readings, separate variables become completely unmanageable. You cannot loop over distinct variable names `t0`, `t1`, `t2` with a `for` loop, because variable names cannot be calculated at runtime.",
+        "An **array** solves this fundamentally. An array is a data structure that groups a fixed sequence of elements of the same data type into one contiguous (unbroken) block of computer memory (RAM):",
+        "- All elements in an array share a **single common name**.",
+        "- Elements are placed strictly one after another in consecutive memory cells.",
+        "- Every element is instantly accessible in $O(1)$ constant time by its numerical position—its **index** (offset from the start).",
+        "The basic declaration syntax requires the element type, the array identifier, and the fixed capacity in square brackets:",
+        "```cpp\ntype name[SIZE];\n```",
+        "For example, allocating storage for Omega's 5 temperature readings in one line:",
+        "```cpp\nint temps[5]; // Allocates 5 consecutive integer cells in memory\n```",
+        "Now the flight computer can process every measurement systematically using a single counter loop."
       ],
       "archive": {
         "title": "Static array buffers in real-time spaceflight software",
@@ -32,14 +38,15 @@
       "body": [
         "To declare an array in C++, specify the element type, array name, and number of elements in square brackets `[SIZE]`:",
         "```cpp\nint temps[5] = {-55, -40, -12, -30, -50};\n```",
-        "C++ uses **zero-based indexing**. The first element is always at index `0`:",
-        "- `temps[0]` is `-55` (first sample)",
+        "Here, `int` is the type of every element, `temps` is the array name, and `[5]` specifies the fixed capacity. The curly braces `{...}` provide initial values for each cell.",
+        "C++ uses **zero-based indexing**. The first element is always located at index `0`:",
+        "- `temps[0]` is `-55` (first sample at offset 0)",
         "- `temps[1]` is `-40` (second sample)",
         "- `temps[4]` is `-50` (fifth and final sample)",
-        "!> **The off-by-one boundary rule.** In an array of size `N`, the valid indices are strictly `0` through `N - 1`. `temps[5]` does NOT exist! Accessing `temps[5]` reads unallocated memory outside the array (undefined behavior). In aerospace flight software, boundary overruns can corrupt adjacent telemetry memory.",
-        "> **Standard traversal idiom:**",
-        "> Always loop from `0` with strict inequality `< SIZE`:",
-        "> `for (int i = 0; i < 5; i++) { cout << temps[i]; }`"
+        "!> **The off-by-one boundary rule.** In an array of size `N`, valid indices are strictly `0` through `N - 1`. `temps[5]` does NOT exist! Accessing `temps[5]` reads unallocated memory outside the array (undefined behavior). In aerospace flight software, boundary overruns can corrupt adjacent telemetry memory.",
+        "To traverse (visit every element of) an array, always use a `for` loop starting at index `0` with the strict inequality `< SIZE`:",
+        "```cpp\nfor (int i = 0; i < 5; i++) {\n    cout << temps[i] << endl;\n}\n```",
+        "Because the condition is `i < 5`, the counter loop executes for `i = 0, 1, 2, 3, 4` and halts immediately when `i` reaches `5`, safely avoiding any out-of-bounds memory read."
       ]
     },
     "predict-array-index": {
