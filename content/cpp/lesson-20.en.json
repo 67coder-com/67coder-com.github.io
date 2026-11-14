@@ -1,0 +1,114 @@
+{
+  "title": "Functions: the basics",
+  "steps": {
+    "why-functions": {
+      "eyebrow": "Modular avionics",
+      "title": "Why flight computers require functions",
+      "body": [
+        "Welcome to **Functions**! As Fleet IRIS expands—with Scout drone Sigma surveying lava tubes, Cartographer Delta mapping ridges, and Cargo drone Omega moving heavy core containers—our flight programs are growing larger and more complex.",
+        "Consider computing thruster fuel consumption: `distance * burn_rate`. If you copy and paste this formula across 20 loops and conditionals, your codebase becomes brittle. If an engine engineer modifies the thruster calibration, you must find and edit all 20 locations. If you miss one, the drone miscalculates burn time and risks orbital deviation.",
+        "In software engineering, this is solved by **modular decomposition**: breaking large programs into small, independent, named subroutines called **functions**:",
+        "- **Write once, execute anywhere.** A function defines a calculation in one authoritative place. Every drone subsystem calls the same verified routine.",
+        "- **Information hiding and readability.** Instead of wading through dense math formulas inside `main()`, you read expressive command names: `calculate_fuel(dist, rate)`.",
+        "- **Independent testability.** You can test and verify an aerospace calculation in isolation before integrating it into autonomous navigation."
+      ],
+      "archive": {
+        "title": "Subroutine determinism in NASA's Apollo Guidance Computer and HAL/S",
+        "body": "In 1969, the Apollo Guidance Computer (AGC) operated on just 36 kilobytes of ROM and 2 kilobytes of RAM. To land astronauts on the lunar surface, software pioneer Margaret Hamilton and the MIT Instrumentation Lab designed the flight code as modular, asynchronous subroutines managed by an executive scheduler. Later, for the Space Shuttle fleet, NASA created the HAL/S programming language specifically to mandate modular function boundaries. Subroutines were strictly required to have a single entry point and single exit path, guaranteeing predictable timing cycles down to the microsecond.",
+        "sources": [
+          "David A. Mindell, 'Digital Apollo: Human and Machine in Spaceflight', MIT Press",
+          "NASA Shuttle Avionics Integration Laboratory, 'HAL/S Language Specification'"
+        ]
+      }
+    },
+    "function-anatomy": {
+      "eyebrow": "Syntax and anatomy",
+      "title": "Anatomy of a C++ function",
+      "alt": "Diagram illustrating C++ function anatomy: definition with return type, identifier, parameter list, body, and call site in main() passing arguments and capturing the returned value.",
+      "image": "assets/l20-function-anatomy.en.svg",
+      "body": [
+        "A C++ function consists of a **header** (signature) and a **body** enclosed in curly braces `{}`:",
+        "```cpp\nint calc_fuel(int dist, int rate) {\n    return dist * rate;\n}\n```",
+        "Let us examine each structural component:",
+        "- **Return type (`int`):** Specifies the data type of the final result sent back to the caller. If the function calculates a number, this might be `int` or `double`. If it checks a condition, it returns `bool`.",
+        "- **Function identifier (`calc_fuel`):** The name used to invoke the subroutine.",
+        "- **Parameter list (`(int dist, int rate)`):** Input variables that receive data when the function is called. Each parameter must specify its type.",
+        "- **The `return` statement:** Evaluates the result expression, hands it back to the caller, and immediately terminates function execution.",
+        "> **Calling a function:** In `main()`, you invoke the function by name and pass values in parentheses: `int total = calc_fuel(100, 5);`. The values passed (`100` and `5`) are called **arguments**."
+      ]
+    },
+    "predict-function-call": {
+      "eyebrow": "Execution flow",
+      "title": "Trace function calls and return values",
+      "body": [
+        "Trace this program containing two distinct mathematical functions.",
+        "Determine the final output printed to the terminal console."
+      ],
+      "explain": "First, `calc_distance(10, 4)` is called with arguments 10 and 4. It computes `10 * 4 = 40` and returns 40, stored in `d`. Next, `square(5)` is called with argument 5, computing `5 * 5 = 25`, stored in `area`. The program outputs `40 25`."
+    },
+    "write-fuel-function": {
+      "title": "Thruster fuel consumption subroutine",
+      "task": "Program Sigma's modular fuel calculation subroutine:\n1. Above `main()`, define a function `int calculate_fuel(int distance, int burn_rate)` that returns `distance * burn_rate`.\n2. In `main()`, read `dist` and `rate` from `cin`.\n3. Call `calculate_fuel(dist, rate)` and store the result in `fuel_needed`.\n4. Print `FUEL REQUIRED: ` followed by `fuel_needed` and a newline.",
+      "hint": "Write the function definition before `main()`: `int calculate_fuel(int distance, int burn_rate) { return distance * burn_rate; }`.",
+      "solutionNote": "By isolating calculation logic into a function, fuel math can be reused across all drone flight stages."
+    },
+    "void-function-and-return": {
+      "eyebrow": "Void return type",
+      "title": "Action subroutines with void",
+      "compareCaptions": [
+        "Valid void invocation: calling a void action subroutine as a standalone statement",
+        "Invalid assignment: cannot capture return value from a void subroutine"
+      ],
+      "body": [
+        "Not all functions calculate and return a numerical answer. Subroutines often perform an action, such as displaying a mission banner, emitting an acoustic warning, or clearing a sensor log.",
+        "When a function does not return a value, its return type is declared as **`void`**:",
+        "```cpp\nvoid sound_alarm(int code) {\n    cout << \"ALARM TRIGGERED: \" << code << endl;\n}\n```",
+        "Inside a `void` function, you do not write `return <value>;`. You can exit early using a bare `return;` without any value:",
+        "```cpp\nvoid test_sensor(int signal) {\n    if (signal < 0) {\n        return; // Early exit on invalid signal\n    }\n    cout << \"SIGNAL OK: \" << signal << endl;\n}\n```",
+        "!> **The void assignment trap.** A `void` function produces no return value. Writing `int x = sound_alarm(404);` will fail to compile because there is no data to assign to `x`!"
+      ]
+    },
+    "find-missing-return-bug": {
+      "eyebrow": "Compiler audit",
+      "title": "Identify missing return statement",
+      "body": [
+        "This function is declared to return an integer thrust value.",
+        "However, the author forgot a critical statement before the function concludes. Click on the line where execution ends without returning a value."
+      ],
+      "explain": "Line 7 concludes the function body `{}` of `compute_thrust`. Because the function's return type is declared as `int`, it must explicitly return an integer with `return thrust;`. Reaching the end of a non-void value-returning function without a return statement is undefined behavior and produces a compiler error!"
+    },
+    "assemble-function-prototype": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble forward declaration prototype",
+      "body": [
+        "In C++, the compiler reads source code from top to bottom. If `main()` calls a function defined below it, the compiler needs a **function prototype** (forward declaration) at the top of the file.",
+        "Arrange the code blocks in correct order: prototype before `main()`, function call inside `main()`, and complete definition below `main()`."
+      ]
+    },
+    "predict-return-early-exit": {
+      "eyebrow": "Control flow",
+      "title": "Trace early return branching",
+      "body": [
+        "Trace the execution of this sensor clamping function that utilizes an early `return`.",
+        "Determine the final output line printed to the console."
+      ],
+      "explain": "In the first call `clamp_sensor(150, 100)`, `value > limit` (150 > 100) is true, so it immediately returns `limit` (100). In the second call `clamp_sensor(45, 100)`, the condition is false, so execution continues past the `if` and returns `value` (45). The output is `100 45`."
+    },
+    "drone-telemetry-toolkit": {
+      "title": "Sigma avionics safety toolkit",
+      "task": "Program Sigma's modular avionics safety toolkit:\n1. Above `main()`, define `int battery_margin(int capacity, int reserved)` that returns `capacity - reserved`.\n2. Above `main()`, define `bool is_safe_altitude(int alt)` that returns `true` if `alt >= 50 && alt <= 300`, otherwise `false`.\n3. In `main()`, read `cap`, `res`, and `alt` from `cin`.\n4. Call `battery_margin(cap, res)` and print `BATTERY MARGIN: ` followed by the margin and a newline.\n5. If `is_safe_altitude(alt)` returns `true`, print `FLIGHT STATUS: NOMINAL` and a newline; otherwise print `FLIGHT STATUS: HAZARDOUS` and a newline.",
+      "hint": "Define both functions before `main()`. Use `if (is_safe_altitude(alt))` to branch cleanly on the boolean return value.",
+      "solutionNote": "This capstone demonstrates combining numeric calculation functions with boolean validation predicates in autonomous flight control."
+    },
+    "recap": {
+      "eyebrow": "Summary",
+      "title": "Function fundamentals recap",
+      "body": [
+        "In this mission, you introduced modular architecture into C++ using **functions**:",
+        "| Concept | Syntax / Example | Purpose |\n| :--- | :--- | :--- |\n| **Definition** | `int add(int a, int b) { return a + b; }` | Encapsulates logic and computation in one reusable place |\n| **Void Subroutine** | `void log_event() { cout << \"OK\"; }` | Executes actions without returning a value |\n| **Function Call** | `int res = add(10, 20);` | Passes arguments and receives returned result |\n| **Prototype** | `int add(int a, int b);` | Informs compiler about function signature before `main()` |\n| **Early Return** | `if (err) return;` | Halts function execution immediately on edge cases |\n",
+        "> **Next up: Chapter 21 — Funkcijas: parametru nodošana (Parameter Passing).**",
+        "> In this lesson, parameters were passed by value (copied). In Chapter 21, we unlock passing by reference (`int &x`) and `const &`, allowing functions to update telemetry variables directly in memory and process large datasets with zero copy overhead."
+      ]
+    }
+  }
+}

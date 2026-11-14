@@ -171,7 +171,10 @@
         {
           "n": 20,
           "slug": "functions-basics",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 21,

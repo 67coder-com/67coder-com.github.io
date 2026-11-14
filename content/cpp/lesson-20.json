@@ -1,0 +1,123 @@
+{
+  "n": 20,
+  "slug": "functions-basics",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-functions",
+      "kind": "theory",
+      "image": "assets/l20-why-functions.jpg"
+    },
+    {
+      "id": "function-anatomy",
+      "kind": "theory"
+    },
+    {
+      "id": "predict-function-call",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint square(int x) {\n    return x * x;\n}\n\nint calc_distance(int speed, int time) {\n    return speed * time;\n}\n\nint main() {\n    int d = calc_distance(10, 4);\n    int area = square(5);\n    cout << d << \" \" << area << endl;\n    return 0;\n}",
+      "expected": "40 25\n",
+      "options": [
+        "40 25",
+        "14 10",
+        "25 40",
+        "40 10"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "write-fuel-function",
+      "kind": "editor",
+      "initial": "#include <iostream>\nusing namespace std;\n\n// 1. Declare int calculate_fuel(int distance, int burn_rate) here\n\nint main() {\n    int dist, rate;\n    cin >> dist >> rate;\n\n    // 2. Call calculate_fuel and store in fuel_needed\n    // 3. Print FUEL REQUIRED: fuel_needed\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint calculate_fuel(int distance, int burn_rate) {\n    return distance * burn_rate;\n}\n\nint main() {\n    int dist, rate;\n    cin >> dist >> rate;\n\n    int fuel_needed = calculate_fuel(dist, rate);\n    cout << \"FUEL REQUIRED: \" << fuel_needed << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "120 5\n",
+          "expected": "FUEL REQUIRED: 600\n"
+        },
+        {
+          "in": "50 12\n",
+          "expected": "FUEL REQUIRED: 600\n"
+        },
+        {
+          "in": "200 3\n",
+          "expected": "FUEL REQUIRED: 600\n"
+        }
+      ]
+    },
+    {
+      "id": "void-function-and-return",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "void log_alert(int code) {\n    cout << \"ALERT CODE: \" << code << endl;\n}\n\nint main() {\n    log_alert(404); // Correct statement call\n}",
+          "ok": true
+        },
+        {
+          "code": "void log_alert(int code) {\n    cout << \"ALERT CODE: \" << code << endl;\n}\n\nint main() {\n    int status = log_alert(404); // Error!\n    // void function returns no value\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "find-missing-return-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint compute_thrust(int throttle) {\n    int thrust = throttle * 15;\n    cout << \"THRUST COMPUTED\" << endl;\n}\n\nint main() {\n    int p = compute_thrust(10);\n    cout << p << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "assemble-function-prototype",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int to_kelvin(int celsius);",
+        "int main() {",
+        "    int k = to_kelvin(-50);",
+        "    cout << \"KELVIN: \" << k << endl;",
+        "    return 0;",
+        "}",
+        "int to_kelvin(int celsius) {",
+        "    return celsius + 273;",
+        "}"
+      ]
+    },
+    {
+      "id": "predict-return-early-exit",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint clamp_sensor(int value, int limit) {\n    if (value > limit) {\n        return limit;\n    }\n    return value;\n}\n\nint main() {\n    cout << clamp_sensor(150, 100) << \" \" << clamp_sensor(45, 100) << endl;\n    return 0;\n}",
+      "expected": "100 45\n",
+      "options": [
+        "100 45",
+        "150 45",
+        "100 100",
+        "150 100"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "drone-telemetry-toolkit",
+      "kind": "editor",
+      "initial": "#include <iostream>\nusing namespace std;\n\n// 1. Define int battery_margin(int capacity, int reserved)\n// 2. Define bool is_safe_altitude(int alt)\n\nint main() {\n    int cap, res, alt;\n    cin >> cap >> res >> alt;\n\n    // 3. Print BATTERY MARGIN: margin\n    // 4. If is_safe_altitude(alt) print FLIGHT STATUS: NOMINAL else FLIGHT STATUS: HAZARDOUS\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint battery_margin(int capacity, int reserved) {\n    return capacity - reserved;\n}\n\nbool is_safe_altitude(int alt) {\n    return alt >= 50 && alt <= 300;\n}\n\nint main() {\n    int cap, res, alt;\n    cin >> cap >> res >> alt;\n\n    int margin = battery_margin(cap, res);\n    cout << \"BATTERY MARGIN: \" << margin << endl;\n\n    if (is_safe_altitude(alt)) {\n        cout << \"FLIGHT STATUS: NOMINAL\" << endl;\n    } else {\n        cout << \"FLIGHT STATUS: HAZARDOUS\" << endl;\n    }\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "1000 200 120\n",
+          "expected": "BATTERY MARGIN: 800\nFLIGHT STATUS: NOMINAL\n"
+        },
+        {
+          "in": "500 100 20\n",
+          "expected": "BATTERY MARGIN: 400\nFLIGHT STATUS: HAZARDOUS\n"
+        },
+        {
+          "in": "800 350 350\n",
+          "expected": "BATTERY MARGIN: 450\nFLIGHT STATUS: HAZARDOUS\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

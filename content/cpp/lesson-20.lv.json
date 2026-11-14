@@ -1,0 +1,114 @@
+{
+  "title": "Funkcijas: pamati",
+  "steps": {
+    "why-functions": {
+      "eyebrow": "Modulārā avionika",
+      "title": "Kāpēc borta datoriem nepieciešamas funkcijas",
+      "body": [
+        "Laipni lūgti nodaļā par **funkcijām**! IRIS flotei paplašinoties — izlūkam Sigma pētot lavas kanjonus, kartogrāfam Delta veidojot reljefa kartes un kravas dronam Omega pārvietojot smagos konteinerus —, mūsu lidojuma programmas kļūst aizvien apjomīgākas un sarežģītākas.",
+        "Iedomājieties dzinēja degvielas patēriņa aprēķinu: `attālums * patēriņa_koeficients`. Ja šo formulu iekopē 20 dažādās ciklu un nosacījumu vietās, kods kļūst trausls. Tiklīdz inženieri maina dzinēja kalibrāciju, formula jālabo visās 20 vietās. Ja kādā vietā aizmirst vai pieļauj drukas kļūdu, drons kļūdaini aprēķina vilci un riskē novirzīties no orbītas.",
+        "Programmatūras inženierijā šo problēmu atrisina **modulārā sadalīšana**: lielas programmas sadalīšana nelielās, neatkarīgās un nosauktās apakšprogrammās — **funkcijās**:",
+        "- **Uzraksti vienreiz, izmanto visur.** Funkcija definē aprēķinu vienā uzticamā vietā. Visas drona apakšsistēmas izsauc vienu un to pašu pārbaudīto moduli.",
+        "- **Koda lasāmība un skaidrība.** Tā vietā, lai lasītu garas matemātiskas izteiksmes funkcijā `main()`, mēs redzam skaidrus komandu nosaukumus: `calculate_fuel(dist, rate)`.",
+        "- **Neatkarīga testēšana.** Kosmisko aprēķinu var atsevišķi pārbaudīt un notestēt, pirms to integrē autonomajā lidojuma vadībā."
+      ],
+      "archive": {
+        "title": "Apakšprogrammu determinisms NASA Apollo borta datorā un HAL/S",
+        "body": "1969. gadā Apollo borta dators (AGC) darbojās ar tikai 36 kilobaitiem pastāvīgās atmiņas (ROM) un 2 kilobaitiem operatīvās atmiņas (RAM). Lai nodrošinātu astronautu nolaišanos uz Mēness, programmēšanas pionieris Margarēta Hamiltone un MIT laboratorija kodu veidoja kā modulāru, asinhronu apakšprogrammu kopu ar prioritāšu dispečeru. Vēlāk Space Shuttle vajadzībām NASA radīja specializētu valodu HAL/S, kurā funkciju robežas bija obligātas. Apakšprogrammām bija stingri noteikts viens ieejas un viens izejas punkts, kas garantēja mikrosekundēs paredzamus izpildes ciklus.",
+        "sources": [
+          "David A. Mindell, 'Digital Apollo: Human and Machine in Spaceflight', MIT Press",
+          "NASA Shuttle Avionics Integration Laboratory, 'HAL/S Language Specification'"
+        ]
+      }
+    },
+    "function-anatomy": {
+      "eyebrow": "Sintakse un uzbūve",
+      "title": "C++ funkcijas anatomija",
+      "alt": "Shēma attēlo C++ funkcijas uzbūvi: definīcija ar atgriežamo tipu, nosaukumu, parametriem, ķermeni un izsaukums funkcijā main(), nododot argumentus un saņemot rezultātu.",
+      "image": "assets/l20-function-anatomy.lv.svg",
+      "body": [
+        "C++ funkcija sastāv no **galvenes** (paraksta) un figūriekavās `{}` ietverta **ķermeņa**:",
+        "```cpp\nint calc_fuel(int dist, int rate) {\n    return dist * rate;\n}\n```",
+        "Aplūkosim katru no šiem elementiem:",
+        "- **Atgriežamais tips (`int`):** Norāda datu tipu gala rezultātam, ko funkcija nosūta atpakaļ izsaucējam. Ja aprēķina skaitli, tas parasti ir `int` vai `double`. Ja pārbauda nosacījumu — `bool`.",
+        "- **Funkcijas nosaukums (`calc_fuel`):** Identifikators, ar kuru funkciju izsauc no citām koda vietām.",
+        "- **Parametru saraksts (`(int dist, int rate)`):** Ieejas mainīgie, kas pieņem datus funkcijas izsaukuma brīdī. Katram parametram obligāti jānorāda tā tips.",
+        "- **Komanda `return`:** Aprēķina rezultāta izteiksmi, nodod to izsaucējam un nekavējoties pārtrauc funkcijas izpildi.",
+        "> **Funkcijas izsaukšana:** Funkcijā `main()` funkciju izsauc pēc tās nosaukuma, iekavās norādot vērtības: `int total = calc_fuel(100, 5);`. Padotās vērtības (`100` un `5`) sauc par **argumentiem**."
+      ]
+    },
+    "predict-function-call": {
+      "eyebrow": "Izpildes plūsma",
+      "title": "Funkciju izsaukumu un atgriezto vērtību izsekošana",
+      "body": [
+        "Izsekojiet šai programmai ar divām atsevišķām aprēķinu funkcijām.",
+        "Nosakiet konsolē izdrukāto galarezultātu."
+      ],
+      "explain": "Vispirms tiek izsaukta funkcija `calc_distance(10, 4)` ar argumentiem 10 un 4. Tā aprēķina `10 * 4 = 40` un atgriež 40, ko saglabā mainīgajā `d`. Pēc tam izsauc `square(5)` ar argumentu 5, iegūstot `5 * 5 = 25`, ko saglabā `area`. Programma izdrukā `40 25`."
+    },
+    "write-fuel-function": {
+      "title": "Dzinēja degvielas patēriņa funkcija",
+      "task": "Ieprogrammējiet Sigma modulāro degvielas patēriņa funkciju:\n1. Virs `main()` definējiet funkciju `int calculate_fuel(int distance, int burn_rate)`, kas atgriež reizinājumu `distance * burn_rate`.\n2. Funkcijā `main()` nolasiet `dist` un `rate` no `cin`.\n3. Izsauciet `calculate_fuel(dist, rate)` un saglabājiet rezultātu mainīgajā `fuel_needed`.\n4. Izdrukājiet `FUEL REQUIRED: `, mainīgo `fuel_needed` un jaunu rindu.",
+      "hint": "Definējiet funkciju pirms `main()`: `int calculate_fuel(int distance, int burn_rate) { return distance * burn_rate; }`.",
+      "solutionNote": "Izolējot aprēķina loģiku atsevišķā funkcijā, to var droši atkārtoti izmantot visos lidojuma posmos."
+    },
+    "void-function-and-return": {
+      "eyebrow": "Atgriežamais tips void",
+      "title": "Darbību funkcijas ar void tipu",
+      "compareCaptions": [
+        "Korekts void izsaukums: darbības funkciju izsauc kā atsevišķu komandu",
+        "Neatļauta vērtības piešķiršana: void funkcija neatgriež nekādu vērtību"
+      ],
+      "body": [
+        "Ne visas funkcijas veic matemātiskus aprēķinus ar skaitlisku rezultātu. Bieži apakšprogrammas veic darbības — piemēram, izdrukā paziņojumu konsolē, ieslēdz skaņas signālu vai notīra kļūdu žurnālu.",
+        "Ja funkcijai nav jāatgriež vērtība, tās atgriežamo tipu deklarē kā **`void`**:",
+        "```cpp\nvoid sound_alarm(int code) {\n    cout << \"ALARM TRIGGERED: \" << code << endl;\n}\n```",
+        "Funkcijā ar tipu `void` neraksta `return <vērtība>;`. No funkcijas var iziet pirms laika, vienkārši uzrakstot `return;` bez vērtības:",
+        "```cpp\nvoid test_sensor(int signal) {\n    if (signal < 0) {\n        return; // Pārtrauc izpildi nederīga signāla gadījumā\n    }\n    cout << \"SIGNAL OK: \" << signal << endl;\n}\n```",
+        "!> **Vērtības piešķiršanas kļūda.** Funkcija ar tipu `void` neatgriež nekādu rezultātu. Mēģinājums rakstīt `int x = sound_alarm(404);` nekompilēsies, jo nav vērtības, ko piešķirt mainīgajam `x`!"
+      ]
+    },
+    "find-missing-return-bug": {
+      "eyebrow": "Kompilatora audits",
+      "title": "Trūkstošās return komandas atrašana",
+      "body": [
+        "Šī funkcija ir deklarēta kā tāda, kas atgriež veselu skaitli (dzinēja vilces jaudu).",
+        "Tomēr autors pirms funkcijas noslēguma ir aizmirsis būtisku komandu. Noklikšķiniet uz rindiņas, kur funkcijas izpilde beidzas bez vērtības atgriešanas."
+      ],
+      "explain": "Rindiņā 7 noslēdzas funkcijas `compute_thrust` figūriekava `{}`. Tā kā funkcijas atgriežamais tips ir `int`, tajā obligāti jābūt komandai `return thrust;`. Ja vērtību atgriezošas funkcijas izpilde sasniedz beigas bez `return`, programma satur nenoteiktu uzvedību un kompilators ziņo par kļūdu!"
+    },
+    "assemble-function-prototype": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Funkcijas prototipa salikšana",
+      "body": [
+        "C++ kompilators lasa programmas kodu no augšas uz leju. Ja funkcijā `main()` vēlas izsaukt funkciju, kas uzrakstīta zemāk, faila sākumā nepieciešams **funkcijas prototips** (iepriekšēja deklarācija).",
+        "Salieciet koda blokus pareizā secībā: prototips pirms `main()`, izsaukums funkcijā `main()` un pilna definīcija zem `main()`."
+      ]
+    },
+    "predict-return-early-exit": {
+      "eyebrow": "Vadības plūsma",
+      "title": "Agrīnās return komandas izsekošana",
+      "body": [
+        "Izsekojiet šai sensora signāla ierobežotāja funkcijai, kurā tiek izmantots nosacījuma `return`.",
+        "Nosakiet konsolē izdrukāto galarezultātu."
+      ],
+      "explain": "Pirmajā izsaukumā `clamp_sensor(150, 100)` nosacījums `value > limit` (150 > 100) ir patiess, tāpēc funkcija nekavējoties atgriež `limit` (100). Otrajā izsaukumā `clamp_sensor(45, 100)` nosacījums ir aplams, tāpēc tiek atgriezts pats `value` (45). Izdruka ir `100 45`."
+    },
+    "drone-telemetry-toolkit": {
+      "title": "Sigma avionikas drošības moduļu kopa",
+      "task": "Ieprogrammējiet izlūka Sigma modulāros avionikas drošības rīkus:\n1. Virs `main()` definējiet `int battery_margin(int capacity, int reserved)`, kas atgriež starpību `capacity - reserved`.\n2. Virs `main()` definējiet `bool is_safe_altitude(int alt)`, kas atgriež `true`, ja `alt >= 50 && alt <= 300`, pretējā gadījumā `false`.\n3. Funkcijā `main()` nolasiet `cap`, `res` un `alt` no `cin`.\n4. Izsauciet `battery_margin(cap, res)` un izdrukājiet `BATTERY MARGIN: `, rezultātu un jaunu rindu.\n5. Ja `is_safe_altitude(alt)` atgriež `true`, izdrukājiet `FLIGHT STATUS: NOMINAL` un jaunu rindu; pretējā gadījumā izdrukājiet `FLIGHT STATUS: HAZARDOUS` un jaunu rindu.",
+      "hint": "Definējiet abas funkcijas pirms `main()`. Izmantojiet `if (is_safe_altitude(alt))`, lai ērti pārbaudītu loģisko funkcijas rezultātu.",
+      "solutionNote": "Šis noslēguma uzdevums parāda skaitlisko aprēķinu un loģisko predikātu funkciju apvienošanu autonomajā lidojuma vadībā."
+    },
+    "recap": {
+      "eyebrow": "Kopsavilkums",
+      "title": "Funkciju pamatu kopsavilkums",
+      "body": [
+        "Šajā misijā jūs ieviesāt modulāru koda arhitektūru C++ valodā ar **funkcijām**:",
+        "| Jēdziens | Sintakse / Piemērs | Nozīme |\n| :--- | :--- | :--- |\n| **Definīcija** | `int add(int a, int b) { return a + b; }` | Iekapsulē aprēķinu loģiku vienā atkārtoti lietojamā vietā |\n| **Void procedūra** | `void log_event() { cout << \"OK\"; }` | Veic darbību, neatgriežot vērtību |\n| **Funkcijas izsaukums** | `int res = add(10, 20);` | Nodod argumentus un saņem atgriezto rezultātu |\n| **Prototips** | `int add(int a, int b);` | Paziņo kompilatoram funkcijas parakstu pirms `main()` |\n| **Agrīnais return** | `if (err) return;` | Nekavējoties pārtrauc funkcijas izpildi īpašos gadījumos |\n",
+        "> **Nākamā tēma: 21. nodaļa — Funkcijas: parametru nodošana (Parameter Passing).**",
+        "> Šajā nodaļā parametri tika nodoti pēc vērtības (kopēti). 21. nodaļā mēs apgūsim nodošanu pēc norādes (`int &x`) un `const &`, kas ļauj funkcijām tieši atjaunināt mainīgos atmiņā un bez liekas kopēšanas apstrādāt apjomīgus datus."
+      ]
+    }
+  }
+}

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="100%" height="100%">
+  <title>C++ Funkcijas anatomija: definīcija un izsaukums</title>
+  <desc>Vizuāla shēma, kas izskaidro C++ funkcijas uzbūvi. Kreisajā pusē parādīta definīcija ar atgriežamo tipu, nosaukumu, parametriem un return komandu. Labajā pusē attēlots izsaukums funkcijā main(), kur argumenti tiek nodoti parametriem un atgrieztā vērtība saglabāta.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="340" rx="10" fill="#0D1117" />
+
+  <!-- Section Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">FUNKCIJAS ARHITEKTŪRA: DEFINĪCIJA UN IZSAUKUMS</text>
+
+  <!-- Left Card: Function Definition -->
+  <g transform="translate(24, 52)">
+    <rect width="410" height="264" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#7FB3A3" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1. FUNKCIJAS DEFINĪCIJA (APAKŠPROGRAMMA)</text>
+    
+    <!-- Code Box -->
+    <rect x="20" y="44" width="370" height="114" rx="6" fill="#1E2530" stroke="#7FB3A3" stroke-width="1.5" />
+    
+    <!-- Signature Line -->
+    <text x="35" y="76" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+      <tspan fill="#7FB3A3" font-weight="bold">int</tspan>
+      <tspan fill="#D8D0C2"> </tspan>
+      <tspan fill="#D1B784" font-weight="bold">calc_fuel</tspan>
+      <tspan fill="#D8D0C2">(</tspan>
+      <tspan fill="#82AAFF">int dist</tspan>
+      <tspan fill="#D8D0C2">, </tspan>
+      <tspan fill="#82AAFF">int rate</tspan>
+      <tspan fill="#D8D0C2">) {</tspan>
+    </text>
+    
+    <!-- Body Line -->
+    <text x="55" y="108" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+      <tspan fill="#CE8A78" font-weight="bold">return</tspan>
+      <tspan fill="#D8D0C2"> dist * rate;</tspan>
+    </text>
+    
+    <!-- Closing Brace -->
+    <text x="35" y="138" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">}</text>
+
+    <!-- Labels under definition -->
+    <g transform="translate(20, 172)">
+      <rect width="370" height="74" rx="4" fill="#1B222C" stroke="#2A313C" stroke-width="1" />
+      <circle cx="16" cy="20" r="5" fill="#7FB3A3" />
+      <text x="30" y="24" fill="#D8D0C2" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#7FB3A3" font-weight="bold">int</tspan> = Atgriežamais tips (rezultāts)</text>
+      
+      <circle cx="16" cy="42" r="5" fill="#D1B784" />
+      <text x="30" y="46" fill="#D8D0C2" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#D1B784" font-weight="bold">calc_fuel</tspan> = Funkcijas nosaukums</text>
+
+      <circle cx="16" cy="62" r="5" fill="#82AAFF" />
+      <text x="30" y="66" fill="#D8D0C2" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#82AAFF" font-weight="bold">(dist, rate)</tspan> = Ieejas parametri</text>
+    </g>
+  </g>
+
+  <!-- Right Card: Calling the Function in main -->
+  <g transform="translate(446, 52)">
+    <rect width="410" height="264" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#82AAFF" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">2. FUNKCIJAS IZSAUKUMS MAIN()</text>
+    
+    <!-- Code Box -->
+    <rect x="20" y="44" width="370" height="114" rx="6" fill="#1E2530" stroke="#82AAFF" stroke-width="1.5" />
+    
+    <text x="35" y="76" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#7FB3A3">int</tspan> main() {</text>
+    <text x="55" y="108" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">
+      <tspan fill="#7FB3A3">int</tspan> total = <tspan fill="#D1B784" font-weight="bold">calc_fuel</tspan>(<tspan fill="#82AAFF">100</tspan>, <tspan fill="#82AAFF">5</tspan>);
+    </text>
+    <text x="35" y="138" fill="#D8D0C2" font-size="14" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">}</text>
+
+    <!-- Dataflow Explanation -->
+    <g transform="translate(20, 172)">
+      <rect width="370" height="74" rx="4" fill="#1B222C" stroke="#2A313C" stroke-width="1" />
+      
+      <!-- Passing arguments -->
+      <polygon points="12,18 20,14 20,22" fill="#82AAFF" />
+      <text x="28" y="20" fill="#D8D0C2" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">Nodod argumentus: <tspan fill="#82AAFF" font-weight="bold">100 → dist</tspan>, <tspan fill="#82AAFF" font-weight="bold">5 → rate</tspan></text>
+      
+      <!-- Computing -->
+      <polygon points="12,38 20,34 20,42" fill="#D1B784" />
+      <text x="28" y="40" fill="#D8D0C2" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">Aprēķins ķermenī: <tspan fill="#D1B784">100 * 5 = 500</tspan></text>
+
+      <!-- Returning value -->
+      <polygon points="12,58 20,54 20,62" fill="#7FB3A3" />
+      <text x="28" y="60" fill="#D8D0C2" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">Atgriež: <tspan fill="#7FB3A3" font-weight="bold">500</tspan> tiek saglabāts mainīgajā <tspan fill="#D8D0C2">total</tspan></text>
+    </g>
+  </g>
+</svg>
