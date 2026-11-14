@@ -155,7 +155,10 @@
         {
           "n": 18,
           "slug": "arrays-2d",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 19,

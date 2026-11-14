@@ -1,0 +1,112 @@
+{
+  "title": "Divdimensiju masīvi — Marsa karte",
+  "steps": {
+    "why-2d-arrays": {
+      "eyebrow": "Planetārās kartēšanas arhitektūra",
+      "title": "No lineāriem žurnāliem līdz 2D augstuma matricām",
+      "body": [
+        "17. nodaļā transporta drons Omega reģistrēja 1D lineāru temperatūras sensoru virkni. Taču planētas virsma ir divdimensiju telpa, ko nosaka platums un garums, rindas un kolonnas.",
+        "Lai izlūkotu nosēšanās vietas Mawrth Vallis krātera baseinā, kartogrāfs **Delta** projicē lāzera altimetra koordinātu režģi uz krātera pamatnes. Lai saglabātu augstumu karti ar 3 rindām un 3 kolonnām, parasts 1D masīvs kļūst neērts.",
+        "C++ valoda nodrošina **divdimensiju masīvus (2D arrays jeb matricas)** — masīvu masīvus, kas atmiņā sakārtoti rindu un kolonnu tabulā:",
+        "```cpp\nint map[3][3]; // 3 rindas, katrā pa 3 kolonnām\n```",
+        "Pirmā dimensija nosaka **rindu** skaitu (vertikālā pozīcija), bet otrā dimensija — **kolonnu** skaitu (horizontālā pozīcija).",
+        "Tas ļauj borta datoram piesaistīt topogrāfiskos punktus tieši koordinātu pāriem `map[rinda][kolonna]`."
+      ],
+      "archive": {
+        "title": "Digitālie augstuma modeļi (DEM) planetārajā kartēšanā",
+        "body": "1997. gadā zonde Mars Global Surveyor (MGS) sasniedza orbītu ar lāzera altimetru MOLA (Mars Orbiter Laser Altimeter). MOLA raidīja infrasarkanos lāzera impulsus 10 reizes sekundē, mērot gaismas atstarošanās laiku ar vertikālo precizitāti zem viena metra. Apstrādes programmatūra miljardiem lāzera mērījumu organizēja strukturētās 2D matricās, ko sauc par digitālajiem augstuma modeļiem (DEM). Šīs matricas ļāva precīzi aprēķināt nogāžu stāvumu, noteikt krāteru malas un garantēt drošus nosēšanās koridorus visām nākamajām visurgājēju misijām.",
+        "sources": [
+          "David E. Smith et al., 'The Global Topography of Mars from the Mars Orbiter Laser Altimeter', Science (1999)",
+          "NASA Planetary Data System, 'MOLA Precision Experiment Data Record (PEDR) Software Architecture'"
+        ]
+      }
+    },
+    "matrix-syntax-and-coordinates": {
+      "eyebrow": "Matricas sintakse un indeksi",
+      "title": "Matricu deklarēšana un apiešana",
+      "compareCaptions": [
+        "Korekta rindu-kolonnu apiešana: ārējais cikls iet pa rindām, iekšējais pa kolonnām",
+        "Bīstama robežu sajaukšana: kolonnu skaita izmantošana rindām izraisa kļūdu"
+      ],
+      "body": [
+        "Lai C++ deklarētu 2D masīvu, norāda divus kvadrātiekavu pārus `[RINDAS][KOLONNAS]`:",
+        "```cpp\nint map[2][3] = {\n    {10, 20, 30},\n    {40, 50, 60}\n};\n```",
+        "Katrai šūnai piekļūst pēc tās rindas indeksa `r` un kolonnas indeksa `c`: `map[r][c]`.",
+        "Abi indeksi sākas no nulles:",
+        "- `map[0][0]` ir augšējā kreisā šūna (`10`)",
+        "- `map[0][2]` ir augšējā labā šūna (`30`)",
+        "- `map[1][0]` ir apakšējā kreisā šūna (`40`)",
+        "- `map[1][2]` ir apakšējā labā šūna (`60`)",
+        "!> **Ligzdoto ciklu likums.** Lai apstaigātu visu matricu, izmanto ligzdotus ciklus `for`. Ārējais cikls kontrolē rindu `r` no `0` līdz `r < RINDAS`, bet iekšējais cikls — kolonnu `c` no `0` līdz `c < KOLONNAS`.",
+        "> **Atmiņas izvietojums:** C++ glabā 2D masīvus rindu secībā (row-major order): rinda 0 atmiņā atrodas uzreiz pirms rindas 1."
+      ]
+    },
+    "predict-matrix-cell": {
+      "eyebrow": "Atmiņas analīze",
+      "title": "2D šūnas maiņas izsekošana",
+      "body": [
+        "Izsekojiet šai matricas programmai, kurā šūnas vērtība tiek mainīta pēc rindas un kolonnas koordinātām.",
+        "Nosakiet konsolē izdrukāto summas vērtību."
+      ]
+    },
+    "matrix-nested-traversal": {
+      "title": "2D augstuma režģa ievade un izdruka",
+      "task": "Ieprogrammējiet drona Delta 2x3 sektora augstuma režģa reģistratoru:\n1. Deklarējiet 2D veselo skaitļu masīvu ar 2 rindām un 3 kolonnām: `int grid[2][3];`.\n2. Ligzdotos ciklos `for` (ārējais `r = 0` līdz `r < 2`, iekšējais `c = 0` līdz `c < 3`): nolasiet `grid[r][c]` no `cin`.\n3. Otrā ligzdoto ciklu pārī: izdrukājiet `grid[r][c]`, kam seko atstarpe, un pēc katras rindas beigām izdrukājiet jaunu rindu (`endl`).",
+      "hint": "Ievietojiet `cout << endl;` ārējā ciklā uzreiz pēc tam, kad iekšējais cikls ir izdrukājis visas attiecīgās rindas kolonnas.",
+      "solutionNote": "Ārējais cikls apstaigā 0. un 1. rindu, bet iekšējais katrā rindā izdrukā trīs kolonnu vērtības."
+    },
+    "find-matrix-bounds-bug": {
+      "eyebrow": "Atkļūdošana",
+      "title": "Atrodiet kolonnas robežas pārkāpumu",
+      "body": [
+        "Šī programma mēģina izdrukāt 2x3 augstumu režģi.",
+        "Tomēr viena no cikla robežām satur kļūdu, kuras dēļ notiek mēģinājums nolasīt atmiņu ārpus matricas. Noklikšķiniet uz kļūdainās rindas."
+      ],
+      "explanation": "2x3 matricā kolonnu indeksi ir 0, 1, 2. Nosacījums c <= 3 ļauj c sasniegt 3, mēģinot nolasīt elev[r][3], kas ir ārpus kolonnu robežām. Pareizajam nosacījumam jābūt c < 3."
+    },
+    "assemble-matrix-flat-sum": {
+      "eyebrow": "Pārsona uzdevums",
+      "title": "Salieciet matricas elementu summēšanu",
+      "body": [
+        "Kartogrāfam Delta jāaprēķina 2x2 krātera sektora kopējais summārais augstums.",
+        "Sakārtojiet koda blokus pareizā secībā, lai apstaigātu abas rindas un kolonnas un saskaitītu visas šūnas mainīgajā `total`."
+      ]
+    },
+    "crater-peak-search": {
+      "title": "Krātera augstākās virsotnes atrašana",
+      "task": "Atrodiet augstāko topogrāfisko virsotni un tās koordinātas 3x3 krātera režģī:\n1. Nolasiet 9 veselus skaitļus 3x3 matricā `int elev[3][3];` no `cin`.\n2. Inicializējiet maksimumu ar augšējo kreiso šūnu: `int max_elev = elev[0][0]; int peak_r = 0; int peak_c = 0;`.\n3. Ligzdotos ciklos `for` (r no 0 līdz 2, c no 0 līdz 2): ja `elev[r][c] > max_elev`, atjauniniet `max_elev = elev[r][c]`, `peak_r = r` un `peak_c = c`.\n4. Izdrukājiet `PEAK ELEVATION: `, kam seko `max_elev` un jauna rinda.\n5. Izdrukājiet `AT COORDINATES: (`, kam seko `peak_r`, `, `, `peak_c` un `)` jaunā rindā.",
+      "hint": "Neaizmirstiet atjaunināt abas koordinātas `peak_r = r; peak_c = c;`, kad tiek atrasts jauns `max_elev`.",
+      "solutionNote": "Šūnai (1, 1) ar vērtību 250 algoritms atjaunina virsotnes koordinātas un izvada precīzu atskaiti."
+    },
+    "row-hazard-audit": {
+      "title": "Sektoru rindu radiācijas audits",
+      "task": "Analizējiet radiācijas līmeņus pa rindām 3x3 sektora režģī:\n1. Nolasiet 3x3 matricu `int rad[3][3];` no `cin`.\n2. Katrai rindai `r` no 0 līdz 2: inicializējiet akumulatoru `int row_sum = 0;`.\n3. Iekšējā ciklā `c = 0` līdz `c < 3`: pieskaitiet `rad[r][c]` pie `row_sum`.\n4. Pēc katras rindas iekšējā cikla beigām izdrukājiet `ROW #`, kam seko `r`, `: SUM `, `row_sum` un jauna rinda.",
+      "hint": "Novietojiet `int row_sum = 0;` ārējā ciklā, lai tas tiktu atiestatīts uz nulli pirms katras jaunas rindas apstrādes.",
+      "solutionNote": "Akumulatora atiestatīšana katrai rindai aprēķina neatkarīgas summas katram no 3 reljefa sektoriem."
+    },
+    "predict-matrix-diagonal": {
+      "eyebrow": "Matricu algoritmi",
+      "title": "Diagonālā griezuma profila aprēķins",
+      "body": [
+        "Topogrāfiskajos krātera griezumos bieži analizē diagonālo profilu, kur rindas indekss sakrīt ar kolonnas indeksu (`r == c`).",
+        "Izsekojiet šim diagonāles summēšanas ciklam un nosakiet izdrukāto `diag_sum` vērtību."
+      ]
+    },
+    "capstone-landing-grid": {
+      "title": "Nosēšanās laukuma raupjuma novērtētājs",
+      "task": "Ieprogrammējiet drona Delta nosēšanās laukuma novērtētāju 3x3 raupjuma matricai:\n1. Nolasiet 3x3 matricu `int grid[3][3];` no `cin` (virsmas raupjuma rādītāji).\n2. Ligzdotos ciklos saskaitiet, cik šūnām `grid[r][c] <= 15` skaitītājā `safe_count`.\n3. Tajos pašos ciklos saskaitiet, cik šūnām `grid[r][c] > 50` skaitītājā `hazard_count`.\n4. Atrodiet minimālo raupjuma vērtību visā matricā mainīgajā `min_rough` (inicializējiet ar `grid[0][0]`).\n5. Izdrukājiet trīs kopsavilkuma rindas:\n   `SAFE SECTORS: `, kam seko `safe_count`,\n   `HAZARD SECTORS: `, kam seko `hazard_count`,\n   `BEST LANDING ROUGHNESS: `, kam seko `min_rough`.",
+      "hint": "Inicializējiet skaitītājus pirms cikliem: `int safe_count = 0; int hazard_count = 0; int min_rough = grid[0][0];`.",
+      "solutionNote": "Šī programma novērtē nosēšanās drošību, pārbaudot 9 sektoru zonas vienā 2D matricas caurgājienā."
+    },
+    "recap": {
+      "eyebrow": "Kopsavilkums",
+      "title": "Divdimensiju masīvu kopsavilkums: koordinātu matricas C++",
+      "body": [
+        "Šajā nodaļā jūs paplašinājāt savas datu modelēšanas iespējas divās dimensijās:",
+        "| Jēdziens | Sintakse | Pielietojums kosmosā |\n| :--- | :--- | :--- |\n| **Deklarācija** | `int map[RINDAS][KOLONNAS];` | Fiksētas topogrāfisko režģu tabulas |\n| **Inicializācija** | `{ {1, 2}, {3, 4} }` | Iepriekš noteiktas kalibrācijas matricas |\n| **Koordinātu piekļuve** | `map[r][c]` | Rinda `r` ir vertikāle, kolonna `c` ir horizontāle |\n| **Ligzdotie cikli** | `for (r...) for (c...)` | Sistemātiska virsmas skenēšana pa šūnām |\n| **Diagonāles saskaitīšana** | `map[i][i]` | Krātera šķērsgriezuma profili |\n",
+        "> **Nākamais solis: 19. nodaļa — std::vector (Dinamiskie masīvi).**",
+        "> Statiskajiem masīviem izmērs ir jāzina jau kompilēšanas laikā. Taču, droniem Sigma un Delta pētot nezināmu teritoriju, kontrolpunktu saraksts nepārtraukti pieaug. 19. nodaļā mēs atslēgsim dinamiskos masīvus ar `std::vector`."
+      ]
+    }
+  }
+}

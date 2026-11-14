@@ -1,0 +1,107 @@
+{
+  "n": 18,
+  "slug": "arrays-2d",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-2d-arrays",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. Surveyor drone Delta (heavy-lift twin ducted fan shrouds, prominent forward LiDAR scanner aperture, matte carbon-slate faceted armor with amber thruster glow) flies high above the rugged rust-red Mawrth Vallis crater basin at midday. Delta casts a glowing muted sage-green 3x3 laser matrix grid projection directly onto the stepped rock floor of a prominent crater below, performing digital elevation terrain mapping. In the far distance, scout drone Sigma maneuvers near a canyon cliff. In the foreground inside the mobile observation outpost, the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them, inspects a holographic 3x3 topographic grid matrix on the tactical terminal. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural armor #151A22, warm sandstone terrain #B7B0A4, mascot and highlights #D8D0C2, amber LEDs / thruster glow #B99A61, and laser elevation grid #7FB3A3."
+    },
+    {
+      "id": "matrix-syntax-and-coordinates",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int map[2][3] = {\n    {10, 20, 30},\n    {40, 50, 60}\n};\n\nfor (int r = 0; r < 2; r++) {\n    for (int c = 0; c < 3; c++) {\n        cout << map[r][c] << \" \";\n    }\n    cout << endl;\n}"
+        },
+        {
+          "code": "int map[2][3] = {\n    {10, 20, 30},\n    {40, 50, 60}\n};\n\n// TRAP: Row and column limits swapped!\nfor (int r = 0; r < 3; r++) {\n    for (int c = 0; c < 2; c++) {\n        cout << map[r][c] << \" \";\n    }\n}"
+        }
+      ]
+    },
+    {
+      "id": "predict-matrix-cell",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int grid[2][3] = {\n        {10, 20, 30},\n        {40, 50, 60}\n    };\n    grid[1][0] = 90;\n    cout << grid[0][2] + grid[1][0] << endl;\n    return 0;\n}",
+      "expected": "120",
+      "focus": "grid[1][0] = 90;"
+    },
+    {
+      "id": "matrix-nested-traversal",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int grid[2][3];\n\n    // 1. In nested for loops (r = 0 to r < 2, c = 0 to c < 3):\n    //    read grid[r][c] from cin\n    // 2. In second nested loops:\n    //    print grid[r][c] followed by a space\n    //    after each row completes, print newline (endl)\n\n    return 0;\n}",
+      "expected": "10 20 30 \n40 50 60 ",
+      "requires": ["grid[2][3]", "grid[r][c]"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int grid[2][3];\n\n    for (int r = 0; r < 2; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> grid[r][c];\n        }\n    }\n\n    for (int r = 0; r < 2; r++) {\n        for (int c = 0; c < 3; c++) {\n            cout << grid[r][c] << \" \";\n        }\n        cout << endl;\n    }\n\n    return 0;\n}",
+      "stdin": "10 20 30 40 50 60\n"
+    },
+    {
+      "id": "find-matrix-bounds-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int elev[2][3] = {{10, 20, 30}, {40, 50, 60}};\n\n    for (int r = 0; r < 2; r++) {\n        for (int c = 0; c <= 3; c++) {\n            cout << elev[r][c] << \" \";\n        }\n        cout << endl;\n    }\n    return 0;\n}",
+      "answerLine": 8
+    },
+    {
+      "id": "assemble-matrix-flat-sum",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int main() {",
+        "    int grid[2][2] = {{10, 25}, {30, 45}};",
+        "    int total = 0;",
+        "    for (int r = 0; r < 2; r++) {",
+        "        for (int c = 0; c < 2; c++) {",
+        "            total += grid[r][c];",
+        "        }",
+        "    }",
+        "    cout << \"GRID SUM: \" << total << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "crater-peak-search",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int elev[3][3];\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> elev[r][c];\n        }\n    }\n\n    // 1. Initialize max_elev = elev[0][0], peak_r = 0, peak_c = 0\n    // 2. In nested loops, if elev[r][c] > max_elev:\n    //    update max_elev = elev[r][c], peak_r = r, peak_c = c\n    // 3. Print PEAK ELEVATION: max_elev\n    // 4. Print AT COORDINATES: (peak_r, peak_c)\n\n    return 0;\n}",
+      "expected": "PEAK ELEVATION: 250\nAT COORDINATES: (1, 1)",
+      "requires": ["elev[3][3]", "max_elev = elev[0][0]", "elev[r][c] > max_elev"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int elev[3][3];\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> elev[r][c];\n        }\n    }\n\n    int max_elev = elev[0][0];\n    int peak_r = 0;\n    int peak_c = 0;\n\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            if (elev[r][c] > max_elev) {\n                max_elev = elev[r][c];\n                peak_r = r;\n                peak_c = c;\n            }\n        }\n    }\n\n    cout << \"PEAK ELEVATION: \" << max_elev << endl;\n    cout << \"AT COORDINATES: (\" << peak_r << \", \" << peak_c << \")\" << endl;\n\n    return 0;\n}",
+      "stdin": "120 145 130 90 250 110 80 140 160\n"
+    },
+    {
+      "id": "row-hazard-audit",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int rad[3][3];\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> rad[r][c];\n        }\n    }\n\n    // For each row r from 0 to 2:\n    // 1. Initialize row_sum = 0\n    // 2. Loop through columns c from 0 to 2 and add rad[r][c] to row_sum\n    // 3. Print ROW # followed by r, \": SUM \" and row_sum\n\n    return 0;\n}",
+      "expected": "ROW #0: SUM 60\nROW #1: SUM 150\nROW #2: SUM 240",
+      "requires": ["rad[3][3]", "row_sum = 0", "row_sum +="],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int rad[3][3];\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> rad[r][c];\n        }\n    }\n\n    for (int r = 0; r < 3; r++) {\n        int row_sum = 0;\n        for (int c = 0; c < 3; c++) {\n            row_sum += rad[r][c];\n        }\n        cout << \"ROW #\" << r << \": SUM \" << row_sum << endl;\n    }\n\n    return 0;\n}",
+      "stdin": "10 20 30 40 50 60 70 80 90\n"
+    },
+    {
+      "id": "predict-matrix-diagonal",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int map[3][3] = {\n        {5, 1, 2},\n        {3, 8, 4},\n        {9, 6, 7}\n    };\n    int diag_sum = 0;\n    for (int i = 0; i < 3; i++) {\n        diag_sum += map[i][i];\n    }\n    cout << \"DIAGONAL TRANSECT: \" << diag_sum << endl;\n    return 0;\n}",
+      "expected": "DIAGONAL TRANSECT: 20",
+      "focus": "diag_sum += map[i][i];"
+    },
+    {
+      "id": "capstone-landing-grid",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int grid[3][3];\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> grid[r][c];\n        }\n    }\n\n    // 1. Maintain safe_count for cells <= 15\n    // 2. Maintain hazard_count for cells > 50\n    // 3. Find lowest roughness in min_rough (seed with grid[0][0])\n    // 4. Output format:\n    //    SAFE SECTORS: safe_count\n    //    HAZARD SECTORS: hazard_count\n    //    BEST LANDING ROUGHNESS: min_rough\n\n    return 0;\n}",
+      "expected": "SAFE SECTORS: 4\nHAZARD SECTORS: 3\nBEST LANDING ROUGHNESS: 5",
+      "requires": ["grid[3][3]", "min_rough = grid[0][0]", "grid[r][c] <= 15"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int grid[3][3];\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            cin >> grid[r][c];\n        }\n    }\n\n    int safe_count = 0;\n    int hazard_count = 0;\n    int min_rough = grid[0][0];\n\n    for (int r = 0; r < 3; r++) {\n        for (int c = 0; c < 3; c++) {\n            if (grid[r][c] <= 15) {\n                safe_count++;\n            }\n            if (grid[r][c] > 50) {\n                hazard_count++;\n            }\n            if (grid[r][c] < min_rough) {\n                min_rough = grid[r][c];\n            }\n        }\n    }\n\n    cout << \"SAFE SECTORS: \" << safe_count << endl;\n    cout << \"HAZARD SECTORS: \" << hazard_count << endl;\n    cout << \"BEST LANDING ROUGHNESS: \" << min_rough << endl;\n\n    return 0;\n}",
+      "stdin": "10 45 12 60 14 80 5 95 18\n"
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

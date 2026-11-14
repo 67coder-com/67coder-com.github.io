@@ -1,0 +1,112 @@
+{
+  "title": "2D Arrays: Mars Surface Map",
+  "steps": {
+    "why-2d-arrays": {
+      "eyebrow": "Planetary mapping architecture",
+      "title": "From linear logs to 2D elevation grids",
+      "body": [
+        "In Chapter 17, cargo drone Omega logged a 1D linear strip of temperature sensors. But planetary surfaces are two-dimensional expanses defined by latitude and longitude, rows and columns.",
+        "To scout landing zones in the Mawrth Vallis crater basin, Surveyor drone **Delta** projects a laser altimeter coordinate grid onto the crater floor. To store an elevation map with 3 rows and 3 columns, a 1D array is awkward.",
+        "C++ provides **two-dimensional arrays (2D arrays)**—an array of arrays structured as a table of rows and columns:",
+        "```cpp\nint map[3][3]; // 3 rows, each containing 3 columns\n```",
+        "The first dimension specifies the number of **rows** (vertical position), and the second dimension specifies the number of **columns** (horizontal position).",
+        "This allows the flight computer to map topological features directly to coordinate pairs `map[row][col]`."
+      ],
+      "archive": {
+        "title": "Digital Elevation Models (DEM) in planetary cartography",
+        "body": "In 1997, the Mars Global Surveyor (MGS) spacecraft reached orbit carrying the Mars Orbiter Laser Altimeter (MOLA). MOLA fired 10-nanosecond infrared laser pulses at the Martian surface 10 times per second, measuring round-trip travel time to calculate surface elevation with vertical precision under 1 meter. Onboard and ground processing pipelines organized billions of raw laser soundings into structured 2D matrices called Digital Elevation Models (DEMs). These matrices enabled mission controllers to calculate regional slope gradients, identify crater rims, and guarantee safe landing corridors for every subsequent rover mission.",
+        "sources": [
+          "David E. Smith et al., 'The Global Topography of Mars from the Mars Orbiter Laser Altimeter', Science (1999)",
+          "NASA Planetary Data System, 'MOLA Precision Experiment Data Record (PEDR) Software Architecture'"
+        ]
+      }
+    },
+    "matrix-syntax-and-coordinates": {
+      "eyebrow": "Matrix syntax and indices",
+      "title": "Declaring and traversing matrices",
+      "compareCaptions": [
+        "Correct row-major traversal: outer loop iterates through rows, inner through columns",
+        "Dangerous bound swapping trap: using column bounds for rows causes out-of-bounds corruption"
+      ],
+      "body": [
+        "To declare a 2D array in C++, provide two sets of square brackets `[ROWS][COLS]`:",
+        "```cpp\nint map[2][3] = {\n    {10, 20, 30},\n    {40, 50, 60}\n};\n```",
+        "Each cell is addressed by its row index `r` and column index `c`: `map[r][c]`.",
+        "Both indices are strictly zero-based:",
+        "- `map[0][0]` is top-left cell (`10`)",
+        "- `map[0][2]` is top-right cell (`30`)",
+        "- `map[1][0]` is bottom-left cell (`40`)",
+        "- `map[1][2]` is bottom-right cell (`60`)",
+        "!> **The nested loop traversal rule.** To traverse an entire matrix, use nested `for` loops. The outer loop controls the row `r` from `0` to `r < ROWS`, while the inner loop controls the column `c` from `0` to `c < COLS`.",
+        "> **Memory layout:** C++ stores 2D arrays in row-major order: row 0 is stored contiguously in memory, immediately followed by row 1."
+      ]
+    },
+    "predict-matrix-cell": {
+      "eyebrow": "Memory tracing",
+      "title": "Trace 2D cell modification",
+      "body": [
+        "Trace this matrix program where an elevation cell is updated by its row and column coordinates.",
+        "Determine the final sum printed to the console."
+      ]
+    },
+    "matrix-nested-traversal": {
+      "title": "Input and print a 2D elevation grid",
+      "task": "Program Delta's elevation grid logger for a 2x3 sector:\n1. Declare a 2D integer array with 2 rows and 3 columns: `int grid[2][3];`.\n2. In nested `for` loops (outer `r = 0` to `r < 2`, inner `c = 0` to `c < 3`): read `grid[r][c]` from `cin`.\n3. In a second pair of nested `for` loops: print `grid[r][c]` followed by a space, and after each row finishes, print a newline (`endl`).",
+      "hint": "Put `cout << endl;` inside the outer loop, right after the inner loop finishes printing all columns of that row.",
+      "solutionNote": "The outer loop steps through rows 0 and 1, while the inner loop prints columns 0, 1, and 2 on each line."
+    },
+    "find-matrix-bounds-bug": {
+      "eyebrow": "Debugging",
+      "title": "Spot the column boundary overflow",
+      "body": [
+        "This program attempts to print a 2x3 elevation grid.",
+        "However, one of the loop conditions contains an off-by-one boundary bug that attempts to access memory outside the matrix. Click on the line with the bug."
+      ],
+      "explanation": "In a 2x3 matrix, column indices are 0, 1, 2. The loop condition `c <= 3` allows c to reach 3, attempting to read `elev[r][3]`, which is outside the column bounds. The condition must be `c < 3`."
+    },
+    "assemble-matrix-flat-sum": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble 2D grid accumulator",
+      "body": [
+        "Delta needs to calculate the total cumulative elevation of a 2x2 crater sector.",
+        "Arrange the code blocks in correct order to traverse both rows and columns and sum all cell values into `total`."
+      ]
+    },
+    "crater-peak-search": {
+      "title": "Locate peak crater elevation",
+      "task": "Find the highest topographical peak and its exact coordinates in a 3x3 crater grid:\n1. Read 9 integers into a 3x3 matrix `int elev[3][3];` from `cin`.\n2. Initialize peak trackers with the top-left cell: `int max_elev = elev[0][0]; int peak_r = 0; int peak_c = 0;`.\n3. In nested `for` loops (r from 0 to 2, c from 0 to 2): if `elev[r][c] > max_elev`, update `max_elev = elev[r][c]`, `peak_r = r`, and `peak_c = c`.\n4. Print `PEAK ELEVATION: ` followed by `max_elev` and a newline.\n5. Print `AT COORDINATES: (` followed by `peak_r`, `, `, `peak_c`, and `)` and a newline.",
+      "hint": "Remember to update both coordinates `peak_r = r; peak_c = c;` whenever a new `max_elev` is discovered.",
+      "solutionNote": "For cell (1, 1) with value 250, the algorithm updates peak trackers and reports the peak coordinates."
+    },
+    "row-hazard-audit": {
+      "title": "Sector row radiation audit",
+      "task": "Analyze radiation levels row by row across a 3x3 sector grid:\n1. Read a 3x3 matrix `int rad[3][3];` from `cin`.\n2. For each row `r` from 0 to 2: initialize an accumulator `int row_sum = 0;`.\n3. In an inner loop from `c = 0` to `c < 3`: add `rad[r][c]` to `row_sum`.\n4. After each row's inner loop finishes, print `ROW #` followed by `r`, `: SUM `, `row_sum`, and a newline.",
+      "hint": "Place `int row_sum = 0;` inside the outer loop so it resets to zero before processing each new row.",
+      "solutionNote": "Resetting the accumulator per row calculates independent sums for each of the 3 terrain sectors."
+    },
+    "predict-matrix-diagonal": {
+      "eyebrow": "Matrix algorithms",
+      "title": "Trace diagonal transect slice",
+      "body": [
+        "Topographical transects across a crater often examine the diagonal profile where row equals column (`r == c`).",
+        "Trace this diagonal accumulator loop and predict the final printed value of `diag_sum`."
+      ]
+    },
+    "capstone-landing-grid": {
+      "title": "Landing site roughness evaluator",
+      "task": "Program Delta's landing site evaluator for a 3x3 roughness matrix:\n1. Read a 3x3 matrix `int grid[3][3];` from `cin` representing terrain roughness values.\n2. In nested loops, count how many cells have `grid[r][c] <= 15` in a counter `safe_count`.\n3. In the same loops, count how many cells have `grid[r][c] > 50` in a counter `hazard_count`.\n4. Track the minimum roughness value across the entire matrix in `min_rough` (initialized with `grid[0][0]`).\n5. Print the three summary lines:\n   `SAFE SECTORS: ` followed by `safe_count`,\n   `HAZARD SECTORS: ` followed by `hazard_count`,\n   `BEST LANDING ROUGHNESS: ` followed by `min_rough`.",
+      "hint": "Initialize counters before the loops: `int safe_count = 0; int hazard_count = 0; int min_rough = grid[0][0];`.",
+      "solutionNote": "This program evaluates landing feasibility by scanning 9 sector zones in a single 2D matrix pass."
+    },
+    "recap": {
+      "eyebrow": "Summary",
+      "title": "2D arrays summary: Coordinate matrices in C++",
+      "body": [
+        "In this chapter, you expanded your data modeling capabilities to two dimensions:",
+        "| Concept | Syntax | Aerospace application |\n| :--- | :--- | :--- |\n| **Declaration** | `int map[ROWS][COLS];` | Fixed topological grid tables |\n| **Initialization** | `{ {1, 2}, {3, 4} }` | Predefined calibration matrices |\n| **Coordinate access** | `map[r][c]` | Row `r` is vertical index, col `c` is horizontal index |\n| **Nested traversal** | `for (r...) for (c...)` | Systematic surface scanning and rasterization |\n| **Diagonal slice** | `map[i][i]` | Cross-sectional crater transects |\n",
+        "> **Next up: Chapter 19 — std::vector (Dynamic Arrays).**",
+        "> Fixed arrays require sizes to be known at compile time. But as Sigma and Delta explore unknown terrain, waypoint paths grow unpredictably. In Chapter 19, we unlock dynamic resizable arrays with `std::vector`."
+      ]
+    }
+  }
+}
