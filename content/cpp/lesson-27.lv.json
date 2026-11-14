@@ -1,0 +1,48 @@
+{
+  "title": "Struktūras: struct",
+  "steps": {
+    "why-structs": {
+      "title": "Viens drons = Viens datu modelis",
+      "content": "### Izkliedēto mainīgo apvienošana\n\nLīdz šim, sekojot izlūka dronam Sigma, tavā kodā bija jāuztur atsevišķi, nesaistīti mainīgie:\n```cpp\nint drone_id = 1;\nint battery = 95;\ndouble altitude = 42.5;\nbool is_active = true;\n```\nKas notiek, kad misijai pievienojas kartogrāfs Delta un kravas drons Omega? Tev nāktos deklarēt 12 neatkarīgus mainīgos! Drona nodošana funkcijai prasītu 4 atsevišķus parametrus katru reizi.\n\nValodā C++ reālās pasaules objektus modelē, veidojot **lietotāja definētus kompozītos tipus** ar atslēgvārdu **`struct`**.\n\nStruktūra apvieno dažāda tipa mainīgos (veselus skaitļus, daļskaitļus, loģiskās vērtības) vienotā, saskaņotā atmiņas blokā:\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    double altitude;\n    bool is_active;\n};\n```\nTagad drons ir patstāvīgs datu tips: inicializējams vienā rindā, ērti nododams funkcijām un gatavs mērogošanai."
+    },
+    "struct-anatomy-and-lifecycle": {
+      "title": "struct uzbūve un piekļuve laukiem",
+      "content": "### Atmiņas izkārtojums un punkta operators\n\nStruktūra novieto savus laukus secīgi nepārtrauktā atmiņā.\n\n![C++ struct uzbūve](assets/l27-struct-anatomy.lv.svg)\n\n#### 4 zelta likumi darbā ar struktūrām\n\n1. **Semikols beigās:**\n   - Struktūras deklarācijai **vienmēr jābeidzas ar semikolu `;`** aiz figūriekavas: `struct Drone { ... };`.\n   - Šī semikola aizmirstība ir viena no slavenākajām C++ kompilatora kļūdām!\n\n2. **Inicializācija:**\n   - `Drone sigma = {1, 95, 42.5, true};` piešķir vērtības laukiem to deklarēšanas secībā.\n\n3. **Piekļuve laukiem ar punktu (`.`):**\n   - Izmanto punkta operatoru, lai lasītu vai mainītu laukus: `sigma.battery -= 10;` vai `cout << sigma.id;`.\n\n4. **Nodošana funkcijām:**\n   - **Pēc vērtības (`void check(Drone d)`):** izveido pilnu kopiju. Izmaiņas neietekmē oriģinālu.\n   - **Pēc norādes (`void recharge(Drone &d)`):** modificē izsaucēja objektu uz vietas bez kopēšanas.\n   - **Pēc const norādes (`void print(const Drone &d)`):** maksimāls ātrums, nulle kopiju, tikai lasīšana."
+    },
+    "inspect-member-access": {
+      "title": "Diagnostika: Lauka piekļuve",
+      "content": "### Paredzi izvadi\n\nIzpēti struktūras inicializācijas un lauka vērtības maiņas kodu.\n\nKāda vērtība tiks izvadīta terminālī?"
+    },
+    "audit-missing-semicolon-bug": {
+      "title": "Diagnostika: Struktūras sintakses audits",
+      "content": "### Atrodi sintakses kļūdu\n\nAvionikas inženieris izveidoja `Beacon` struktūru bākas koordinātu glabāšanai. Kompilators noraida programmu ar kļūdu pirms `int main()`!\n\nNoklikšķini uz koda rindas, kurā trūkst obligātā struktūras pabeigšanas simbola."
+    },
+    "write-struct-recharge-modifier": {
+      "title": "Avionikas inženierija: Uzlāde uz vietas",
+      "content": "### Objekta modificēšana pēc norādes\n\n1. Definē `struct Drone` ar diviem `int` laukiem: `id` un `battery`.\n2. Definē palīgfunkciju:\n   `void recharge(Drone &d, int amount)`\n   Tā pieskaita `amount` pie `d.battery`. Ja `d.battery` pārsniedz `100`, ierobežo to līdz `100`.\n3. Funkcijā `main()`:\n   - Nolasi `id`, `battery` un `amount` no `cin`.\n   - Inicializē `Drone d = {id, battery};`.\n   - Izsauc `recharge(d, amount)`.\n   - Izvadi `DRONE <id> BATTERY: <battery>`.",
+      "task": "1. Definē `struct Drone` ar laukiem `int id` un `int battery`.\n2. Izveido `void recharge(Drone &d, int amount)`, kas maina `d.battery` uz vietas un ierobežo pie `100`.\n3. Funkcijā `main()` nolasi vērtības un inicializē `Drone d`.\n4. Izsauc `recharge(d, amount)` un izvadi `DRONE <id> BATTERY: <battery>`."
+    },
+    "predict-struct-copy-semantics": {
+      "title": "Diagnostika: Vērtību kopēšanas semantika",
+      "content": "### Paredzi vērtību kopēšanas rezultātu\n\nAnalizē funkciju `consume(Pod p)`. Pievērs uzmanību, ka parametrs `p` tiek nodots pēc **vērtības** (bez `&`).\n\nKāda `omega.cargo` vērtība tiks izvadīta funkcijā `main()`?"
+    },
+    "parsons-struct-telemetry-printer": {
+      "title": "Avionikas montāža: Const norādes izvade",
+      "content": "### Saliec telemetrijas izvades moduli\n\nSakārto koda blokus, lai izveidotu `struct Drone` un funkciju `print_drone(const Drone &d)`, kura efektīvi parāda drona statusu bez atmiņas kopēšanas."
+    },
+    "write-distance-calculator-struct": {
+      "title": "Navigācijas ģeometrija: Manhatanas attālums",
+      "content": "### Koordinātu punkta modelēšana\n\n1. Definē `struct Point` ar divām veselām koordinātām: `int x; int y;`.\n2. Definē funkciju `int manhattan_dist(const Point &a, const Point &b)`, kura aprēķina attālumu: `abs(a.x - b.x) + abs(a.y - b.y)`.\n3. Funkcijā `main()`:\n   - Nolasi četrus skaitļus: `x1, y1, x2, y2`.\n   - Izveido divus punktus `Point a` un `Point b`.\n   - Aprēķini un izvadi `DISTANCE: <dist>`.",
+      "task": "1. Definē `struct Point { int x; int y; };`.\n2. Izveido `int manhattan_dist(const Point &a, const Point &b)`, izmantojot `abs()` no `<cmath>`.\n3. Funkcijā `main()` nolasi koordinātas un inicializē abus `Point` objektus.\n4. Aprēķini attālumu un izvadi `DISTANCE: <dist>` jaunā rindā."
+    },
+    "capstone-drone-flight-controller": {
+      "title": "Autonomais lidojuma stāvokļa kontrolieris",
+      "content": "### Pilna drona stāvokļa automāta integrācija\n\nIzveido Sigmas lidojuma kontroles moduli, izmantojot `struct FlightState`.\n\nStruktūras definīcija:\n```cpp\nstruct FlightState {\n    int id;\n    int battery;\n    int altitude;\n    bool safe;\n};\n```\n\nFunkcijas:\n1. `void update_flight(FlightState &s, int alt_delta, int power_drain)`:\n   - Pieskaita `alt_delta` pie `s.altitude`.\n   - Atņem `power_drain` no `s.battery`.\n   - Ja `s.battery < 20` VAI `s.altitude < 0`, iestata `s.safe = false`.\n2. `void print_report(const FlightState &s)`:\n   - Izvada četras formatētas rindas par `ID`, `BATTERY`, `ALTITUDE` un `SAFE` (1 vai 0).\n\nFunkcijā `main()`:\n1. Nolasi `id`, `battery`, `altitude`, `alt_delta` un `power_drain`.\n2. Inicializē `FlightState st = {id, battery, altitude, true};`.\n3. Izsauc `update_flight(st, alt_delta, power_drain)`.\n4. Izsauc `print_report(st)`.",
+      "task": "1. Definē `struct FlightState` ar laukiem `id`, `battery`, `altitude` un `safe`.\n2. Izveido `update_flight(FlightState &s, int alt_delta, int power_drain)`.\n3. Izveido `print_report(const FlightState &s)`.\n4. Funkcijā `main()` nolasi datus, inicializē `FlightState`, atjaunini lidojuma datus un izvadi atskaiti."
+    },
+    "recap": {
+      "title": "Kopsavilkums: Struktūras C++",
+      "content": "### 27. nodaļa pabeigta: Salikto tipu meistarība\n\nTu esi apguvis lietotāja definētos tipus valodā C++.\n\n#### Galveno konceptu kopsavilkums\n\n| Iespēja | Sintakse | Būtiskākais likums |\n| :--- | :--- | :--- |\n| **Deklarācija** | `struct Drone { ... };` | Vienmēr jābeidzas ar `;` aiz `}` |\n| **Inicializācija** | `Drone d = {1, 95};` | Piešķir laukiem vērtības deklarācijas secībā |\n| **Piekļuve laukiem** | `d.battery` | Punkta operators savieno objektu ar lauku |\n| **Modificēšana uz vietas** | `void fn(Drone &d)` | Nodod pēc norādes `&`, lai mainītu izsaucēja laukus |\n| **Const lasīšanai** | `void fn(const Drone &d)` | Novērš dārgu kopēšanu, garantē nemainīgumu |\n\n> [!TIP]\n> C++ valodā `struct` ir tiešais pamats Objektorientētajai programmēšanai (OOP). 2. semestrī mēs struktūrām pievienosim metodes, konstruktorus un iekapsulēšanu!\n\nNākamajā, 28. nodaļā: **Struktūru masīvi un eskadra (`struct-arrays`)** — visa IRIS drona flotes (Sigma, Delta, Omega) apvienošana vienotā masīvā un dinamiskajā vektorā."
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Structures: struct",
+  "steps": {
+    "why-structs": {
+      "title": "One Drone = One Data Model",
+      "content": "### Unifying Scattered Variables\n\nUntil now, when tracking Scout Drone Sigma, your code had to juggle separate disconnected variables:\n```cpp\nint drone_id = 1;\nint battery = 95;\ndouble altitude = 42.5;\nbool is_active = true;\n```\nWhat happens when we add Cartographer Delta and Cargo Drone Omega? You would have to declare 12 independent variables! Passing a drone to a function would require 4 separate arguments every single time.\n\nIn C++, real-world entities are modeled by creating **composite user-defined types** using the **`struct`** keyword.\n\nA `struct` bundles heterogeneous variables (integers, doubles, booleans) into a single cohesive data unit in memory:\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    double altitude;\n    bool is_active;\n};\n```\nNow, a drone is treated as a first-class object: instantiated in one line, passed to functions cleanly, and organized into structured systems."
+    },
+    "struct-anatomy-and-lifecycle": {
+      "title": "struct Anatomy & Member Access",
+      "content": "### Memory Layout and the Dot Operator\n\nA `struct` groups member variables consecutively in memory.\n\n![C++ struct Architecture](assets/l27-struct-anatomy.en.svg)\n\n#### The 4 Cardinal Rules of Structs\n\n1. **The Trailing Semicolon:**\n   - A struct declaration must **always end with a semicolon `;`** after the closing brace: `struct Drone { ... };`.\n   - Forgetting this semicolon is one of the most famous compiler errors in C++ history!\n\n2. **Instantiation & Initialization:**\n   - `Drone sigma = {1, 95, 42.5, true};` initializes fields in declaration order.\n\n3. **Member Access with Dot (`.`):**\n   - Use the dot operator to read or update fields: `sigma.battery -= 10;` or `cout << sigma.id;`.\n\n4. **Passing to Functions:**\n   - **Pass-by-value (`void check(Drone d)`):** Makes a full copy. Modifications do not affect the original object.\n   - **Pass-by-reference (`void recharge(Drone &d)`):** Modifies the caller's drone in-place without copies.\n   - **Pass-by-const-reference (`void print(const Drone &d)`):** Maximum speed, zero copies, read-only guarantee."
+    },
+    "inspect-member-access": {
+      "title": "Diagnostics: Member Access",
+      "content": "### Predict the Output\n\nExamine the struct initialization and field modification logic.\n\nWhat is printed to the terminal?"
+    },
+    "audit-missing-semicolon-bug": {
+      "title": "Diagnostics: Struct Syntax Audit",
+      "content": "### Spot the Syntax Trap\n\nAn avionics engineer created a `Beacon` struct for waypoint tracking. The compiler rejects the program with an unexpected syntax error before `int main()`!\n\nClick the line that is missing the required C++ struct termination character."
+    },
+    "write-struct-recharge-modifier": {
+      "title": "Avionics Engineering: In-Place Recharge",
+      "content": "### Direct Memory Modification via Reference\n\n1. Define `struct Drone` with two integer fields: `id` and `battery`.\n2. Define helper function:\n   `void recharge(Drone &d, int amount)`\n   It adds `amount` to `d.battery`. If `d.battery` exceeds `100`, cap it at `100`.\n3. In `main()`:\n   - Read `id`, `battery`, and `amount` from `cin`.\n   - Initialize `Drone d = {id, battery};`.\n   - Call `recharge(d, amount)`.\n   - Output `DRONE <id> BATTERY: <battery>`.",
+      "task": "1. Define `struct Drone` with fields `int id` and `int battery`.\n2. Implement `void recharge(Drone &d, int amount)` modifying `d.battery` in-place and clamping at `100`.\n3. In `main()`, read `id`, `battery`, `amount`, and initialize `Drone d`.\n4. Call `recharge(d, amount)` and print `DRONE <id> BATTERY: <battery>`."
+    },
+    "predict-struct-copy-semantics": {
+      "title": "Diagnostics: Value Copy Semantics",
+      "content": "### Predict Pass-by-Value Output\n\nAnalyze function `consume(Pod p)`. Notice that parameter `p` is passed by **value** (without `&`).\n\nWhat value of `omega.cargo` is printed in `main()`?"
+    },
+    "parsons-struct-telemetry-printer": {
+      "title": "Avionics Assembly: Const Reference Display",
+      "content": "### Assemble the Struct Display Module\n\nReorder the code blocks to construct `struct Drone` and function `print_drone(const Drone &d)` which efficiently prints the drone status without copying memory."
+    },
+    "write-distance-calculator-struct": {
+      "title": "Navigation Geometry: Manhattan Distance",
+      "content": "### Geographic Coordinate Modeling\n\n1. Define `struct Point` with two integer coordinates: `int x; int y;`.\n2. Define function `int manhattan_dist(const Point &a, const Point &b)` which computes the grid distance: `abs(a.x - b.x) + abs(a.y - b.y)`.\n3. In `main()`:\n   - Read four integers: `x1, y1, x2, y2`.\n   - Construct `Point a = {x1, y1};` and `Point b = {x2, y2};`.\n   - Compute and print `DISTANCE: <dist>`.",
+      "task": "1. Define `struct Point { int x; int y; };`.\n2. Implement `int manhattan_dist(const Point &a, const Point &b)` using `abs()` from `<cmath>`.\n3. In `main()`, read coordinates and construct two `Point` objects.\n4. Compute distance and print `DISTANCE: <dist>` followed by a newline."
+    },
+    "capstone-drone-flight-controller": {
+      "title": "Autonomous Flight State Machine",
+      "content": "### Complete Drone Avionics State Controller\n\nImplement Sigma's complete mission state machine using `struct FlightState`.\n\nStructure definition:\n```cpp\nstruct FlightState {\n    int id;\n    int battery;\n    int altitude;\n    bool safe;\n};\n```\n\nFunctions:\n1. `void update_flight(FlightState &s, int alt_delta, int power_drain)`:\n   - Adds `alt_delta` to `s.altitude`.\n   - Subtracts `power_drain` from `s.battery`.\n   - If `s.battery < 20` OR `s.altitude < 0`, set `s.safe = false`.\n2. `void print_report(const FlightState &s)`:\n   - Prints four formatted lines for `ID`, `BATTERY`, `ALTITUDE`, and `SAFE` (1 or 0).\n\nIn `main()`:\n1. Read `id`, `battery`, `altitude`, `alt_delta`, and `power_drain`.\n2. Initialize `FlightState st = {id, battery, altitude, true};`.\n3. Call `update_flight(st, alt_delta, power_drain)`.\n4. Call `print_report(st)`.",
+      "task": "1. Define `struct FlightState` with fields `id`, `battery`, `altitude`, and `safe`.\n2. Implement `update_flight(FlightState &s, int alt_delta, int power_drain)`.\n3. Implement `print_report(const FlightState &s)`.\n4. In `main()`, read inputs, initialize `FlightState`, update flight, and print report."
+    },
+    "recap": {
+      "title": "Summary: Custom Structures",
+      "content": "### Chapter 27 Complete: Custom Types Unleashed\n\nYou have mastered composite types in C++.\n\n#### Core Concepts Review\n\n| Feature | Syntax | Key Rule |\n| :--- | :--- | :--- |\n| **Declaration** | `struct Drone { ... };` | Always end with `;` after `}` |\n| **Initialization** | `Drone d = {1, 95};` | Assigns fields in declaration order |\n| **Member Access** | `d.battery` | Dot operator connects instance to field |\n| **In-place Mutation** | `void fn(Drone &d)` | Pass by reference `&` to modify caller fields |\n| **Const Read-only** | `void fn(const Drone &d)` | Prevents expensive copies, read-only safe |\n\n> [!TIP]\n> In C++, `struct` is the direct foundation for Object-Oriented Programming (OOP). In Semester 2, you will add member methods, constructors, and encapsulation!\n\nNext in Chapter 28: **Arrays of Structures (`struct-arrays`)** — orchestrating the entire IRIS drone fleet (Sigma, Delta, Omega) in unified fleet arrays and dynamic vectors."
+    }
+  }
+}

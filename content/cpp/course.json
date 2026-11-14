@@ -232,7 +232,10 @@
         {
           "n": 27,
           "slug": "struct",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 28,

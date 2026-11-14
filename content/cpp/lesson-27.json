@@ -1,0 +1,135 @@
+{
+  "n": 27,
+  "slug": "struct",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-structs",
+      "kind": "theory",
+      "image": "assets/l27-why-structs.svg"
+    },
+    {
+      "id": "struct-anatomy-and-lifecycle",
+      "kind": "theory"
+    },
+    {
+      "id": "inspect-member-access",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nint main() {\n    Drone sigma = {1, 80};\n    sigma.battery -= 15;\n    cout << sigma.id << \" \" << sigma.battery << endl;\n    return 0;\n}",
+      "expected": "1 65\n",
+      "options": [
+        "1 65",
+        "1 80",
+        "1 15",
+        "0 65"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "audit-missing-semicolon-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nstruct Beacon {\n    int frequency;\n    int power;\n}\n\nint main() {\n    Beacon b = {433, 100};\n    cout << b.frequency << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "write-struct-recharge-modifier",
+      "kind": "editor",
+      "stdin": "1 75 40\n",
+      "initial": "#include <iostream>\nusing namespace std;\n\n// 1. Define struct Drone with int id and int battery\n// 2. Define void recharge(Drone &d, int amount)\n\nint main() {\n    int id, battery, amount;\n    cin >> id >> battery >> amount;\n\n    // 3. Initialize Drone d, call recharge(d, amount)\n    // 4. Output: DRONE <id> BATTERY: <battery>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nvoid recharge(Drone &d, int amount) {\n    d.battery += amount;\n    if (d.battery > 100) {\n        d.battery = 100;\n    }\n}\n\nint main() {\n    int id, battery, amount;\n    cin >> id >> battery >> amount;\n\n    Drone d = {id, battery};\n    recharge(d, amount);\n    cout << \"DRONE \" << d.id << \" BATTERY: \" << d.battery << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "1 75 40\n",
+          "expected": "DRONE 1 BATTERY: 100\n"
+        },
+        {
+          "in": "2 20 50\n",
+          "expected": "DRONE 2 BATTERY: 70\n"
+        },
+        {
+          "in": "3 95 10\n",
+          "expected": "DRONE 3 BATTERY: 100\n"
+        }
+      ]
+    },
+    {
+      "id": "predict-struct-copy-semantics",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nstruct Pod {\n    int cargo;\n};\n\nvoid consume(Pod p) {\n    p.cargo -= 10;\n}\n\nint main() {\n    Pod omega = {50};\n    consume(omega);\n    cout << omega.cargo << endl;\n    return 0;\n}",
+      "expected": "50\n",
+      "options": [
+        "50",
+        "40",
+        "0",
+        "10"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "parsons-struct-telemetry-printer",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "struct Drone {",
+        "    int id;",
+        "    int battery;",
+        "};",
+        "void print_drone(const Drone &d) {",
+        "    cout << \"DRONE#\" << d.id << \": \" << d.battery << \"%\" << endl;",
+        "}",
+        "int main() {",
+        "    Drone sigma = {1, 95};",
+        "    print_drone(sigma);",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "write-distance-calculator-struct",
+      "kind": "editor",
+      "stdin": "10 20 40 60\n",
+      "initial": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\n// 1. Define struct Point with int x and int y\n// 2. Define int manhattan_dist(const Point &a, const Point &b)\n\nint main() {\n    int x1, y1, x2, y2;\n    cin >> x1 >> y1 >> x2 >> y2;\n\n    // 3. Construct points a and b, compute dist\n    // 4. Output: DISTANCE: <dist>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nstruct Point {\n    int x;\n    int y;\n};\n\nint manhattan_dist(const Point &a, const Point &b) {\n    return abs(a.x - b.x) + abs(a.y - b.y);\n}\n\nint main() {\n    int x1, y1, x2, y2;\n    cin >> x1 >> y1 >> x2 >> y2;\n\n    Point a = {x1, y1};\n    Point b = {x2, y2};\n    int dist = manhattan_dist(a, b);\n    cout << \"DISTANCE: \" << dist << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "10 20 40 60\n",
+          "expected": "DISTANCE: 70\n"
+        },
+        {
+          "in": "0 0 5 12\n",
+          "expected": "DISTANCE: 17\n"
+        },
+        {
+          "in": "15 30 15 30\n",
+          "expected": "DISTANCE: 0\n"
+        }
+      ]
+    },
+    {
+      "id": "capstone-drone-flight-controller",
+      "kind": "editor",
+      "stdin": "1 85 100 20 15\n",
+      "initial": "#include <iostream>\nusing namespace std;\n\nstruct FlightState {\n    int id;\n    int battery;\n    int altitude;\n    bool safe;\n};\n\n// 1. void update_flight(FlightState &s, int alt_delta, int power_drain)\n// 2. void print_report(const FlightState &s)\n\nint main() {\n    int id, battery, altitude, alt_delta, power_drain;\n    cin >> id >> battery >> altitude >> alt_delta >> power_drain;\n\n    // 3. Initialize state, update, and print report\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nstruct FlightState {\n    int id;\n    int battery;\n    int altitude;\n    bool safe;\n};\n\nvoid update_flight(FlightState &s, int alt_delta, int power_drain) {\n    s.altitude += alt_delta;\n    s.battery -= power_drain;\n    if (s.battery < 20 || s.altitude < 0) {\n        s.safe = false;\n    }\n}\n\nvoid print_report(const FlightState &s) {\n    cout << \"ID: \" << s.id << endl;\n    cout << \"BATTERY: \" << s.battery << endl;\n    cout << \"ALTITUDE: \" << s.altitude << endl;\n    cout << \"SAFE: \" << (s.safe ? 1 : 0) << endl;\n}\n\nint main() {\n    int id, battery, altitude, alt_delta, power_drain;\n    cin >> id >> battery >> altitude >> alt_delta >> power_drain;\n\n    FlightState st = {id, battery, altitude, true};\n    update_flight(st, alt_delta, power_drain);\n    print_report(st);\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "1 85 100 20 15\n",
+          "expected": "ID: 1\nBATTERY: 70\nALTITUDE: 120\nSAFE: 1\n"
+        },
+        {
+          "in": "2 30 50 -60 25\n",
+          "expected": "ID: 2\nBATTERY: 5\nALTITUDE: -10\nSAFE: 0\n"
+        },
+        {
+          "in": "3 25 80 10 10\n",
+          "expected": "ID: 3\nBATTERY: 15\nALTITUDE: 90\nSAFE: 0\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}
