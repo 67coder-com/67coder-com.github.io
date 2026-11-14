@@ -115,10 +115,9 @@
       "explain": "`ready = true` is a boolean flag (`bool`), `'S'` is a single ASCII character (`char`), and `\"IRIS-01\"` is a multi-character sequence (`string`)."
     },
     "recap": {
-      "title": "Mission summary: Logic, symbols, and text",
+      "title": "Mission 6 recap: Logic, symbols, and text",
       "body": [
         "Base IRIS has verified Sigma's diagnostics telemetry. The flight computer's state flags, operational modes, and channel labels are properly registered in memory.",
-        "+ **bool (1 byte).** Holds `true` or `false`. `cout` prints `1` or `0` by default. Never capitalized in C++.\n+ **char (1 byte).** Stores a single character in single quotes: `'A'`, `'9'`, `'\\n'`. Under the hood, stores an 8-bit integer ASCII code.\n+ **std::string (dynamic).** Stores text sequences in double quotes: `\"IRIS-01\"`. Requires `#include <string>`. Concatenates with `+` and returns length with `.length()`.",
         "| Type | Size | Literals / Format | Typical Space Role |\n| :--- | :--- | :--- | :--- |\n| `bool` | 1 byte | `true`, `false` | Subsystem status flags (docked, engine online) |\n| `char` | 1 byte | `'A'`, `'D'`, `'Z'` | Protocol modes, sensor tiers, telemetry keys |\n| `std::string` | Dynamic | `\"LUNAR-BASE/ALPHA\"` | Call signs, diagnostic logs, target identifiers |",
         "Next in Chapter 7, we will unlock arithmetic expressions and compound operators to calculate drone velocity, orbital timing, and sensor thresholds."
       ]

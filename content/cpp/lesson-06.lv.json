@@ -115,10 +115,9 @@
       "explain": "`ready = true` ir loģiskais karodziņš (`bool`), `'S'` ir viena ASCII rakstzīme (`char`), bet `\"IRIS-01\"` ir teksta virkne (`string`)."
     },
     "recap": {
-      "title": "Misijas kopsavilkums: Loģika, simboli un teksts",
+      "title": "6. misijas kopsavilkums: Loģika, simboli un teksts",
       "body": [
         "Bāze IRIS ir veiksmīgi pārbaudījusi zondes Sigma diagnostikas telemetriju. Borta datora stāvokļa karodziņi, darbības režīmi un sakaru kanālu nosaukumi ir pareizi konfigurēti atmiņā.",
-        "+ **bool (1 baits).** Glabā `true` vai `false`. `cout` pēc noklusējuma izvada `1` vai `0`. C++ valodā nekad neraksta ar lielo burtu.\n+ **char (1 baits).** Glabā tieši vienu simbolu vienpēdiņās: `'A'`, `'9'`, `'\\n'`. Iekšēji atbilst 8 bitu veselam skaitlim (ASCII kodam).\n+ **std::string (dinamisks).** Glabā teksta virknes dubultpēdiņās: `\"IRIS-01\"`. Nepieciešama bibliotēka `#include <string>`. Apvieno ar `+` un nosaka garumu ar `.length()`.",
         "| Tips | Izmērs | Literāļi / Formāts | Pielietojums zondes sistēmās |\n| :--- | :--- | :--- | :--- |\n| `bool` | 1 baits | `true`, `false` | Apakšsistēmu stāvokļa karodziņi (dokots, dzinējs ieslēgts) |\n| `char` | 1 baits | `'A'`, `'D'`, `'Z'` | Protokolu kodi, sensoru režīmi, telemetrijas atslēgas |\n| `std::string` | Dinamisks | `\"LUNAR-BASE/ALPHA\"` | Izsaukuma signāli, sakaru kanāli, kļūdu žurnāla ieraksti |",
         "Nākamajā — 7. nodaļā — mēs apgūsim aritmētiskās izteiksmes un saliktos operatorus, lai aprēķinātu zondes lidojuma ātrumu, orbītas laiku un sensoru robežvērtības."
       ]
