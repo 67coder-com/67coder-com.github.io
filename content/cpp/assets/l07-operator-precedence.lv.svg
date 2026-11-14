@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <title>C++ operatoru prioritāšu izpildes koks</title>
+  <desc>Shēma parāda operatoru izpildes secību C++ valodā. Kreisajā pusē redzama noklusētā prioritāte, kur reizināšana notiek pirms saskaitīšanas: 10 + 5 * 2 = 20. Labajā pusē iekavas maina secību: (10 + 5) * 2 = 30.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="320" rx="10" fill="#0D1117" />
+
+  <!-- Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">ARITMĒTISKĀ PRIORITĀTE: NOKLUSĒTĀ SECĪBA PRET IEKAVĀM</text>
+
+  <!-- Left Card: Default Precedence (10 + 5 * 2) -->
+  <g transform="translate(24, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#8E887D" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">NOKLUSĒTĀ HIERARHIJA (* PIRMS +)</text>
+    
+    <!-- Expression -->
+    <rect x="20" y="44" width="364" height="42" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="71" fill="#D8D0C2" font-size="17" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">10 + <tspan fill="#B99A61">5 * 2</tspan></text>
+    <text x="364" y="70" text-anchor="end" fill="#B99A61" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1. solis: 5 * 2</text>
+
+    <!-- Evaluation flow -->
+    <line x1="202" y1="96" x2="202" y2="116" stroke="#B99A61" stroke-width="1.5" stroke-dasharray="3 3" />
+    <polygon points="202,122 198,114 206,114" fill="#B99A61" />
+
+    <!-- Intermediate state -->
+    <rect x="20" y="128" width="364" height="38" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="152" fill="#D8D0C2" font-size="15" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">10 + <tspan fill="#B99A61">10</tspan></text>
+    <text x="364" y="152" text-anchor="end" fill="#8E887D" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">2. solis: 10 + 10</text>
+
+    <!-- Final Result -->
+    <line x1="202" y1="174" x2="202" y2="190" stroke="#8E887D" stroke-width="1.5" />
+    <polygon points="202,196 198,188 206,188" fill="#8E887D" />
+
+    <rect x="20" y="202" width="364" height="32" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1" />
+    <text x="35" y="223" fill="#D8D0C2" font-size="14" style="font-family: var(--font-sans, Inter, sans-serif)">Rezultāts: <tspan fill="#B99A61" font-weight="bold" font-family="monospace">20</tspan> (reizināšana izpildās vispirms)</text>
+  </g>
+
+  <!-- Right Card: Explicit Grouping ((10 + 5) * 2) -->
+  <g transform="translate(452, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="1.5" />
+    <text x="20" y="28" fill="#B99A61" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">EKSPLICĪTA GRUPĒŠANA (IEKAVAS VISPIRMS)</text>
+    
+    <!-- Expression -->
+    <rect x="20" y="44" width="364" height="42" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1" />
+    <text x="35" y="71" fill="#D8D0C2" font-size="17" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#B99A61">(10 + 5)</tspan> * 2</text>
+    <text x="364" y="70" text-anchor="end" fill="#B99A61" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1. solis: (10 + 5)</text>
+
+    <!-- Evaluation flow -->
+    <line x1="202" y1="96" x2="202" y2="116" stroke="#B99A61" stroke-width="1.5" stroke-dasharray="3 3" />
+    <polygon points="202,122 198,114 206,114" fill="#B99A61" />
+
+    <!-- Intermediate state -->
+    <rect x="20" y="128" width="364" height="38" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="152" fill="#D8D0C2" font-size="15" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#B99A61">15</tspan> * 2</text>
+    <text x="364" y="152" text-anchor="end" fill="#8E887D" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">2. solis: 15 * 2</text>
+
+    <!-- Final Result -->
+    <line x1="202" y1="174" x2="202" y2="190" stroke="#B99A61" stroke-width="1.5" />
+    <polygon points="202,196 198,188 206,188" fill="#B99A61" />
+
+    <rect x="20" y="202" width="364" height="32" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1" />
+    <text x="35" y="223" fill="#D8D0C2" font-size="14" style="font-family: var(--font-sans, Inter, sans-serif)">Rezultāts: <tspan fill="#B99A61" font-weight="bold" font-family="monospace">30</tspan> (iekavas maina noklusēto prioritāti)</text>
+  </g>
+</svg>

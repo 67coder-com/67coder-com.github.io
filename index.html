@@ -2040,7 +2040,7 @@ function normalizeOut(s) {
    Всё экранируется до разметки, поэтому HTML из урока на страницу
    не попадёт. */
 function rich(s) {
-  var bold = function (x) { return x.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"); };
+  var bold = function (x) { return x.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>"); };
   var parts = esc(s === undefined || s === null ? "" : s).split("`");
   var out = "";
   for (var i = 0; i < parts.length; i++) {
@@ -2116,10 +2116,10 @@ function block(p) {
   }
   if (lines.length && lines.every(function (l) { return /^\+ /.test(l); })) {
     return '<div class="tcards" data-n="' + lines.length + '">' + lines.map(function (l, i) {
-      var body = l.slice(2), m = body.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+      var body = l.slice(2), m = body.match(/^\*\*(.+?)\*\*\s*(.*)$/);
       var n = (i < 9 ? "0" : "") + (i + 1);
       return '<div class="tcard"><div class="tcard-n">' + n + "</div>" +
-        (m ? '<div class="tcard-t">' + rich(m[1].replace(/[.:]\s*$/, "")) + "</div>" + (m[2] ? "<p>" + rich(m[2]) + "</p>" : "")
+        (m ? '<div class="tcard-t">' + rich(m[1].replace(/[.:]\s*$/, "")) + "</div>" + (m[2] ? "<p>" + rich(m[2].replace(/^[—–-]\s*/, "")) + "</p>" : "")
            : "<p>" + rich(body) + "</p>") + "</div>";
     }).join("") + "</div>";
   }
@@ -2128,10 +2128,10 @@ function block(p) {
   }
   if (lines.length && lines.every(function (l) { return /^\d+\.\s/.test(l); })) {
     return '<ol class="tlist">' + lines.map(function (l) {
-      var item = l.replace(/^\d+\.\s/, ""), m = item.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+      var item = l.replace(/^\d+\.\s/, ""), m = item.match(/^\*\*(.+?)\*\*\s*(.*)$/);
       /* пункт-правило: «1. **Название.** пояснение» — название крупно, пояснение обычным текстом */
       return "<li>" + (m ? '<span class="li-t">' + rich(m[1].replace(/[.:]\s*$/, "")) + "</span>" +
-        (m[2] ? '<span class="li-d">' + rich(m[2]) + "</span>" : "") : rich(item)) + "</li>";
+        (m[2] ? '<span class="li-d">' + rich(m[2].replace(/^[—–-]\s*/, "")) + "</span>" : "") : rich(item)) + "</li>";
     }).join("") + "</ol>";
   }
   /* абзац, за которым идёт список: "Два правила:\n1. …\n2. …" */

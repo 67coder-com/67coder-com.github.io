@@ -1,0 +1,102 @@
+{
+  "n": 7,
+  "slug": "arithmetic",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "flight-trajectory-prep",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. On the launch runway outside Mars base IRIS at night. Positioned on the runway launch threshold ready for liftoff is Scout drone Sigma with faceted dark carbon-slate surfaces, with subtle navigation lights and engine vents glowing in aged brass. Standing nearby at a mobile runway telemetry terminal, observing the drone and monitor, is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. In the background, geometric modular structures of base IRIS and flat Martian terrain in desaturated warm grey (#B7B0A4), strictly no red. Style: minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 only on the telemetry display and drone engine vent glow."
+    },
+    {
+      "id": "basic-arithmetic-and-modulo",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int rem = 125 % 60;\n// remainder is 5 (valid for integer types)",
+          "ok": true
+        },
+        {
+          "code": "double rem = 125.5 % 60;\n// error: invalid operands to binary expression ('double' and 'int')",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-modulo-cycles",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int total_seconds = 125;\n    int minutes = total_seconds / 60;\n    int seconds = total_seconds % 60;\n    cout << minutes << \"M \" << seconds << \"S\" << endl;\n    return 0;\n}",
+      "expected": "2M 5S",
+      "focus": "total_seconds % 60"
+    },
+    {
+      "id": "operator-precedence",
+      "kind": "explain"
+    },
+    {
+      "id": "calculate-flight-telemetry",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance = 120;\n    int speed = 40;\n    int total_samples = 47;\n    int sensors = 4;\n\n    // 1. Calculate flight_hours = distance / speed\n    // 2. Calculate unassigned = total_samples % sensors\n    // 3. Print HOURS: <flight_hours> and UNASSIGNED: <unassigned>\n    \n    return 0;\n}",
+      "expected": "HOURS: 3\nUNASSIGNED: 3",
+      "requires": ["distance / speed", "total_samples % sensors"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance = 120;\n    int speed = 40;\n    int total_samples = 47;\n    int sensors = 4;\n\n    int flight_hours = distance / speed;\n    int unassigned = total_samples % sensors;\n\n    cout << \"HOURS: \" << flight_hours << endl;\n    cout << \"UNASSIGNED: \" << unassigned << endl;\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "compound-assignment",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "battery -= 10;\n// compact compound subtraction",
+          "ok": true
+        },
+        {
+          "code": "battery = battery - 10;\n// verbose repetition of variable name",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "id": "increment-decrement",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "waypoints++;\n// increments variable value by 1",
+          "ok": true
+        },
+        {
+          "code": "waypoints =+ 1;\n// bug: assigns positive 1 instead of incrementing",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-increment-flow",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int waypoints = 3;\n    waypoints++;\n    waypoints += 4;\n    cout << \"WAYPOINTS: \" << waypoints << endl;\n    return 0;\n}",
+      "expected": "WAYPOINTS: 8",
+      "focus": "waypoints += 4"
+    },
+    {
+      "id": "find-modulo-float-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude = 500;\n    double fuel = 14.5;\n    int fuel_rem = fuel % 2;\n    cout << altitude << \" \" << fuel_rem << endl;\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "fill-operator-tokens",
+      "kind": "blanks",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int minutes = 140;\n    int hours = minutes [[1]] 60;\n    int rem_min = minutes [[2]] 60;\n    int total_dist = 100;\n    total_dist [[3]] 25;\n    cout << hours << \" \" << rem_min << \" \" << total_dist << endl;\n    return 0;\n}",
+      "blanks": {
+        "1": ["/"],
+        "2": ["%"],
+        "3": ["+="]
+      }
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

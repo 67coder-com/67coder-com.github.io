@@ -1,0 +1,128 @@
+{
+  "title": "Aritmētika un operācijas",
+  "module": "1. bloks · Pamodināšana",
+  "steps": {
+    "flight-trajectory-prep": {
+      "eyebrow": "Lidojuma aprēķini",
+      "title": "Mawrth Vallis maršruta plānošana",
+      "body": [
+        "Izlūka drons Sigma ir novietots uz bāzes IRIS skrejceļa sliekšņa, gatavojoties autonomam 120 kilometru izlūkošanas lidojumam pāri Mawrth Vallis plato.",
+        "Pirms pacelšanās navigācijas līdzprocesoram jāaprēķina svarīgi fiziskie lielumi: kreisēšanas ātrums ($v = s / t$), lidojuma ilgums stundās un minūtēs, degvielas patēriņa temps un sensoru telemetrijas cikli.",
+        "C++ nodrošina pilnu aritmētisko un piešķiršanas operatoru kopumu lidojuma matemātikas tiešai izpildei aparātu līmenī:\n+ **Pamata operatori (+ - * / %).** Fundamentālas algebras darbības un veselo skaitļu dalīšanas atlikuma operators `%`.\n+ **Saliktā piešķiršana (+= -= *= /= %=).** Saīsinātas darbības, kas izmaina esoša mainīgā vērtību uz vietas bez tā nosaukuma atkārtošanas.\n+ **Inkrements un dekrements (++ --).** Ātrdarbīgi vienas vienības soļa skaitītāji telemetrijas cikliem un secību uzskaitei."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kā Apollo 11 Mēness modulis 1969. gadā izvairījās no datora pārslodzes",
+          "body": [
+            "1969. gada 20. jūlijā, kad Apollo 11 Mēness modulis «Eagle» tuvojās Mēness Miera jūrai, borta vadības dators (AGC) pēkšņi sāka raidīt trauksmes kodus 1202 un 1201.",
+            "Nosēšanās radars bija atstāts nepareizā aparatūras režīmā, katru sekundi noslogojot centrālo procesoru ar simtiem lieku pārtraukuma signālu. Datoram draudēja atmiņas un izpildes ciklu izsīkums.",
+            "Mārgareta Hamiltone un viņas komanda MIT bija izveidojuši asinhronu vadības sistēmu ar stingru prioritāšu sadali. Dators automātiski atmeta zemākas prioritātes radara aprēķinus un novirzīja visus resursus kritiskajai dzinēju vilces aritmētikai un nolaišanās vienādojumiem. Tā kā aritmētiskās rutīnas izpildījās stingri pēc prioritātēm, Mēness modulis veiksmīgi nosēdās brīdī, kad bākā bija atlikušas vien dažas sekundes degvielas.",
+            "Avots: NASA Apollo 11 Mission Report; MIT Museum Hamilton Archives (https://airandspace.si.edu)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Kāpēc dalīšanas atlikums % ar negatīviem skaitļiem senākā C bija nedefinēts",
+          "body": [
+            "Pamata matemātikā dalīšana ar atlikumu tiek definēta kā a = b * q + r, kur atlikums r vienmēr ir nenegatīvs: 0 <= r < |b|.",
+            "Agrīnajos C standartos (C89/C90) veselo skaitļu dalīšanas rezultāta zīme ar negatīviem skaitļiem bija atkarīga no konkrētā kompilatora: daži noapaļoja uz nulles pusi, bet citi — uz negatīvās bezgalības pusi.",
+            "Kopš C99 un C++11 standartiem ir stingri noteikta noapaļošana uz nulles pusi: dalījums a / b vienmēr atmet daļveida daļu, bet atlikums a % b vienmēr saglabā dalāmā a zīmi (tādējādi -7 % 3 ir -1, bet 7 % -3 ir 1)."
+          ]
+        }
+      ]
+    },
+    "basic-arithmetic-and-modulo": {
+      "title": "Pamata aritmētika un dalīšanas atlikums (%)",
+      "compareCaptions": [
+        "veselo skaitļu atlikums: aprēķina atlikušo skaitli 5",
+        "kļūda: dalīšanas atlikuma operators % neatbalsta daļskaitļus"
+      ],
+      "body": [
+        "Valodā C++ ir pieci binārie aritmētiskie operatori: saskaitīšana (`+`), atņemšana (`-`), reizināšana (`*`), dalīšana (`/`) un dalīšanas atlikums (`%`).",
+        "syntax: int {atlikums} = {dalāmais} % {dalītājs};\n- int: veselo skaitļu tipa atslēgvārds\n- atlikums: mainīgais atlikušā skaitļa glabāšanai\n- dalāmais: vesels skaitlis, ko dala\n- dalītājs: no nulles atšķirīgs vesels skaitlis, ar ko dala\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "> Dalīšanas atlikuma operatora (%) pamatlikumi:\n> 1. **Tikai veseli skaitļi.** Operators `%` aprēķina veselo skaitļu dalīšanas atlikumu. Tas darbojas tikai ar veselu skaitļu tipiem (`int`, `short`, `long long`) un `char`. To nedrīkst lietot ar `double` vai `float`.\n> 2. **Cikliskais diapazons.** Jebkuram pozitīvam dalītājam `N` izteiksme `x % N` vienmēr dod rezultātu diapazonā no `0` līdz `N - 1`. Tāpēc dalīšanas atlikums ir ideāli piemērots pulksteņiem, buferu cikliem un telemetrijas slotiem.\n> 3. **Dalīšana ar nulli nav atļauta.** Tāpat kā parastā dalīšanā (`/`), dalīšana vai atlikuma aprēķins ar nulli (`x % 0`) izraisa tūlītēju programmas avāriju (aparatūras kļūdu / nedefinētu uzvedību).",
+        "!> **Ieradums no Python.** Valodā Python dalīšanas atlikums darbojas arī ar daļskaitļiem (`5.5 % 2` dod `1.5`). Valodā C++ izteiksme `5.5 % 2` izsauc kompilatora kļūdu (`invalid operands to binary expression`). C++ valodā `%` darbojas tikai ar veseliem skaitļiem!"
+      ]
+    },
+    "predict-modulo-cycles": {
+      "title": "Paredzi laika vienību pārveidošanu",
+      "body": [
+        "Apskati, kā veselo skaitļu dalīšana un atlikuma operators sadala kopējo sekunžu skaitu pilnās minūtēs un atlikušajās sekundēs.",
+        "Aprēķini, ko dod `125 / 60` un ko — `125 % 60`, un paredzi precīzu termināļa izvades rindu."
+      ],
+      "explain": "`125 / 60` veic veselo skaitļu dalīšanu, dodot `2` pilnas minūtes (daļveida atlikums tiek atmests). Savukārt `125 % 60` aprēķina atlikušās sekundes (`125 - 60 * 2 = 5`). Kopā ar teksta birkām programma izvada `2M 5S`."
+    },
+    "operator-precedence": {
+      "eyebrow": "Izpildes hierarhija",
+      "title": "Operatoru prioritāte un grupēšana",
+      "body": [
+        "Matemātiskās izteiksmēs ar vairākiem operatoriem C++ aprēķina darbības pēc stingrām prioritāšu pakāpēm, nevis vienkārši no kreisās uz labo pusi.",
+        "> Operatoru prioritāšu hierarhija:\n> 1. **Iekavas ( )** — Augstākā prioritāte. Izteiksmes iekavās vienmēr tiek izpildītas vispirms.\n> 2. **Reizināšana, dalīšana, atlikums (* / %)** — Otrā pakāpe. Tiek izpildītas no kreisās uz labo pusi.\n> 3. **Saskaitīšana un atņemšana (+ -)** — Trešā pakāpe. Tiek izpildītas tikai pēc augstāko pakāpju pabeigšanas.",
+        "Paļaušanās uz atmiņā paturētiem prioritāšu likumiem kosmosa navigācijā var radīt bīstamas kļūdas. Kritiskā borta kodā vienmēr lieto iekavas, lai skaidri fiksētu un dokumentētu plānoto aprēķinu secību."
+      ],
+      "alt": "Shēma, kas salīdzina noklusēto operatoru prioritāti (10 + 5 * 2 = 20) ar iekavu lietojumu ((10 + 5) * 2 = 30).",
+      "image": "assets/l07-operator-precedence.lv.svg"
+    },
+    "calculate-flight-telemetry": {
+      "title": "Aprēķini lidojuma laiku un neiedalītos paraugus",
+      "task": "Pabeidz zondes Sigma pirmslidojuma navigācijas aprēķinus zemāk norādītajā formātā:\n1. Aprēķini `flight_hours`, dalot distanci `distance` (120) ar ātrumu `speed` (40).\n2. Aprēķini neiedalītos paraugus `unassigned`, aprēķinot atlikumu no `total_samples` (47) dalījuma ar `sensors` (4).\n3. Pirmajā rindā izvadi `HOURS: ` un `flight_hours`.\n4. Otrajā rindā izvadi `UNASSIGNED: ` un `unassigned`.",
+      "hint": "Deklarē `int flight_hours = distance / speed;` un `int unassigned = total_samples % sensors;`, pēc tam izvadi tos ar `cout` un `endl`.",
+      "solutionNote": "120 / 40 ir tieši 3 stundas, un 47 % 4 dod atlikumu 3 (jo 4 * 11 = 44, atlikumā 3 paraugi)."
+    },
+    "compound-assignment": {
+      "title": "Saliktie piešķiršanas operatori",
+      "compareCaptions": [
+        "saliktā atņemšana: kompakts un skaidrs pieraksts",
+        "atkārtots nosaukums: pareizs, bet liekvārdīgs pieraksts"
+      ],
+      "body": [
+        "Programmas bieži maina esoša mainīgā vērtību, pieskaitot, atņemot vai reizinot tā pašreizējo saturu ar kādu pieaugumu. Lai nebūtu divreiz jāraksta mainīgā vārds, C++ piedāvā saliktos piešķiršanas operatorus: `+=`, `-=`, `*=`, `/=` un `%=`.",
+        "syntax: {mainigais} += {pieaugums};\n- mainigais: esošais mainīgā nosaukums, ko maina\n- +=: saliktais saskaitīšanas operators\n- pieaugums: pieskaitāmā vērtība vai izteiksme\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "> Pieci pamata saliktie operatori:\n> 1. **+= (pieskaitīt un piešķirt).** `fuel += 50;` palielina degvielu par 50.\n> 2. **-= (atņemt un piešķirt).** `battery -= 15;` samazina bateriju par 15.\n> 3. **`*=` (reizināt un piešķirt).** `thrust *= 2;` dubulto vilci.\n> 4. **/= (dalīt un piešķirt).** `altitude /= 2;` samazina augstumu uz pusi.\n> 5. **%= (atlikums un piešķirt).** `slot %= 10;` ierobežo `slot` diapazonā no 0 līdz 9.",
+        "Saliktā forma ir ne tikai īsāka, bet arī drošāka pret drukas kļūdām, īpaši strādājot ar gariem telemetrijas mainīgo nosaukumiem."
+      ]
+    },
+    "increment-decrement": {
+      "title": "Inkrements un dekrements: ++ un --",
+      "compareCaptions": [
+        "inkrementa operators: palielina mainīgo par 1",
+        "sintakses kļūda: piešķir pozitīvu 1, nevis palielina"
+      ],
+      "body": [
+        "Visbiežākā aritmētiskā operācija datorprogrammās ir skaitītāja palielināšana vai samazināšana tieši par 1. C++ šim nolūkam piedāvā īpašus unāros operatorus: `++` (inkrements) un `--` (dekrements).",
+        "syntax: {skaititājs}++;\n- skaititājs: vesela skaitļa mainīgais\n- ++: inkrementa operators, kas pieskaita 1\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "> Inkrementa darbības principi:\n> 1. **Kompakts solis.** Izteiksme `waypoints++;` ir līdzvērtīga `waypoints += 1;` un `waypoints = waypoints + 1;`.\n> 2. **Prefikss pret postfiksu.** Atsevišķā komandā (`x++;` vai `++x;`) abas formas palielina `x` par 1. Sarežģītās izteiksmēs prefikss (`++x`) palielina pirms nolasīšanas, bet postfikss (`x++`) — pēc nolasīšanas.\n> 3. **C++ standarts.** Kā atsevišķu komandu mūsdienu C++ pirmkodā skaitītāju un maršruta punktu atjaunināšanai klasiski izmanto `counter++;`.",
+        "!> **Ieradums no Python.** Valodā Python nav operatoru `++` un `--` (`x++` valodā Python ir sintakses kļūda, bet `++x` nozīmē tikai divas plusa zīmes `+(+x)`). Valodā C++ operators `++` ir pamata veids, kā palielināt skaitītājus!"
+      ]
+    },
+    "predict-increment-flow": {
+      "title": "Izseko inkrementa un salikto operatoru izmaiņām",
+      "body": [
+        "Izseko mainīgā `waypoints` vērtībai cauri secīgām komandām. Paredzi galīgo terminālī izvadīto rezultātu.",
+        "Pievērs uzmanību: `waypoints` sākas ar `3`, pēc tam tiek izpildīts `waypoints++;`, un visbeidzot `waypoints += 4;`."
+      ],
+      "explain": "`waypoints` sākotnējā vērtība ir 3. Komanda `waypoints++;` palielina to par 1, iegūstot 4. Pēc tam `waypoints += 4;` pieskaita vēl 4, iegūstot 8. Programma izvada `WAYPOINTS: 8`."
+    },
+    "find-modulo-float-bug": {
+      "title": "Atrodi nederīgo atlikuma operatora operandu",
+      "task": "Noklikšķini uz koda rindas, kurā pieļauta kļūda, mēģinot lietot aritmētisko operatoru ar tam nepiemērotu datu tipu.",
+      "hint": "Pārbaudi, ar kādiem datu tipiem drīkst izmantot operatoru `%`. Dalīšanas atlikums neatbalsta daļskaitļus.",
+      "explain": "7. rindā mēģināts izpildīt `int fuel_rem = fuel % 2;`, bet mainīgais `fuel` ir deklarēts kā `double` (`14.5`). Valodā C++ operators `%` pieprasa tikai veselu skaitļu operandus. Mēģinot to lietot ar `float` vai `double`, rodas kompilācijas kļūda."
+    },
+    "fill-operator-tokens": {
+      "title": "Piešķir operatorus telemetrijas rādītājiem",
+      "task": "Izvēlies atbilstošo C++ aritmētisko vai piešķiršanas operatoru katram trūkstošajam solim, balstoties uz nepieciešamo navigācijas loģiku.",
+      "hint": "Stundu aprēķinam vajadzīga veselo skaitļu dalīšana `/`, minūšu atlikumam — `%`, bet distances uzkrāšanai — saliktā saskaitīšana `+=`.",
+      "explain": "`minutes / 60` aprēķina pilnas stundas (2), `minutes % 60` aprēķina atlikušās minūtes (20), bet `total_dist += 25` uzkrāj kopējo nobraukto distanci (125)."
+    },
+    "recap": {
+      "title": "7. misijas kopsavilkums: Aritmētika un operācijas",
+      "body": [
+        "Zondes Sigma pirmslidojuma trajektorijas un resursu aprēķini ir pabeigti. Visi navigācijas rādītāji, degvielas patēriņa prognozes un sensoru cikli ir aprēķināti ar standarta C++ operatoriem.",
+        "| Operatoru grupa | Sintakse / Simboli | Darbība | Pielietojums zondes sistēmās |\n| :--- | :--- | :--- | :--- |\n| Pamata aritmētika | `+`, `-`, `*`, `/` | Standarta algebra | Distances, ātruma un degvielas kopsummas |\n| Dalīšanas atlikums | `%` | Veselo skaitļu dalīšanas atlikums | Cikliskie skaitītāji, pulksteņa minūtes, sloti |\n| Saliktā piešķiršana | `+=`, `-=`, `*=`, `/=`, `%=` | Maina vērtību uz vietas | Baterijas patēriņš, degvielas sadegšana, ceļa posmi |\n| Solis par vienu | `++`, `--` | Pieskaita vai atņem 1 | Maršruta punktu indekss, paraugu iterācija |",
+        "Nākamajā — 8. nodaļā — mēs apgūsim termināļa ievadi (`cin >>` un `getline`), lai bāzes operatori varētu ievadīt lidojuma koordinātas un misijas parametrus tieši no klaviatūras."
+      ]
+    }
+  }
+}

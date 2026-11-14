@@ -66,7 +66,7 @@ const exists = (p) => fs.existsSync(p);
 const pad2 = (n) => (n < 10 ? "0" : "") + n;
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const rich = (s) => {
-  const bold = (x) => x.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  const bold = (x) => x.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   const parts = esc(s).split("`");
   return parts.map((x, i) => i % 2 === 0 ? bold(x) : i === parts.length - 1 ? "`" + bold(x) : `<code>${x}</code>`).join("");
 };
@@ -102,14 +102,14 @@ const block = (p) => {
   if (/^!> ?/.test(lines[0])) return `<div class="warn">${block(lines.map((l) => l.replace(/^!?> ?/, "")).join("\n"))}</div>`;
   if (/^> ?/.test(lines[0])) return `<div class="callout">${block(lines.map((l) => l.replace(/^> ?/, "")).join("\n"))}</div>`;
   if (lines.every((l) => /^\+ /.test(l))) return `<div class="tcards" data-n="${lines.length}">${lines.map((l, i) => {
-    const m = l.slice(2).match(/^\*\*([^*]+)\*\*\s*(.*)$/);
+    const m = l.slice(2).match(/^\*\*(.+?)\*\*\s*(.*)$/);
     const n = String(i + 1).padStart(2, "0");
-    return `<div class="tcard"><div class="eyebrow">${n}</div>` + (m ? `<div class="tcard-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</div>${m[2] ? `<p>${rich(m[2])}</p>` : ""}` : `<p>${rich(l.slice(2))}</p>`) + "</div>";
+    return `<div class="tcard"><div class="eyebrow">${n}</div>` + (m ? `<div class="tcard-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</div>${m[2] ? `<p>${rich(m[2].replace(/^[—–-]\s*/, ""))}</p>` : ""}` : `<p>${rich(l.slice(2))}</p>`) + "</div>";
   }).join("")}</div>`;
   if (lines.every((l) => /^- /.test(l))) return `<ul>${lines.map((l) => `<li>${rich(l.slice(2))}</li>`).join("")}</ul>`;
   if (lines.every((l) => /^\d+\.\s/.test(l))) return `<ol>${lines.map((l) => {
-    const item = l.replace(/^\d+\.\s/, ""), m = item.match(/^\*\*([^*]+)\*\*\s*(.*)$/);
-    return `<li>${m ? `<span class="li-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</span>${m[2] ? `<span class="li-d">${rich(m[2])}</span>` : ""}` : rich(item)}</li>`;
+    const item = l.replace(/^\d+\.\s/, ""), m = item.match(/^\*\*(.+?)\*\*\s*(.*)$/);
+    return `<li>${m ? `<span class="li-t">${rich(m[1].replace(/[.:]\s*$/, ""))}</span>${m[2] ? `<span class="li-d">${rich(m[2].replace(/^[—–-]\s*/, ""))}</span>` : ""}` : rich(item)}</li>`;
   }).join("")}</ol>`;
   const k = lines.findIndex((l) => /^(- |\+ |\d+\.\s)/.test(l));
   if (k > 0 && lines.slice(k).every((l) => /^(- |\+ |\d+\.\s)/.test(l))) return `<p>${rich(lines.slice(0, k).join(" "))}</p>` + block(lines.slice(k).join("\n"));

@@ -57,7 +57,11 @@
         {
           "n": 7,
           "slug": "arithmetic",
-          "locales": []
+          "locales": [],
+          "draft": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 8,

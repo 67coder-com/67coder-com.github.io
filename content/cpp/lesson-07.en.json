@@ -1,0 +1,128 @@
+{
+  "title": "Arithmetic and operations",
+  "module": "Block 1 · Awakening",
+  "steps": {
+    "flight-trajectory-prep": {
+      "eyebrow": "Flight calculations",
+      "title": "Plotting the Mawrth Vallis route",
+      "body": [
+        "Scout drone Sigma is stationed on the launch runway outside base IRIS, preparing for an autonomous 120-kilometer survey over the Mawrth Vallis plateau.",
+        "Before liftoff, the navigation coprocessor must compute vital physical metrics: cruising velocity ($v = s / t$), flight duration in hours and minutes, fuel burn rate, and sensor telemetry cycles.",
+        "C++ provides a full suite of arithmetic and assignment operators to handle flight mathematics directly in hardware:\n+ **Basic operators (+ - * / %).** Fundamental arithmetic operations matching algebraic rules, plus the integer modulo operator `%`.\n+ **Compound assignments (+= -= *= /= %=).** Shorthand operations that modify an existing variable in place without repeating its name.\n+ **Increment and decrement (++ --).** High-speed single-unit counters designed for telemetry loops and sequence tracking."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "How the Apollo 11 Lunar Module avoided computer overload in 1969",
+          "body": [
+            "On July 20, 1969, as Apollo 11's Lunar Module \"Eagle\" descended toward the Moon's Sea of Tranquility, the Apollo Guidance Computer (AGC) suddenly flashed alarm codes 1202 and 1201.",
+            "The rendezvous radar had been left in the wrong hardware mode, flooding the computer with hundreds of extraneous cycle-stealing interrupts every second. The processor was in danger of running out of memory and execution cycles.",
+            "Margaret Hamilton and her team at MIT had designed an asynchronous executive operating system with strict priority scheduling. The computer dropped lower-priority radar calculations and prioritized critical descent thruster arithmetic and landing equations. Because arithmetic routines executed deterministically according to strict priority rules, the lunar module touched down safely with just seconds of fuel remaining.",
+            "Source: NASA Apollo 11 Mission Report; MIT Museum Hamilton Archives (https://airandspace.si.edu)."
+          ]
+        },
+        {
+          "kind": "deeper",
+          "title": "Why modulo % is mathematically undefined with negative divisors in older C",
+          "body": [
+            "In elementary arithmetic, division with remainder is defined as a = b * q + r, where the remainder r is strictly non-negative: 0 <= r < |b|.",
+            "In older C standards (C89/C90), the sign of the result for integer division with negative numbers was implementation-defined: some compilers rounded toward zero (truncating division), while others rounded toward negative infinity (flooring division).",
+            "Since C99 and C++11, the standard strictly mandates truncation toward zero: the quotient a / b always discards the fractional part, and the remainder a % b always preserves the algebraic sign of the numerator a (so -7 % 3 is -1, while 7 % -3 is 1)."
+          ]
+        }
+      ]
+    },
+    "basic-arithmetic-and-modulo": {
+      "title": "Basic arithmetic and the modulo operator",
+      "compareCaptions": [
+        "integer modulo: evaluates to remaining integer 5",
+        "error: modulo operator % does not accept floating-point types"
+      ],
+      "body": [
+        "C++ features five binary arithmetic operators: addition (`+`), subtraction (`-`), multiplication (`*`), division (`/`), and modulo (`%`).",
+        "syntax: int {remainder} = {total} % {divisor};\n- int: integer type keyword\n- remainder: variable storing the leftover integer\n- total: dividend integer value\n- divisor: non-zero integer divisor\n- ;: statement terminator — mandatory in C++",
+        "> Rules for the modulo operator (%):\n> 1. **Integers only.** The `%` operator computes the integer remainder of division. It operates strictly on integers (`int`, `short`, `long long`) and char. It cannot be used with `double` or `float`.\n> 2. **Cyclic range.** For any positive divisor `N`, the expression `x % N` always produces a value between `0` and `N - 1`. This makes modulo ideal for clocks, buffer cycles, and telemetry slots.\n> 3. **Division by zero is undefined.** Just like regular division (`/`), dividing or computing modulo by zero (`x % 0`) causes an immediate crash (hardware fault / undefined behavior).",
+        "!> **Python habit to unlearn.** In Python, modulo works on floating-point numbers (`5.5 % 2` evaluates to `1.5`). In C++, compiling `5.5 % 2` causes an immediate compilation error (`invalid operands to binary expression`). In C++, `%` is strictly for integer types!"
+      ]
+    },
+    "predict-modulo-cycles": {
+      "title": "Predict time unit conversion",
+      "body": [
+        "Examine how integer division and the modulo operator separate a total number of seconds into whole minutes and remaining seconds.",
+        "Calculate what `125 / 60` produces versus `125 % 60`, then predict the exact output line."
+      ],
+      "explain": "`125 / 60` performs integer division, producing `2` whole minutes (the fractional remainder is discarded). Meanwhile, `125 % 60` computes the remaining seconds (`125 - 60 * 2 = 5`). Together with text labels, the program prints `2M 5S`."
+    },
+    "operator-precedence": {
+      "eyebrow": "Evaluation hierarchy",
+      "title": "Operator precedence and grouping",
+      "body": [
+        "In mathematical expressions with multiple operators, C++ evaluates operations according to strict precedence tiers rather than simple left-to-right reading order.",
+        "> Operator precedence hierarchy:\n> 1. **Parentheses ( )** — Highest precedence. Expressions inside parentheses always evaluate first.\n> 2. **Multiplication, division, modulo (* / %)** — Second tier. Evaluated from left to right.\n> 3. **Addition and subtraction (+ -)** — Third tier. Evaluated only after higher-tier operations complete.",
+        "Relying on memorized precedence rules can lead to subtle aerospace bugs. In mission-critical navigation code, always use explicit parentheses to document and enforce your intended calculation order."
+      ],
+      "alt": "Diagram comparing default operator precedence (10 + 5 * 2 = 20) with explicit parentheses ((10 + 5) * 2 = 30).",
+      "image": "assets/l07-operator-precedence.en.svg"
+    },
+    "calculate-flight-telemetry": {
+      "title": "Calculate flight time and unassigned samples",
+      "task": "Complete Sigma's pre-flight navigation calculations in the format shown below:\n1. Compute `flight_hours` by dividing `distance` (120) by `speed` (40).\n2. Compute `unassigned` samples by calculating `total_samples` (47) modulo `sensors` (4).\n3. Print `HOURS: ` followed by `flight_hours` on line 1.\n4. Print `UNASSIGNED: ` followed by `unassigned` on line 2.",
+      "hint": "Declare `int flight_hours = distance / speed;` and `int unassigned = total_samples % sensors;`, then stream them with `cout` and `endl`.",
+      "solutionNote": "120 / 40 equals exactly 3 hours, and 47 % 4 leaves 3 unassigned telemetry samples (since 4 * 11 = 44, remainder 3)."
+    },
+    "compound-assignment": {
+      "title": "Compound assignment operators",
+      "compareCaptions": [
+        "compound subtraction: clean and concise",
+        "repeated identifier: valid, but verbose and error-prone"
+      ],
+      "body": [
+        "Programs frequently update an existing variable by adding, subtracting, or multiplying its current value by a delta. To avoid writing the variable name twice, C++ provides compound assignment operators: `+=`, `-=`, `*=`, `/=`, and `%=`.",
+        "syntax: {variable} += {delta};\n- variable: existing identifier to modify\n- +=: compound addition operator\n- delta: value or expression added to variable\n- ;: statement terminator — mandatory in C++",
+        "> Five fundamental compound operators:\n> 1. **+= (add and assign).** `fuel += 50;` increases `fuel` by 50.\n> 2. **-= (subtract and assign).** `battery -= 15;` decreases `battery` by 15.\n> 3. **`*=` (multiply and assign).** `thrust *= 2;` doubles the current thrust.\n> 4. **/= (divide and assign).** `altitude /= 2;` halves the altitude.\n> 5. **%= (modulo and assign).** `slot %= 10;` wraps `slot` into the range 0—9.",
+        "The compound form is not only shorter to type — it also makes code safer by eliminating accidental typos when modifying long variable names like `telemetry_buffer_sequence_index`."
+      ]
+    },
+    "increment-decrement": {
+      "title": "Increment and decrement: ++ and --",
+      "compareCaptions": [
+        "increment operator: adds 1 directly to variable",
+        "syntax bug: assigns positive 1 instead of incrementing"
+      ],
+      "body": [
+        "The most frequent arithmetic operation in computing is increasing or decreasing a counter by exactly 1. C++ provides dedicated unary operators for this: `++` (increment) and `--` (decrement).",
+        "syntax: {counter}++;\n- counter: integer or numeric variable\n- ++: increment operator adding 1\n- ;: statement terminator — mandatory in C++",
+        "> Increment mechanics:\n> 1. **Compact step.** Writing `waypoints++;` is equivalent to `waypoints += 1;` or `waypoints = waypoints + 1;`.\n> 2. **Prefix vs postfix.** In standalone statements (`x++;` or `++x;`), both forms increase `x` by 1. In complex expressions, prefix (`++x`) increments before reading, while postfix (`x++`) increments after reading.\n> 3. **Idiomatic C++.** As standalone statements, both are widely used; in modern C++, `counter++;` is the classic choice for updating counters and waypoints.",
+        "!> **Python habit to unlearn.** Python does NOT have `++` or `--` (`x++` is a syntax error in Python, and `++x` in Python is just double positive sign `+(+x)`). In C++, `++` is the standard, native way to step through counters!"
+      ]
+    },
+    "predict-increment-flow": {
+      "title": "Trace increment and compound updates",
+      "body": [
+        "Track the value of `waypoints` through the consecutive operations below. Predict the final output printed to the terminal.",
+        "Notice that `waypoints` starts at `3`, then encounters `waypoints++;`, and then `waypoints += 4;`."
+      ],
+      "explain": "`waypoints` starts at 3. The `waypoints++;` statement increases it by 1, making it 4. Next, `waypoints += 4;` adds 4 to 4, resulting in 8. The program outputs `WAYPOINTS: 8`."
+    },
+    "find-modulo-float-bug": {
+      "title": "Find the invalid modulo operand",
+      "task": "Click on the line containing the compiler error where an arithmetic operator is applied to an incompatible data type.",
+      "hint": "Review which data types are permitted with the `%` operator. Modulo does not support floating-point numbers.",
+      "explain": "Line 7 attempts `int fuel_rem = fuel % 2;`, but `fuel` is declared as a `double` (`14.5`). In C++, the modulo operator `%` strictly requires integer operands. Using `%` with `float` or `double` produces a compile-time error."
+    },
+    "fill-operator-tokens": {
+      "title": "Assign operators to telemetry metrics",
+      "task": "Choose the correct C++ arithmetic or assignment operator for each missing token based on the required navigation logic.",
+      "hint": "Hours require integer division `/`, remaining minutes require modulo `%`, and cumulative distance requires compound addition `+=`.",
+      "explain": "`minutes / 60` computes full hours (2), `minutes % 60` calculates remaining minutes (20), and `total_dist += 25` accumulates distance (125)."
+    },
+    "recap": {
+      "title": "Mission 7 recap: Arithmetic and compound operators",
+      "body": [
+        "Scout drone Sigma's pre-flight flight trajectory calculations are complete. All navigation metrics, fuel burn projections, and sensor cycles have been computed using standard C++ operators.",
+        "| Operator Category | Syntax / Symbols | Behavior | Typical Mission Role |\n| :--- | :--- | :--- | :--- |\n| Basic arithmetic | `+`, `-`, `*`, `/` | Standard algebraic math | Distance, speed, and fuel totals |\n| Integer remainder | `%` | Remainder of integer division | Cyclic counters, clock minutes, slots |\n| Compound update | `+=`, `-=`, `*=`, `/=`, `%=` | Updates variable in place | Battery drain, fuel burn, leg distance |\n| Step counters | `++`, `--` | Adds or subtracts 1 | Waypoint index, sample iteration |",
+        "Next in Chapter 8, we will unlock terminal input (`cin >>` and `getline`) so base operators can enter flight coordinates and mission parameters interactively."
+      ]
+    }
+  }
+}
