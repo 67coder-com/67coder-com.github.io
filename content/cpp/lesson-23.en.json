@@ -1,0 +1,100 @@
+{
+  "title": "Practicum: a function library",
+  "steps": {
+    "library-architecture": {
+      "eyebrow": "Practicum mission",
+      "title": "Assembling the IRIS avionics function library",
+      "body": [
+        "Welcome to **Practicum 23**! All three drones of Fleet IRIS—Scout Sigma, Cartographer Delta, and Cargo Omega—are docked inside the central maintenance hangar of Base IRIS.",
+        "Over previous missions, we developed specialized functions for calculating fuel consumption, swapping navigation channels, and auditing telemetry. In safety-critical aerospace engineering, isolated functions scattered across independent scripts are dangerous. If Delta uses one definition of boundary clamping while Omega uses an older version, coordinate mismatches will occur during joint formation flights.",
+        "Today, we consolidate our code into the **Base IRIS Avionics Function Library (`libiris`)**:",
+        "- **Standardized subroutines.** A single shared suite of verified functions serving all three drone classes.",
+        "- **Three parameter passing patterns.** Pure mathematical checks by value, direct hardware calibration by reference (`&`), and zero-copy telemetry analysis by const reference (`const &`).",
+        "- **Overloaded flexibility.** Intuitive, unified function names that adapt seamlessly to varying telemetry parameters."
+      ],
+      "archive": {
+        "title": "Modular flight software frameworks: NASA JPL F Prime (F')",
+        "body": "In 2021, the Ingenuity Mars Helicopter achieved humanity's first powered, controlled flight on another planet. Its flight computer ran on Linux and an open-source modular framework developed by NASA JPL called F Prime (F'). In F', aerospace capabilities are architected as decoupled, reusable software components communicating via typed ports. By separating mathematical algorithms into reusable library routines with strict interface contracts, JPL engineers were able to write, unit-test, and verify complex flight logic on Earth long before uploading it across 150 million miles of deep space.",
+        "sources": [
+          "NASA Jet Propulsion Laboratory, 'F Prime: A Component-Driven Flight Software Framework'",
+          "IEEE Aerospace Conference, 'Small Steps and Giant Leaps: Ingenuity Mars Helicopter Flight Software'"
+        ]
+      }
+    },
+    "library-modules-anatomy": {
+      "eyebrow": "Architecture overview",
+      "title": "The three pillars of the IRIS library",
+      "alt": "Diagram showing the IRIS Avionics Function Library architecture: validation predicates by value, in-place calibration by reference, and vector analytics by const reference.",
+      "image": "assets/l23-library-architecture.en.svg",
+      "body": [
+        "The IRIS library organizes functions into three core architectural modules:",
+        "- **Module 1: Safety Predicates (by value).** Pure functions that inspect inputs and return `bool` (`is_valid`, `in_range`). Because they take parameters by value, they are guaranteed to have zero side-effects on caller state.",
+        "- **Module 2: Hardware Calibration (by reference `&`).** Action procedures with `void` return that directly tune sensor offsets and exchange coordinate channels in caller memory.",
+        "- **Module 3: Telemetry Analytics (by `const &`).** High-throughput analytical functions that process vectors and telemetry streams without memory copying, protected against accidental modification.",
+        "> **Practicum goal:** In this practicum, you will implement, test, and integrate functions from all three modules into an end-to-end flight computer suite."
+      ]
+    },
+    "predict-library-pipeline": {
+      "eyebrow": "Pipeline tracing",
+      "title": "Trace calibration and clamping pipeline",
+      "body": [
+        "Trace this integrated telemetry pipeline combining reference calibration and mathematical clamping.",
+        "Determine the final value printed to the console."
+      ],
+      "explain": "The initial sensor value is 85. Calling `calibrate(sensor, 25)` passes `sensor` by reference, updating it directly to `85 + 25 = 110`. Next, `clamp(110, 100)` detects that 110 exceeds 100 and returns 100, which is assigned back to `sensor`. The console prints `100`."
+    },
+    "write-math-helpers": {
+      "title": "Math utility toolkit: clamp and diff",
+      "task": "Program two essential mathematical utility functions for libiris:\n1. Above `main()`, define `int clamp(int val, int lo, int hi)`: if `val < lo` return `lo`; if `val > hi` return `hi`; otherwise return `val`.\n2. Above `main()`, define `int diff(int a, int b)`: return the positive difference between `a` and `b` (`a - b` if `a >= b`, otherwise `b - a`).\n3. In `main()`, read `v`, `lo`, `hi`, `a`, and `b` from `cin`.\n4. Print `CLAMPED: ` followed by `clamp(v, lo, hi)` and a newline.\n5. Print `DIFF: ` followed by `diff(a, b)` and a newline.",
+      "hint": "Both functions return an integer and pass inputs by value. Ensure diff always returns a non-negative number.",
+      "solutionNote": "These building blocks are used across altitude limiting and sensor deviation auditing."
+    },
+    "write-vector-statistics": {
+      "title": "Telemetry statistics: sum and minimum",
+      "task": "Program high-performance zero-copy vector statistics subroutines:\n1. Above `main()`, define `int compute_sum(const vector<int> &v)` that sums all integers in `v`.\n2. Above `main()`, define `int find_min(const vector<int> &v)` that returns the smallest integer in `v` (initialize min with `v[0]`).\n3. In `main()`, read sample count `count` from `cin`.\n4. Read `count` integers into a `vector<int> data;` with `push_back`.\n5. Print `SUM: ` followed by `compute_sum(data)` and a newline.\n6. Print `MIN: ` followed by `find_min(data)` and a newline.",
+      "hint": "Pass the vector as `const vector<int> &v` in both functions for zero-copy efficiency.",
+      "solutionNote": "Const reference parameters ensure large telemetry sets are analyzed without memory duplication."
+    },
+    "find-library-ref-bug": {
+      "eyebrow": "Code audit",
+      "title": "Identify missing reference parameter",
+      "body": [
+        "The flight engineer wrote `apply_trim` to adjust the drone's speed directly in memory.",
+        "However, tests show `drone_speed` in `main()` never changes! Click on the line causing the failure."
+      ],
+      "explain": "Line 4 defines `void apply_trim(int speed, int delta)`. Because `speed` is passed by value (lacking `&`), the function modifies only an isolated temporary copy. The caller's `drone_speed` is untouched! The signature must be `int &speed`."
+    },
+    "assemble-telemetry-pipeline": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble telemetry validation pipeline",
+      "body": [
+        "Construct an automated sensor intake pipeline: a boolean predicate function `is_valid` filters negative noise readings from a vector and counts nominal samples.",
+        "Arrange the code blocks in correct order to run this validation loop."
+      ]
+    },
+    "write-overloaded-range-check": {
+      "title": "Overloaded range validation predicate",
+      "task": "Program overloaded boundary validation predicates:\n1. Above `main()`, define `bool in_range(int v, int max_limit)`: return `true` if `v >= 0 && v <= max_limit`, otherwise `false`.\n2. Above `main()`, define overloaded `bool in_range(int v, int min_limit, int max_limit)`: return `true` if `v >= min_limit && v <= max_limit`, otherwise `false`.\n3. In `main()`, read `a`, `max_a`, `b`, `min_b`, and `max_b` from `cin`.\n4. Print `CHECK 1: ` followed by `in_range(a, max_a)` and a newline.\n5. Print `CHECK 2: ` followed by `in_range(b, min_b, max_b)` and a newline.",
+      "hint": "Both functions share the identifier in_range. The first accepts 2 arguments, the second accepts 3.",
+      "solutionNote": "Function overloading allows both single-bounded and double-bounded range audits under one unified API."
+    },
+    "capstone-avionics-suite": {
+      "title": "Base IRIS flight computer diagnostics suite",
+      "task": "Synthesize the complete Base IRIS avionics diagnostics suite:\n1. Define `bool is_valid_signal(int signal)`: returns `true` if `signal >= 0`, otherwise `false`.\n2. Define `void apply_calibration(int &sensor_val, int offset)`: adds `offset` directly to `sensor_val` in place.\n3. Define `int fleet_energy_summary(const vector<int> &batteries, int &low_battery_count)`: sums all battery levels in `batteries`, and counts how many batteries have level `< 20` into `low_battery_count` (reset count to 0 first).\n4. In `main()`, read `sensor`, `offset`, and battery count `n` from `cin`.\n5. In a loop, read `n` battery levels into `vector<int> batteries;` with `push_back`.\n6. Call `apply_calibration(sensor, offset)`.\n7. Call `fleet_energy_summary(batteries, low_count)` and store total in `total`.\n8. Print `CALIBRATED SENSOR: ` followed by `sensor` and a newline.\n9. Print `TOTAL FLEET ENERGY: ` followed by `total` and a newline.\n10. Print `CRITICAL PODS: ` followed by `low_count` and a newline.",
+      "hint": "Declare low_count before calling fleet_energy_summary so it can be updated by reference.",
+      "solutionNote": "This capstone unifies value predicates, reference mutation, and const-reference vector analytics into a production-grade aerospace suite."
+    },
+    "recap": {
+      "eyebrow": "Practicum summary",
+      "title": "Avionics library mastered",
+      "body": [
+        "Outstanding achievement! You have constructed the unified **IRIS Avionics Function Library**:",
+        "- **Three parameter passing modes.** Value for pure math, reference (`&`) for direct in-place mutation, and const reference (`const &`) for zero-copy vector analysis.",
+        "- **Function overloading.** Multi-profile aerospace subroutines unified under clean, intuitive names.",
+        "- **Modular software architecture.** Reusable, testable, decoupled components matching modern spacecraft standards.",
+        "> **Next up: Chapter 24 — KONTROLPUNKTS (Block 3 Checkpoint).**",
+        "> In the next chapter, you face the comprehensive **Operator Qualification Exam (Lectures 1–24)**. Passing Chapter 24 certifies you in the complete foundational core of C++!"
+      ]
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "title": "Praktikums: funkciju bibliotēka",
+  "steps": {
+    "library-architecture": {
+      "eyebrow": "Praktikuma misija",
+      "title": "Bāzes IRIS funkciju bibliotēkas izveide",
+      "body": [
+        "Laipni lūgti **23. nodaļā — Praktikumā**! Visi trīs IRIS flotes droni — izlūks Sigma, kartogrāfs Delta un kravas drons Omega — atrodas bāzes centrālajā angārā.",
+        "Iepriekšējās nodarbībās mēs izstrādājām atsevišķas funkcijas degvielas patēriņam, koordinātu apmaiņai un telemetrijas analīzei. Kosmiskajā avionikā izkaisītas, neatkarīgas funkcijas rada milzīgu risku: ja Delta izmantos vienu robežu pārbaudes versiju, bet Omega — citu, kopīgā lidojumā radīsies bīstama koordinātu nesakritība.",
+        "Šodien mēs apvienojam visus rīkus vienotā **Bāzes IRIS Avionikas Funkciju Bibliotēkā (`libiris`)**:",
+        "- **Standartizētas apakšprogrammas.** Viena kopīga pārbaudītu funkciju kopa visām trim dronu klasēm.",
+        "- **Trīs parametru nodošanas veidi.** Tīrie matemātiskie aprēķini pēc vērtības, aparatūras kalibrēšana pēc norādes (`&`) un apjomīgas telemetrijas apstrāde bez kopēšanas pēc const norādes (`const &`).",
+        "- **Pārslogošanas elastība.** Vienoti, intuitīvi funkciju nosaukumi, kas automātiski pielāgojas dažādiem telemetrijas parametriem."
+      ],
+      "archive": {
+        "title": "Modulārās lidojumu programmatūras ietvars: NASA JPL F Prime (F')",
+        "body": "2021. gadā Marsa helikopters Ingenuity veica cilvēces vēsturē pirmo kontrolēto lidojumu uz citas planētas. Tā borta dators darbojās ar Linux un NASA JPL izstrādātu atvērtā koda modulāro ietvaru F Prime (F'). Sistēmā F' visas borta spējas ir veidotas kā neatkarīgi, atkārtoti lietojami programmatūras komponenti ar stingri definētiem tipizētiem portiem. Atdalot matemātiskos algoritmus atkārtoti lietojamās bibliotēku apakšprogrammās, JPL inženieri spēja pārbaudīt visu lidojuma loģiku uz Zemes ilgi pirms koda nosūtīšanas pāri 150 miljoniem kilometru dziļajā kosmosā.",
+        "sources": [
+          "NASA Jet Propulsion Laboratory, 'F Prime: A Component-Driven Flight Software Framework'",
+          "IEEE Aerospace Conference, 'Small Steps and Giant Leaps: Ingenuity Mars Helicopter Flight Software'"
+        ]
+      }
+    },
+    "library-modules-anatomy": {
+      "eyebrow": "Arhitektūras pārskats",
+      "title": "Trīs IRIS bibliotēkas pamatmoduļi",
+      "alt": "Shēma attēlo IRIS funkciju bibliotēkas arhitektūru: drošības predikāti pēc vērtības, kalibrēšana pēc norādes un vektoru analītika pēc const norādes.",
+      "image": "assets/l23-library-architecture.lv.svg",
+      "body": [
+        "IRIS bibliotēka strukturē funkcijas trīs galvenajos arhitektūras moduļos:",
+        "- **1. modulis: Drošības predikāti (pēc vērtības).** Tīras funkcijas, kas pārbauda datus un atgriež `bool` (`is_valid`, `in_range`). Tā kā parametri tiek nodoti pēc vērtības, ir garantēts, ka funkcija neizraisīs nekādus blakusefektus izsaucēja atmiņā.",
+        "- **2. modulis: Aparatūras kalibrēšana (pēc norādes `&`).** Darbību procedūras ar `void`, kas tieši kalibrē sensoru nobīdes un samaina koordinātas izsaucēja operatīvajā atmiņā.",
+        "- **3. modulis: Telemetrijas analītika (pēc `const &`).** Ātrdarbīgas analītiskās funkcijas vektoru apstrādei bez atmiņas kopēšanas un ar stingru aizsardzību pret datu bojājumiem.",
+        "> **Praktikuma mērķis:** Šajā praktikumā jūs patstāvīgi izstrādāsiet, notestēsiet un integrēsiet visu trīs moduļu funkcijas vienotā borta datora programmā."
+      ]
+    },
+    "predict-library-pipeline": {
+      "eyebrow": "Plūsmas analīze",
+      "title": "Kalibrēšanas un ierobežošanas plūsmas izsekošana",
+      "body": [
+        "Izsekojiet šai integrētajai telemetrijas apstrādes plūsmai, kas apvieno norādes kalibrēšanu un matemātisko ierobežošanu.",
+        "Nosakiet konsolē izdrukāto galarezultātu."
+      ],
+      "explain": "Sākotnējais sensora rādījums ir 85. Izsaukums `calibrate(sensor, 25)` nodod `sensor` pēc norādes, atjauninot to uz `85 + 25 = 110`. Pēc tam `clamp(110, 100)` konstatē, ka 110 pārsniedz 100, un atgriež 100, ko piešķir atpakaļ mainīgajam `sensor`. Konsolē tiek izdrukāts `100`."
+    },
+    "write-math-helpers": {
+      "title": "Matemātiskie palīgrīki: clamp un diff",
+      "task": "Ieprogrammējiet divas būtiskas libiris matemātisko aprēķinu funkcijas:\n1. Virs `main()` definējiet `int clamp(int val, int lo, int hi)`: ja `val < lo`, atgriež `lo`; ja `val > hi`, atgriež `hi`; pretējā gadījumā atgriež `val`.\n2. Virs `main()` definējiet `int diff(int a, int b)`: atgriež pozitīvo starpību starp `a` un `b` (`a - b`, ja `a >= b`, pretējā gadījumā `b - a`).\n3. Funkcijā `main()` nolasiet `v`, `lo`, `hi`, `a` un `b` no `cin`.\n4. Izdrukājiet `CLAMPED: `, rezultātu `clamp(v, lo, hi)` un jaunu rindu.\n5. Izdrukājiet `DIFF: `, rezultātu `diff(a, b)` un jaunu rindu.",
+      "hint": "Abas funkcijas atgriež veselu skaitli un nodod parametrus pēc vērtības. Pārliecinieties, ka diff vienmēr atgriež nenegatīvu skaitli.",
+      "solutionNote": "Šie pamatbloki tiek izmantoti augstuma ierobežošanai un sensoru noviržu mērīšanai visos lidojumos."
+    },
+    "write-vector-statistics": {
+      "title": "Telemetrijas statistika: summa un minimums",
+      "task": "Ieprogrammējiet ātrdarbīgas vektoru statistikas funkcijas bez atmiņas kopēšanas:\n1. Virs `main()` definējiet `int compute_sum(const vector<int> &v)`, kas aprēķina visu `v` elementu summu.\n2. Virs `main()` definējiet `int find_min(const vector<int> &v)`, kas atrod un atgriež mazāko vērtību vektorā `v` (inicializējiet ar `v[0]`).\n3. Funkcijā `main()` nolasiet paraugu skaitu `count` no `cin`.\n4. Ciklā nolasiet `count` skaitļus vektorā `vector<int> data;` ar `push_back`.\n5. Izdrukājiet `SUM: `, summu `compute_sum(data)` un jaunu rindu.\n6. Izdrukājiet `MIN: `, minimumu `find_min(data)` un jaunu rindu.",
+      "hint": "Abās funkcijās vektoru nododiet kā `const vector<int> &v`, lai nodrošinātu maksimālu ātrumu bez kopēšanas.",
+      "solutionNote": "Const norādes nodrošina apjomīgu datu kopu analīzi ar nulles atmiņas izšķērdēšanu."
+    },
+    "find-library-ref-bug": {
+      "eyebrow": "Koda audits",
+      "title": "Trūkstošās norādes kļūdas atrašana",
+      "body": [
+        "Inženieris uzrakstīja funkciju `apply_trim`, lai tieši pielāgotu drona ātrumu izsaucēja atmiņā.",
+        "Tomēr testi rāda, ka `drone_speed` funkcijā `main()` vispār nemainās! Noklikšķiniet uz rindiņas, kas izraisa kļūdu."
+      ],
+      "explain": "Rindiņā 4 ir definēts `void apply_trim(int speed, int delta)`. Tā kā `speed` nodots pēc vērtības (trūkst `&`), funkcija maina tikai izolētu pagaidu kopiju, un izsaucēja `drone_speed` paliek nemainīts! Pareizam parakstam jābūt `int &speed`."
+    },
+    "assemble-telemetry-pipeline": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Sensoru validācijas plūsmas salikšana",
+      "body": [
+        "Salieciet sensoru ielasīšanas un validācijas ciklu: predikāta funkcija `is_valid` pārbauda, vai vērtība nav negatīvs troksnis, un cikls saskaita derīgos paraugus.",
+        "Sakārtojiet koda blokus pareizā secībā, lai palaistu šo validācijas moduli."
+      ]
+    },
+    "write-overloaded-range-check": {
+      "title": "Pārslogots robežu pārbaudes predikāts",
+      "task": "Ieprogrammējiet pārslogotus robežu pārbaudes predikātus:\n1. Virs `main()` definējiet `bool in_range(int v, int max_limit)`: atgriež `true`, ja `v >= 0 && v <= max_limit`, pretējā gadījumā `false`.\n2. Virs `main()` definējiet pārslogotu `bool in_range(int v, int min_limit, int max_limit)`: atgriež `true`, ja `v >= min_limit && v <= max_limit`, pretējā gadījumā `false`.\n3. Funkcijā `main()` nolasiet `a`, `max_a`, `b`, `min_b` un `max_b` no `cin`.\n4. Izdrukājiet `CHECK 1: `, rezultātu `in_range(a, max_a)` un jaunu rindu.\n5. Izdrukājiet `CHECK 2: `, rezultātu `in_range(b, min_b, max_b)` un jaunu rindu.",
+      "hint": "Abām funkcijām ir vienāds vārds in_range. Pirmā saņem 2 argumentus, otrā — 3.",
+      "solutionNote": "Pārslogošana ļauj pārbaudīt gan vienpusējas, gan divpusējas robežas ar vienotu un skaidru interfeisu."
+    },
+    "capstone-avionics-suite": {
+      "title": "Bāzes IRIS lidojumu diagnostikas komplekss",
+      "task": "Izveidojiet pilnu bāzes IRIS avionikas diagnostikas sistēmu:\n1. Definējiet `bool is_valid_signal(int signal)`: atgriež `true`, ja `signal >= 0`, pretējā gadījumā `false`.\n2. Definējiet `void apply_calibration(int &sensor_val, int offset)`: pieskaita `offset` tieši pie `sensor_val` atmiņā.\n3. Definējiet `int fleet_energy_summary(const vector<int> &batteries, int &low_battery_count)`: saskaita visu bateriju līmeņus un atgriež to summu; skaitītājā `low_battery_count` (iepriekš to iestatot uz 0) saskaita, cik baterijām līmenis ir `< 20`.\n4. Funkcijā `main()` nolasiet `sensor`, `offset` un bateriju skaitu `n` no `cin`.\n5. Ciklā nolasiet `n` bateriju vērtības vektorā `vector<int> batteries;` ar `push_back`.\n6. Izsauciet `apply_calibration(sensor, offset)`.\n7. Izsauciet `fleet_energy_summary(batteries, low_count)` un saglabājiet summu mainīgajā `total`.\n8. Izdrukājiet `CALIBRATED SENSOR: `, mainīgo `sensor` un jaunu rindu.\n9. Izdrukājiet `TOTAL FLEET ENERGY: `, mainīgo `total` un jaunu rindu.\n10. Izdrukājiet `CRITICAL PODS: `, mainīgo `low_count` un jaunu rindu.",
+      "hint": "Mainīgo low_count deklarējiet pirms funkcijas izsaukuma, lai funkcija to varētu atjaunināt pēc norādes.",
+      "solutionNote": "Šis noslēguma uzdevums apvieno vērtību predikātus, tiešu norāžu kalibrēšanu un const-norāžu analītiku vienotā aviācijas sistēmā."
+    },
+    "recap": {
+      "eyebrow": "Praktikuma kopsavilkums",
+      "title": "Avionikas bibliotēka pilnībā apgūta",
+      "body": [
+        "Apsveicam ar lielisku sniegumu! Jūs esat izveidojis vienotu **IRIS Avionikas Funkciju Bibliotēku**:",
+        "- **Trīs parametru nodošanas veidi.** Pēc vērtības tīriem aprēķiniem, pēc norādes (`&`) tiešām izmaiņām un pēc const norādes (`const &`) ātrai analīzei bez kopēšanas.",
+        "- **Funkciju pārslogošana.** Elastīgas borta apakšprogrammas zem vienotiem, skaidriem nosaukumiem.",
+        "- **Modulāra programmatūra.** Reāllaika kosmiskajiem standartiem atbilstoši neatkarīgi un pārbaudāmi moduļi.",
+        "> **Nākamā tēma: 24. nodaļa — KONTROLPUNKTS (3. bloka noslēgums).**",
+        "> Nākamajā nodaļā jūs gaida visaptverošais **Flotes operatora kvalifikācijas pārbaudījums (1.–24. nodarbība)**. 24. nodaļas nokārtošana nozīmē pilnīgu C++ pamatu kodola apguvi!"
+      ]
+    }
+  }
+}

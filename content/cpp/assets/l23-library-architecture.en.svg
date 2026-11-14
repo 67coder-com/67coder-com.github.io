@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="100%" height="100%">
+  <title>IRIS Avionics Function Library Architecture</title>
+  <desc>Diagram showing modular C++ flight software function library architecture with validation predicates, in-place reference calibration, and zero-copy vector telemetry analytics.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="340" rx="10" fill="#0D1117" />
+
+  <!-- Title Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">BASE IRIS MODULAR AVIONICS FUNCTION LIBRARY ARCHITECTURE</text>
+
+  <!-- Module 1: Validation Predicates -->
+  <g transform="translate(24, 52)">
+    <rect width="264" height="264" rx="8" fill="#151A22" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="16" y="26" fill="#7FB3A3" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MODULE 1: SAFETY PREDICATES</text>
+    
+    <rect x="16" y="42" width="232" height="96" rx="4" fill="#1E2530" stroke="#7FB3A3" stroke-width="1" />
+    <text x="26" y="66" fill="#7FB3A3" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">bool is_valid(int sig);</text>
+    <text x="26" y="88" fill="#7FB3A3" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">bool in_range(int v, int max);</text>
+    <text x="26" y="110" fill="#7FB3A3" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">bool in_range(int v, int min, int max);</text>
+    <text x="26" y="128" fill="#8E887D" font-size="10" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">// Overloaded range checks</text>
+
+    <rect x="16" y="150" width="232" height="96" rx="4" fill="#1A202A" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="174" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">Type: <tspan fill="#7FB3A3" font-weight="bold">Boolean predicates</tspan></text>
+    <text x="26" y="196" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">Passing: <tspan fill="#D1B784">By value (pure check)</tspan></text>
+    <text x="26" y="222" fill="#7FB3A3" font-size="11" font-weight="bold" style="font-family: var(--font-sans, Inter, sans-serif)">Zero side-effects guarantee</text>
+  </g>
+
+  <!-- Module 2: In-Place Calibration -->
+  <g transform="translate(308, 52)">
+    <rect width="264" height="264" rx="8" fill="#151A22" stroke="#D1B784" stroke-width="1.5" />
+    <text x="16" y="26" fill="#D1B784" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MODULE 2: IN-PLACE CALIBRATION</text>
+    
+    <rect x="16" y="42" width="232" height="96" rx="4" fill="#1E2530" stroke="#D1B784" stroke-width="1" />
+    <text x="26" y="66" fill="#D1B784" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">void calibrate(int &amp;val, int off);</text>
+    <text x="26" y="88" fill="#D1B784" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">void swap_pos(int &amp;x, int &amp;y);</text>
+    <text x="26" y="110" fill="#D1B784" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">void trim(int &amp;cur, int tgt, int s);</text>
+    <text x="26" y="128" fill="#8E887D" font-size="10" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">// Mutates caller RAM directly</text>
+
+    <rect x="16" y="150" width="232" height="96" rx="4" fill="#1A202A" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="174" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">Type: <tspan fill="#D1B784" font-weight="bold">Action subroutines (void)</tspan></text>
+    <text x="26" y="196" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">Passing: <tspan fill="#7FB3A3">By reference (&amp;)</tspan></text>
+    <text x="26" y="222" fill="#D1B784" font-size="11" font-weight="bold" style="font-family: var(--font-sans, Inter, sans-serif)">Direct memory mutation</text>
+  </g>
+
+  <!-- Module 3: Vector Analytics -->
+  <g transform="translate(592, 52)">
+    <rect width="264" height="264" rx="8" fill="#151A22" stroke="#82AAFF" stroke-width="1.5" />
+    <text x="16" y="26" fill="#82AAFF" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MODULE 3: TELEMETRY ANALYTICS</text>
+    
+    <rect x="16" y="42" width="232" height="96" rx="4" fill="#1E2530" stroke="#82AAFF" stroke-width="1" />
+    <text x="26" y="66" fill="#82AAFF" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">int sum(const vector&lt;int&gt; &amp;v);</text>
+    <text x="26" y="88" fill="#82AAFF" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">int peak(const vector&lt;int&gt; &amp;v);</text>
+    <text x="26" y="110" fill="#82AAFF" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">int audit(const vector&lt;int&gt; &amp;v, int &amp;c);</text>
+    <text x="26" y="128" fill="#8E887D" font-size="10" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">// Read-only batch analytics</text>
+
+    <rect x="16" y="150" width="232" height="96" rx="4" fill="#1A202A" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="174" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">Type: <tspan fill="#82AAFF" font-weight="bold">Analytical computation</tspan></text>
+    <text x="26" y="196" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">Passing: <tspan fill="#82AAFF">const &amp; (Zero-copy)</tspan></text>
+    <text x="26" y="222" fill="#82AAFF" font-size="11" font-weight="bold" style="font-family: var(--font-sans, Inter, sans-serif)">High-throughput efficiency</text>
+  </g>
+</svg>

@@ -195,7 +195,10 @@
         {
           "n": 23,
           "slug": "practicum-library",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 24,
