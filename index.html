@@ -1121,6 +1121,24 @@
   .tcard .tcard-t, .li-t { color: var(--accent-ink); font-weight: 500; font-size: 19px; }
   .callout .li-t { color: var(--accent-ink); }
   .printdoc .tcard .tcard-t, .printdoc .li-t { color: #7A5F2A; }
+
+  /* ══ Таблица в тексте урока ══ */
+  .ttable-wrap { margin-top: 16px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .ttable { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .ttable th {
+    text-align: left; padding: 10px 14px; background: var(--surface-raised);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--ink-faint); border-bottom: 1px solid var(--line); white-space: nowrap;
+  }
+  .ttable td { padding: 10px 14px; border-top: 1px solid var(--line); color: var(--ink-muted); line-height: 1.55; vertical-align: top; }
+  .ttable tbody tr:first-child td { border-top: 0; }
+  .ttable td:first-child { color: var(--ink); white-space: nowrap; }
+  .printdoc .ttable-wrap { border-color: #DFDAD1; break-inside: avoid; }
+  .printdoc .ttable th { background: #F4F2ED; color: #656A72; border-color: #DFDAD1; }
+  .printdoc .ttable td { color: #2B2E34; border-color: #DFDAD1; }
+  .printdoc .ttable td:first-child { color: #16181D; }
+  .brand-moodle .printdoc .ttable th { background: #EEF1F7; color: #1A2F59; }
+  .brand-moodle .printdoc .ttable td:first-child { color: #1A2F59; }
 </style>
 </head>
 <body>
@@ -2055,9 +2073,38 @@ function syntaxBlock(lines) {
     '<div class="syn-tpl">' + tpl + "</div>" + (legend ? '<div class="syn-leg">' + legend + "</div>" : "") + "</div>";
 }
 
+/* Таблица в формате Markdown:
+     | Type | Size | Example |
+     | :--- | :--- | :--- |
+     | `bool` | 1 byte | `true` |
+   Вторая строка — разделитель; двоеточия задают выравнивание. */
+function isTableRow(l) { return /^\s*\|.*\|\s*$/.test(l); }
+function isTableSep(l) { return /^\s*\|(\s*:?-{3,}:?\s*\|)+\s*$/.test(l); }
+function tableCells(l) {
+  return l.trim().replace(/^\|/, "").replace(/\|$/, "").split(/(?<!\\)\|/).map(function (c) { return c.replace(/\\\|/g, "|").trim(); });
+}
+function tableBlock(lines) {
+  var head = tableCells(lines[0]);
+  var align = tableCells(lines[1]).map(function (c) {
+    return /^:-+:$/.test(c) ? "center" : /^-+:$/.test(c) ? "right" : "";
+  });
+  var cell = function (tag, txt, i) {
+    return "<" + tag + (align[i] ? ' style="text-align:' + align[i] + '"' : "") + ">" + rich(txt) + "</" + tag + ">";
+  };
+  var body = lines.slice(2).filter(function (l) { return l.trim(); }).map(function (l) {
+    return "<tr>" + tableCells(l).map(function (c, i) { return cell("td", c, i); }).join("") + "</tr>";
+  }).join("");
+  return '<div class="ttable-wrap"><table class="ttable"><thead><tr>' +
+    head.map(function (h, i) { return cell("th", h, i); }).join("") + "</tr></thead><tbody>" + body + "</tbody></table></div>";
+}
+
 function block(p) {
   var text = String(p === undefined || p === null ? "" : p);
   var lines = text.split("\n");
+  var ti = lines.findIndex ? lines.findIndex(isTableRow) : -1;
+  if (ti > -1 && lines.length >= ti + 2 && isTableSep(lines[ti + 1]) && lines.slice(ti).every(function (l) { return !l.trim() || isTableRow(l); })) {
+    return (ti > 0 ? "<p>" + rich(lines.slice(0, ti).join(" ")) + "</p>" : "") + tableBlock(lines.slice(ti));
+  }
   if (/^syntax:\s/.test(lines[0])) return syntaxBlock(lines);
   if (/^!> ?/.test(lines[0])) {
     var winner = lines.map(function (l) { return l.replace(/^!?> ?/, ""); }).join("\n");

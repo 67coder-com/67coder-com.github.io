@@ -66,6 +66,13 @@ function checkLesson(courseId, dir, l, published) {
         step.compare.forEach((c, i) => { if (!c.code) err(sw, `в compare пример ${i + 1} без кода`); });
       }
       for (const b of [].concat(tx.body || [])) {
+        const rows = String(b).split("\n").filter((l) => /^\s*\|.*\|\s*$/.test(l));
+        if (rows.length >= 2) {
+          const n = (l) => l.trim().replace(/^\|/, "").replace(/\|$/, "").split(/(?<!\\)\|/).length;
+          const bad = rows.filter((l) => n(l) !== n(rows[0]));
+          if (bad.length) warn(sw, `в таблице строки с разным числом столбцов (в заголовке ${n(rows[0])})`);
+          if (!/^\s*\|(\s*:?-{3,}:?\s*\|)+\s*$/.test(rows[1])) warn(sw, "у таблицы нет строки-разделителя «| :--- | :--- |» второй строкой — она покажется сплошным текстом");
+        }
         if (/^syntax:\s/.test(String(b)) && !/\{[^}]+\}/.test(String(b).split("\n")[0])) warn(sw, "в шаблоне синтаксиса нет ни одной части в {фигурных скобках}");
       }
       if (step.kind === "quiz") {

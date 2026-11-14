@@ -84,8 +84,20 @@ const syntaxBlock = (lines) => {
   }).join("");
   return `<div class="syn"><div class="eyebrow">${SYNTAX_LABEL}</div><div class="syn-tpl">${tpl}</div>${leg ? `<div class="syn-leg">${leg}</div>` : ""}</div>`;
 };
+const isRow = (l) => /^\s*\|.*\|\s*$/.test(l);
+const isSep = (l) => /^\s*\|(\s*:?-{3,}:?\s*\|)+\s*$/.test(l);
+const cells = (l) => l.trim().replace(/^\|/, "").replace(/\|$/, "").split(/(?<!\\)\|/).map((c) => c.replace(/\\\|/g, "|").trim());
+const table = (ls) => {
+  const al = cells(ls[1]).map((c) => (/^:-+:$/.test(c) ? "center" : /^-+:$/.test(c) ? "right" : ""));
+  const cell = (tag, x, i) => `<${tag}${al[i] ? ` style="text-align:${al[i]}"` : ""}>${rich(x)}</${tag}>`;
+  return `<div class="ttable-wrap"><table class="ttable"><thead><tr>${cells(ls[0]).map((h, i) => cell("th", h, i)).join("")}</tr></thead><tbody>` +
+    ls.slice(2).filter((l) => l.trim()).map((l) => `<tr>${cells(l).map((c, i) => cell("td", c, i)).join("")}</tr>`).join("") + "</tbody></table></div>";
+};
 const block = (p) => {
   const text = String(p ?? ""), lines = text.split("\n");
+  const ti = lines.findIndex(isRow);
+  if (ti > -1 && lines.length >= ti + 2 && isSep(lines[ti + 1]) && lines.slice(ti).every((l) => !l.trim() || isRow(l)))
+    return (ti > 0 ? `<p>${rich(lines.slice(0, ti).join(" "))}</p>` : "") + table(lines.slice(ti));
   if (/^syntax:\s/.test(lines[0])) return syntaxBlock(lines);
   if (/^!> ?/.test(lines[0])) return `<div class="warn">${block(lines.map((l) => l.replace(/^!?> ?/, "")).join("\n"))}</div>`;
   if (/^> ?/.test(lines[0])) return `<div class="callout">${block(lines.map((l) => l.replace(/^> ?/, "")).join("\n"))}</div>`;
@@ -178,6 +190,7 @@ ul.lessons .n{font:13px JBM,monospace;color:#8E887D;min-width:2.4ch;text-align:r
 ul.lessons .soon{color:#8E887D}
 .tcards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:14px}.tcard{grid-column:span 2}.tcards[data-n="1"] .tcard{grid-column:span 6}.tcards[data-n="2"] .tcard,.tcards[data-n="4"] .tcard{grid-column:span 3}.tcards[data-n="5"] .tcard:nth-child(n+4){grid-column:span 3}@media(max-width:640px){.tcards .tcard{grid-column:span 6}}.tcard{background:#FFFFFF;border:1px solid #DFDAD1;border-radius:6px;padding:12px 16px}.tcard-t{font:500 19px/1.35 Jost,system-ui,sans-serif;color:#7A5F2A;margin-top:2px}.li-t{display:block;font:500 19px/1.35 Jost,system-ui,sans-serif;color:#7A5F2A}.li-d{display:block;margin-top:2px}ol li{margin-top:10px}.tcard p{margin-top:6px}
 .syn{margin-top:16px;background:#0D1117;border-radius:8px;padding:16px 20px;color:#B7B0A4;overflow-x:auto}.syn .eyebrow{color:#8E887D}.syn-tpl{margin-top:8px;font:24px/1.35 JBM,monospace;color:#D8D0C2;white-space:pre-wrap}.syn .ph{border-bottom:2px dotted currentColor}.c1{color:#D1B784}.c2{color:#7FB3A3}.c3{color:#C9A882}.c4{color:#A9B79B}.syn-leg{margin-top:12px;padding-top:10px;border-top:1px solid #1F252F;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}.syn-leg .k{font:13px JBM,monospace;color:#D8D0C2}.syn code{background:#1F2630!important;border-color:#2A313C!important;color:#D8D0C2}.warn{margin-top:16px;padding:10px 18px;border:1px solid rgba(140,60,40,.3);border-left:3px solid #8C3C28;border-radius:6px;background:rgba(140,60,40,.05)}.warn>:first-child{margin-top:0}.warn strong{color:#8C3C28}.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}.cmp pre.code{margin-top:0}.cmp .ok{color:#2F6355;margin-top:6px}.cmp .no{color:#8C3C28;margin-top:6px}
+.ttable-wrap{margin-top:16px;overflow-x:auto;border:1px solid #DFDAD1;border-radius:6px;background:#FFF}.ttable{width:100%;border-collapse:collapse;font-size:14.5px}.ttable th{text-align:left;padding:9px 12px;background:#F4F2ED;font:400 11px JBM,monospace;letter-spacing:1.4px;text-transform:uppercase;color:#656A72;border-bottom:1px solid #DFDAD1}.ttable td{padding:9px 12px;border-top:1px solid #DFDAD1;vertical-align:top}.ttable tbody tr:first-child td{border-top:0}.ttable td:first-child{color:#16181D;white-space:nowrap}
 .callout{margin-top:16px;padding:12px 18px;background:#FFFFFF;border:1px solid #DFDAD1;border-left:3px solid #5A5F68;border-radius:6px}.callout>:first-child{margin-top:0}
 .foot{max-width:820px;margin:0 auto;padding:20px 24px 40px;border-top:1px solid #DFDAD1;font:12px JBM,monospace;color:#8E887D}
 `;
