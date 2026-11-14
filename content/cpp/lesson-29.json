@@ -1,0 +1,125 @@
+{
+  "n": 29,
+  "slug": "files",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-files",
+      "kind": "theory",
+      "image": "assets/l29-why-files.svg"
+    },
+    {
+      "id": "fstream-architecture",
+      "kind": "theory"
+    },
+    {
+      "id": "inspect-file-modes",
+      "kind": "predict",
+      "code": "#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream fin(\"non_existent.txt\");\n    if (fin.is_open()) {\n        cout << \"OPEN\" << endl;\n    } else {\n        cout << \"NOT OPEN\" << endl;\n    }\n    return 0;\n}",
+      "expected": "NOT OPEN\n",
+      "options": [
+        "NOT OPEN",
+        "OPEN",
+        "ERROR",
+        "NULL"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "audit-missing-close-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream fin(\"route.txt\");\n    int x;\n    fin >> x;\n    cout << \"COORD: \" << x << endl;\n    fin.close();\n    return 0;\n}",
+      "answerLine": 8
+    },
+    {
+      "id": "write-file-stream-validator",
+      "kind": "editor",
+      "stdin": "route.txt\n",
+      "initial": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\n// 1. Define bool verify_log_file(const string &filename)\n\nint main() {\n    string filename;\n    cin >> filename;\n\n    // 2. Call verify_log_file\n    // 3. If true, print FILE READY: <filename>\n    //    If false, print FILE OFFLINE: <filename>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nbool verify_log_file(const string &filename) {\n    ifstream fin(filename);\n    bool ready = fin.is_open();\n    if (ready) {\n        fin.close();\n    }\n    return ready;\n}\n\nint main() {\n    string filename;\n    cin >> filename;\n\n    if (verify_log_file(filename)) {\n        cout << \"FILE READY: \" << filename << endl;\n    } else {\n        cout << \"FILE OFFLINE: \" << filename << endl;\n    }\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "route.txt\n",
+          "expected": "FILE OFFLINE: route.txt\n"
+        },
+        {
+          "in": "telemetry.dat\n",
+          "expected": "FILE OFFLINE: telemetry.dat\n"
+        }
+      ]
+    },
+    {
+      "id": "predict-ifstream-loop",
+      "kind": "predict",
+      "code": "#include <iostream>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    stringstream ss(\"10 20 30 40\");\n    int val, sum = 0, count = 0;\n    while (ss >> val) {\n        sum += val;\n        count++;\n    }\n    cout << count << \" \" << sum << endl;\n    return 0;\n}",
+      "expected": "4 100\n",
+      "options": [
+        "4 100",
+        "4 60",
+        "3 100",
+        "5 100"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "parsons-file-writer-pipeline",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "#include <fstream>",
+        "#include <string>",
+        "using namespace std;",
+        "void save_telemetry(const string &filename, int sol, int battery) {",
+        "    ofstream fout(filename);",
+        "    if (fout.is_open()) {",
+        "        fout << \"SOL \" << sol << \" BATTERY \" << battery << endl;",
+        "        fout.close();",
+        "    }",
+        "}",
+        "int main() {",
+        "    save_telemetry(\"mission.log\", 42, 95);",
+        "    cout << \"TELEMETRY ARCHIVED\" << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "write-telemetry-log-formatter",
+      "kind": "editor",
+      "stdin": "42 1 OPERATIONAL\n",
+      "initial": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int sol, id;\n    string status;\n    cin >> sol >> id >> status;\n\n    // Format line: [SOL <sol>] DRONE#<id> STATUS:<status>\n    // Output on standard out (ready for disk log streaming)\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int sol, id;\n    string status;\n    cin >> sol >> id >> status;\n\n    cout << \"[SOL \" << sol << \"] DRONE#\" << id << \" STATUS:\" << status << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "42 1 OPERATIONAL\n",
+          "expected": "[SOL 42] DRONE#1 STATUS:OPERATIONAL\n"
+        },
+        {
+          "in": "100 3 DOCKED\n",
+          "expected": "[SOL 100] DRONE#3 STATUS:DOCKED\n"
+        }
+      ]
+    },
+    {
+      "id": "capstone-flight-blackbox-recorder",
+      "kind": "editor",
+      "stdin": "3\n10 0\n10 20\n30 20\n",
+      "initial": "#include <iostream>\n#include <fstream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int cur_x = 0, cur_y = 0;\n    int total_dist = 0;\n\n    // 1. Loop n times reading target x and y\n    // 2. Add abs(x - cur_x) + abs(y - cur_y) to total_dist\n    // 3. Update cur_x and cur_y\n    // 4. Check if ofstream fout(\"blackbox.log\") is open\n    // 5. Output:\n    //    LOG STATUS: <LOGGED TO DISK or BUFFERED IN RAM>\n    //    WAYPOINTS RECORDED: <n>\n    //    TOTAL DISTANCE: <dist>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <fstream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int cur_x = 0, cur_y = 0;\n    int total_dist = 0;\n\n    for (int i = 0; i < n; i++) {\n        int tx, ty;\n        cin >> tx >> ty;\n        total_dist += abs(tx - cur_x) + abs(ty - cur_y);\n        cur_x = tx;\n        cur_y = ty;\n    }\n\n    ofstream fout(\"blackbox.log\");\n    bool disk_ready = fout.is_open();\n    if (disk_ready) {\n        fout << \"DISTANCE \" << total_dist << endl;\n        fout.close();\n    }\n\n    cout << \"LOG STATUS: \" << (disk_ready ? \"LOGGED TO DISK\" : \"BUFFERED IN RAM\") << endl;\n    cout << \"WAYPOINTS RECORDED: \" << n << endl;\n    cout << \"TOTAL DISTANCE: \" << total_dist << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "3\n10 0\n10 20\n30 20\n",
+          "expected": "LOG STATUS: BUFFERED IN RAM\nWAYPOINTS RECORDED: 3\nTOTAL DISTANCE: 50\n"
+        },
+        {
+          "in": "2\n5 5\n10 10\n",
+          "expected": "LOG STATUS: BUFFERED IN RAM\nWAYPOINTS RECORDED: 2\nTOTAL DISTANCE: 20\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

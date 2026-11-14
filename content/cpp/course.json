@@ -248,7 +248,10 @@
         {
           "n": 29,
           "slug": "files",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 30,

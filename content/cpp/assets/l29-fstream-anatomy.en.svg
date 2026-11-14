@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad29" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="100%" stop-color="#141B26"/>
+    </linearGradient>
+    <linearGradient id="headerGrad29" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#D1B784"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="840" height="440" rx="12" fill="url(#bgGrad29)" stroke="#232E3F" stroke-width="2"/>
+
+  <!-- Title Banner -->
+  <text x="40" y="44" fill="url(#headerGrad29)" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="1.2">C++ &lt;fstream&gt; FILE STREAM ARCHITECTURE</text>
+  <text x="40" y="68" fill="#8E9DAE" font-family="system-ui, sans-serif" font-size="13">Persistent disk storage: ifstream (reading), ofstream (writing), .is_open() validation, and stream loops</text>
+
+  <!-- Two Core Streams: ifstream vs ofstream -->
+  <!-- Left Box: ifstream (Reading) -->
+  <g transform="translate(40, 95)">
+    <rect width="360" height="185" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="360" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold">1. READING: std::ifstream</text>
+
+    <!-- Code Blueprint -->
+    <text x="14" y="58" fill="#D1B784" font-family="monospace" font-size="12">ifstream fin("route.txt");</text>
+    
+    <!-- Safety check -->
+    <rect x="14" y="68" width="332" height="38" rx="4" fill="#172A28" stroke="#3F6B60" stroke-width="1"/>
+    <text x="24" y="86" fill="#7FB3A3" font-family="monospace" font-size="11">if (!fin.is_open()) {</text>
+    <text x="42" y="100" fill="#E4DCDB" font-family="monospace" font-size="11">cout &lt;&lt; "File missing!" &lt;&lt; endl;</text>
+
+    <!-- Extraction loop -->
+    <text x="14" y="125" fill="#E4DCDB" font-family="monospace" font-size="11">int x, y;</text>
+    <text x="14" y="142" fill="#7FB3A3" font-family="monospace" font-size="11">while (fin &gt;&gt; x &gt;&gt; y) { ... }</text>
+    <text x="14" y="162" fill="#D1B784" font-family="monospace" font-size="11">fin.close(); // Clean release</text>
+  </g>
+
+  <!-- Right Box: ofstream (Writing) -->
+  <g transform="translate(440, 95)">
+    <rect width="360" height="185" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="360" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#D1B784" font-family="monospace" font-size="13" font-weight="bold">2. WRITING: std::ofstream</text>
+
+    <text x="14" y="58" fill="#D1B784" font-family="monospace" font-size="12">ofstream fout("flight_log.txt");</text>
+
+    <!-- Write Safety Check -->
+    <rect x="14" y="68" width="332" height="38" rx="4" fill="#2E231B" stroke="#B99A61" stroke-width="1"/>
+    <text x="24" y="86" fill="#D1B784" font-family="monospace" font-size="11">if (!fout.is_open()) {</text>
+    <text x="42" y="100" fill="#E4DCDB" font-family="monospace" font-size="11">cout &lt;&lt; "Write protected!" &lt;&lt; endl;</text>
+
+    <!-- Output operations -->
+    <text x="14" y="125" fill="#7FB3A3" font-family="monospace" font-size="11">fout &lt;&lt; "SOL 42 MISSION OK" &lt;&lt; endl;</text>
+    <text x="14" y="142" fill="#7FB3A3" font-family="monospace" font-size="11">fout &lt;&lt; "BATTERY: " &lt;&lt; 95 &lt;&lt; endl;</text>
+    <text x="14" y="162" fill="#D1B784" font-family="monospace" font-size="11">fout.close(); // Flushes to disk</text>
+  </g>
+
+  <!-- Section 3: Terminal Stream vs File Stream Comparison -->
+  <g transform="translate(40, 300)">
+    <rect width="760" height="115" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="760" height="30" rx="8" fill="#1B2536"/>
+    <text x="14" y="20" fill="#E4DCDB" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">3. UNIFIED STREAM INTERFACE: SAME SYNTAX, DIFFERENT DESTINATIONS</text>
+
+    <g transform="translate(20, 42)">
+      <!-- Terminal IO -->
+      <rect x="0" y="0" width="345" height="60" rx="6" fill="#1C2433" stroke="#32425A"/>
+      <text x="14" y="22" fill="#D1B784" font-family="monospace" font-size="12" font-weight="bold">cin &gt;&gt; x;   cout &lt;&lt; x;</text>
+      <text x="14" y="42" fill="#8E9DAE" font-family="sans-serif" font-size="11">Volatile I/O: Connected to terminal &amp; keyboard.</text>
+      <text x="14" y="54" fill="#6B7A99" font-family="sans-serif" font-size="10">Data vanishes when program terminates.</text>
+
+      <!-- File IO -->
+      <rect x="375" y="0" width="345" height="60" rx="6" fill="#172A28" stroke="#3F6B60"/>
+      <text x="14" y="22" fill="#7FB3A3" font-family="monospace" font-size="12" font-weight="bold">fin &gt;&gt; x;   fout &lt;&lt; x;</text>
+      <text x="14" y="42" fill="#8E9DAE" font-family="sans-serif" font-size="11">Persistent I/O: Connected to physical non-volatile disk.</text>
+      <text x="14" y="54" fill="#7FB3A3" font-family="sans-serif" font-size="10">Data survives reboots and power outages.</text>
+    </g>
+  </g>
+</svg>
