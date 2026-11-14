@@ -75,6 +75,13 @@ if (!n) {
       }
     } catch {}
   }
+  // 3) Запасной вариант: последняя активная глава в курсе
+  if (!n && allLessons.length > 0) {
+    const liveLessons = allLessons.filter((l) => (l.locales || []).length > 0);
+    if (liveLessons.length > 0) {
+      n = Math.max(...liveLessons.map((l) => l.n));
+    }
+  }
 }
 
 if (!n) {
