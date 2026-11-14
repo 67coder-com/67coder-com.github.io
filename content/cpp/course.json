@@ -216,7 +216,10 @@
         {
           "n": 25,
           "slug": "text",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 26,

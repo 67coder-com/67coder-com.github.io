@@ -1,0 +1,48 @@
+{
+  "title": "Working with Text and Strings",
+  "steps": {
+    "why-text-protocols": {
+      "title": "Deep Space Telemetry Streams",
+      "content": "### The Language of Interplanetary Links\n\nWelcome to **Block 4: Autonomy**.\n\nDeep in space, 225 million kilometers from Earth, Scout Drone Sigma operates independently. While internal microcontroller buses process raw binary voltages, communication with Earth ground stations and mission logs travel as **structured text**.\n\nEvery uplink command from Earth arrives as an ASCII string packet:\n- `\"MOVE 10 20\"`\n- `\"ALTITUDE 120\"`\n- `\"HEADING 180\"`\n\nTo execute these instructions, Sigma's flight computer must inspect characters, locate delimiters, extract parameters, and convert text numerals into binary numbers.\n\nIn C++, dynamic text is powered by **`std::string`** from the `<string>` header. Unlike primitive C-style char arrays, `std::string` manages its own memory dynamically, grows as needed, and provides robust member methods for searching, slicing, and manipulation."
+    },
+    "string-anatomy-and-methods": {
+      "title": "std::string Architecture & Methods",
+      "content": "### Inside a C++ String Buffer\n\nA `std::string` stores a sequence of characters in contiguous memory with 0-based indexing.\n\n![C++ String Architecture](assets/l25-string-anatomy.en.svg)\n\n#### Fundamental Operations\n\n1. **Length and Inspection:**\n   - `s.length()` or `s.size()`: Returns total number of characters.\n   - `s[i]`: Accesses character at index `i` (from `0` to `s.length() - 1`).\n\n2. **Searching with `.find()`:**\n   - `size_t pos = s.find(' ');` or `s.find(\"VERB\");`\n   - Returns the index where the match starts.\n   - If not found, it returns the sentinel constant **`string::npos`** (not `-1` or `0`!). Always test: `if (pos != string::npos)`.\n\n3. **Slicing with `.substr()`:**\n   - `s.substr(pos, count)`: Extracts `count` characters starting at index `pos`.\n   - `s.substr(pos)`: Extracts everything from `pos` to the end of the string.\n\n4. **Numeric Conversion:**\n   - `stoi(str)`: Converts text to `int` (String TO Integer).\n   - `stod(str)`: Converts text to `double` (String TO Double)."
+    },
+    "inspect-string-indexing": {
+      "title": "Diagnostics: Character Indexing",
+      "content": "### Predict the Output\n\nAnalyze this string inspection code for drone tag identification.\n\nWhat is printed to the terminal?"
+    },
+    "audit-find-npos-check": {
+      "title": "Diagnostics: String Search Sentinel Audit",
+      "content": "### Spot the Logic Bug\n\nA telecommunications programmer wrote this routine to detect if a critical packet contains the warning keyword `\"LOST\"`.\n\nHowever, even when `\"LOST\"` is completely absent from the log string, the program erroneously prints that the target was lost!\n\nClick the line containing the broken condition check."
+    },
+    "write-command-extractor": {
+      "title": "Mission Parsing: Command & Payload",
+      "content": "### Extracting Uplink Directives\n\nEarth transmits commands formatted as a single verb followed by a space and an integer payload (for example: `ALTITUDE 120`).\n\nWrite a parser in `main()` that:\n1. Reads the full line into string `raw` using `getline(cin, raw)`.\n2. Locates the space delimiter with `raw.find(' ')`.\n3. Extracts the verb substring from index 0 up to the space.\n4. Extracts the payload substring from right after the space to the end, and parses it with `stoi()`.\n5. Prints `VERB: <verb>` and `PAYLOAD: <val>`.",
+      "task": "1. Use `raw.find(' ')` to locate the space delimiter.\n2. Extract the verb using `raw.substr(0, pos)`.\n3. Extract the argument string and convert to `int` with `stoi()`.\n4. Print `VERB: <verb>` and `PAYLOAD: <val>` on separate lines."
+    },
+    "predict-substr-slicing": {
+      "title": "Diagnostics: Substring Extraction",
+      "content": "### Predict Substring Slices\n\nExamine the beacon identifier slicing logic. Trace the starting offsets and lengths passed to `.substr()`.\n\nWhat string is printed?"
+    },
+    "parsons-command-parser": {
+      "title": "Avionics Assembly: Packet ID Extractor",
+      "content": "### Assemble the ID Parser\n\nReorder the code blocks to construct a safe parsing routine `parse_id(const string &packet)` that locates the delimiter `#`, validates presence via `string::npos`, extracts the numeric portion, and returns the converted integer ID."
+    },
+    "write-telemetry-scrubber": {
+      "title": "Telemetry Analysis: Delimiter Counter",
+      "content": "### Validating CSV Telemetry Strings\n\nTelemetry data packets are often comma-delimited sequences (such as `10,20,30,40`).\n\nImplement the function:\n`int count_delimiters(const string &data, char delimiter)`\n\nIt must iterate through `data`, count how many times `delimiter` appears, and return the total count.\n\nIn `main()`:\n1. Read a line into string `line`.\n2. Call `count_delimiters(line, ',')`.\n3. Print `DELIMITER COUNT: <count>`.",
+      "task": "1. Implement `int count_delimiters(const string &data, char delimiter)` using a loop over `data.length()`.\n2. In `main()`, read `line` from `cin`.\n3. Call `count_delimiters(line, ',')`.\n4. Print `DELIMITER COUNT: <count>` followed by a newline."
+    },
+    "capstone-flight-packet-decoder": {
+      "title": "Autonomous Flight Packet Decoder",
+      "content": "### Uplink Protocol Processor\n\nImplement Sigma's autonomous uplink receiver.\n\nThe ground station transmits an integer `n` followed by `n` command packets formatted as `<ACTION>:<VALUE>` (for example, `THRUST:40` or `ELEVATION:150`).\n\nThe drone starts with:\n- `speed = 0`\n- `altitude = 0`\n- `heading = 0`\n\nFor each packet:\n1. Find the colon `:` separator using `.find(':')`.\n2. Extract `ACTION` before the colon and `VALUE` after the colon.\n3. Convert `VALUE` to an integer with `stoi()`.\n4. Update drone flight states:\n   - If `ACTION == \"THRUST\"`, add value to `speed`.\n   - If `ACTION == \"ELEVATION\"`, set `altitude = value`.\n   - If `ACTION == \"YAW\"`, add value to `heading`.\n5. After all `n` packets, print the final flight telemetry.",
+      "task": "1. Read integer `n` from `cin`.\n2. Loop `n` times reading each `<ACTION>:<VALUE>` string.\n3. Parse each packet using `.find(':')`, `.substr()`, and `stoi()`.\n4. Update `speed`, `altitude`, and `heading` according to the action verb.\n5. Print `FINAL SPEED: <speed>`.\n6. Print `FINAL ALTITUDE: <altitude>`.\n7. Print `FINAL HEADING: <heading>`."
+    },
+    "recap": {
+      "title": "Summary: Text Processing in C++",
+      "content": "### Chapter 25 Complete: Text Processing Mastery\n\nScout Drone Sigma can now reliably parse and interpret high-level text commands transmitted from Earth.\n\n#### Key Reference Summary\n\n| Operation | Syntax | Description |\n| :--- | :--- | :--- |\n| **Length** | `s.length()` / `s.size()` | Number of characters in string |\n| **Indexing** | `s[i]` | Read character at 0-based offset `i` |\n| **Search** | `s.find(target)` | Returns index or `string::npos` if missing |\n| **Slice** | `s.substr(pos, count)` | Extracts substring of length `count` from `pos` |\n| **Parse Int** | `stoi(str)` | Converts string to 32-bit signed integer |\n| **Parse Double** | `stod(str)` | Converts string to double-precision float |\n\n> [!TIP]\n> Always pass large `std::string` parameters to functions by `const string &` to prevent expensive deep memory duplication!\n\nNext in Chapter 26: **Output Formatting (`<iomanip>`)** — transforming messy numeric telemetry into perfectly aligned flight control tables for Mission Control."
+    }
+  }
+}
