@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <title>C++ if nosacījuma izpildes shēma: Patiess pret Aplamu</title>
+  <desc>Diagramma attēlo C++ if teikuma zarošanos. Kreisais panelis rāda gadījumu, kad nosacījums ir patiess un koda bloks figūriekavās tiek izpildīts. Labais panelis rāda gadījumu, kad nosacījums ir aplams un programma pārlec pāri blokam, to neizpildot.</desc>
+
+  <!-- Fons -->
+  <rect width="880" height="320" rx="10" fill="#0D1117" />
+
+  <!-- Virsraksts -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">ZAROŠANĀS SHĒMA: IF (NOSACĪJUMS) IZPILDE</text>
+
+  <!-- Kreisā karte: Patiess nosacījums (TRUE) -->
+  <g transform="translate(24, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="20" y="28" fill="#7FB3A3" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1. GADĪJUMS: NOSACĪJUMS IR PATIESS (TRUE)</text>
+    
+    <!-- Nosacījuma pārbaude -->
+    <rect x="20" y="44" width="364" height="42" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1.5" />
+    <text x="35" y="70" fill="#D8D0C2" font-size="15" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#D1B784">if</tspan> (altitude &lt; 20) <tspan fill="#7FB3A3">→ TRUE</tspan></text>
+
+    <!-- Bultiņa uz leju: ieiet blokā -->
+    <g transform="translate(192, 88)">
+      <line x1="10" y1="0" x2="10" y2="24" stroke="#7FB3A3" stroke-width="2.5" />
+      <polygon points="10,28 5,18 15,18" fill="#7FB3A3" />
+      <text x="20" y="16" fill="#7FB3A3" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">IEIET BLOKĀ</text>
+    </g>
+
+    <!-- Izpildāmais koda bloks -->
+    <rect x="20" y="118" width="364" height="52" rx="4" fill="#1E2530" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="35" y="140" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">{</text>
+    <text x="55" y="156" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cout &lt;&lt; <tspan fill="#A9B79B">"WARNING: LOW ALTITUDE"</tspan> &lt;&lt; endl;</text>
+    <text x="35" y="166" fill="#D8D0C2" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">}</text>
+
+    <!-- Rezultāts -->
+    <rect x="20" y="196" width="364" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="218" fill="#D8D0C2" font-size="13" style="font-family: var(--font-sans, Inter, sans-serif)">Izvade: <tspan fill="#7FB3A3" font-weight="bold" font-family="monospace">WARNING: LOW ALTITUDE</tspan></text>
+  </g>
+
+  <!-- Labā karte: Aplams nosacījums (FALSE) -->
+  <g transform="translate(452, 52)">
+    <rect width="404" height="244" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#8E887D" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">2. GADĪJUMS: NOSACĪJUMS IR APLAMS (FALSE)</text>
+    
+    <!-- Nosacījuma pārbaude -->
+    <rect x="20" y="44" width="364" height="42" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="70" fill="#D8D0C2" font-size="15" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)"><tspan fill="#D1B784">if</tspan> (altitude &lt; 20) <tspan fill="#CE8A78">→ FALSE</tspan></text>
+
+    <!-- Izlaistais koda bloks -->
+    <rect x="20" y="118" width="364" height="52" rx="4" fill="#151A22" stroke="#2A313C" stroke-width="1" stroke-dasharray="4" opacity="0.6" />
+    <text x="35" y="140" fill="#8E887D" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">{</text>
+    <text x="55" y="156" fill="#8E887D" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">cout &lt;&lt; "WARNING: LOW ALTITUDE" &lt;&lt; endl;</text>
+    <text x="35" y="166" fill="#8E887D" font-size="13" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">}</text>
+
+    <!-- Apvedceļa līnija gar bloku -->
+    <path d="M 390 65 L 400 65 L 400 185 L 202 185" fill="none" stroke="#CE8A78" stroke-width="2" stroke-dasharray="4" />
+    <polygon points="198,185 208,180 208,190" fill="#CE8A78" />
+    <text x="300" y="105" fill="#CE8A78" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">PĀRLEC PĀRI</text>
+
+    <!-- Rezultāts -->
+    <rect x="20" y="196" width="364" height="34" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="35" y="218" fill="#8E887D" font-size="13" style="font-family: var(--font-sans, Inter, sans-serif)">Izvade: <tspan fill="#CE8A78" font-weight="bold">(bloks netiek izpildīts)</tspan></text>
+  </g>
+</svg>

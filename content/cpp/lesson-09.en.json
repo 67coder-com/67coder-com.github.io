@@ -1,0 +1,131 @@
+{
+  "title": "Conditions: if / else",
+  "module": "Block 2 · Decisions",
+  "steps": {
+    "why-autonomy": {
+      "eyebrow": "Signal latency and autonomy",
+      "title": "Why the drone must decide on its own",
+      "body": [
+        "Scout drone Sigma lifts off from base IRIS and sets course for the distant Mawrth Vallis plateau. As the vehicle disappears behind a jagged mountain ridge, the radio signal latency between the craft and base dispatch begins to mount rapidly.",
+        "Across the vast distance between Earth and Mars, radio signals traveling at the speed of light take anywhere from 3 to 22 minutes each way. Even on a local orbital link, the latency makes manual joystick piloting physically impossible: if a rocky spire suddenly looms in Sigma's path and an operator had to react by hand, the drone would strike the obstacle long before the warning signal reached the habitat.",
+        "To operate safely in the unforgiving Martian environment, the flight computer must make autonomous choices on the fly using real-time sensor telemetry. Until now, all of our C++ programs executed strictly in a straight line — from the first statement to the last. With conditionals, we give code the ability to branch: selecting different execution paths depending on circumstances."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Why Mars exploration vehicles make autonomous decisions",
+          "body": [
+            "Light and radio waves travel through vacuum at a fundamental cosmic speed limit — roughly 299,792 kilometers per second. Because Earth and Mars follow independent elliptical orbits around the Sun, the distance between the two worlds constantly shifts from 56 million kilometers at closest approach to 401 million kilometers when separated by the Sun.",
+            "This geographic reality means one-way radio latency ranges between 3.1 and 22.3 minutes. A complete round trip — dispatching a command from mission control, waiting for execution, and receiving downlink confirmation — takes anywhere from 6 to 44 minutes. Under these physical constraints, real-time remote driving is an impossibility.",
+            "In 1997, NASA's pioneering Sojourner microrover projected five laser stripes onto the terrain to measure surface contours, stopping automatically whenever an obstacle exceeded safety limits. Modern explorers, including Curiosity and Perseverance, rely on autonomous navigation (AutoNav): onboard stereo cameras capture terrain pairs, the flight computer detects hazards, and software calculates safe drive trajectories without waiting for human intervention on Earth.",
+            "Sources: NASA JPL Mars Exploration Rover Mission: Autonomous Navigation (AutoNav); NASA Mars Fact Sheet (Radio Travel Time)."
+          ]
+        }
+      ]
+    },
+    "comparison-operators": {
+      "eyebrow": "Relational logic",
+      "title": "Comparison operators",
+      "body": [
+        "Before making a decision, code must compare values: checking whether current altitude sits below a safety floor, whether battery charge remains adequate, or whether a sensor code matches operational norms.",
+        "In C++, comparisons rely on six relational operators. Every comparison expression evaluates to a boolean value `bool`: either true (`true`, printed to the terminal as 1) or false (`false`, printed as 0):",
+        "| Operator | Meaning | Code example | Evaluation |\n| :--- | :--- | :--- | :--- |\n| `==` | Equal to | `speed == 60` | `true` (1) if speed is exactly 60 |\n| `!=` | Not equal to | `status != 0` | `true` (1) if status is not 0 |\n| `<` | Less than | `altitude < 20` | `true` (1) if altitude is under 20 |\n| `>` | Greater than | `battery > 90` | `true` (1) if battery exceeds 90 |\n| `<=` | Less than or equal | `dist <= 10` | `true` (1) if distance is 10 or below |\n| `>=` | Greater than or equal | `charge >= 25` | `true` (1) if charge is 25 or above |",
+        "!> **The most dangerous beginner trap: equality `==` versus assignment `=`.** A single equals sign `=` assigns a new value to a variable. A double equals sign `==` compares two values without modifying anything. If you accidentally write `speed = 60` inside a condition, C++ assigns 60 to the variable, and the condition evaluates as unconditionally true!"
+      ],
+      "compareCaptions": [
+        "Valid comparison: the == operator checks equality without altering the variable",
+        "Critical bug: the = operator reassigns the variable and corrupts the condition"
+      ]
+    },
+    "predict-comparison": {
+      "title": "Predict the comparison outcome",
+      "task": "What two numbers will this program output? This is a prediction before running — you do not need to know the answer in advance.",
+      "hint": "Evaluate each comparison in parentheses: 15 < 20 and 15 != 15. Recall how cout prints the bool type.",
+      "explain": "The first comparison `15 < 20` evaluates to true, so `cout` prints `1`. The second comparison `15 != 15` is false (15 is equal to 15), so `cout` prints `0` on a newline."
+    },
+    "if-syntax": {
+      "eyebrow": "Single-branch decisions",
+      "title": "The if statement",
+      "body": [
+        "The `if` statement executes a block of code if and only if a given condition evaluates to true.",
+        "syntax: if ({condition}) {\n    {action}\n}\n- if: the C++ keyword initiating a conditional branch\n- condition: an expression in parentheses evaluating to true or false\n- action: statements inside curly braces executed only when the condition is true\n- { }: curly braces enclosing statements into a scoped block",
+        "> Three rules of condition execution:\n> 1. The computer evaluates the condition expression enclosed in parentheses `(condition)`.\n> 2. If the expression evaluates to `true`, the program enters the brace block `{ action }` and executes every statement inside.\n> 3. If the expression evaluates to `false`, the program bypasses the entire brace block and resumes execution immediately after the closing brace `}`.",
+        "!> **The stray semicolon trap.** Never place a semicolon immediately after the condition parentheses: `if (altitude < 20);`. A semicolon there creates an empty statement, causing the subsequent brace block to execute unconditionally every single time, regardless of the altitude!"
+      ],
+      "alt": "Diagram illustrating the single if branch execution flow: a true condition routes execution through the warning block, whereas a false condition bypasses it entirely.",
+      "image": "assets/l09-if-branch.en.svg"
+    },
+    "altitude-alert": {
+      "title": "Flight altitude safety check",
+      "task": "Write Sigma's first autonomous safety monitor:\n1. Check whether variable `altitude` is strictly less than 20.\n2. If true, print the warning message in the format shown below.",
+      "hint": "Use `if (altitude < 20) { cout << \"WARNING: LOW ALTITUDE\" << endl; }`.",
+      "solutionNote": "Because altitude is 14 meters, the condition 14 < 20 evaluates to true and triggers the warning output."
+    },
+    "find-equality-bug": {
+      "title": "Locate the comparison bug",
+      "task": "Click on the line containing a syntax error where an assignment was accidentally used in place of an equality check.",
+      "hint": "Count the equals signs inside the conditional expression parentheses.",
+      "explain": "Line 7 reads `if (status_code = 1)`. A single equals sign `=` assigns the value 1 to the variable rather than comparing it. A relational equality test requires double equals signs: `if (status_code == 1)`."
+    },
+    "if-else-branches": {
+      "eyebrow": "Two-way branching",
+      "title": "Branching with if ... else",
+      "body": [
+        "In flight operations, a vehicle frequently needs to choose between two mutually exclusive actions rather than merely raising an alert. If conditions are met, proceed with plan A; otherwise, execute plan B.",
+        "C++ provides the `if ... else` construct for this two-way choice. The keyword `else` (otherwise) defines the alternative branch and carries no condition parentheses of its own:",
+        "syntax: if ({condition}) {\n    {action_true}\n} else {\n    {action_false}\n}\n- if: the primary conditional test\n- condition: the boolean expression tested in parentheses\n- action_true: statements executed when the condition evaluates to true\n- else: the keyword defining the alternative branch — no condition attached\n- action_false: statements executed when the condition evaluates to false",
+        "+ **The if branch.** Executes if and only if the condition evaluates to `true`. When it does, the `else` block is completely ignored.\n+ **The else branch.** Executes if and only if the condition evaluates to `false`. Exactly one of the two blocks is guaranteed to execute."
+      ],
+      "compareCaptions": [
+        "Unified if / else: guarantees that exactly one branch executes with no redundant tests",
+        "Two independent ifs: redundant checks that run the risk of inverted condition errors"
+      ]
+    },
+    "battery-decision": {
+      "title": "Autonomous battery routing",
+      "task": "Program Sigma's power management controller:\n1. Read the battery charge percentage from console `cin` into variable `battery`.\n2. If `battery >= 25`, print permission to advance.\n3. Otherwise (`else`), print the recharge directive as shown below.",
+      "hint": "Read the value with `cin >> battery;`, then write `if (battery >= 25) { ... } else { ... }`.",
+      "solutionNote": "Given input 18, the condition 18 >= 25 is false, so the else branch executes with the recharge message."
+    },
+    "multi-branch-else-if": {
+      "eyebrow": "Multi-tier decisions",
+      "title": "Cascading with if ... else if ... else",
+      "body": [
+        "In real planetary flight, telemetry rarely falls into two neat categories. For example, obstacle distance can be critical, moderate, or completely clear. To test multiple conditions sequentially, C++ provides `else if`.",
+        "syntax: if ({cond1}) {\n    {action1}\n} else if ({cond2}) {\n    {action2}\n} else {\n    {fallback}\n}\n- if: the first condition evaluated in the cascade\n- cond1: primary boolean expression\n- else if: additional test evaluated only if the preceding test was false\n- cond2: secondary boolean expression\n- else: ultimate safety branch if no preceding conditions matched\n- fallback: default action handling all remaining outcomes",
+        "> Three golden rules of cascading execution:\n> 1. **Sequential top-to-bottom testing.** The CPU starts at the initial `if` and descends to an `else if` only when the preceding check evaluates to `false`.\n> 2. **First match wins.** The moment any condition evaluates to `true`, its associated block executes, and ALL remaining branches in the cascade are immediately skipped!\n> 3. **The final else provides a safety net.** While optional, a concluding `else` ensures your software always takes a predictable, defined action if edge cases occur."
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "How CPUs predict branches under the hood",
+          "body": [
+            "Modern microprocessors process instructions through deep pipelines. Rather than stalling execution while a comparison checks data in slow memory, an onboard hardware unit known as the Branch Predictor guesses which branch will execute before the condition finishes evaluating.",
+            "The processor speculatively begins executing instructions along the predicted path. If the prediction is accurate, the CPU loses zero cycles, and avionics control loops execute at maximum throughput.",
+            "If the guess was wrong (a branch misprediction), the processor must discard the speculative work, flush its entire pipeline, and restart down the correct branch. A misprediction costs roughly 10 to 20 clock cycles. For this reason, systems programmers place the most statistically common conditions at the very top of a cascade."
+          ]
+        }
+      ]
+    },
+    "assemble-terrain-check": {
+      "title": "Assemble the terrain safety cascade",
+      "task": "Arrange the scrambled code lines in correct sequential order to construct a three-tier terrain clearance evaluation based on distance `dist`.",
+      "hint": "Begin with the if test for closest proximity dist <= 10, follow with else if for dist <= 50, and conclude with the fallback else branch.",
+      "explain": "A valid cascade begins with `if (dist <= 10)`, continues with an action and closing brace leading into `} else if (dist <= 50)`, and finishes with the catch-all `} else {` branch."
+    },
+    "drone-obstacle-avoidance": {
+      "title": "Bonus challenge: Autonomous obstacle evasion",
+      "task": "Program Scout drone Sigma's forward proximity resolver:\n1. Read obstacle distance in meters from `cin` into variable `distance`.\n2. If `distance <= 10`, issue an emergency stop command.\n3. Else if `distance <= 50`, issue an obstacle evasion command.\n4. In all other cases, report a clear flight corridor.",
+      "hint": "Use a cascade: `if (distance <= 10) { ... } else if (distance <= 50) { ... } else { ... }`.",
+      "solutionNote": "With input 35 meters, 35 <= 10 is false, but 35 <= 50 is true, so ACTION: EVADE OBSTACLE is output."
+    },
+    "recap": {
+      "title": "Mission 9 summary: Autonomous decisions unlocked",
+      "body": [
+        "Base IRIS confirms telemetry: Scout drone Sigma has successfully integrated sensor evaluations and can now navigate hazardous terrain without waiting for dispatch commands.",
+        "| Construct | Syntax pattern | Branch count | Mission application |\n| :--- | :--- | :--- | :--- |\n| Relational operators | `==`, `!=`, `<`, `>`, `<=`, `>=` | — | Checking sensor telemetry against safety thresholds |\n| Single `if` | `if (cond) { ... }` | 1 | Raising immediate alarms or warnings |\n| Branching `if/else` | `if (cond) { ... } else { ... }` | 2 | Choosing between two distinct maneuvers (advance vs recharge) |\n| Cascading `else if` | `if ... else if ... else` | 3+ | Multi-tier navigation responses (halt, evade, cruise) |",
+        "In Chapter 10, «Logical operators», we will master `&&` (AND), `||` (OR), and `!` (NOT), allowing Sigma to combine multiple sensor readings into unified multi-criteria flight conditions."
+      ]
+    }
+  }
+}

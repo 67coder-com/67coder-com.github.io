@@ -1,0 +1,131 @@
+{
+  "title": "Nosacījumi if / else",
+  "module": "2. bloks · Lēmumi",
+  "steps": {
+    "why-autonomy": {
+      "eyebrow": "Sakaru aizkave un autonomija",
+      "title": "Kāpēc dronam jālemj pašam",
+      "body": [
+        "Izlūkdrons Sigma paceļas gaisā no bāzes IRIS un uzsāk tālu lidojumu uz Mawrth Vallis kanjonu. Dronam attālinoties aiz kalnu grēdas, radiosakaru signāla aizkave starp aparātu un bāzes dispečeru sāk strauji pieaugt.",
+        "Attālumā no Zemes līdz Marsam radiosignāls gaismas ātrumā ceļo no 3 līdz 22 minūtēm katrā virzienā. Pat vietējā sakaru lokā aizkave liedz vadīt dronu ar manuālu sviru reāllaikā: ja Sigma ceļā pēkšņi parādās klints un operatoram būtu jānosūta komanda ar roku, aparāts ietriektos šķērslī daudz ātrāk, nekā signāls paspētu nonākt līdz bāzei.",
+        "Lai izdzīvotu skarbajos planētas apstākļos, borta datoram jāspēj pieņemt autonomus lēmumus tieši lidojuma laikā, balstoties uz sensoru rādījumiem. Līdz šim visas mūsu programmas izpildījās stingri lineāri — no pirmās rindas līdz pēdējai. Ar nosacījumiem mēs iemācīsim programmai zarošanos: spēju izvēlēties dažādus koda ceļus atkarībā no situācijas."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Kāpēc Marsa aparāti lēmumus pieņem paši",
+          "body": [
+            "Gaisma un radioviļņi vakuumā pārvietojas ar fundamentālu fizikas ātrumu — aptuveni 299 792 kilometri sekundē. Tā kā Zeme un Marss nepārtraukti riņķo ap Sauli dažādās orbītās, attālums starp abām planētām svārstās no 56 miljoniem kilometru tuvākajā punktā līdz pat 401 miljonam kilometru pretējās Saules pusēs.",
+            "Tas nozīmē, ka radiosakaru aizkave vienā virzienā ilgst no 3,1 līdz 22,3 minūtēm. Pilns sakaru cikls — nosūtīt komandu, sagaidīt izpildi un saņemt atbildes telemetriju — prasa no 6 līdz pat 44 minūtēm. Šādos apstākļos vadīt aparātu reāllaikā ar kloķi nav iespējams pēc dabas likumiem.",
+            "1997. gadā pirmais Marsa mikroroveris Sojourner izmantoja piecus lāzera starus šķēršļu noteikšanai un patstāvīgi apstājās, ja priekšā pamanīja akmeni. Mūsdienu izpētes aparāti, tostarp Curiosity un Perseverance, izmanto autonomās navigācijas sistēmu AutoNav: borta dators analizē stereokameru kadrus, atrod draudus un pats aprēķina drošu apbraukšanas trajektoriju bez Zemes iejaukšanās.",
+            "Avots: NASA JPL Mars Exploration Rover Mission: Autonomous Navigation (AutoNav); NASA Mars Fact Sheet (Radio Travel Time)."
+          ]
+        }
+      ]
+    },
+    "comparison-operators": {
+      "eyebrow": "Loģiskā salīdzināšana",
+      "title": "Salīdzināšanas operatori",
+      "body": [
+        "Pirms pieņemt lēmumu, programmai ir jāsalīdzina vērtības savā starpā: vai augstums ir mazāks par drošo robežu, vai baterijas uzlāde ir pietiekama, vai sensora statuss atbilst normai.",
+        "C++ valodā salīdzināšanai izmanto sešus attiecību operatorus. Katra salīdzināšanas izteiksme tiek novērtēta un atgriež loģisko vērtību `bool`: patiesu (`true`, kas terminālī tiek izvadīts kā 1) vai aplamu (`false`, kas tiek izvadīts kā 0):",
+        "| Operators | Nozīme | Koda piemērs | Rezultāts |\n| :--- | :--- | :--- | :--- |\n| `==` | Vienāds ar | `speed == 60` | `true` (1), ja ātrums ir tieši 60 |\n| `!=` | Nav vienāds ar | `status != 0` | `true` (1), ja statuss nav 0 |\n| `<` | Mazāks par | `altitude < 20` | `true` (1), ja augstums zem 20 |\n| `>` | Lielāks par | `battery > 90` | `true` (1), ja baterija virs 90 |\n| `<=` | Mazāks vai vienāds | `dist <= 10` | `true` (1), ja distance ir 10 vai mazāka |\n| `>=` | Lielāks vai vienāds | `charge >= 25` | `true` (1), ja uzlāde ir 25 vai lielāka |",
+        "!> **Bīstamākais slazds: vienādība `==` pret piešķiršanu `=`.** Viens vienādības simbols `=` piešķir mainīgajam jaunu vērtību. Divi simboli `==` salīdzina divas vērtības, nemainot mainīgo saturu. Ja nosacījumā nejauši uzrakstīsiet `speed = 60`, dators piešķirs ātrumam 60, un šis nosacījums vienmēr skaitīsies patiess!"
+      ],
+      "compareCaptions": [
+        "Korekta salīdzināšana: operators == pārbauda vienādību, nemainot mainīgo",
+        "Kritiska kļūda: operators = pārraksta mainīgā vērtību un izkropļo nosacījumu"
+      ]
+    },
+    "predict-comparison": {
+      "title": "Paredziet salīdzināšanas iznākumu",
+      "task": "Kādas divas vērtības izvadīs programma? Šis ir minējums pirms palaišanas — precīzs rezultāts nav jāzina iepriekš.",
+      "hint": "Izvērtējiet katru salīdzinājumu iekavās: 15 < 20 un 15 != 15. Atcerieties, kā cout izvada loģisko tipu bool.",
+      "explain": "Pirmais nosacījums `15 < 20` ir patiess, tādēļ `cout` izvada `1`. Otrais nosacījums `15 != 15` ir aplams (skaitlis 15 ir vienāds ar 15), tādēļ `cout` izvada `0` jaunā rindā."
+    },
+    "if-syntax": {
+      "eyebrow": "Viena zara lēmums",
+      "title": "Nosacījuma teikums if",
+      "body": [
+        "Operators `if` ļauj izpildīt koda fragmentu tikai tad, ja konkrētais nosacījums izrādās patiess.",
+        "syntax: if ({condition}) {\n    {action}\n}\n- if: C++ atslēgvārds, kas ievada nosacījuma pārbaudi\n- condition: izteiksme apaļajās iekavās, kas novērtējas kā true vai false\n- action: komandas figūriekavās, ko izpilda tikai tad, ja nosacījums ir patiess\n- { }: figūriekavas apvieno darbības vienotā koda blokā",
+        "> Nosacījuma izpildes likums:\n> 1. Dators novērtē nosacījumu apaļajās iekavās `(condition)`.\n> 2. Ja rezultāts ir `true`, programma ieiet figūriekavu blokā `{ action }` un izpilda visas tajā esošās rindas.\n> 3. Ja rezultāts ir `false`, programma pilnībā izlaiž figūriekavu bloku un uzreiz turpina darbu no nākamās rindas aiz aizverošās iekavas `}`.",
+        "!> **Semikola slazds tūlīt aiz if.** Nekad nelieciet semikolu tūlīt aiz apaļajām iekavām: `if (altitude < 20);`. Šāds semikols izveido tukšu teikumu, un figūriekavu bloks zem tā izpildīsies vienmēr neatkarīgi no augstuma!"
+      ],
+      "alt": "Diagramma parāda if zara izpildes shēmu: patiess nosacījums novirza izpildi uz brīdinājuma bloku, bet aplams nosacījums to pilnībā apiet.",
+      "image": "assets/l09-if-branch.lv.svg"
+    },
+    "altitude-alert": {
+      "title": "Borta augstuma drošības pārbaude",
+      "task": "Uzrakstiet Sigmas pirmo autonomo drošības pārbaudi:\n1. Pārbaudiet, vai mainīgais `altitude` ir mazāks par 20.\n2. Ja nosacījums ir patiess, izvadiet brīdinājuma tekstu formātā zemāk.",
+      "hint": "Izmantojiet `if (altitude < 20) { cout << \"WARNING: LOW ALTITUDE\" << endl; }`.",
+      "solutionNote": "Tā kā augstums ir 14 metri, nosacījums 14 < 20 ir patiess un brīdinājums tiek izvadīts."
+    },
+    "find-equality-bug": {
+      "title": "Atrodiet kļūdaino salīdzināšanas rindu",
+      "task": "Noklikšķiniet uz rindas ar kļūdu, kurā loģiskās pārbaudes vietā nejauši veikta piešķiršana.",
+      "hint": "Pārbaudiet, cik vienādības zīmju ir nosacījuma pārbaudes iekavās.",
+      "explain": "Rindā 7 ir uzrakstīts `if (status_code = 1)`. Viena vienādības zīme `=` piešķir mainīgajam vērtību 1, nevis salīdzina to. Pārbaudei obligāti jāizmanto divas zīmes: `if (status_code == 1)`."
+    },
+    "if-else-branches": {
+      "eyebrow": "Divu virzienu izvēle",
+      "title": "Sazarojums if ... else",
+      "body": [
+        "Bieži vien programmai nepietiek tikai ar brīdinājuma parādīšanu — ir jāizvēlas viena no divām alternatīvām darbībām. Ja nosacījums izpildās, darām vienu; ja neizpildās, darām ko citu.",
+        "Šim nolūkam C++ izmanto konstrukciju `if ... else`. Vārds `else` (pretējā gadījumā) definē alternatīvo zaru, kam nav savu apaļo iekavu ar nosacījumu:",
+        "syntax: if ({condition}) {\n    {action_true}\n} else {\n    {action_false}\n}\n- if: pirmā nosacījuma pārbaude\n- condition: loģiskā izteiksme apaļajās iekavās\n- action_true: darbības, ko izpilda, ja nosacījums ir patiess (true)\n- else: atslēgvārds alternatīvajam zaram — bez sava nosacījuma\n- action_false: darbības, ko izpilda, ja nosacījums ir aplams (false)",
+        "+ **Zars if.** Izpildās tad un tikai tad, ja nosacījums ir `true`. Šajā gadījumā zars `else` tiek pilnībā ignorēts.\n+ **Zars else.** Izpildās tad un tikai tad, ja nosacījums ir `false`. Tieši viens no abiem blokiem garantēti tiks izpildīts."
+      ],
+      "compareCaptions": [
+        "Vienots if / else: garantē tieši viena alternatīvā zara izpildi bez liekām pārbaudēm",
+        "Divi neatkarīgi if: lieka koda dublēšana un risks kļūdīties ar pretējiem nosacījumiem"
+      ]
+    },
+    "battery-decision": {
+      "title": "Autonoma baterijas lēmuma pieņemšana",
+      "task": "Noprogrammējiet Sigmas enerģijas dispečeru:\n1. Nolasiet baterijas līmeni no konsoles `cin` mainīgajā `battery`.\n2. Ja `battery >= 25`, izvadiet atļauju lidojuma turpināšanai.\n3. Pretējā gadījumā (`else`) izvadiet komandu doties uz uzlādi, kā parādīts zemāk.",
+      "hint": "Nolasiet ar `cin >> battery;`, tad uzrakstiet `if (battery >= 25) { ... } else { ... }`.",
+      "solutionNote": "Ja ievadīts 18, nosacījums 18 >= 25 ir aplams, tādēļ izpildās else zars ar paziņojumu par uzlādi."
+    },
+    "multi-branch-else-if": {
+      "eyebrow": "Vairāku pakāpju lēmumi",
+      "title": "Kaskāde if ... else if ... else",
+      "body": [
+        "Reālās situācijās iespējamo stāvokļu bieži ir vairāk par diviem. Piemēram, šķēršļa attālums var būt kritisks, bīstams vai pilnīgi drošs. Lai pārbaudītu vairākus nosacījumus pēc kārtas, C++ piedāvā konstrukciju `else if`.",
+        "syntax: if ({cond1}) {\n    {action1}\n} else if ({cond2}) {\n    {action2}\n} else {\n    {fallback}\n}\n- if: pirmā pārbaude kaskādē\n- cond1: pirmais izvērtējamais nosacījums\n- else if: papildu pārbaude, ko vērtē tikai tad, ja iepriekšējais nosacījums bija false\n- cond2: otrais nosacījums\n- else: gala drošības zars, ja neviens no nosacījumiem neizpildījās\n- fallback: noklusējuma darbība visiem pārējiem gadījumiem",
+        "> Kaskādes izpildes trīs zelta likumi:\n> 1. **Pārbaude secīgi no augšas uz leju.** Dators sāk ar pirmo `if` un iet uz leju pie `else if` tikai tad, ja iepriekšējā pārbaude bija `false`.\n> 2. **Pirmais atbilstošais uzvar.** Tiklīdz kāds nosacījums izrādās `true`, tā figūriekavu bloks tiek izpildīts, un VISI pārējie kaskādes zari tiek nekavējoties izlaisti!\n> 3. **Rezerves zars else nav obligāts, bet vēlams.** Tas nodrošina drošu noklusējuma darbību, ja neviens no konkrētajiem gadījumiem nav nostrādājis."
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "Kā procesors prognozē zarus 'zem pārsega'",
+          "body": [
+            "Mūsdienu procesori izpilda instrukcijas caur konveijeru (instruction pipeline). Lai negaidītu, kamēr tiks pabeigts lēns atmiņas salīdzinājums, procesora borta mikrosistēma Branch Predictor mēģina uzminēt, kurš zars izpildīsies, vēl pirms nosacījums ir izskaitļots.",
+            "Procesors sāk spekulatīvi izpildīt uzminētā zara instrukcijas uz priekšu. Ja minējums izrādās pareizs, programma nezaudē nevienu takti un lidojuma vadība darbojas ar maksimālu ātrumu.",
+            "Ja minējums bija kļūdains (branch misprediction), procesoram ir jāiztīra viss konveijers (pipeline flush) un jāsāk zara izpilde no jauna. Šāda kļūda prasa 10–20 procesora taktis. Tādēļ augstas veiktspējas kaskādēs visbiežāk sastopamos gadījumus programmētāji liek pašā augšā."
+          ]
+        }
+      ]
+    },
+    "assemble-terrain-check": {
+      "title": "Salieciet reljefa drošības kaskādi",
+      "task": "Sakārtojiet koda rindas pareizā loģiskā secībā, lai izveidotu trīspakāpju reljefa drošības pārbaudi pēc attāluma `dist`.",
+      "hint": "Sāciet ar if pārbaudi mazākajam attālumam dist <= 10, tad seko else if ar dist <= 50, un noslēgumā drošības zars else.",
+      "explain": "Korekta kaskāde sākas ar `if (dist <= 10)`, kam seko darbība un aizverošā iekava ar nākamo pārbaudi `} else if (dist <= 50)`, un noslēdzas ar universālo `} else {` zaru."
+    },
+    "drone-obstacle-avoidance": {
+      "title": "Papilduzdevums: Autonoms šķēršļu apvedējs",
+      "task": "Noprogrammējiet drona Sigmas šķēršļu analīzes mezglu:\n1. Nolasiet attālumu līdz šķērslim metros no `cin` mainīgajā `distance`.\n2. Ja `distance <= 10`, izvadiet ārkārtas bremzēšanas komandu.\n3. Ja `distance <= 50`, izvadiet šķēršļa apiešanas manevra komandu.\n4. Visos citos gadījumos izvadiet paziņojumu par brīvu ceļu.",
+      "hint": "Izmantojiet kaskādi `if (distance <= 10) { ... } else if (distance <= 50) { ... } else { ... }`.",
+      "solutionNote": "Ievadot distanci 35 metrus, pirmais nosacījums 35 <= 10 ir aplams, bet otrais 35 <= 50 ir patiess, tādēļ tiek izvadīts ACTION: EVADE OBSTACLE."
+    },
+    "recap": {
+      "title": "9. misijas kopsavilkums: Lēmumu pieņemšana apgūta",
+      "body": [
+        "Bāze IRIS apstiprina telemetriju: izlūkdrons Sigma ir veiksmīgi apguvis sensoru analīzi un spēj pieņemt navigācijas lēmumus bez operatora tiešas vadības.",
+        "| Konstrukcija | Sintakse | Zaru skaits | Kad izmantot kosmosa misijā |\n| :--- | :--- | :--- | :--- |\n| Salīdzināšana | `==`, `!=`, `<`, `>`, `<=`, `>=` | — | Sensoru rādījumu pārbaude pret kritiskiem sliekšņiem |\n| Vienkāršs `if` | `if (cond) { ... }` | 1 | Brīdinājuma paziņojums vai trauksmes signāls |\n| Sazarojums `if/else` | `if (cond) { ... } else { ... }` | 2 | Viena no divām alternatīvām (lidot uz priekšu vai uzlādēties) |\n| Kaskāde `else if` | `if ... else if ... else` | 3+ | Daudzlīmeņu diagnostika (avārija, piesardzība, normāls režīms) |",
+        "Nākamajā, 10. nodaļā «Loģiskās operācijas» mēs apgūsim operatorus `&&` (UN), `||` (VAI) un `!` (NE), lai Sigma spētu apvienot vairāku sensoru rādījumus vienā saliktā nosacījumā pirms pacelšanās."
+      ]
+    }
+  }
+}

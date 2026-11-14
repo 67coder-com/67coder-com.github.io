@@ -78,7 +78,10 @@
         {
           "n": 9,
           "slug": "if-else",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 10,

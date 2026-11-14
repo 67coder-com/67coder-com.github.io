@@ -1,0 +1,110 @@
+{
+  "n": 9,
+  "slug": "if-else",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-autonomy",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. Inside the forward avionics observation bay of Mars base IRIS at dusk. Through a reinforced panoramic observation viewport, Scout drone Sigma with dark carbon-slate faceted hull and warm amber thruster vents glides autonomously over a rugged canyon on Mars. Standing at an illuminated tactical navigation console, monitoring telemetry and radio delay counters, is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Distant Martian hills and canyons rendered in desaturated warm greys, strictly no red. Style: minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 on the telemetry display and drone sensor beam."
+    },
+    {
+      "id": "comparison-operators",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int speed = 60;\nif (speed == 60) {\n    // valid equality comparison\n}",
+          "ok": true
+        },
+        {
+          "code": "int speed = 60;\nif (speed = 60) {\n    // bug: assigns 60, condition is always true\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-comparison",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude = 15;\n    int ground_target = 15;\n    cout << (altitude < 20) << endl;\n    cout << (altitude != ground_target) << endl;\n    return 0;\n}",
+      "expected": "1\n0",
+      "focus": "(altitude < 20)"
+    },
+    {
+      "id": "if-syntax",
+      "kind": "explain"
+    },
+    {
+      "id": "altitude-alert",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude = 14;\n\n    // 1. Check if altitude is less than 20\n    // 2. If true, print WARNING: LOW ALTITUDE\n\n    return 0;\n}",
+      "expected": "WARNING: LOW ALTITUDE",
+      "requires": ["if", "altitude < 20", "WARNING: LOW ALTITUDE"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int altitude = 14;\n\n    if (altitude < 20) {\n        cout << \"WARNING: LOW ALTITUDE\" << endl;\n    }\n\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "find-equality-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int status_code = 0;\n    cout << \"CHECKING SENSOR...\" << endl;\n    if (status_code = 1) {\n        cout << \"SENSOR ERROR DETECTED\" << endl;\n    }\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "if-else-branches",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "if (battery >= 20) {\n    cout << \"GO\";\n} else {\n    cout << \"STOP\";\n}",
+          "ok": true
+        },
+        {
+          "code": "if (battery >= 20) {\n    cout << \"GO\";\n}\nif (battery < 20) {\n    cout << \"STOP\";\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "battery-decision",
+      "kind": "editor",
+      "lang": "cpp",
+      "stdin": "18",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery;\n\n    // 1. Read battery percentage from cin\n    // 2. If battery >= 25, print SIGMA: ADVANCE\n    // 3. Otherwise (else), print SIGMA: RECHARGE\n\n    return 0;\n}",
+      "expected": "SIGMA: RECHARGE",
+      "requires": ["cin >>", "if", "else"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery;\n    cin >> battery;\n\n    if (battery >= 25) {\n        cout << \"SIGMA: ADVANCE\" << endl;\n    } else {\n        cout << \"SIGMA: RECHARGE\" << endl;\n    }\n\n    return 0;\n}"
+    },
+    {
+      "id": "multi-branch-else-if",
+      "kind": "theory"
+    },
+    {
+      "id": "assemble-terrain-check",
+      "kind": "parsons",
+      "compiles": false,
+      "lines": [
+        "if (dist <= 10) {",
+        "    cout << \"HALT\" << endl;",
+        "} else if (dist <= 50) {",
+        "    cout << \"SLOW\" << endl;",
+        "} else {",
+        "    cout << \"CRUISE\" << endl;",
+        "}"
+      ]
+    },
+    {
+      "id": "drone-obstacle-avoidance",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "stdin": "35",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance;\n\n    // 1. Read distance from cin\n    // 2. If distance <= 10: ACTION: EMERGENCY STOP\n    // 3. Else if distance <= 50: ACTION: EVADE OBSTACLE\n    // 4. Else: ACTION: CLEAR PATH\n\n    return 0;\n}",
+      "expected": "ACTION: EVADE OBSTACLE",
+      "requires": ["cin >>", "if", "else if", "else"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int distance;\n    cin >> distance;\n\n    if (distance <= 10) {\n        cout << \"ACTION: EMERGENCY STOP\" << endl;\n    } else if (distance <= 50) {\n        cout << \"ACTION: EVADE OBSTACLE\" << endl;\n    } else {\n        cout << \"ACTION: CLEAR PATH\" << endl;\n    }\n\n    return 0;\n}"
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}
