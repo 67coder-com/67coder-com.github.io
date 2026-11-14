@@ -1,0 +1,93 @@
+{
+  "title": "Practicum: Flight safety system",
+  "steps": {
+    "safety-architecture": {
+      "eyebrow": "Practicum: Block 2 Synthesis",
+      "title": "Defense-in-depth: Squadron flight safety architecture",
+      "body": [
+        "A severe Martian dust storm front has been detected approaching Mawrth Vallis. Wind speeds are fluctuating violently, and ambient atmospheric dust density is climbing toward critical levels.",
+        "Both active drones of the IRIS exploration squadron are airborne: agile scout drone IZLŪKS «Sigma» and heavy surveyor KARTOGRĀFS «Delta». Each drone possesses distinct structural limits:",
+        "- **Scout drone Sigma:** Highly vulnerable to severe wind shear and rapid battery drain during turbulence, but unaffected by sensor dust.",
+        "- **Surveyor drone Delta:** Armored against wind, but highly vulnerable to fine electrostatic dust accumulation on its optical LiDAR aperture and camera lenses.",
+        "In this practicum, we integrate everything learned across Block 2 — `if / else`, compound logical operators (`&&`, `||`, `!`), multiway `switch` dispatching, and inline ternary operators (`?:`) — into a unified, layered flight safety controller."
+      ],
+      "archive": {
+        "title": "Defense-in-depth in aerospace flight computers",
+        "body": [
+          "In aerospace engineering, flight safety systems never rely on a single monolithic decision check. Following the defense-in-depth paradigm, safety architectures are organized in strict hierarchical tiers: signal validation, threat classification, and emergency response dispatch.",
+          "When the Apollo Guidance Computer (AGC) encountered CPU overload alarms (the famous 1201 and 1202 alarms) during Apollo 11's lunar descent, its priority-based task scheduling dropped lower-priority telemetry display routines while preserving vital thrust-vectoring calculations without restarting the flight computer.",
+          "Similarly, on the Mars 2020 Perseverance rover and modern autonomous UAVs, sensor telemetry passes through cascading filters: rapid sanity bounds checks (`if / else`), fault status bitmasks, and discrete payload actuator dispatchers (`switch`). If any sensor fails or disconnects, the system must deterministically divert execution to a safe operational baseline rather than halt."
+        ],
+        "sources": [
+          "David A. Mindell, 'Digital Apollo: Human and Machine in Spaceflight', MIT Press",
+          "NASA JPL, 'Mars 2020 Avionics and Flight Software Architecture Overview'"
+        ]
+      }
+    },
+    "predict-storm-hazard": {
+      "eyebrow": "Pre-flight hazard prediction",
+      "title": "Composite storm threshold evaluation",
+      "task": "What action will this safety validator output for wind speed 22 m/s, battery 65%, and dust alert inactive (false)? Predict before running.",
+      "hint": "Evaluate the first condition: is (22 > 20 || false) true? Is battery 65 < 50 true? If the first if is false, proceed to else if.",
+      "explain": "The first check evaluates `(22 > 20 || false) && 65 < 50`. While the left side is true, the right side (`65 < 50`) is false, so the composite `&&` expression evaluates to false. The execution advances to `else if (wind > 20 && battery >= 50)`. Here both `22 > 20` and `65 >= 50` are true, so `HOLD POSITION` is printed."
+    },
+    "sigma-wind-guard": {
+      "title": "Subsystem 1: Sigma environmental monitor",
+      "task": "Program Scout drone Sigma's weather safety validator using `cin`, `if`, `else if`, and `else`:\n1. Read wind speed `int wind` and battery charge `int battery` from `cin`.\n2. If `wind > 18` OR `battery < 20`, print `EMERGENCY LAND` and a newline.\n3. Else if `battery >= 50` AND `wind <= 12`, print `FLIGHT NOMINAL` and a newline.\n4. In all other cases (`else`), print `CAUTION: REDUCE SPEED` and a newline.",
+      "hint": "Write `if (wind > 18 || battery < 20) { cout << \"EMERGENCY LAND\" << endl; } else if (battery >= 50 && wind <= 12) { cout << \"FLIGHT NOMINAL\" << endl; } else { cout << \"CAUTION: REDUCE SPEED\" << endl; }`.",
+      "solutionNote": "With input 22 and 80, the wind condition 22 > 18 triggers the emergency land directive immediately."
+    },
+    "delta-sensor-dispatcher": {
+      "title": "Subsystem 2: Delta instrument router",
+      "task": "Program Surveyor drone Delta's sensor router using `switch (sensor)`:\n1. Read sensor code `char sensor` from `cin`.\n2. If `'L'`, print `SENSOR: LIDAR ONLINE` and exit with `break;`.\n3. If `'C'`, print `SENSOR: CAMERA ONLINE` and exit with `break;`.\n4. If `'R'`, print `SENSOR: RADAR ONLINE` and exit with `break;`.\n5. In all other cases (`default:`), print `SENSOR: UNKNOWN` and exit with `break;`.",
+      "hint": "Use `switch (sensor) { case 'L': cout << \"SENSOR: LIDAR ONLINE\" << endl; break; ... default: ... }`.",
+      "solutionNote": "Input 'L' matches the first case label and outputs SENSOR: LIDAR ONLINE."
+    },
+    "find-safety-bug": {
+      "title": "Subsystem audit: The false alarm trap",
+      "task": "Click on the line where natural language ambiguity created an alarm condition that triggers on every single execution.",
+      "hint": "Examine line 7 carefully: what is the right-hand operand of the || operator?",
+      "explain": "Line 7 reads `if (alert_code == 1 || 2)`. Because `2` is a standalone non-zero integer, it evaluates to boolean `true` regardless of `alert_code`! This triggers the evacuation alarm even during diagnostic checks when `alert_code` is 0. The check must be written as `if (alert_code == 1 || alert_code == 2)`."
+    },
+    "assemble-sensor-packet": {
+      "title": "Subsystem 3: Telemetry packet pre-filter",
+      "task": "Arrange the program lines in correct order to read drone telemetry and filter corrupted data before routing.",
+      "hint": "Start with standard includes, declare variables, read input, verify packet validity with !ok, and branch based on drone identifier.",
+      "explain": "The pre-filter first checks `if (!ok)` to reject corrupt packets. Only when data integrity is confirmed does execution proceed to distinguish between Sigma (`'S'`) and Delta."
+    },
+    "power-allocator-ternary": {
+      "title": "Subsystem 4: Dynamic LiDAR purge controller",
+      "task": "Use the ternary operator `?:` to assign Delta's LiDAR purge mode based on dust density:\n1. Read dust concentration `int dust` from `cin`.\n2. Use the ternary operator to choose power mode: if `dust > 60`, mode is `\"PURGE\"`, otherwise `\"ACTIVE\"`.\n3. Print `LIDAR MODE: ` followed by the mode string and a newline.",
+      "hint": "Write `string mode = (dust > 60) ? \"PURGE\" : \"ACTIVE\";` followed by `cout << \"LIDAR MODE: \" << mode << endl;`.",
+      "solutionNote": "With input 75, dust level 75 > 60 activates the high-pressure purge cleaning cycle."
+    },
+    "squadron-safety-controller": {
+      "title": "Capstone Project: Unified Squadron Safety Controller",
+      "task": "Construct the integrated mission safety controller combining `switch`, `if`, and `else`:\n1. Read drone identifier `char drone` and flight metric `int metric` from `cin`.\n2. Route on `switch (drone)`.\n3. For case `'S'` (Sigma, where metric represents wind speed): if `metric > 20`, print `SIGMA: GROUNDED`; otherwise print `SIGMA: AIRBORNE`.\n4. For case `'D'` (Delta, where metric represents dust level): if `metric > 50`, print `DELTA: SHELTERED`; otherwise print `DELTA: SCANNING`.\n5. For `default:`: print `DRONE: UNRECOGNIZED` and exit with `break;`.",
+      "hint": "Inside each case of switch (drone), place an if / else statement checking metric against that drone's specific threshold.",
+      "solutionNote": "With input 'S' 25, case 'S' executes, finds wind 25 > 20, and grounds Scout drone Sigma."
+    },
+    "predict-edge-cases": {
+      "eyebrow": "Edge case resilience",
+      "title": "Unregistered telemetry signal prediction",
+      "task": "What output will the squadron safety controller generate if an unrecognized signal `'X'` with metric 10 is received?",
+      "hint": "Does 'X' match case 'S' or case 'D'? Which fallback branch catches unmatched selectors?",
+      "explain": "Because `'X'` does not match `'S'` or `'D'`, execution skips both branches and jumps directly to `default:`, outputting `DRONE: UNRECOGNIZED`. In mission software, every switch must contain a default branch to safely handle corrupted or unexpected input."
+    },
+    "storm-evacuation-override": {
+      "title": "Bonus challenge: Planetary storm evacuation override",
+      "task": "Program the base-wide emergency evacuation override protocol:\n1. Read storm severity index `int storm` and clearance flag `char clearance` from `cin`.\n2. If `storm >= 90` OR `clearance == 'R'`, print `PROTOCOL: IMMEDIATE EVACUATION` and a newline.\n3. Else if `storm >= 50` AND `clearance == 'Y'`, print `PROTOCOL: RETURN TO DOCK` and a newline.\n4. In all other cases (`else`), print `PROTOCOL: STANDBY FOR UPDATES` and a newline.",
+      "hint": "Use a cascading if-else structure with || for the highest priority emergency and && for the intermediate warning.",
+      "solutionNote": "With storm index 95 and clearance 'G', the storm threshold 95 >= 90 triggers an immediate evacuation protocol."
+    },
+    "recap": {
+      "title": "Block 2 summary: Autonomous decisions unlocked",
+      "body": [
+        "Congratulations! You have completed Block 2: «LĒMUMI» (Decisions) of the IRIS mission course. Scout drone Sigma and Surveyor drone Delta are now equipped with robust, deterministic decision-making logic.",
+        "| Control construct | Syntax | When to select in flight software |\n| :--- | :--- | :--- |\n| `if / else if / else` | `if (val > 10) ...` | Continuous numeric ranges, floating-point comparisons, multi-variable logic |\n| Logical operators | `&&`, `\\|\\|`, `!` | Synthesizing telemetry flags and applying short-circuit safety guards |\n| `switch / case` | `switch (code) ...` | Discrete integer or char commands; high-speed $O(1)$ jump table dispatching |\n| Ternary `?:` | `cond ? a : b` | Compact inline value assignment or immediate stream formatting |",
+        "Notice a fundamental limitation in all programs written so far: each program runs once from top to bottom and terminates. In real aerospace flight computers, telemetry must be sampled and processed thousands of times every second without stopping.",
+        "In Chapter 13, we inaugurate **Block 3: DATI & CIKLI**, beginning with the `while` loop — unlocking continuous, iterative computation!"
+      ]
+    }
+  }
+}

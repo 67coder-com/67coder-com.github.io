@@ -1,0 +1,93 @@
+{
+  "title": "Praktikums: Drošības sistēma",
+  "steps": {
+    "safety-architecture": {
+      "eyebrow": "Praktikums: 2. bloka noslēgums",
+      "title": "Dziļā aizsardzība: Eskadras lidojumu drošības arhitektūra",
+      "body": [
+        "Mawrth Vallis kanjona virzienā strauji tuvojas spēcīga Marsa putekļu vētra. Vēja brāzmas kļūst neparedzamas, un atmosfēras putekļu blīvums pieaug līdz bīstamam līmenim.",
+        "Gaisā atrodas abi aktīvie IRIS eskadras droni: veiklais izlūks IZLŪKS «Sigma» un smagais kartogrāfs KARTOGRĀFS «Delta». Katram dronam ir savas kritiskās robežas:",
+        "- **Izlūks Sigma:** Ļoti jutīgs pret vēja brāzmām un strauju baterijas izlādi turbulencē, bet putekļi tā sensoriem nekaitē.",
+        "- **Kartogrāfs Delta:** Mehāniski pasargāts no vēja, taču ļoti neaizsargāts pret smalko elektrostatisko putekļu nosēšanos uz lidara optikas un kameras lēcām.",
+        "Šajā praktikumā mēs apvienosim visu 2. blokā apgūto — `if / else` kaskādes, loģiskos operatorus (`&&`, `||`, `!`), daudzzaru izvēli `switch` un kompakto ternāro operatoru (`?:`) — vienotā, daudzlīmeņu lidojumu drošības kontrolierī."
+      ],
+      "archive": {
+        "title": "Dziļās aizsardzības (Defense-in-Depth) princips kosmonautikā",
+        "body": [
+          "Aviācijas un kosmosa inženierijā drošības sistēmas nekad nepaļaujas uz vienu vienīgu universālu pārbaudi. Saskaņā ar dziļās aizsardzības principu drošības arhitektūra tiek sadalīta stingros līmeņos: signālu primārā pārbaude, draudu klasifikācija un avārijas protokolu izpilde.",
+          "Kad Apollo mēness nolaišanās modulis (Apollo 11) saskārās ar procesora pārslodzes trauksmēm (slavenajām 1201 un 1202 kļūdām), borta dators (AGC) pēc prioritātēm atteicās no nebūtiskas telemetrijas attēlošanas, bet turpināja vadīt dzinējus un nolaišanos, neapturot sistēmu.",
+          "Līdzīgi arī Marsa pašgājējā Perseverance un mūsdienu autonomajos dronos telemetrija iziet cauri vairākiem filtriem: robežvērtību pārbaude (`if / else`), datu kļūdu filtri un iekārtu dispečeri (`switch`). Ja kāds sensors atsakās, programmai ir determinēti jāpāriet uz drošu bāzes režīmu, nevis jāavarē."
+        ],
+        "sources": [
+          "David A. Mindell, 'Digital Apollo: Human and Machine in Spaceflight', MIT Press",
+          "NASA JPL, 'Mars 2020 Avionics and Flight Software Architecture Overview'"
+        ]
+      }
+    },
+    "predict-storm-hazard": {
+      "eyebrow": "Draudu prognozēšana",
+      "title": "Saliktu vētras nosacījumu izvērtēšana",
+      "task": "Kādu lēmumu pieņems drošības kontrolieris pie vēja ātruma 22 m/s, baterijas 65% un neaktīvas putekļu trauksmes (false)? Prognozējiet pirms palaišanas.",
+      "hint": "Izvērtējiet pirmo if nosacījumu: vai (22 > 20 || false) ir patiess? Vai baterija 65 < 50 ir patiesa? Ja pirmais if ir aplams, pārejiet pie else if.",
+      "explain": "Pirmais nosacījums pārbauda `(22 > 20 || false) && 65 < 50`. Kreisā puse ir patiesa, bet labā puse (`65 < 50`) ir aplama, tādēļ viss `&&` nosacījums ir aplams. Izpilde pāriet pie `else if (wind > 20 && battery >= 50)`. Šeit abi nosacījumi `22 > 20` un `65 >= 50` ir patiesi, tādēļ tiek izvadīts `HOLD POSITION`."
+    },
+    "sigma-wind-guard": {
+      "title": "1. apakšsistēma: Izlūka Sigma vides uzraugs",
+      "task": "Ieprogrammējiet drona Sigma laikapstākļu drošības moduli ar `cin`, `if`, `else if` un `else`:\n1. Nolasiet vēja ātrumu `int wind` un baterijas uzlādi `int battery` no `cin`.\n2. Ja `wind > 18` VAI `battery < 20`, izvadiet `EMERGENCY LAND` un jaunu rindu.\n3. Citādi, ja `battery >= 50` UN `wind <= 12`, izvadiet `FLIGHT NOMINAL` un jaunu rindu.\n4. Visos pārējos gadījumos (`else`), izvadiet `CAUTION: REDUCE SPEED` un jaunu rindu.",
+      "hint": "Rakstiet `if (wind > 18 || battery < 20) { cout << \"EMERGENCY LAND\" << endl; } else if (battery >= 50 && wind <= 12) { cout << \"FLIGHT NOMINAL\" << endl; } else { cout << \"CAUTION: REDUCE SPEED\" << endl; }`.",
+      "solutionNote": "Pie ievades datiem 22 un 80 vēja ātrums 22 > 18 nekavējoties aktivizē ārkārtas nosēšanās komandu."
+    },
+    "delta-sensor-dispatcher": {
+      "title": "2. apakšsistēma: Kartogrāfa Delta instrumentu maršrutētājs",
+      "task": "Ieprogrammējiet drona Delta sensoru selektoru, izmantojot `switch (sensor)`:\n1. Nolasiet sensora kodu `char sensor` no `cin`.\n2. Ja `'L'`, izvadiet `SENSOR: LIDAR ONLINE` un izejiet ar `break;`.\n3. Ja `'C'`, izvadiet `SENSOR: CAMERA ONLINE` un izejiet ar `break;`.\n4. Ja `'R'`, izvadiet `SENSOR: RADAR ONLINE` un izejiet ar `break;`.\n5. Pārējos gadījumos (`default:`), izvadiet `SENSOR: UNKNOWN` un izejiet ar `break;`.",
+      "hint": "Lietojiet `switch (sensor) { case 'L': cout << \"SENSOR: LIDAR ONLINE\" << endl; break; ... default: ... }`.",
+      "solutionNote": "Ievadītais kods 'L' atbilst pirmajai iezīmei un izvada SENSOR: LIDAR ONLINE."
+    },
+    "find-safety-bug": {
+      "title": "Koda audits: Viltus trauksmes slazds",
+      "task": "Noklikšķiniet uz rindas, kurā cilvēku sarunvalodas pieraksts radījis trauksmes nosacījumu, kas nostrādā katrā programmas palaišanas reizē.",
+      "hint": "Uzmanīgi pārbaudiet 7. rindu: kas atrodas labajā pusē aiz || operatora?",
+      "explain": "7. rindā rakstīts `if (alert_code == 1 || 2)`. Tā kā skaitlis `2` ir patstāvīgs nenulles literālis, C++ to vienmēr novērtē kā `true`, neatkarīgi no `alert_code` vērtības! Tādēļ evakuācijas trauksme nostrādā pat pie koda 0. Pareizs pieraksts ir `if (alert_code == 1 || alert_code == 2)`."
+    },
+    "assemble-sensor-packet": {
+      "title": "3. apakšsistēma: Telemetrijas paketes priekšfiltrs",
+      "task": "Sakārtojiet programmas rindas pareizā secībā, lai nolasītu drona datus un noraidītu bojātas paketes pirms to apstrādes.",
+      "hint": "Sāciet ar iekļaušanām, definējiet mainīgos, nolasiet datus, pārbaudiet integritāti ar !ok un sadaliet plūsmu pēc drona koda.",
+      "explain": "Filtrs vispirms pārbauda `if (!ok)`, lai noraidītu bojātu telemetriju. Tikai pēc datu derīguma apstiprināšanas izpilde pāriet pie Sigma (`'S'`) un Delta atpazīšanas."
+    },
+    "power-allocator-ternary": {
+      "title": "4. apakšsistēma: Lidara putekļu aizsardzības kontrolieris",
+      "task": "Izmantojiet ternāro operatoru `?:`, lai noteiktu lidara attīrīšanas režīmu pēc putekļu sensora rādījuma:\n1. Nolasiet putekļu koncentrāciju `int dust` no `cin`.\n2. Ar ternāro operatoru izvēlieties jaudas režīmu: ja `dust > 60`, režīms ir `\"PURGE\"`, citādi `\"ACTIVE\"`.\n3. Izvadiet `LIDAR MODE: `, kam seko režīma nosaukums un jauna rinda.",
+      "hint": "Rakstiet `string mode = (dust > 60) ? \"PURGE\" : \"ACTIVE\";` un tad `cout << \"LIDAR MODE: \" << mode << endl;`.",
+      "solutionNote": "Pie ievades 75 putekļu līmenis 75 > 60 aktivizē augstspiediena attīrīšanas ciklu PURGE."
+    },
+    "squadron-safety-controller": {
+      "title": "Lielais projekts: Vienotais eskadras drošības kontrolieris",
+      "task": "Izveidojiet integrēto misijas drošības kontrolieri, apvienojot `switch`, `if` un `else`:\n1. Nolasiet drona kodu `char drone` un mērījumu `int metric` no `cin`.\n2. Maršrutējiet ar `switch (drone)`.\n3. Zaram `'S'` (Sigma, kur rādījums ir vēja ātrums): ja `metric > 20`, izvadiet `SIGMA: GROUNDED`; citādi izvadiet `SIGMA: AIRBORNE`.\n4. Zaram `'D'` (Delta, kur rādījums ir putekļu līmenis): ja `metric > 50`, izvadiet `DELTA: SHELTERED`; citādi izvadiet `DELTA: SCANNING`.\n5. Zaram `default:`: izvadiet `DRONE: UNRECOGNIZED` un izejiet ar `break;`.",
+      "hint": "Katra switch (drone) zara iekšienē ievietojiet if / else nosacījumu, pārbaudot metric pret konkrētā drona slieksni.",
+      "solutionNote": "Pie ievades 'S' 25 izpildās zars 'S', konstatē vēju 25 > 20 un atceļ izlūka Sigma lidojumu."
+    },
+    "predict-edge-cases": {
+      "eyebrow": "Noturība pret robežgadījumiem",
+      "title": "Nereģistrēta telemetrijas koda analīze",
+      "task": "Kādu lēmumu pieņems eskadras drošības kontrolieris, ja tiks saņemts nezināms signāls `'X'` ar vērtību 10?",
+      "hint": "Vai 'X' sakrīt ar 'S' vai 'D'? Kurš rezerves zars uztver visus neatpazītos datus?",
+      "explain": "Tā kā `'X'` nesakrīt nedz ar `'S'`, nedz ar `'D'`, izpilde izlaiž abus zarus un nonāk zarā `default:`, kas izvada `DRONE: UNRECOGNIZED`. Borta programmatūrā zars default ir obligāts, lai novērstu neprognozējamu uzvedību pie bojātiem signāliem."
+    },
+    "storm-evacuation-override": {
+      "title": "Papilduzdevums: Planētas vētras evakuācijas protokols",
+      "task": "Ieprogrammējiet visas bāzes ārkārtas evakuācijas prioritāro protokolu:\n1. Nolasiet vētras intensitātes indeksu `int storm` un atļaujas karodziņu `char clearance` no `cin`.\n2. Ja `storm >= 90` VAI `clearance == 'R'`, izvadiet `PROTOCOL: IMMEDIATE EVACUATION` un jaunu rindu.\n3. Citādi, ja `storm >= 50` UN `clearance == 'Y'`, izvadiet `PROTOCOL: RETURN TO DOCK` un jaunu rindu.\n4. Visos pārējos gadījumos (`else`), izvadiet `PROTOCOL: STANDBY FOR UPDATES` un jaunu rindu.",
+      "hint": "Izmantojiet if-else kaskādi ar || visaugstākās prioritātes trauksmei un && brīdinājuma režīmam.",
+      "solutionNote": "Pie vētras indeksa 95 un koda 'G' kritiskais vētras slieksnis 95 >= 90 nekavējoties aktivizē tūlītēju evakuāciju."
+    },
+    "recap": {
+      "title": "2. bloka kopsavilkums: Autonomie lēmumi apgūti",
+      "body": [
+        "Apsveicam! Jūs esat pilnībā pabeiguši misijas kursa 2. bloku: «LĒMUMI». Izlūks Sigma un kartogrāfs Delta tagad ir aprīkoti ar uzticamiem, determinētiem autonomās vadības mehānismiem.",
+        "| Konstrukcija | Sintakse | Kad izvēlēties borta programmatūrā |\n| :--- | :--- | :--- |\n| `if / else if / else` | `if (val > 10) ...` | Skaitliski diapazoni, daļskaitļu salīdzināšana, salikti dinamiski nosacījumi |\n| Loģiskie operatori | `&&`, `\\|\\|`, `!` | Vairāku sensoru apvienošana un drošības aizsardzība ar īssavienojumu |\n| `switch / case` | `switch (code) ...` | Fiksēti veselu skaitļu vai simbolu kodi; lēcienu tabulas ar $O(1)$ ātrumu |\n| Ternārais `?:` | `cond ? a : b` | Kompakta vienas vērtības izvēle piešķiršanā vai tiešā cout izvadē |",
+        "Ievērojiet būtisku ierobežojumu visās līdz šim rakstītajās programmās: katra programma izpildās vienu reizi no augšas uz leju un beidz darbu. Īstā kosmosa kuģī telemetriju ir nepieciešams nolasīt un pārbaudīt tūkstošiem reižu sekundē nepārtrauktā plūsmā.",
+        "13. nodaļā mēs atklāsim **3. bloku: DATI UN CIKLI**, sākot ar ciklu `while` — atslēdzot nepārtrauktu, iteratīvu borta skaitļošanu!"
+      ]
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "n": 12,
+  "slug": "practicum-safety",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "safety-architecture",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. On an elevated reinforced telemetry pylon at Mars base IRIS overlooking the vast crimson-grey Mawrth Vallis basin at twilight. An ominous, dense atmospheric dust storm front rolls across the distant horizon under an amber-tinted Martian sky. On the landing pads below, Scout drone Sigma (agile, dark carbon-slate faceted armor, glowing amber thrusters) and Surveyor drone Delta (heavy-lift twin rotor shrouds, prominent LiDAR aperture) stand anchored. Standing inside the observation post at a tactical safety console displaying radar vector grids is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and single accents of aged brass #B99A61 on the telemetry screens and muted sage #7FB3A3 on radar vectors."
+    },
+    {
+      "id": "predict-storm-hazard",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int wind = 22;\n    int battery = 65;\n    bool dust_alert = false;\n\n    if ((wind > 20 || dust_alert) && battery < 50) {\n        cout << \"ABORT MISSION\";\n    } else if (wind > 20 && battery >= 50) {\n        cout << \"HOLD POSITION\";\n    } else {\n        cout << \"PROCEED\";\n    }\n    return 0;\n}",
+      "expected": "HOLD POSITION",
+      "focus": "} else if (wind > 20 && battery >= 50) {"
+    },
+    {
+      "id": "sigma-wind-guard",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int wind, battery;\n    cin >> wind >> battery;\n\n    // 1. If wind > 18 OR battery < 20 -> EMERGENCY LAND\n    // 2. Else if battery >= 50 AND wind <= 12 -> FLIGHT NOMINAL\n    // 3. Otherwise -> CAUTION: REDUCE SPEED\n\n    return 0;\n}",
+      "expected": "EMERGENCY LAND",
+      "requires": ["if", "else", "||", "&&"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int wind, battery;\n    cin >> wind >> battery;\n\n    if (wind > 18 || battery < 20) {\n        cout << \"EMERGENCY LAND\" << endl;\n    } else if (battery >= 50 && wind <= 12) {\n        cout << \"FLIGHT NOMINAL\" << endl;\n    } else {\n        cout << \"CAUTION: REDUCE SPEED\" << endl;\n    }\n\n    return 0;\n}",
+      "stdin": "22 80\n"
+    },
+    {
+      "id": "delta-sensor-dispatcher",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char sensor;\n    cin >> sensor;\n\n    // Switch on sensor:\n    // 'L' -> SENSOR: LIDAR ONLINE\n    // 'C' -> SENSOR: CAMERA ONLINE\n    // 'R' -> SENSOR: RADAR ONLINE\n    // default -> SENSOR: UNKNOWN\n\n    return 0;\n}",
+      "expected": "SENSOR: LIDAR ONLINE",
+      "requires": ["switch", "case 'L':", "case 'C':", "case 'R':", "break", "default:"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char sensor;\n    cin >> sensor;\n\n    switch (sensor) {\n        case 'L':\n            cout << \"SENSOR: LIDAR ONLINE\" << endl;\n            break;\n        case 'C':\n            cout << \"SENSOR: CAMERA ONLINE\" << endl;\n            break;\n        case 'R':\n            cout << \"SENSOR: RADAR ONLINE\" << endl;\n            break;\n        default:\n            cout << \"SENSOR: UNKNOWN\" << endl;\n            break;\n    }\n\n    return 0;\n}",
+      "stdin": "L\n"
+    },
+    {
+      "id": "find-safety-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int alert_code = 0;\n    cout << \"DIAGNOSTIC CHECK...\" << endl;\n    if (alert_code == 1 || 2) {\n        cout << \"ALARM: EVACUATE\" << endl;\n    } else {\n        cout << \"SYSTEM NOMINAL\" << endl;\n    }\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "assemble-sensor-packet",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int main() {",
+        "    char drone;",
+        "    bool ok;",
+        "    cin >> drone >> ok;",
+        "    if (!ok) {",
+        "        cout << \"REJECTED: CORRUPTED DATA\" << endl;",
+        "    } else if (drone == 'S') {",
+        "        cout << \"ACCEPTED: SIGMA TELEMETRY\" << endl;",
+        "    } else {",
+        "        cout << \"ACCEPTED: DELTA TELEMETRY\" << endl;",
+        "    }",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "power-allocator-ternary",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int dust;\n    cin >> dust;\n\n    // 1. Determine mode with ternary operator: if dust > 60 -> \"PURGE\", else \"ACTIVE\"\n    // 2. Print: LIDAR MODE: <mode>\n\n    return 0;\n}",
+      "expected": "LIDAR MODE: PURGE",
+      "requires": ["?", ":"],
+      "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int dust;\n    cin >> dust;\n\n    string mode = (dust > 60) ? \"PURGE\" : \"ACTIVE\";\n    cout << \"LIDAR MODE: \" << mode << endl;\n\n    return 0;\n}",
+      "stdin": "75\n"
+    },
+    {
+      "id": "squadron-safety-controller",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char drone;\n    int metric;\n    cin >> drone >> metric;\n\n    // 1. switch (drone)\n    // 2. case 'S': metric is wind speed\n    //    if metric > 20 -> SIGMA: GROUNDED, else -> SIGMA: AIRBORNE\n    // 3. case 'D': metric is dust level\n    //    if metric > 50 -> DELTA: SHELTERED, else -> DELTA: SCANNING\n    // 4. default: DRONE: UNRECOGNIZED\n\n    return 0;\n}",
+      "expected": "SIGMA: GROUNDED",
+      "requires": ["switch", "case 'S':", "case 'D':", "if", "else", "break", "default:"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char drone;\n    int metric;\n    cin >> drone >> metric;\n\n    switch (drone) {\n        case 'S':\n            if (metric > 20) {\n                cout << \"SIGMA: GROUNDED\" << endl;\n            } else {\n                cout << \"SIGMA: AIRBORNE\" << endl;\n            }\n            break;\n        case 'D':\n            if (metric > 50) {\n                cout << \"DELTA: SHELTERED\" << endl;\n            } else {\n                cout << \"DELTA: SCANNING\" << endl;\n            }\n            break;\n        default:\n            cout << \"DRONE: UNRECOGNIZED\" << endl;\n            break;\n    }\n\n    return 0;\n}",
+      "stdin": "S 25\n"
+    },
+    {
+      "id": "predict-edge-cases",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char drone = 'X';\n    int metric = 10;\n\n    switch (drone) {\n        case 'S':\n            cout << (metric > 20 ? \"SIGMA: OFF\" : \"SIGMA: OK\");\n            break;\n        case 'D':\n            cout << (metric > 50 ? \"DELTA: OFF\" : \"DELTA: OK\");\n            break;\n        default:\n            cout << \"DRONE: UNRECOGNIZED\";\n            break;\n    }\n    return 0;\n}",
+      "expected": "DRONE: UNRECOGNIZED",
+      "focus": "default:\n            cout << \"DRONE: UNRECOGNIZED\";"
+    },
+    {
+      "id": "storm-evacuation-override",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int storm;\n    char clearance;\n    cin >> storm >> clearance;\n\n    // 1. If storm >= 90 OR clearance == 'R' -> PROTOCOL: IMMEDIATE EVACUATION\n    // 2. Else if storm >= 50 AND clearance == 'Y' -> PROTOCOL: RETURN TO DOCK\n    // 3. Otherwise -> PROTOCOL: STANDBY FOR UPDATES\n\n    return 0;\n}",
+      "expected": "PROTOCOL: IMMEDIATE EVACUATION",
+      "requires": ["if", "else", "||", "&&"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int storm;\n    char clearance;\n    cin >> storm >> clearance;\n\n    if (storm >= 90 || clearance == 'R') {\n        cout << \"PROTOCOL: IMMEDIATE EVACUATION\" << endl;\n    } else if (storm >= 50 && clearance == 'Y') {\n        cout << \"PROTOCOL: RETURN TO DOCK\" << endl;\n    } else {\n        cout << \"PROTOCOL: STANDBY FOR UPDATES\" << endl;\n    }\n\n    return 0;\n}",
+      "stdin": "95 G\n"
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

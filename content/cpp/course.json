@@ -102,7 +102,10 @@
         {
           "n": 12,
           "slug": "practicum-safety",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 13,
