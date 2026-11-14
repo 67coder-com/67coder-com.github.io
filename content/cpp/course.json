@@ -57,8 +57,7 @@
         {
           "n": 7,
           "slug": "arithmetic",
-          "locales": [],
-          "draft": [
+          "locales": [
             "lv",
             "en"
           ]
