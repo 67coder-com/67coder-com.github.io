@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad28" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="100%" stop-color="#141B26"/>
+    </linearGradient>
+    <linearGradient id="headerGrad28" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#D1B784"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="840" height="440" rx="12" fill="url(#bgGrad28)" stroke="#232E3F" stroke-width="2"/>
+
+  <!-- Title Banner -->
+  <text x="40" y="44" fill="url(#headerGrad28)" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="1.2">STRUKTŪRU MASĪVI UN VEKTORI: ESKADRAS ARHITEKTŪRA</text>
+  <text x="40" y="68" fill="#8E9DAE" font-family="system-ui, sans-serif" font-size="13">Visa IRIS drona flotes pārvaldība: sintakses secība fleet[i].lauks, atmiņas izvietojums un vektoru apstrāde</text>
+
+  <!-- Section 1: Atmiņas izvietojums -->
+  <g transform="translate(40, 95)">
+    <rect width="760" height="150" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="760" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#D1B784" font-family="monospace" font-size="13" font-weight="bold">1. FLOTES NEPĀRTRAUKTĀ ATMIŅA: vector&lt;Drone&gt; fleet VAI Drone fleet[3]</text>
+
+    <!-- 3 droni atmiņā -->
+    <g transform="translate(20, 48)">
+      <!-- 0: Sigma -->
+      <g transform="translate(0, 0)">
+        <text x="110" y="-8" fill="#7FB3A3" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">fleet[0] (Sigma)</text>
+        <rect width="220" height="60" rx="6" fill="#1B283A" stroke="#4C9482" stroke-width="1.8"/>
+        <rect x="12" y="14" width="90" height="34" rx="4" fill="#131E2C" stroke="#324968"/>
+        <text x="57" y="35" fill="#D1B784" font-family="monospace" font-size="11" text-anchor="middle">.id = 1</text>
+        <rect x="112" y="14" width="96" height="34" rx="4" fill="#131E2C" stroke="#324968"/>
+        <text x="160" y="35" fill="#7FB3A3" font-family="monospace" font-size="11" text-anchor="middle">.battery = 95</text>
+      </g>
+
+      <!-- 1: Delta -->
+      <g transform="translate(245, 0)">
+        <text x="110" y="-8" fill="#D1B784" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">fleet[1] (Delta)</text>
+        <rect width="220" height="60" rx="6" fill="#1B283A" stroke="#B99A61" stroke-width="1.8"/>
+        <rect x="12" y="14" width="90" height="34" rx="4" fill="#131E2C" stroke="#324968"/>
+        <text x="57" y="35" fill="#D1B784" font-family="monospace" font-size="11" text-anchor="middle">.id = 2</text>
+        <rect x="112" y="14" width="96" height="34" rx="4" fill="#131E2C" stroke="#324968"/>
+        <text x="160" y="35" fill="#7FB3A3" font-family="monospace" font-size="11" text-anchor="middle">.battery = 60</text>
+      </g>
+
+      <!-- 2: Omega -->
+      <g transform="translate(490, 0)">
+        <text x="110" y="-8" fill="#7FB3A3" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">fleet[2] (Omega)</text>
+        <rect width="220" height="60" rx="6" fill="#1B283A" stroke="#4C9482" stroke-width="1.8"/>
+        <rect x="12" y="14" width="90" height="34" rx="4" fill="#131E2C" stroke="#324968"/>
+        <text x="57" y="35" fill="#D1B784" font-family="monospace" font-size="11" text-anchor="middle">.id = 3</text>
+        <rect x="112" y="14" width="96" height="34" rx="4" fill="#131E2C" stroke="#324968"/>
+        <text x="160" y="35" fill="#7FB3A3" font-family="monospace" font-size="11" text-anchor="middle">.battery = 85</text>
+      </g>
+    </g>
+
+    <text x="20" y="136" fill="#8E9DAE" font-family="sans-serif" font-size="11">Katrs elements ir pilna <tspan fill="#E4DCDB" font-family="monospace">Drone</tspan> struktūra. Indeksi ir stingri no <tspan fill="#D1B784" font-weight="bold">0 līdz fleet.size() - 1</tspan>.</text>
+  </g>
+
+  <!-- Section 2: Sintakses secība -->
+  <g transform="translate(40, 265)">
+    <rect width="365" height="150" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="365" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold">2. SINTAKSE: VISPIRMS INDEKSS, TAD PUNKTS</text>
+
+    <!-- Pareizi -->
+    <rect x="14" y="48" width="337" height="36" rx="4" fill="#172A28" stroke="#3F6B60" stroke-width="1.2"/>
+    <text x="24" y="70" fill="#7FB3A3" font-family="monospace" font-size="13" font-weight="bold">fleet[i].battery</text>
+    <text x="180" y="70" fill="#7FB3A3" font-family="sans-serif" font-size="11">✓ PAREIZI: izvēlas elementu, tad lauku</text>
+
+    <!-- Nepareizi -->
+    <rect x="14" y="96" width="337" height="36" rx="4" fill="#2E1B1D" stroke="#D9634D" stroke-width="1.2"/>
+    <text x="24" y="118" fill="#F09B8B" font-family="monospace" font-size="13" font-weight="bold">fleet.battery[i]</text>
+    <text x="180" y="118" fill="#F09B8B" font-family="sans-serif" font-size="11">✗ KĻŪDA: fleet nav lauka .battery!</text>
+  </g>
+
+  <!-- Section 3: Cikla apstaigāšana -->
+  <g transform="translate(435, 265)">
+    <rect width="365" height="150" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="365" height="32" rx="8" fill="#1B2536"/>
+    <text x="14" y="22" fill="#D1B784" font-family="monospace" font-size="13" font-weight="bold">3. ESKADRAS CIKLISKĀ APSTRĀDE</text>
+
+    <text x="14" y="56" fill="#D1B784" font-family="monospace" font-size="11">int total_power = 0;</text>
+    <text x="14" y="74" fill="#7FB3A3" font-family="monospace" font-size="11">for (size_t i = 0; i &lt; fleet.size(); i++) {</text>
+    <text x="32" y="92" fill="#E4DCDB" font-family="monospace" font-size="11">total_power += fleet[i].battery;</text>
+    <text x="14" y="110" fill="#7FB3A3" font-family="monospace" font-size="11">}</text>
+
+    <text x="14" y="136" fill="#8E9DAE" font-family="sans-serif" font-size="11">Nodod floti ar <tspan fill="#D1B784" font-family="monospace">const vector&lt;Drone&gt; &amp;</tspan>, lai novērstu kopēšanu!</text>
+  </g>
+</svg>

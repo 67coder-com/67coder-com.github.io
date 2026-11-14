@@ -1,0 +1,139 @@
+{
+  "n": 28,
+  "slug": "struct-arrays",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-squadrons",
+      "kind": "theory",
+      "image": "assets/l28-why-squadron.svg"
+    },
+    {
+      "id": "squadron-memory-and-access",
+      "kind": "theory"
+    },
+    {
+      "id": "inspect-squadron-traversal",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nint main() {\n    Drone fleet[3] = {{1, 80}, {2, 60}, {3, 90}};\n    int total = 0;\n    for (int i = 0; i < 3; i++) {\n        total += fleet[i].battery;\n    }\n    cout << total << endl;\n    return 0;\n}",
+      "expected": "230\n",
+      "options": [
+        "230",
+        "200",
+        "80",
+        "150"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "audit-struct-array-index-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nint main() {\n    vector<Drone> fleet = {{1, 85}, {2, 40}};\n    cout << fleet.battery[0] << endl;\n    return 0;\n}",
+      "answerLine": 12
+    },
+    {
+      "id": "write-fleet-battery-audit",
+      "kind": "editor",
+      "stdin": "3\n1 80\n2 15\n3 25\n",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<Drone> fleet;\n    // 1. Loop n times reading id and battery into fleet\n    // 2. Count how many drones have battery < 30\n    // 3. Output: CRITICAL COUNT: <count>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<Drone> fleet;\n    for (int i = 0; i < n; i++) {\n        int id, bat;\n        cin >> id >> bat;\n        fleet.push_back({id, bat});\n    }\n\n    int critical = 0;\n    for (size_t i = 0; i < fleet.size(); i++) {\n        if (fleet[i].battery < 30) {\n            critical++;\n        }\n    }\n\n    cout << \"CRITICAL COUNT: \" << critical << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "3\n1 80\n2 15\n3 25\n",
+          "expected": "CRITICAL COUNT: 2\n"
+        },
+        {
+          "in": "2\n1 50\n2 90\n",
+          "expected": "CRITICAL COUNT: 0\n"
+        },
+        {
+          "in": "4\n1 10\n2 20\n3 29\n4 30\n",
+          "expected": "CRITICAL COUNT: 3\n"
+        }
+      ]
+    },
+    {
+      "id": "predict-vector-push-back-struct",
+      "kind": "predict",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n};\n\nint main() {\n    vector<Drone> fleet;\n    fleet.push_back({10});\n    fleet.push_back({20});\n    cout << fleet.size() << \" \" << fleet[1].id << endl;\n    return 0;\n}",
+      "expected": "2 20\n",
+      "options": [
+        "2 20",
+        "2 10",
+        "1 20",
+        "3 20"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "parsons-fleet-search-minimum",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "#include <vector>",
+        "using namespace std;",
+        "struct Drone {",
+        "    int id;",
+        "    int battery;",
+        "};",
+        "int find_lowest_battery_id(const vector<Drone> &fleet) {",
+        "    int min_idx = 0;",
+        "    for (size_t i = 1; i < fleet.size(); i++) {",
+        "        if (fleet[i].battery < fleet[min_idx].battery) {",
+        "            min_idx = i;",
+        "        }",
+        "    }",
+        "    return fleet[min_idx].id;",
+        "}",
+        "int main() {",
+        "    vector<Drone> fleet = {{1, 75}, {2, 30}, {3, 90}};",
+        "    int low_id = find_lowest_battery_id(fleet);",
+        "    cout << \"LOWEST BATTERY DRONE: \" << low_id << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "write-fleet-dispatch-coordinator",
+      "kind": "editor",
+      "stdin": "2 25\n1 60\n2 90\n",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\n// 1. void boost_squadron(vector<Drone> &fleet, int boost_val)\n\nint main() {\n    int n, boost;\n    cin >> n >> boost;\n\n    vector<Drone> fleet;\n    // 2. Read n drones\n    // 3. Call boost_squadron\n    // 4. Output each drone: DRONE <id>: <battery>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n};\n\nvoid boost_squadron(vector<Drone> &fleet, int boost_val) {\n    for (size_t i = 0; i < fleet.size(); i++) {\n        fleet[i].battery += boost_val;\n        if (fleet[i].battery > 100) {\n            fleet[i].battery = 100;\n        }\n    }\n}\n\nint main() {\n    int n, boost;\n    cin >> n >> boost;\n\n    vector<Drone> fleet;\n    for (int i = 0; i < n; i++) {\n        int id, bat;\n        cin >> id >> bat;\n        fleet.push_back({id, bat});\n    }\n\n    boost_squadron(fleet, boost);\n    for (size_t i = 0; i < fleet.size(); i++) {\n        cout << \"DRONE \" << fleet[i].id << \": \" << fleet[i].battery << endl;\n    }\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "2 25\n1 60\n2 90\n",
+          "expected": "DRONE 1: 85\nDRONE 2: 100\n"
+        },
+        {
+          "in": "3 10\n1 10\n2 20\n3 30\n",
+          "expected": "DRONE 1: 20\nDRONE 2: 30\nDRONE 3: 40\n"
+        }
+      ]
+    },
+    {
+      "id": "capstone-iris-squadron-commander",
+      "kind": "editor",
+      "stdin": "3\n1 80 120\n2 45 300\n3 90 250\n",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<Drone> fleet;\n    // Read n drones\n    // 1. Calculate total fleet battery energy\n    // 2. Find id of drone with maximum altitude\n    // 3. Count mission ready drones (battery >= 50 && altitude >= 0)\n    // Output:\n    // TOTAL ENERGY: <total>\n    // HIGHEST DRONE: <id>\n    // MISSION READY: <count>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<Drone> fleet;\n    for (int i = 0; i < n; i++) {\n        int id, bat, alt;\n        cin >> id >> bat >> alt;\n        fleet.push_back({id, bat, alt});\n    }\n\n    int total_energy = 0;\n    int highest_id = (n > 0) ? fleet[0].id : 0;\n    int max_alt = (n > 0) ? fleet[0].altitude : -1;\n    int ready_count = 0;\n\n    for (size_t i = 0; i < fleet.size(); i++) {\n        total_energy += fleet[i].battery;\n        if (fleet[i].altitude > max_alt) {\n            max_alt = fleet[i].altitude;\n            highest_id = fleet[i].id;\n        }\n        if (fleet[i].battery >= 50 && fleet[i].altitude >= 0) {\n            ready_count++;\n        }\n    }\n\n    cout << \"TOTAL ENERGY: \" << total_energy << endl;\n    cout << \"HIGHEST DRONE: \" << highest_id << endl;\n    cout << \"MISSION READY: \" << ready_count << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "3\n1 80 120\n2 45 300\n3 90 250\n",
+          "expected": "TOTAL ENERGY: 215\nHIGHEST DRONE: 2\nMISSION READY: 2\n"
+        },
+        {
+          "in": "2\n1 30 10\n2 20 50\n",
+          "expected": "TOTAL ENERGY: 50\nHIGHEST DRONE: 2\nMISSION READY: 0\n"
+        },
+        {
+          "in": "3\n10 100 500\n20 100 400\n30 100 300\n",
+          "expected": "TOTAL ENERGY: 300\nHIGHEST DRONE: 10\nMISSION READY: 3\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

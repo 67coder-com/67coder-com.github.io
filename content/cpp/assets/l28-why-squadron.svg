@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <!-- Background & Atmosphere -->
+    <linearGradient id="marsNightSky28" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#080B12"/>
+      <stop offset="60%" stop-color="#121824"/>
+      <stop offset="100%" stop-color="#241822"/>
+    </linearGradient>
+
+    <linearGradient id="tarmacGrad28" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#161E2B"/>
+      <stop offset="100%" stop-color="#0D121B"/>
+    </linearGradient>
+
+    <linearGradient id="goldHolo28" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#E5C78A"/>
+    </linearGradient>
+
+    <linearGradient id="cyanHolo28" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4C9482"/>
+      <stop offset="100%" stop-color="#7FB3A3"/>
+    </linearGradient>
+
+    <filter id="glow28" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="960" height="540" fill="url(#marsNightSky28)"/>
+
+  <!-- Distant Martian Canyon Silhouette -->
+  <polygon points="0,290 110,265 240,280 390,245 540,270 700,240 860,285 960,260 960,380 0,380" fill="#2A141A" opacity="0.85"/>
+  <polygon points="0,320 160,290 320,310 490,280 660,305 820,275 960,310 960,400 0,400" fill="#1B0C12"/>
+
+  <!-- Stars -->
+  <g fill="#FFFFFF" opacity="0.5">
+    <circle cx="85" cy="55" r="1.5"/>
+    <circle cx="210" cy="90" r="1"/>
+    <circle cx="340" cy="40" r="2"/>
+    <circle cx="490" cy="75" r="1.5"/>
+    <circle cx="630" cy="50" r="1"/>
+    <circle cx="780" cy="85" r="2"/>
+    <circle cx="910" cy="60" r="1.5"/>
+  </g>
+
+  <!-- Landing Terrace Platform Tarmac -->
+  <polygon points="0,360 960,360 960,540 0,540" fill="url(#tarmacGrad28)" stroke="#223044" stroke-width="2"/>
+  
+  <!-- Runway Lights & Markings -->
+  <line x1="80" y1="360" x2="40" y2="540" stroke="#B99A61" stroke-width="3" stroke-dasharray="16 12" opacity="0.6"/>
+  <line x1="880" y1="360" x2="920" y2="540" stroke="#B99A61" stroke-width="3" stroke-dasharray="16 12" opacity="0.6"/>
+
+  <!-- The 3 Drones of IRIS Squadron on the Tarmac -->
+  
+  <!-- Drone 1: SIGMA (Left - Scout, Light & Sleek) -->
+  <g transform="translate(110, 290)">
+    <ellipse cx="65" cy="75" rx="55" ry="12" fill="#06090E" opacity="0.8"/>
+    <!-- Hull -->
+    <polygon points="25,50 65,30 105,50 65,65" fill="#1F2C3F" stroke="#3D5575" stroke-width="2"/>
+    <!-- Wings/Rotors -->
+    <ellipse cx="15" cy="48" rx="20" ry="5" fill="#131D2A" stroke="#4C9482" stroke-width="1.5"/>
+    <ellipse cx="115" cy="48" rx="20" ry="5" fill="#131D2A" stroke="#4C9482" stroke-width="1.5"/>
+    <!-- Sensor Pod -->
+    <circle cx="65" cy="46" r="6" fill="#7FB3A3" filter="url(#glow28)"/>
+  </g>
+
+  <!-- Drone 2: DELTA (Center - Cartographer, Dual Scanning Wings) -->
+  <g transform="translate(340, 270)">
+    <ellipse cx="80" cy="95" rx="70" ry="14" fill="#06090E" opacity="0.8"/>
+    <!-- Wide Sensor Hull -->
+    <polygon points="20,60 80,35 140,60 80,80" fill="#25354A" stroke="#4A688F" stroke-width="2"/>
+    <!-- Sensor Dish & Scanning Arrays -->
+    <ellipse cx="80" cy="54" rx="26" ry="10" fill="#1A2738" stroke="#D1B784" stroke-width="2"/>
+    <circle cx="80" cy="54" r="5" fill="#D1B784" filter="url(#glow28)"/>
+    <!-- Twin Wingtip Pods -->
+    <rect x="10" y="55" width="16" height="12" rx="4" fill="#131D2B" stroke="#4C9482"/>
+    <rect x="134" y="55" width="16" height="12" rx="4" fill="#131D2B" stroke="#4C9482"/>
+  </g>
+
+  <!-- Drone 3: OMEGA (Right - Cargo, Heavy, Robust Quad-Frame) -->
+  <g transform="translate(600, 260)">
+    <ellipse cx="95" cy="115" rx="85" ry="18" fill="#06090E" opacity="0.8"/>
+    <!-- Heavy Cargo Chassis -->
+    <rect x="40" y="50" width="110" height="55" rx="10" fill="#1D2838" stroke="#3F5676" stroke-width="2.5"/>
+    <!-- Massive Cargo Pod Container -->
+    <rect x="52" y="62" width="86" height="32" rx="6" fill="#2D2218" stroke="#B99A61" stroke-width="1.8"/>
+    <circle cx="70" cy="78" r="4" fill="#B99A61"/>
+    <circle cx="120" cy="78" r="4" fill="#B99A61"/>
+    <!-- Heavy Thruster Pods -->
+    <rect x="18" y="45" width="22" height="40" rx="5" fill="#141B26" stroke="#4C9482"/>
+    <rect x="150" y="45" width="22" height="40" rx="5" fill="#141B26" stroke="#4C9482"/>
+  </g>
+
+  <!-- Holographic Fleet Terminal Display Floating in Foreground -->
+  <g transform="translate(180, 400)">
+    <rect width="480" height="115" rx="10" fill="#0B131D" fill-opacity="0.9" stroke="#3D617F" stroke-width="1.8" filter="url(#glow28)"/>
+    
+    <!-- 3 Fleet Cards in Unified Array -->
+    <!-- Card 0: Sigma -->
+    <g transform="translate(18, 16)">
+      <rect width="138" height="82" rx="6" fill="#142130" stroke="#4C9482" stroke-width="1.2"/>
+      <rect x="12" y="12" width="55" height="10" rx="2" fill="#7FB3A3"/>
+      <rect x="12" y="32" width="75" height="8" rx="2" fill="#E4DCDB" opacity="0.75"/>
+      <rect x="12" y="52" width="114" height="10" rx="3" fill="#0A121A"/>
+      <rect x="12" y="52" width="95" height="10" rx="3" fill="#7FB3A3"/>
+    </g>
+
+    <!-- Card 1: Delta -->
+    <g transform="translate(170, 16)">
+      <rect width="138" height="82" rx="6" fill="#142130" stroke="#B99A61" stroke-width="1.2"/>
+      <rect x="12" y="12" width="55" height="10" rx="2" fill="#D1B784"/>
+      <rect x="12" y="32" width="75" height="8" rx="2" fill="#E4DCDB" opacity="0.75"/>
+      <rect x="12" y="52" width="114" height="10" rx="3" fill="#0A121A"/>
+      <rect x="12" y="52" width="75" height="10" rx="3" fill="#D1B784"/>
+    </g>
+
+    <!-- Card 2: Omega -->
+    <g transform="translate(322, 16)">
+      <rect width="138" height="82" rx="6" fill="#142130" stroke="#4C9482" stroke-width="1.2"/>
+      <rect x="12" y="12" width="55" height="10" rx="2" fill="#7FB3A3"/>
+      <rect x="12" y="32" width="75" height="8" rx="2" fill="#E4DCDB" opacity="0.75"/>
+      <rect x="12" y="52" width="114" height="10" rx="3" fill="#0A121A"/>
+      <rect x="12" y="52" width="105" height="10" rx="3" fill="#7FB3A3"/>
+    </g>
+  </g>
+
+  <!-- Robot Mascot IRIS [ o o ] at the Console -->
+  <g transform="translate(710, 360)">
+    <!-- Shadow -->
+    <ellipse cx="65" cy="155" rx="50" ry="14" fill="#030508" opacity="0.9"/>
+
+    <!-- Chassis Body -->
+    <rect x="25" y="65" width="80" height="75" rx="16" fill="#1C2638" stroke="#3A4D6B" stroke-width="2.5"/>
+    <rect x="42" y="80" width="46" height="24" rx="6" fill="#0B121C" stroke="#2B3C54" stroke-width="1.5"/>
+    <circle cx="53" cy="92" r="4" fill="#7FB3A3"/>
+    <circle cx="65" cy="92" r="4" fill="#D1B784"/>
+    <circle cx="77" cy="92" r="4" fill="#7FB3A3"/>
+
+    <!-- Neck Connector -->
+    <rect x="52" y="50" width="26" height="18" rx="4" fill="#2E3C52"/>
+
+    <!-- Head Unit (Rounded Cube) -->
+    <rect x="10" y="-15" width="110" height="68" rx="22" fill="#243145" stroke="#485F84" stroke-width="3"/>
+    
+    <!-- Visor -->
+    <rect x="22" y="-1" width="86" height="42" rx="14" fill="#090E17" stroke="#1D293D" stroke-width="2"/>
+
+    <!-- Characteristic Pill Eyes [ o o ] -->
+    <rect x="36" y="10" width="22" height="18" rx="8" fill="#7FB3A3" filter="url(#glow28)"/>
+    <rect x="72" y="10" width="22" height="18" rx="8" fill="#7FB3A3" filter="url(#glow28)"/>
+    <circle cx="44" cy="17" r="3" fill="#FFFFFF"/>
+    <circle cx="80" cy="17" r="3" fill="#FFFFFF"/>
+
+    <!-- Antenna -->
+    <line x1="65" y1="-15" x2="65" y2="-36" stroke="#485F84" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="65" cy="-40" r="6" fill="#D1B784" filter="url(#glow28)"/>
+  </g>
+</svg>

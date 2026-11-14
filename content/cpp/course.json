@@ -240,7 +240,10 @@
         {
           "n": 28,
           "slug": "struct-arrays",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 29,
