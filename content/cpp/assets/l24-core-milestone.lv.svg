@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="100%" height="100%">
+  <title>C++ Pamatkursa apguves karte (1.–24. nodarbība)</title>
+  <desc>Vizuāla 24 nodarbību C++ pamatkursa karte: 1. bloks Pamodināšana (tipi un ievade/izvade), 2. bloks Lēmumi (vadības plūsma un cikli) un 3. bloks Dati (masīvi, vektori un funkcijas).</desc>
+
+  <!-- Background -->
+  <rect width="880" height="340" rx="10" fill="#0D1117" />
+
+  <!-- Title Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">C++ PAMATKURSA ARHITEKTŪRA: 1.–24. NODARBĪBA</text>
+
+  <!-- Pillar 1: Block 1 -->
+  <g transform="translate(24, 52)">
+    <rect width="264" height="210" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="1.5" />
+    <text x="16" y="26" fill="#B99A61" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1. BLOKS: PAMODINĀŠANA (1–8)</text>
+    
+    <rect x="16" y="40" width="232" height="154" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="64" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Datu tipi: <tspan fill="#7FB3A3">int, double, bool</tspan></text>
+    <text x="26" y="88" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Plūsmas: <tspan fill="#B99A61">cout &lt;&lt;</tspan> un <tspan fill="#82AAFF">cin &gt;&gt;</tspan></text>
+    <text x="26" y="112" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Atmiņa un sizeof arhitektūra</text>
+    <text x="26" y="136" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Skaitļu pārplūdes robežas</text>
+    <text x="26" y="160" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Daļskaitļu dalīšanas lamatas</text>
+    <text x="26" y="180" fill="#7FB3A3" font-size="10" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">PAMATI NOSTIPRINĀTI</text>
+  </g>
+
+  <!-- Pillar 2: Block 2 -->
+  <g transform="translate(308, 52)">
+    <rect width="264" height="210" rx="8" fill="#151A22" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="16" y="26" fill="#7FB3A3" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">2. BLOKS: LĒMUMI (9–16)</text>
+    
+    <rect x="16" y="40" width="232" height="154" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="64" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Sazarošanās: <tspan fill="#7FB3A3">if / else, switch</tspan></text>
+    <text x="26" y="88" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Loģika: <tspan fill="#D1B784">&amp;&amp;, ||, !</tspan> īsslēgums</text>
+    <text x="26" y="112" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Cikli: <tspan fill="#82AAFF">while, do-while, for</tspan></text>
+    <text x="26" y="136" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Kontrole: <tspan fill="#CE8A78">break un continue</tspan></text>
+    <text x="26" y="160" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Praktikumi: Drošība un skenēšana</text>
+    <text x="26" y="180" fill="#7FB3A3" font-size="10" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">AUTONOMA LOĢIKA GATAVA</text>
+  </g>
+
+  <!-- Pillar 3: Block 3 -->
+  <g transform="translate(592, 52)">
+    <rect width="264" height="210" rx="8" fill="#151A22" stroke="#82AAFF" stroke-width="1.5" />
+    <text x="16" y="26" fill="#82AAFF" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">3. BLOKS: DATI UN FUNKCIJAS (17–24)</text>
+    
+    <rect x="16" y="40" width="232" height="154" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="64" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• 1D un 2D masīvi: <tspan fill="#D1B784">grid[r][c]</tspan></text>
+    <text x="26" y="88" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Dinamiskie vektori: <tspan fill="#7FB3A3">std::vector</tspan></text>
+    <text x="26" y="112" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Funkcijas: return, void, prototipi</text>
+    <text x="26" y="136" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Nodošana: <tspan fill="#82AAFF">vērtība, &amp;, const &amp;</tspan></text>
+    <text x="26" y="160" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Pārslodze, redzamība un const</text>
+    <text x="26" y="180" fill="#82AAFF" font-size="10" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MODULĀRĀ ARHITEKTŪRA</text>
+  </g>
+
+  <!-- Bottom Milestone Banner -->
+  <g transform="translate(24, 276)">
+    <rect width="832" height="48" rx="6" fill="#1B222C" stroke="#B99A61" stroke-width="1.5" />
+    <circle cx="28" cy="24" r="8" fill="#B99A61" />
+    <text x="48" y="28" fill="#D8D0C2" font-size="12" font-weight="bold" letter-spacing="1.4" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">ATSKATSKRŪPIS SASNIEGTS: FLOTES OPERATORA KVALIFIKĀCIJA (1.–24. NOD.)</text>
+  </g>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="100%" height="100%">
+  <title>C++ Core Curriculum Roadmap (Lectures 1–24)</title>
+  <desc>Visual roadmap of the 24-lesson C++ Core Curriculum: Block 1 Awakening (Types and I/O), Block 2 Decisions (Control flow and loops), and Block 3 Data (Arrays, Vectors, and Modular Functions).</desc>
+
+  <!-- Background -->
+  <rect width="880" height="340" rx="10" fill="#0D1117" />
+
+  <!-- Title Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">CORE C++ CURRICULUM ARCHITECTURE: LECTURES 1–24</text>
+
+  <!-- Pillar 1: Block 1 -->
+  <g transform="translate(24, 52)">
+    <rect width="264" height="210" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="1.5" />
+    <text x="16" y="26" fill="#B99A61" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">BLOCK 1: AWAKENING (1–8)</text>
+    
+    <rect x="16" y="40" width="232" height="154" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="64" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Data types: <tspan fill="#7FB3A3">int, double, bool</tspan></text>
+    <text x="26" y="88" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Streams: <tspan fill="#B99A61">cout &lt;&lt;</tspan> and <tspan fill="#82AAFF">cin &gt;&gt;</tspan></text>
+    <text x="26" y="112" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Memory &amp; sizeof architecture</text>
+    <text x="26" y="136" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Integer overflow limits</text>
+    <text x="26" y="160" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Float division traps</text>
+    <text x="26" y="180" fill="#7FB3A3" font-size="10" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">FOUNDATION ESTABLISHED</text>
+  </g>
+
+  <!-- Pillar 2: Block 2 -->
+  <g transform="translate(308, 52)">
+    <rect width="264" height="210" rx="8" fill="#151A22" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="16" y="26" fill="#7FB3A3" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">BLOCK 2: DECISIONS (9–16)</text>
+    
+    <rect x="16" y="40" width="232" height="154" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="64" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Branching: <tspan fill="#7FB3A3">if / else, switch</tspan></text>
+    <text x="26" y="88" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Logic: <tspan fill="#D1B784">&amp;&amp;, ||, !</tspan> short-circuit</text>
+    <text x="26" y="112" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Loops: <tspan fill="#82AAFF">while, do-while, for</tspan></text>
+    <text x="26" y="136" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Control: <tspan fill="#CE8A78">break &amp; continue</tspan></text>
+    <text x="26" y="160" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Practicum: Safety &amp; Scan loops</text>
+    <text x="26" y="180" fill="#7FB3A3" font-size="10" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">AUTONOMOUS LOGIC COMPLETE</text>
+  </g>
+
+  <!-- Pillar 3: Block 3 -->
+  <g transform="translate(592, 52)">
+    <rect width="264" height="210" rx="8" fill="#151A22" stroke="#82AAFF" stroke-width="1.5" />
+    <text x="16" y="26" fill="#82AAFF" font-size="11" letter-spacing="1.1" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">BLOCK 3: DATA &amp; FUNCTIONS (17–24)</text>
+    
+    <rect x="16" y="40" width="232" height="154" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="26" y="64" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• 1D &amp; 2D Arrays: <tspan fill="#D1B784">grid[r][c]</tspan></text>
+    <text x="26" y="88" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Dynamic vectors: <tspan fill="#7FB3A3">std::vector</tspan></text>
+    <text x="26" y="112" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Functions: return, void, proto</text>
+    <text x="26" y="136" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Passing: <tspan fill="#82AAFF">value, &amp;, const &amp;</tspan></text>
+    <text x="26" y="160" fill="#D8D0C2" font-size="11" style="font-family: var(--font-sans, Inter, sans-serif)">• Overload, scope &amp; const</text>
+    <text x="26" y="180" fill="#82AAFF" font-size="10" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MODULAR ARCHITECTURE READY</text>
+  </g>
+
+  <!-- Bottom Milestone Banner -->
+  <g transform="translate(24, 276)">
+    <rect width="832" height="48" rx="6" fill="#1B222C" stroke="#B99A61" stroke-width="1.5" />
+    <circle cx="28" cy="24" r="8" fill="#B99A61" />
+    <text x="48" y="28" fill="#D8D0C2" font-size="12" font-weight="bold" letter-spacing="1.4" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">MILESTONE ACHIEVED: CORE C++ OPERATOR QUALIFICATION (LECTURES 1–24)</text>
+  </g>
+</svg>

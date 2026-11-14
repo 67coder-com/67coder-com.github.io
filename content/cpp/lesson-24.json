@@ -1,0 +1,132 @@
+{
+  "n": 24,
+  "slug": "checkpoint",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "operator-qualification-brief",
+      "kind": "theory",
+      "image": "assets/l24-why-checkpoint.jpg"
+    },
+    {
+      "id": "core-knowledge-roadmap",
+      "kind": "theory"
+    },
+    {
+      "id": "exam-predict-composite-loop",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sum = 0;\n    for (int i = 1; i <= 6; i++) {\n        if (i % 2 != 0) continue;\n        if (i == 6) sum += 10;\n        else sum += i;\n    }\n    cout << sum << endl;\n    return 0;\n}",
+      "expected": "16\n",
+      "options": [
+        "16",
+        "12",
+        "21",
+        "6"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "exam-audit-syntax-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nvoid boost_power(int power) {\n    power *= 2;\n}\n\nint main() {\n    int battery = 50;\n    boost_power(battery);\n    cout << battery << endl;\n    return 0;\n}",
+      "answerLine": 4
+    },
+    {
+      "id": "exam-core-challenge-1-filtering",
+      "kind": "editor",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n// 1. bool is_stable(int reading)\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<int> readings;\n    // 2. Read n integers into readings with push_back\n    // 3. Count stable samples (reading >= 20 && reading <= 80)\n    // 4. Output: STABLE COUNT: <count>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nbool is_stable(int reading) {\n    return reading >= 20 && reading <= 80;\n}\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<int> readings;\n    for (int i = 0; i < n; i++) {\n        int val;\n        cin >> val;\n        readings.push_back(val);\n    }\n\n    int stable_count = 0;\n    for (int i = 0; i < readings.size(); i++) {\n        if (is_stable(readings[i])) {\n            stable_count++;\n        }\n    }\n\n    cout << \"STABLE COUNT: \" << stable_count << endl;\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "5\n10 25 50 80 95\n",
+          "expected": "STABLE COUNT: 3\n"
+        },
+        {
+          "in": "3\n5 12 18\n",
+          "expected": "STABLE COUNT: 0\n"
+        },
+        {
+          "in": "4\n20 30 40 50\n",
+          "expected": "STABLE COUNT: 4\n"
+        }
+      ]
+    },
+    {
+      "id": "exam-predict-matrix-traversal",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int grid[2][2] = {{10, 20}, {30, 40}};\n    int diag_sum = 0;\n    for (int i = 0; i < 2; i++) {\n        diag_sum += grid[i][i];\n    }\n    cout << diag_sum << endl;\n    return 0;\n}",
+      "expected": "50\n",
+      "options": [
+        "50",
+        "100",
+        "40",
+        "30"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "exam-parsons-modular-dispatch",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "int thrust(int dist) {",
+        "    return dist * 3;",
+        "}",
+        "int thrust(int dist, int boost) {",
+        "    return dist * 3 + boost;",
+        "}",
+        "int main() {",
+        "    int s = thrust(10);",
+        "    int o = thrust(10, 25);",
+        "    cout << \"TOTAL: \" << s + o << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "exam-core-challenge-2-reference-trim",
+      "kind": "editor",
+      "initial": "#include <iostream>\nusing namespace std;\n\n// 1. Define void trim_channel(int &signal, int baseline, int max_cap)\n\nint main() {\n    int sig, base, cap;\n    cin >> sig >> base >> cap;\n\n    // 2. Call trim_channel\n    // 3. Print TRIMMED SIGNAL: sig\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nvoid trim_channel(int &signal, int baseline, int max_cap) {\n    signal -= baseline;\n    if (signal > max_cap) {\n        signal = max_cap;\n    }\n    if (signal < 0) {\n        signal = 0;\n    }\n}\n\nint main() {\n    int sig, base, cap;\n    cin >> sig >> base >> cap;\n\n    trim_channel(sig, base, cap);\n    cout << \"TRIMMED SIGNAL: \" << sig << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "120 20 80\n",
+          "expected": "TRIMMED SIGNAL: 80\n"
+        },
+        {
+          "in": "50 10 100\n",
+          "expected": "TRIMMED SIGNAL: 40\n"
+        },
+        {
+          "in": "15 30 50\n",
+          "expected": "TRIMMED SIGNAL: 0\n"
+        }
+      ]
+    },
+    {
+      "id": "capstone-fleet-mission-director",
+      "kind": "editor",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n// 1. bool is_sector_safe(int roughness, int radiation)\n// 2. void apply_thrust_trim(int &thrust, int elevation)\n// 3. int audit_telemetry(const vector<int> &samples, int &hazardous_count)\n\nint main() {\n    int rough, rad, thrust, elev, n;\n    cin >> rough >> rad >> thrust >> elev >> n;\n\n    vector<int> samples;\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;\n        samples.push_back(x);\n    }\n\n    // Execute audit pipeline\n    // Print SECTOR SAFETY: <1 or 0>\n    // Print FINAL THRUST: <val>\n    // Print TELEMETRY SUM: <sum>\n    // Print HAZARD SAMPLES: <count>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nbool is_sector_safe(int roughness, int radiation) {\n    return roughness <= 25 && radiation <= 50;\n}\n\nvoid apply_thrust_trim(int &thrust, int elevation) {\n    if (elevation > 100) {\n        thrust += 20;\n    } else {\n        thrust += 5;\n    }\n}\n\nint audit_telemetry(const vector<int> &samples, int &hazardous_count) {\n    int sum = 0;\n    hazardous_count = 0;\n    for (int i = 0; i < samples.size(); i++) {\n        sum += samples[i];\n        if (samples[i] > 80) {\n            hazardous_count++;\n        }\n    }\n    return sum;\n}\n\nint main() {\n    int rough, rad, thrust, elev, n;\n    cin >> rough >> rad >> thrust >> elev >> n;\n\n    vector<int> samples;\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;\n        samples.push_back(x);\n    }\n\n    bool safe = is_sector_safe(rough, rad);\n    apply_thrust_trim(thrust, elev);\n    int hazards = 0;\n    int total = audit_telemetry(samples, hazards);\n\n    cout << \"SECTOR SAFETY: \" << (safe ? 1 : 0) << endl;\n    cout << \"FINAL THRUST: \" << thrust << endl;\n    cout << \"TELEMETRY SUM: \" << total << endl;\n    cout << \"HAZARD SAMPLES: \" << hazards << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "20 40 100 150 4\n30 90 25 100\n",
+          "expected": "SECTOR SAFETY: 1\nFINAL THRUST: 120\nTELEMETRY SUM: 245\nHAZARD SAMPLES: 2\n"
+        },
+        {
+          "in": "35 60 80 50 3\n10 20 30\n",
+          "expected": "SECTOR SAFETY: 0\nFINAL THRUST: 85\nTELEMETRY SUM: 60\nHAZARD SAMPLES: 0\n"
+        },
+        {
+          "in": "10 10 50 120 2\n85 85\n",
+          "expected": "SECTOR SAFETY: 1\nFINAL THRUST: 70\nTELEMETRY SUM: 170\nHAZARD SAMPLES: 2\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

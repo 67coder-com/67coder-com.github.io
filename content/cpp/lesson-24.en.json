@@ -1,0 +1,48 @@
+{
+  "title": "Checkpoint: Core Certification",
+  "steps": {
+    "operator-qualification-brief": {
+      "title": "Mission Status: Certification Exam",
+      "content": "### Operator Qualification Phase\n\nCongratulations, Cadet. Over the past 23 chapters, you have transformed from a novice writing your first `cout << \"Hello, IRIS!\";` into a certified avionics systems programmer.\n\nYou have mastered:\n- **Core Types & Arithmetic:** `int`, `double`, `bool`, `char`, numeric operations, and integer division.\n- **Control Flow:** `if`, `else if`, `switch`, logical gates `&&`, `||`, `!`, and loop constructs (`for`, `while`, `do-while`).\n- **Data Structures:** 1D arrays `int arr[N]`, 2D matrix grids `int grid[R][C]`, and dynamic storage with `std::vector`.\n- **Modular Engineering:** Functions, prototypes, return values, value semantics vs reference passing (`&`), function overloading, and `const &` protection.\n\nToday, Mission Control puts your skills to the test in the **Core Systems Certification**. This milestone evaluates your ability to diagnose, analyze, refactor, and write mission-critical C++ software before we transition into autonomous flight operations in Block 4."
+    },
+    "core-knowledge-roadmap": {
+      "title": "Architectural Foundation Roadmap",
+      "content": "### The 4 Pillars of Core C++\n\nTake a close look at the architectural diagram below. Every operational system aboard Scout Drone Sigma relies on these four interconnected tiers.\n\n![Core C++ Architecture Roadmap](assets/l24-core-milestone.en.svg)\n\n#### The Diagnostic Checklist\n1. **Data Integrity:** Know your types and storage sizes. Never compare floating-point values for exact equality without epsilon, and always monitor integer bounds.\n2. **Algorithmic Flow:** Select the right loop for the job. Use `for` when bounds are predetermined; use `while` when awaiting external signals; use `break` and `continue` intentionally.\n3. **Memory & Sizing:** Plain arrays are fixed in size and decay to addresses. Dynamic vectors manage their own capacity via `.push_back()`, `.size()`, and `.empty()`.\n4. **Interface Contracts:** Pass primitive values by copy when small; pass large containers by `const &` to eliminate copies; pass by reference `&` only when the caller's variable must be modified."
+    },
+    "exam-predict-composite-loop": {
+      "title": "Diagnostics: Loop Traversal & Control",
+      "content": "### Predict the Output\n\nAnalyze this telemetry accumulator routine executing inside the drone's navigation filter. Trace variable `sum` through each iteration of the loop from `i = 1` to `6`.\n\nWhat value is printed to the terminal?"
+    },
+    "exam-audit-syntax-bug": {
+      "title": "Diagnostics: Reference Bug Audit",
+      "content": "### Spot the Logic Bug\n\nA propulsion engineer wrote `boost_power()` to double the drone battery output. However, after the function runs in `main()`, the battery output remains stubbornly at `50`!\n\nClick the line that fails to modify the original variable passed from `main()`."
+    },
+    "exam-core-challenge-1-filtering": {
+      "title": "Challenge 1: Telemetry Range Filter",
+      "content": "### Sensor Data Validation\n\nWrite a modular telemetry filter. Define helper function `bool is_stable(int reading)` which returns `true` if `reading` is between `20` and `80` inclusive (`reading >= 20 && reading <= 80`), and `false` otherwise.\n\nIn `main()`:\n1. Read integer `n`.\n2. Read `n` integers into a `vector<int>` using `.push_back()`.\n3. Iterate over the vector and count how many readings are stable.\n4. Print `STABLE COUNT: <count>` followed by a newline.",
+      "task": "1. Write `bool is_stable(int reading)` returning `true` for `reading >= 20 && reading <= 80`.\n2. In `main()`, read `n` and populate `vector<int> readings` using `push_back()`.\n3. Count how many items satisfy `is_stable()`.\n4. Print `STABLE COUNT: <count>` with a newline."
+    },
+    "exam-predict-matrix-traversal": {
+      "title": "Diagnostics: Matrix Diagonal",
+      "content": "### Predict Matrix Accumulation\n\nExamine the 2D matrix traversal code. It initializes a 2x2 grid representing sensor bias offsets and computes `diag_sum` along the main diagonal (`grid[i][i]`).\n\nWhat is the value printed?"
+    },
+    "exam-parsons-modular-dispatch": {
+      "title": "Diagnostics: Function Overload Assembly",
+      "content": "### Reorder the Avionics Dispatcher\n\nReconstruct this program containing two overloaded versions of `thrust()`: one that accepts a single distance parameter, and another that accepts distance plus boost.\n\nArrange the code blocks in the correct logical and structural order."
+    },
+    "exam-core-challenge-2-reference-trim": {
+      "title": "Challenge 2: Reference Trim Controller",
+      "content": "### In-Place Signal Trimming\n\nImplement an in-place telemetry adjustment routine with the following signature:\n`void trim_channel(int &signal, int baseline, int max_cap)`\n\nThe function must:\n- Subtract `baseline` from `signal`.\n- If `signal` exceeds `max_cap`, clamp it to `max_cap`.\n- If `signal` is negative, clamp it to `0`.\n\nIn `main()`:\n1. Read three integers: `sig`, `base`, and `cap`.\n2. Call `trim_channel(sig, base, cap)`.\n3. Output `TRIMMED SIGNAL: <sig>` followed by a newline.",
+      "task": "1. Define `void trim_channel(int &signal, int baseline, int max_cap)`.\n2. Subtract `baseline` from `signal` and clamp within `[0, max_cap]`.\n3. In `main()`, read `sig`, `base`, `cap`, call `trim_channel`, and print `TRIMMED SIGNAL: <sig>`."
+    },
+    "capstone-fleet-mission-director": {
+      "title": "Grand Milestone: Fleet Mission Director",
+      "content": "### Full Avionics Pipeline Integration\n\nCombine every foundational skill into a complete mission control diagnostic suite.\n\nImplement three modular routines:\n1. `bool is_sector_safe(int roughness, int radiation)`: returns `true` if `roughness <= 25` AND `radiation <= 50`, otherwise `false`.\n2. `void apply_thrust_trim(int &thrust, int elevation)`: if `elevation > 100`, add `20` to `thrust`; otherwise, add `5`.\n3. `int audit_telemetry(const vector<int> &samples, int &hazardous_count)`: loops over `samples`, sums all values, increments `hazardous_count` for every sample strictly greater than `80`, and returns the total sum.\n\nIn `main()`:\n1. Read `rough`, `rad`, `thrust`, `elev`, and `n`.\n2. Read `n` integers into `vector<int> samples`.\n3. Evaluate safety using `is_sector_safe`.\n4. Adjust thrust in-place using `apply_thrust_trim`.\n5. Compute telemetry sum and hazardous count using `audit_telemetry`.\n6. Print the four formatted output lines exactly as specified.",
+      "task": "1. Implement `is_sector_safe`, `apply_thrust_trim`, and `audit_telemetry`.\n2. In `main()`, read telemetry inputs and populate `vector<int> samples`.\n3. Execute the three functions on the input data.\n4. Output `SECTOR SAFETY: <1 or 0>`.\n5. Output `FINAL THRUST: <val>`.\n6. Output `TELEMETRY SUM: <sum>`.\n7. Output `HAZARD SAMPLES: <count>`."
+    },
+    "recap": {
+      "title": "Certification Complete",
+      "content": "### Qualification Confirmed: Flight Ready\n\nOutstanding work, Operator! You have successfully passed the Core C++ Qualification Exam.\n\n#### What You Have Solidified\n- Full proficiency in procedural C++: variables, expressions, loops, branching, arrays, matrices, and `std::vector`.\n- Mastery of function design: pass-by-value vs pass-by-reference (`&`), `const` references for efficiency, and function overloading.\n- Defensive coding principles: bounds checking, sentinel loops, and modular decomposition.\n\n#### What Lies Ahead: Block 4 (Autonomy)\nBeginning in Chapter 25, we unlock higher-level C++ facilities:\n- **Chapter 25 (Strings & Text):** `std::string`, string manipulation, parsing command protocols.\n- **Chapter 26 (I/O Formatting):** `<iomanip>`, field width, precision, fixed-point telemetry displays.\n- **Chapter 27 & 28 (Structs & Collections):** Custom composite data models and fleet management.\n- **Chapter 29 & 30 (Files & Robust Error Handling):** Mission logs with `<fstream>` and defensive stream recovery.\n- **Chapters 31 & 32 (Final Capstone):** Fully autonomous planetary probe software architecture.\n\nScout Drone Sigma is primed for deep-space autonomous deployment. Onward to Block 4!"
+    }
+  }
+}

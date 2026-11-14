@@ -1,0 +1,48 @@
+{
+  "title": "Kontrolpunkts: Bāzes sertifikācija",
+  "steps": {
+    "operator-qualification-brief": {
+      "title": "Misijas statuss: Sertifikācijas eksāmens",
+      "content": "### Operatora kvalifikācijas posms\n\nApsveicam, kadet! Pēdējo 23 nodaļu laikā tu esi izaudzis no iesācēja, kurš rakstīja savu pirmo `cout << \"Sveika, IRIS!\";`, par sertificētu borta sistēmu programmētāju.\n\nTu esi apguvis:\n- **Pamattipus un aritmētiku:** `int`, `double`, `bool`, `char`, skaitliskās darbības un veselo skaitļu dalīšanu.\n- **Plūsmas vadību:** `if`, `else if`, `switch`, loģiskos vārtus `&&`, `||`, `!`, kā arī ciklus (`for`, `while`, `do-while`).\n- **Datu struktūras:** viendimensijas masīvus `int arr[N]`, divdimensiju matricas `int grid[R][C]` un dinamisko krātuvi ar `std::vector`.\n- **Modulāro inženieriju:** funkcijas, prototipus, atgriežamās vērtības, vērtību semantiku pret nodošanu pēc norādes (`&`), funkciju pārslogošanu un `const &` aizsardzību.\n\nŠodien Misijas vadības centrs pārbauda tavas prasmes **Bāzes sistēmu sertifikācijā**. Šis kontrolpunkts novērtē tavu spēju diagnosticēt, analizēt, pārveidot un rakstīt drošu C++ programmatūru pirms pārejas uz autonomajām operācijām 4. blokā."
+    },
+    "core-knowledge-roadmap": {
+      "title": "Arhitektūras pamatu ceļvedis",
+      "content": "### 4 C++ bāzes pīlāri\n\nRūpīgi aplūko zemāk redzamo arhitektūras shēmu. Katra izlūka drona Sigma operatīvā sistēma balstās uz šiem četriem savstarpēji saistītajiem līmeņiem.\n\n![C++ bāzes arhitektūras ceļvedis](assets/l24-core-milestone.lv.svg)\n\n#### Diagnostikas kontrolsaraksts\n1. **Datu integritāte:** pārzini savus tipus un to atmiņas izmērus. Nekad nesalīdzini peldošā komata skaitļus precīzā vienādībā bez pielaides robežām, un vienmēr seko veselo skaitļu ietilpībai.\n2. **Algoritmiskā plūsma:** izvēlies uzdevumam atbilstošu ciklu. Izmanto `for`, kad robežas ir zināmas; izmanto `while`, gaidot ārējos signālus; lieto `break` un `continue` pārdomāti.\n3. **Atmiņa un izmēri:** parastie masīvi ir fiksēta izmēra. Dinamiskais vektors pats pārvalda savu ietilpību ar `.push_back()`, `.size()` un `.empty()`.\n4. **Saskarņu līgumi:** nodod primitīvās vērtības pēc kopijas, ja tās ir nelielas; nodod lielus konteinerus ar `const &`, lai novērstu kopēšanu; nodod pēc norādes `&` tikai tad, kad izsaucēja mainīgais tiešām jāmaina."
+    },
+    "exam-predict-composite-loop": {
+      "title": "Diagnostika: Cikla iterācija un vadība",
+      "content": "### Paredzi izvadi\n\nAnalizē telemetrijas akumulācijas procedūru drona navigācijas filtrā. Izseko mainīgā `sum` vērtību caur katru cikla iterāciju no `i = 1` līdz `6`.\n\nKāda vērtība tiks izvadīta terminālī?"
+    },
+    "exam-audit-syntax-bug": {
+      "title": "Diagnostika: Norādes kļūdas audits",
+      "content": "### Atrodi loģisko kļūdu\n\nDzinēju inženieris uzrakstīja funkciju `boost_power()`, lai dubultotu drona akumulatora jaudu. Tomēr pēc funkcijas izsaukšanas funkcijā `main()` akumulatora jauda joprojām ir spītīgi `50`!\n\nNoklikšķini uz koda rindas, kuras dēļ netiek mainīts oriģinālais mainīgais no `main()`."
+    },
+    "exam-core-challenge-1-filtering": {
+      "title": "1. izaicinājums: Telemetrijas diapazona filtrs",
+      "content": "### Sensoru datu validācija\n\nUzraksti modulāru telemetrijas filtru. Definē palīgfunkciju `bool is_stable(int reading)`, kura atgriež `true`, ja `reading` ir robežās no `20` līdz `80` ieskaitot (`reading >= 20 && reading <= 80`), pretējā gadījumā `false`.\n\nFunkcijā `main()`:\n1. Nolasi veselu skaitli `n`.\n2. Nolasi `n` veselus skaitļus `vector<int>` konteinerā, izmantojot `.push_back()`.\n3. Pārlūko vektoru un saskaiti, cik rādījumi ir stabili.\n4. Izvadi `STABLE COUNT: <skaits>` un jaunas rindas zīmi.",
+      "task": "1. Uzraksti `bool is_stable(int reading)`, kas atgriež `true`, ja `reading >= 20 && reading <= 80`.\n2. Funkcijā `main()` nolasi `n` un aizpildi `vector<int> readings` ar `push_back()`.\n3. Saskaiti, cik elementu atbilst `is_stable()` nosacījumam.\n4. Izvadi `STABLE COUNT: <skaits>` ar jaunu rindu."
+    },
+    "exam-predict-matrix-traversal": {
+      "title": "Diagnostika: Matricas diagonāle",
+      "content": "### Paredzi matricas summu\n\nIzpēti divdimensiju matricas apstaigāšanas kodu. Tas inicializē 2x2 režģi un aprēķina `diag_sum` pa galveno diagonāli (`grid[i][i]`).\n\nKāda vērtība tiek izvadīta?"
+    },
+    "exam-parsons-modular-dispatch": {
+      "title": "Diagnostika: Funkciju pārslogošanas montāža",
+      "content": "### Sakārto avionikas dispečeru\n\nSaliec programmu, kurā ir divas pārslogotas funkcijas `thrust()` versijas: viena pieņem tikai attāluma parametru, bet otra attālumu un papildu jaudas pastiprinājumu.\n\nSakārto koda blokus pareizā loģiskajā un strukturālajā secībā."
+    },
+    "exam-core-challenge-2-reference-trim": {
+      "title": "2. izaicinājums: Signāla apgriešana pēc norādes",
+      "content": "### Signāla kalibrācija uz vietas\n\nIzveido procedūru signāla kalibrēšanai uz vietas ar šādu deklarāciju:\n`void trim_channel(int &signal, int baseline, int max_cap)`\n\nFunkcijai ir:\n- Jāatņem `baseline` no `signal`.\n- Ja `signal` pārsniedz `max_cap`, jāierobežo tas līdz `max_cap`.\n- Ja `signal` ir negatīvs, jāierobežo tas līdz `0`.\n\nFunkcijā `main()`:\n1. Nolasi trīs veselus skaitļus: `sig`, `base` un `cap`.\n2. Izsauc `trim_channel(sig, base, cap)`.\n3. Izvadi `TRIMMED SIGNAL: <sig>` un jaunu rindu.",
+      "task": "1. Definē `void trim_channel(int &signal, int baseline, int max_cap)`.\n2. Atņem `baseline` no `signal` un ierobežo diapazonā `[0, max_cap]`.\n3. Funkcijā `main()` nolasi `sig`, `base`, `cap`, izsauc `trim_channel` un izvadi `TRIMMED SIGNAL: <sig>`."
+    },
+    "capstone-fleet-mission-director": {
+      "title": "Lielais kontrolpunkts: Flotes misijas direktors",
+      "content": "### Pilna avionikas cauruļvada integrācija\n\nApvieno visas apgūtās pamatprasmes pilnā misijas vadības diagnostikas programmā.\n\nIzveido trīs modulāras funkcijas:\n1. `bool is_sector_safe(int roughness, int radiation)`: atgriež `true`, ja `roughness <= 25` UN `radiation <= 50`, citādi `false`.\n2. `void apply_thrust_trim(int &thrust, int elevation)`: ja `elevation > 100`, pieskaita `thrust` vērtībai `20`; citādi pieskaita `5`.\n3. `int audit_telemetry(const vector<int> &samples, int &hazardous_count)`: cikliski apstaigā `samples`, summē visas vērtības, palielina `hazardous_count` par 1 katram mērījumam, kas ir stingri lielāks par `80`, un atgriež kopējo summu.\n\nFunkcijā `main()`:\n1. Nolasi `rough`, `rad`, `thrust`, `elev` un `n`.\n2. Nolasi `n` veselus skaitļus `vector<int> samples`.\n3. Novērtē drošību ar `is_sector_safe`.\n4. Koriģē vilci uz vietas ar `apply_thrust_trim`.\n5. Aprēķini telemetrijas summu un bīstamo paraugu skaitu ar `audit_telemetry`.\n6. Izvadi visas četras formatētās rindas precīzi pēc prasībām.",
+      "task": "1. Izveido funkcijas `is_sector_safe`, `apply_thrust_trim` un `audit_telemetry`.\n2. Funkcijā `main()` nolasi telemetrijas ievaddatus un aizpildi `vector<int> samples`.\n3. Izsauc visas trīs funkcijas uz iegūtajiem datiem.\n4. Izvadi `SECTOR SAFETY: <1 vai 0>`.\n5. Izvadi `FINAL THRUST: <val>`.\n6. Izvadi `TELEMETRY SUM: <sum>`.\n7. Izvadi `HAZARD SAMPLES: <count>`."
+    },
+    "recap": {
+      "title": "Sertifikācija pabeigta",
+      "content": "### Kvalifikācija apstiprināta: Gatavs lidojumam\n\nIzcils darbs, operator! Tu esi veiksmīgi nokārtojis C++ bāzes kvalifikācijas eksāmenu.\n\n#### Ko tu esi nostiprinājis\n- Pilnīgu procedurālā C++ pārvaldību: mainīgie, izteiksmes, cikli, zarošanās, masīvi, matricas un `std::vector`.\n- Funkciju izstrādes meistarību: parametru nodošana pēc vērtības un pēc norādes (`&`), `const` norādes efektivitātei un funkciju pārslogošana.\n- Aizsargājošās programmēšanas principus: robežu pārbaudes, ciklu pārtraukšanas nosacījumus un koda sadalīšanu moduļos.\n\n#### Kas sagaida priekšā: 4. bloks (Autonomija)\nSākot ar 25. nodaļu, mēs atslēgsim augstāka līmeņa C++ rīkus:\n- **25. nodaļa (Teksts un virknes):** `std::string`, virkņu apstrādes metodes, komandu protokolu parsēšana.\n- **26. nodaļa (I/O formatēšana):** `<iomanip>`, lauka platums, precizitāte, fiksētā komata telemetrijas tabulas.\n- **27. un 28. nodaļa (Struktūras un to masīvi):** kompozītie datu modeļi un flotes pārvaldība.\n- **29. un 30. nodaļa (Faili un kļūdu apstrāde):** misijas žurnāli ar `<fstream>` un aizsardzība pret ievades kļūdām.\n- **31. un 32. nodaļa (Noslēguma projekts):** pilnībā autonoma planetārās zondes programmatūras arhitektūra.\n\nIzlūka drons Sigma ir gatavs autonomajām misijām dziļajā kosmosā. Dodamies uz 4. bloku!"
+    }
+  }
+}
