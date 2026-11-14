@@ -1,0 +1,110 @@
+{
+  "title": "Pārslodze, redzamība, const",
+  "steps": {
+    "why-overloading-and-scope": {
+      "eyebrow": "Flotes pielāgojamība",
+      "title": "Kāpēc borta datoriem nepieciešama funkciju pārslogošana",
+      "body": [
+        "IRIS flote Marsa kanjonos izmanto dažādus lidaparātus. Izlūka drons **IZLŪKS 'Sigma'** ir viegls, aerodinamisks kvadrokopters, kura dzinēju vilces aprēķinam pietiek tikai ar lidojuma attālumu. Turpretī **KRAVAS 'Omega'** ir masīvs transporta drons, kura vilces formulā obligāti jāņem vērā gan attālums, gan smago ģeoloģisko konteineru masa.",
+        "Senākās valodās, piemēram, C, nācās izgudrot garus un mākslīgus nosaukumus: `calculate_thrust_scout()` un `calculate_thrust_cargo()`. Pievienojot trešo dronu, būtu vajadzīgs `calculate_thrust_cartographer()`. Tas piesārņo kodu un liek programmētājiem atcerēties desmitiem dažādu vārdu vienai un tai pašai loģiskajai darbībai.",
+        "C++ ievieš **funkciju pārslogošanu (overloading)**: iespēju definēt vairākas funkcijas ar **pilnīgi vienādu nosaukumu**, kas atšķiras tikai ar saviem parametriem (parametru skaitu vai to tipiem):",
+        "- **Vienots un skaidrs interfeiss.** Borta dators vienkārši izsauc `calculate_thrust(...)`. Kompilators jau kompilēšanas laikā analizē padotos argumentus un automātiski nosūta izpildi uz pareizo variantu.",
+        "- **Kompilēšanas laika efektivitāte.** Funkciju pārslogošana nerada nekādu papildu slodzi programmas izpildē.",
+        "- **Droša redzamība.** Ierobežojot mainīgos lokālos koda blokos `{}` un definējot nemainīgos bāzes parametrus ar `const`, mēs novēršam nejaušus datu bojājumus sarežģītās borta sistēmās."
+      ],
+      "archive": {
+        "title": "Nosaukumu kodēšana (Name Mangling) un simbolu atpazīšana C++",
+        "body": "Kā C++ kompilators mašīnkodā atšķir pārslogotas funkcijas ar vienādiem nosaukumiem? Kompilators izmanto metodi, ko sauc par nosaukumu kodēšanu (name mangling jeb symbol decoration). Kompilējot `int thrust(int)` un `int thrust(int, int)`, kompilators to iekšējos saistītāja (linker) simbolus pārveido unikālās virknēs, kas iekodē parametru sarakstu (piemēram, `_Z6thrusti` un `_Z6thrustii`). Binārajā līmenī katrs variants ir pilnīgi neatkarīga apakšprogramma ar savu statisku adresi. Šis mehānisms ļauj kosmiskajā programmatūrā veidot vienotu API bez jebkādas izpildes laika aiztures.",
+        "sources": [
+          "Bjarne Stroustrup, 'The Design and Evolution of C++', Addison-Wesley",
+          "Itanium C++ ABI Specification, 'External Name Mangling'"
+        ]
+      }
+    },
+    "function-overloading-syntax": {
+      "eyebrow": "Pārslogošanas likumi",
+      "title": "Funkciju pārslogošanas sintakses likumi",
+      "alt": "Shēma attēlo funkciju pārslogošanu, kur viens nosaukums 'thrust' atbilst dažādiem parametru sarakstiem, un bloka redzamības apgabalu ar figūriekavām.",
+      "image": "assets/l22-overload-scope.lv.svg",
+      "body": [
+        "Lai C++ valodā pārslogotu funkciju, uzraksta divas vai vairākas definīcijas ar vienādu nosaukumu, bet atšķirīgu **parakstu (signature)**:",
+        "```cpp\nint thrust(int dist) { return dist * 10; }             // Sigma: 1 parametrs\nint thrust(int dist, int mass) { return dist * 10 + mass * 2; } // Omega: 2 parametri\n```",
+        "Kompilators automātiski piemeklē atbilstošo funkciju pēc izsaukuma argumentu skaita un tipiem:",
+        "- `thrust(50)` izsauc 1 parametra variantu dronam Sigma.",
+        "- `thrust(50, 1200)` izsauc 2 parametru variantu dronam Omega.",
+        "!> **Atgriežamā tipa ierobežojums.** Funkcijas NEVAR pārslogot, balstoties tikai uz atgriežamo tipu! Definējot `int get_stat()` un `double get_stat()` ar vienādiem parametriem, radīsies kompilatora kļūda. Kompilatoram jāspēj atpazīt funkcija tikai pēc argumentu saraksta."
+      ]
+    },
+    "predict-overload-dispatch": {
+      "eyebrow": "Izsaukumu atpazīšana",
+      "title": "Pārslogoto funkciju izpildes izsekošana",
+      "body": [
+        "Izsekojiet šai programmai ar divām pārslogotām vilces aprēķina funkcijām.",
+        "Nosakiet konsolē izdrukāto galarezultātu."
+      ],
+      "explain": "Izsaukums `compute_thrust(20)` atbilst viena parametra funkcijai: `20 * 10 = 200`. Izsaukums `compute_thrust(20, 50)` atbilst divu parametru funkcijai: `20 * 10 + 50 * 2 = 200 + 100 = 300`. Rezultāts ir `200 300`."
+    },
+    "write-overloaded-burn": {
+      "title": "Pārslogots degvielas patēriņa kalkulators",
+      "task": "Ieprogrammējiet IRIS flotes dubulto degvielas patēriņa kalkulatoru ar pārslogošanu:\n1. Virs `main()` definējiet `int burn(int dist)`, kas atgriež `dist * 5`.\n2. Virs `main()` definējiet pārslogotu funkciju `int burn(int dist, int cargo)`, kas atgriež `dist * 5 + cargo * 3`.\n3. Funkcijā `main()` nolasiet `dist` un `cargo` no `cin`.\n4. Izdrukājiet `SIGMA: `, izsaukumu `burn(dist)` un jaunu rindu.\n5. Izdrukājiet `OMEGA: `, izsaukumu `burn(dist, cargo)` un jaunu rindu.",
+      "hint": "Abām funkcijām ir vienāds nosaukums `burn`. Kompilators tās atšķirs pēc tā, vai tiek padots 1 vai 2 argumenti.",
+      "solutionNote": "Pārslogojot funkciju burn, izsaucējs lieto vienu loģisku nosaukumu gan vieglā drona, gan kravas drona misijās."
+    },
+    "variable-scope-and-shadowing": {
+      "eyebrow": "Redzamības arhitektūra",
+      "title": "Mainīgo dzīves cikls un bloka redzamība",
+      "compareCaptions": [
+        "Korekta bloka redzamība: iekšējais mainīgais eksistē tikai savā if blokā",
+        "Bīstama mainīgā aizēnošana: iekšējais mainīgais nejauši aizsedz ārējo"
+      ],
+      "body": [
+        "Katram mainīgajam C++ valodā ir noteikts **redzamības apgabals (scope)**, ko ierobežo figūriekavas `{}`, kurās tas tika deklarēts:",
+        "- **Lokālā redzamība:** Mainīgais, kas deklarēts funkcijā vai ciklā, eksistē tikai šajās iekavās. Tiklīdz programma sasniedz beigu iekavu `}`, mainīgais tiek iznīcināts no atmiņas.",
+        "- **Ārējie un iekšējie bloki:** Iekšējie koda bloki redz un var izmantot ārējos blokos deklarētos mainīgos. Taču ārējie bloki NEREDZ iekšējos mainīgos.",
+        "!> **Mainīgo aizēnošanas (shadowing) lamatas.** Ja iekšējā blokā deklarē mainīgo ar tieši tādu pašu vārdu kā ārējā blokā (`int battery = 10;`), iekšējais mainīgais **aizēno** (paslēpj) ārējo. Borta datoru programmās tā ir bīstama kļūdu vieta."
+      ]
+    },
+    "find-scope-leak-bug": {
+      "eyebrow": "Redzamības audits",
+      "title": "Kļūdainas mainīgā piekļuves atrašana",
+      "body": [
+        "Šī programma `if` blokā aprēķina papildu vilces jaudu, bet pēc bloka beigām mēģina to izdrukāt konsolē.",
+        "Tomēr kompilators kodu noraida. Noklikšķiniet uz rindiņas, kas mēģina piekļūt ārpus redzamības apgabala esošam mainīgajam."
+      ],
+      "explain": "Rindiņā 10 programma mēģina izmantot `thrust_boost`. Bet `thrust_boost` tika deklarēts 6. rindiņas `if` blokā, un tā dzīves cikls beidzās pie 8. rindiņas figūriekavas `}`! Mēģinājums izmantot mainīgo ārpus tā redzamības apgabala rada kompilatora kļūdu."
+    },
+    "assemble-const-scope-guard": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Globālās const konstantes pārbaudes salikšana",
+      "body": [
+        "Globālās konstantes, kas deklarētas ar `const` (piemēram, `const int MAX_LIMIT = 500;`), ir redzamas visās programmas funkcijās, un kompilators stingri aizsargā tās pret izmaiņām.",
+        "Salieciet koda blokus pareizā secībā: globālā konstante, pārbaudes funkcija un izsaukums funkcijā `main()`."
+      ]
+    },
+    "predict-scope-lifetimes": {
+      "eyebrow": "Aizēnošanas analīze",
+      "title": "Ielocīto bloku aizēnošanas izsekošana",
+      "body": [
+        "Izsekojiet mainīgā `level` vērtības izmaiņām cauri ielocītiem koda blokiem.",
+        "Nosakiet skaitli, ko konsolē izdrukā komanda `cout << level` funkcijā `main()`."
+      ],
+      "explain": "Funkcijā `main()` mainīgais `int level = 20;` aizēno globālo `level = 5`. Iekšējā blokā `{}` lokālais `int level = 99;` īslaicīgi aizsedz 20, taču tiek iznīcināts pie bloka beigām. Tāpēc `cout << level` izdrukā 20."
+    },
+    "drone-fleet-thrust-manager": {
+      "title": "IRIS flotes daudzprofilu vilces kontrolieris",
+      "task": "Ieprogrammējiet daudzprofilu vilces kontrolieri ar 3 pārslogotiem variantiem:\n1. Definējiet globālo konstanti `const int SAFETY_CEILING = 1000;`.\n2. Definējiet `int profile(int distance)`, kas atgriež `distance * 2`.\n3. Definējiet pārslogotu funkciju `int profile(int distance, int payload)`, kas atgriež `distance * 2 + payload * 4`.\n4. Definējiet pārslogotu funkciju `int profile(int distance, int payload, int wind_penalty)`, kas atgriež `distance * 2 + payload * 4 + wind_penalty * 10`.\n5. Funkcijā `main()` nolasiet `dist`, `load` un `wind` no `cin`.\n6. Izdrukājiet `SCOUT: `, rezultātu `profile(dist)` un jaunu rindu.\n7. Izdrukājiet `CARGO: `, rezultātu `profile(dist, load)` un jaunu rindu.\n8. Izdrukājiet `STORM: `, rezultātu `profile(dist, load, wind)` un jaunu rindu.",
+      "hint": "Izveidojiet trīs funkcijas ar vienādu vārdu `profile` un 1, 2 un 3 parametriem. Kompilators atpazīs katru pēc padoto argumentu skaita.",
+      "solutionNote": "Šis noslēguma uzdevums parāda vienotu funkciju pārslogošanu dažādām drona slodzēm un laikapstākļiem."
+    },
+    "recap": {
+      "eyebrow": "Kopsavilkums",
+      "title": "Pārslodzes, redzamības un const kopsavilkums",
+      "body": [
+        "Šajā misijā jūs apguvāt funkciju pārslogošanu un mainīgo dzīves ciklu pārvaldību:",
+        "| Jēdziens | Definīcija | Likums |\n| :--- | :--- | :--- |\n| **Funkciju pārslogošana** | Vairākas funkcijas ar vienādu vārdu | Jāatšķiras ar parametru skaitu vai to tipiem |\n| **Atgriežamā tipa likums** | Nevar atšķirties tikai ar atgriežamo tipu | Kompilatora kļūda, ja vienādi parametri |\n| **Bloka redzamība** | Redzamība figūriekavās `{}` | Mainīgais beidz eksistēt pie beigu iekavas `}` |\n| **Aizēnošana (shadowing)** | Tāda paša vārda deklarēšana iekšējā blokā | Iekšējais mainīgais paslēpj ārējo |\n| **Globālā `const`** | Visā programmā nemainīga vērtība | Tikai lasāma visās funkcijās; nulles izmaiņu risks |\n",
+        "> **Nākamā tēma: 23. nodaļa — PRAKTIKUMS: funkciju bibliotēka (Function Library Practicum).**",
+        "> Tagad mēs apvienosim visas 3. blokā apgūtās zināšanas vienotā kosmiskās bāzes IRIS utilītu bibliotēkā: navigācija, sensoru pārbaudes un bateriju diagnostika."
+      ]
+    }
+  }
+}

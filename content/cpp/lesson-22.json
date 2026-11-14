@@ -1,0 +1,123 @@
+{
+  "n": 22,
+  "slug": "overload-scope-const",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-overloading-and-scope",
+      "kind": "theory",
+      "image": "assets/l22-why-overloading.jpg"
+    },
+    {
+      "id": "function-overloading-syntax",
+      "kind": "theory"
+    },
+    {
+      "id": "predict-overload-dispatch",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint compute_thrust(int dist) {\n    return dist * 10;\n}\n\nint compute_thrust(int dist, int mass) {\n    return dist * 10 + mass * 2;\n}\n\nint main() {\n    int sigma = compute_thrust(20);\n    int omega = compute_thrust(20, 50);\n    cout << sigma << \" \" << omega << endl;\n    return 0;\n}",
+      "expected": "200 300\n",
+      "options": [
+        "200 300",
+        "200 200",
+        "300 300",
+        "20 70"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "write-overloaded-burn",
+      "kind": "editor",
+      "initial": "#include <iostream>\nusing namespace std;\n\n// 1. Define int burn(int dist) -> dist * 5\n// 2. Define int burn(int dist, int cargo) -> dist * 5 + cargo * 3\n\nint main() {\n    int dist, cargo;\n    cin >> dist >> cargo;\n\n    // 3. Print SIGMA: burn(dist)\n    // 4. Print OMEGA: burn(dist, cargo)\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint burn(int dist) {\n    return dist * 5;\n}\n\nint burn(int dist, int cargo) {\n    return dist * 5 + cargo * 3;\n}\n\nint main() {\n    int dist, cargo;\n    cin >> dist >> cargo;\n\n    cout << \"SIGMA: \" << burn(dist) << endl;\n    cout << \"OMEGA: \" << burn(dist, cargo) << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "40 10\n",
+          "expected": "SIGMA: 200\nOMEGA: 230\n"
+        },
+        {
+          "in": "100 50\n",
+          "expected": "SIGMA: 500\nOMEGA: 650\n"
+        },
+        {
+          "in": "10 0\n",
+          "expected": "SIGMA: 50\nOMEGA: 50\n"
+        }
+      ]
+    },
+    {
+      "id": "variable-scope-and-shadowing",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int battery = 100;\n\nvoid check() {\n    if (battery > 20) {\n        int boost = 5; // Clean local scope\n        cout << battery + boost;\n    }\n}",
+          "ok": true
+        },
+        {
+          "code": "int battery = 100;\n\nvoid check() {\n    int battery = 10; // Variable shadowing!\n    // Inner battery hides outer battery,\n    // creating subtle logic bugs\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "find-scope-leak-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int mode = 1;\n    if (mode == 1) {\n        int thrust_boost = 50;\n        cout << \"BOOST ACTIVE\" << endl;\n    }\n    cout << \"FINAL THRUST: \" << thrust_boost << endl;\n    return 0;\n}",
+      "answerLine": 10
+    },
+    {
+      "id": "assemble-const-scope-guard",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "const int MAX_LIMIT = 500;",
+        "bool is_valid(int val) {",
+        "    return val <= MAX_LIMIT;",
+        "}",
+        "int main() {",
+        "    int speed = 350;",
+        "    cout << \"STATUS: \" << is_valid(speed) << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "predict-scope-lifetimes",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint level = 5;\n\nint main() {\n    int level = 20;\n    {\n        int level = 99;\n    }\n    cout << level << endl;\n    return 0;\n}",
+      "expected": "20\n",
+      "options": [
+        "20",
+        "99",
+        "5",
+        "124"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "drone-fleet-thrust-manager",
+      "kind": "editor",
+      "initial": "#include <iostream>\nusing namespace std;\n\nconst int SAFETY_CEILING = 1000;\n\n// 1. Define int profile(int distance)\n// 2. Define int profile(int distance, int payload)\n// 3. Define int profile(int distance, int payload, int wind_penalty)\n\nint main() {\n    int dist, load, wind;\n    cin >> dist >> load >> wind;\n\n    // 4. Call all 3 overloads\n    // 5. Output: SCOUT: <val>, CARGO: <val>, STORM: <val>\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nconst int SAFETY_CEILING = 1000;\n\nint profile(int distance) {\n    return distance * 2;\n}\n\nint profile(int distance, int payload) {\n    return distance * 2 + payload * 4;\n}\n\nint profile(int distance, int payload, int wind_penalty) {\n    return distance * 2 + payload * 4 + wind_penalty * 10;\n}\n\nint main() {\n    int dist, load, wind;\n    cin >> dist >> load >> wind;\n\n    cout << \"SCOUT: \" << profile(dist) << endl;\n    cout << \"CARGO: \" << profile(dist, load) << endl;\n    cout << \"STORM: \" << profile(dist, load, wind) << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "50 20 5\n",
+          "expected": "SCOUT: 100\nCARGO: 180\nSTORM: 230\n"
+        },
+        {
+          "in": "100 50 12\n",
+          "expected": "SCOUT: 200\nCARGO: 400\nSTORM: 520\n"
+        },
+        {
+          "in": "10 0 0\n",
+          "expected": "SCOUT: 20\nCARGO: 20\nSTORM: 20\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

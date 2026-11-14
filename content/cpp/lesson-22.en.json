@@ -1,0 +1,110 @@
+{
+  "title": "Overloading, scope, and const",
+  "steps": {
+    "why-overloading-and-scope": {
+      "eyebrow": "Fleet adaptability",
+      "title": "Why flight computers need function overloading",
+      "body": [
+        "Fleet IRIS deploys diverse aerial vehicles across Mars. Scout drone **IZLŪKS 'Sigma'** is a lightweight, agile quad-drone requiring only distance to calculate flight thrust. In contrast, **KRAVAS 'Omega'** is a massive transport drone whose engine thrust calculation must account for both distance and the mass of heavy geological core containers.",
+        "In older programming languages like C, you had to invent cumbersome artificial names: `calculate_thrust_scout()` and `calculate_thrust_cargo()`. If you added a third drone, you needed `calculate_thrust_cartographer()`. This clutters the code and forces developers to remember dozens of arbitrary names for the exact same logical operation.",
+        "C++ introduces **function overloading**: defining multiple functions with the **exact same name**, distinguished solely by their parameter lists (number or types of parameters):",
+        "- **Clean intuitive interfaces.** The flight computer simply calls `calculate_thrust(...)`. The compiler inspects the arguments at compile time and automatically routes execution to the correct subroutine.",
+        "- **Compile-time resolution.** Function overloading incurs zero runtime performance penalty.",
+        "- **Scope isolation.** By bounding helper variables inside local code blocks and declaring fixed parameters with `const`, we prevent accidental variable corruption across complex avionics systems."
+      ],
+      "archive": {
+        "title": "Compile-time name mangling and symbol resolution in C++",
+        "body": "How does the C++ compiler distinguish overloaded functions with identical names when producing machine code? The compiler uses a technique called 'name mangling' (or symbol decoration). When compiling `int thrust(int)` and `int thrust(int, int)`, the compiler transforms their internal linker symbols into distinct identifiers encoding their parameter signatures (for example, `_Z6thrusti` vs `_Z6thrustii`). At the binary level, each overloaded variant is an independent, statically addressed routine. This compile-time mechanism allows modern aerospace software to offer unified API abstractions with zero dispatch latency.",
+        "sources": [
+          "Bjarne Stroustrup, 'The Design and Evolution of C++', Addison-Wesley",
+          "Itanium C++ ABI Specification, 'External Name Mangling'"
+        ]
+      }
+    },
+    "function-overloading-syntax": {
+      "eyebrow": "Overloading rules",
+      "title": "Rules of function overloading",
+      "alt": "Diagram showing function overloading where the same identifier 'thrust' resolves to different parameter lists at compile time, and variable block scope with lifetimes bounded by curly braces.",
+      "image": "assets/l22-overload-scope.en.svg",
+      "body": [
+        "To overload a function in C++, provide two or more definitions sharing the same identifier, but possessing different **signatures**:",
+        "```cpp\nint thrust(int dist) { return dist * 10; }             // Sigma: 1 parameter\nint thrust(int dist, int mass) { return dist * 10 + mass * 2; } // Omega: 2 parameters\n```",
+        "The compiler automatically matches function calls based on the argument count and types:",
+        "- `thrust(50)` calls the 1-parameter overload for Sigma.",
+        "- `thrust(50, 1200)` calls the 2-parameter overload for Omega.",
+        "!> **Return type limitation.** Functions CANNOT be overloaded by return type alone! Writing `int get_stat()` and `double get_stat()` with identical parameters causes a compile error. The compiler must be able to disambiguate calls solely from the argument list."
+      ]
+    },
+    "predict-overload-dispatch": {
+      "eyebrow": "Compile-time dispatch",
+      "title": "Trace overloaded function selection",
+      "body": [
+        "Trace this program utilizing overloaded thrust computation routines.",
+        "Determine the final output line printed to the terminal console."
+      ],
+      "explain": "The call `compute_thrust(20)` matches the single-parameter overload: `20 * 10 = 200`. The call `compute_thrust(20, 50)` matches the two-parameter overload: `20 * 10 + 50 * 2 = 200 + 100 = 300`. Output is `200 300`."
+    },
+    "write-overloaded-burn": {
+      "title": "Overloaded fuel burn calculator",
+      "task": "Program Fleet IRIS's dual fuel burn calculator using function overloading:\n1. Above `main()`, define `int burn(int dist)` that returns `dist * 5`.\n2. Above `main()`, define an overloaded `int burn(int dist, int cargo)` that returns `dist * 5 + cargo * 3`.\n3. In `main()`, read `dist` and `cargo` from `cin`.\n4. Print `SIGMA: ` followed by `burn(dist)` and a newline.\n5. Print `OMEGA: ` followed by `burn(dist, cargo)` and a newline.",
+      "hint": "Both functions share the exact name `burn`. The compiler differentiates them by whether you pass 1 or 2 arguments.",
+      "solutionNote": "By overloading burn, callers use a single logical name for both scout and cargo operations."
+    },
+    "variable-scope-and-shadowing": {
+      "eyebrow": "Scope architecture",
+      "title": "Variable lifetime and block scope",
+      "compareCaptions": [
+        "Clean block scope: inner variable lives only inside its conditional block",
+        "Hazardous variable shadowing: inner variable accidentally masks outer variable"
+      ],
+      "body": [
+        "Every variable in C++ has a **scope** (visibility region) bounded by the curly braces `{}` in which it was declared:",
+        "- **Local scope:** A variable declared inside a function or loop exists only within those braces. The moment execution hits the closing brace `}`, the variable is destroyed in memory.",
+        "- **Outer vs inner scope:** Inner blocks can read variables declared in enclosing outer blocks. However, outer blocks CANNOT read variables declared inside nested inner blocks.",
+        "!> **The variable shadowing trap.** If you declare a variable inside an inner block with the exact same name as an outer variable (`int battery = 10;`), the inner variable **shadows** (hides) the outer variable. This is a common source of bugs in aerospace telemetry code."
+      ]
+    },
+    "find-scope-leak-bug": {
+      "eyebrow": "Scope audit",
+      "title": "Identify out-of-scope variable access",
+      "body": [
+        "This program activates a thrust boost flag inside an `if` block, then attempts to print the boost after the block concludes.",
+        "However, the compiler rejects the program. Click on the line attempting to access an out-of-scope variable."
+      ],
+      "explain": "Line 10 attempts to use `thrust_boost`. But `thrust_boost` was declared inside the `if` block on line 6. Its lifetime ended at the closing brace `}` on line 8! Accessing a variable outside its enclosing scope is a compiler error."
+    },
+    "assemble-const-scope-guard": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble global const limit checker",
+      "body": [
+        "Global constants declared with `const` (such as `const int MAX_LIMIT = 500;`) are visible across all functions while being strictly protected from accidental runtime modification.",
+        "Arrange the code blocks in correct order: global const definition, validator function, and execution inside `main()`."
+      ]
+    },
+    "predict-scope-lifetimes": {
+      "eyebrow": "Shadowing analysis",
+      "title": "Trace nested scope shadowing",
+      "body": [
+        "Trace the value of `level` across nested block scopes.",
+        "Determine the number printed by `cout << level` in `main()`."
+      ],
+      "explain": "In `main()`, `int level = 20;` shadows the global `level = 5`. Inside the nested block `{}`, `int level = 99;` shadows the outer 20, but that inner variable is destroyed when the block ends. Therefore, `cout << level` prints 20."
+    },
+    "drone-fleet-thrust-manager": {
+      "title": "Fleet IRIS multi-profile thrust controller",
+      "task": "Program a multi-profile thrust calculator with 3 overloaded variants:\n1. Define global constant `const int SAFETY_CEILING = 1000;`.\n2. Define `int profile(int distance)` that returns `distance * 2`.\n3. Define overloaded `int profile(int distance, int payload)` that returns `distance * 2 + payload * 4`.\n4. Define overloaded `int profile(int distance, int payload, int wind_penalty)` that returns `distance * 2 + payload * 4 + wind_penalty * 10`.\n5. In `main()`, read `dist`, `load`, and `wind` from `cin`.\n6. Print `SCOUT: ` followed by `profile(dist)` and a newline.\n7. Print `CARGO: ` followed by `profile(dist, load)` and a newline.\n8. Print `STORM: ` followed by `profile(dist, load, wind)` and a newline.",
+      "hint": "Implement three versions of `profile` with 1, 2, and 3 parameters. The compiler matches each call by argument count.",
+      "solutionNote": "This capstone demonstrates unified aerospace function overloading across varying drone payloads and weather conditions."
+    },
+    "recap": {
+      "eyebrow": "Summary",
+      "title": "Overloading, scope, and const recap",
+      "body": [
+        "In this mission, you unified flight APIs and mastered variable lifetimes:",
+        "| Concept | Definition | Rule |\n| :--- | :--- | :--- |\n| **Function Overloading** | Multiple functions with same name | Must differ by parameter count or parameter types |\n| **Return Type Rule** | Functions cannot differ by return type alone | Compile error if only return type differs |\n| **Block Scope** | Visibility bounded by `{}` | Variables vanish at closing brace `}` |\n| **Variable Shadowing** | Re-declaring an outer name in inner block | Inner variable masks outer variable |\n| **Global `const`** | Program-wide immutable values | Read-only across all functions; zero modification risk |\n",
+        "> **Next up: Chapter 23 — PRAKTIKUMS: funkciju bibliotēka (Function Library Practicum).**",
+        "> We now consolidate everything learned in Block 3 into an end-to-end aerospace utility library for Base IRIS: modular navigation, telemetry verification, and battery diagnostics."
+      ]
+    }
+  }
+}

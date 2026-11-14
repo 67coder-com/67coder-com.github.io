@@ -187,7 +187,10 @@
         {
           "n": 22,
           "slug": "overload-scope-const",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 23,
