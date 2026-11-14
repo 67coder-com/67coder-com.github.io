@@ -264,7 +264,10 @@
         {
           "n": 31,
           "slug": "final-1",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 32,

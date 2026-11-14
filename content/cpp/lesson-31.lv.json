@@ -1,0 +1,48 @@
+{
+  "title": "Noslēguma projekts I: Arhitektūra un moduļi",
+  "steps": {
+    "why-capstone-architecture": {
+      "title": "Marsa noslēguma misija",
+      "content": "### Lielā flotes izvēršana\n\nVisas sistēmas ir sagatavotas darbam. Visa IRIS autonomās izpētes eskadriļa — **izlūks Sigma**, **kartogrāfs Delta** un **kravas drons Omega** — stāv uz pacelšanās terasēm pie milzīgā Marisa ielejas (*Valles Marineris*) kanjona.\n\nPēdējo 30 nodaļu laikā esi apguvis visus mūsdienu C++ pamatelementus:\n- Datu tipus, mainīgos, aritmētiku un zarošanos\n- Ciklus, standarta algoritmus un masīvus (1D un 2D)\n- Dinamiskos masīvus ar `std::vector`\n- Modulāru funkciju izstrādi, atsauces un parametru nodošanu\n- Rindas (`std::string`), izvades formatēšanu (`<iomanip>`) un struktūras (`struct`)\n- Failu plūsmas (`<fstream>`) un aizsargājošo ievades pārbaudi\n\nTagad divdaļīgajā **Noslēguma projektā (31. un 32. nodaļa)** tu apvienosi visas šīs prasmes vienotā, rūpnieciska līmeņa misijas vadības arhitektūrā.\n\n**I posmā (31. nodaļa)** tu izveidosi pamatdatus, lidojuma gatavības vārtus, maršruta punktu enerģijas dispečeru un formatētu eskadriļas telemetrijas atskaiti.\n\n**II posmā (32. nodaļa)** tiks veikta pilna autonoma lidojuma simulācija, kanjona navigācija un avārijas melnās kastes ieraksts!"
+    },
+    "capstone-system-architecture": {
+      "title": "Modulārā avionikas arhitektūra",
+      "content": "### Flotes vadības programmatūras uzbūve\n\nKosmosa avionikas arhitektūra sadala atbildību atsevišķos moduļu slāņos:\n\n![Arhitektūra](assets/l31-final1-architecture.lv.svg)\n\n#### 1. Datu modeļi (`struct`)\nSkaidras struktūru definīcijas reālās pasaules objektiem:\n- `struct Drone`: identifikators, nosaukums, baterijas līmenis, pašreizējais augstums.\n- `struct Waypoint`: navigācijas koordinātas `(x, y)`.\n\n#### 2. Loģikas un validācijas funkcijas\nModulāras funkcijas, kas datus pieņem pēc konstanta rādītāja/atsauces (`const &`), lai nodrošinātu drošību bez liekas kopēšanas:\n- `bool is_launch_ready(const Drone &d)`: pārbauda, vai baterija ir vismaz 50% un augstums nav negatīvs.\n- `int step_cost(const Waypoint &from, const Waypoint &to)`: aprēķina enerģijas patēriņu starp punktiem.\n\n#### 3. Datu glabāšana un atskaišu dzinējs\n- `std::vector<Drone>` pārvalda dinamisku drona eskadriļu.\n- `<iomanip>` (`left`, `right`, `setw`, `setprecision`) ģenerē profesionālu misijas vadības konsoli."
+    },
+    "inspect-capstone-data-model": {
+      "title": "Diagnostika: drona datu modelis",
+      "content": "### Prognozē programmas izvadi\n\nIzanalizē struktūras inicializāciju un lauku nolasīšanu, kas attēlo izlūka Sigma telemetrijas ierakstu.\n\nKas tiek izvadīts terminālī?"
+    },
+    "audit-capstone-modular-bug": {
+      "title": "Koda audits: vērtības nodošanas kļūda",
+      "content": "### Atrodi arhitektūras kļūdu\n\nProgrammētājs izveidoja augstuma palielināšanas funkciju `ascend()`, taču pēc tās izsaukšanas drona augstums funkcijā `main()` nemainījās!\n\nUzklikšķini uz funkcijas virsraksta rindiņas, kur struktūra kļūdaini tiek nodota pēc vērtības, nevis pēc atsauces (`Drone &d`)."
+    },
+    "write-capstone-drone-model": {
+      "title": "Avionikas loģika: pacelšanās gatavības vārti",
+      "content": "### Flotes kvalifikācijas pārbaude\n\nIzveido lidojuma kvalifikācijas funkciju `is_launch_ready`.\n\nDrons ir gatavs lidojumam tad un tikai tad, ja:\n1. `d.battery >= 50`\n2. `d.altitude >= 0`\n\nIevades formāts:\nViena rinda ar četrām vērtībām: `int id`, `string name`, `int battery`, `int altitude`.\n\nIzvades formāts:\n`LAUNCH READY: 1` (ja gatavs) vai `LAUNCH READY: 0` (ja nav gatavs).",
+      "task": "1. Definē funkciju `bool is_launch_ready(const Drone &d)`, kas atgriež `true`, ja `battery >= 50 && altitude >= 0`, un `false` pretējā gadījumā.\n2. Funkcijā `main()` izsauc `is_launch_ready(d)`.\n3. Izvadi `LAUNCH READY: <1 vai 0>`, kam seko jauna rindiņa."
+    },
+    "predict-capstone-pipeline-trace": {
+      "title": "Diagnostika: maršruta enerģijas akumulators",
+      "content": "### Prognozē programmas izvadi\n\nIzseko maršruta enerģijas kalkulatora izpildi, kas iet cauri vektora virsotnēm.\n\nKāda ir kopējā maršruta cena, kas tiek izvadīta terminālī?"
+    },
+    "parsons-capstone-architecture-assembly": {
+      "title": "Moduļu salikšana: koordinātu attāluma funkcija",
+      "content": "### Saliec navigācijas novērtēšanas moduli\n\nSakārto koda fragmentus pareizā secībā, lai izveidotu `struct Waypoint` un palīgfunkciju `step_cost(from, to)`, kas aprēķina Manhatanas attālumu (`abs(dx) + abs(dy)`)."
+    },
+    "write-capstone-waypoint-dispatcher": {
+      "title": "Navigācijas dzinējs: baterijas dispečers",
+      "content": "### Enerģijas trajektorijas simulācija\n\nIzlūks Sigma sāk lidojumu koordinātās `(0, 0)` ar zināmu baterijas līmeni.\n\nIevade:\n1. Divi skaitļi: `battery` un `n` (maršruta punktu skaits).\n2. `n` koordinātu pāri `x` un `y`.\n\nNoteikumi:\n- Pārvietošanās izmaksa no `(cur_x, cur_y)` uz `(x, y)` ir `abs(x - cur_x) + abs(y - cur_y)`.\n- Atņem izmaksu no `battery`.\n- Ja `battery` nokrītas zem 0, iestati to uz 0.\n- Atjauno pašreizējās koordinātas uz `(x, y)`.\n\nIzvade:\n`FINAL BATTERY: <battery>`",
+      "task": "1. Funkcijā `main()` nolasi `battery` un `n`.\n2. Inicializē `cur_x = 0` un `cur_y = 0`.\n3. Ciklā `n` reizes nolasi `x` un `y`.\n4. Atņem Manhatanas attālumu `abs(x - cur_x) + abs(y - cur_y)` no `battery`.\n5. Ja `battery < 0`, iestati `battery = 0`.\n6. Izvadi `FINAL BATTERY: <battery>`, kam seko jauna rindiņa."
+    },
+    "capstone-stage1-fleet-director": {
+      "title": "Noslēguma 1. posms: flotes direktors",
+      "content": "### Eskadriļas lidojumu vadības konsole\n\nIzstrādā I posma Flotes direktora programmu.\n\nIevades formāts:\n1. Vesels skaitlis `n` (dronu skaits eskadriļā).\n2. `n` rindas, katrā: `int id`, `string name`, `int battery`, `int altitude`.\n\nApstrāde:\n- Saglabā visus dronus `vector<Drone> fleet`.\n- Saskaiti, cik droni ir gatavi pacelšanās procesam (`battery >= 50 && altitude >= 0`).\n- Aprēķini vidējo baterijas līmeni visiem `n` droniem.\n\nIzvades formāts:\n1. Formatēts tabulas virsraksts:\n   `DRONE        BATTERY  ALTITUDE`\n   (Kolonnas: nosaukums pa kreisi platums 8, baterija pa labi platums 10, augstums pa labi platums 10).\n2. Katram dronam izvadi rindu, izmantojot tādus pašus lauku platumus un līdzinājumu.\n3. Izvadi `FLEET READY: <ready_count>`.\n4. Izvadi `AVG BATTERY: <fixed << setprecision(1) << avg>`.",
+      "task": "1. Nolasi veselu skaitli `n` un aizpildi `vector<Drone> fleet`.\n2. Izvadi tabulas virsrakstu ar `left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(10) << \"ALTITUDE\"`.\n3. Ciklā ej cauri `fleet` un izvadi katra drona rindu ar vienādiem platumiem.\n4. Saskaiti dronus ar `battery >= 50 && altitude >= 0` un izvadi `FLEET READY: <skaits>`.\n5. Aprēķini vidējo bateriju un izvadi `AVG BATTERY: <fixed << setprecision(1) << avg>`."
+    },
+    "recap": {
+      "title": "Kopsavilkums: Noslēguma projekta I posms pabeigts",
+      "content": "### Eskadriļas arhitektūra sagatavota lidojumam\n\nTu esi izstrādājis IRIS misijas vadības programmatūras modulāro pamatni!\n\n#### I posma arhitektūras kopsavilkums\n\n| Slānis | Modulis | Atbildība |\n| :--- | :--- | :--- |\n| **Modelis** | `struct Drone` | Iekapsulē ID, vārdu, bateriju % un augstumu |\n| **Modelis** | `struct Waypoint` | Navigācijas koordinātas `(x, y)` |\n| **Loģika** | `is_launch_ready()` | Droša kvalifikācijas pārbaude pēc konstanta rādītāja (`const &`) |\n| **Loģika** | `step_cost()` | Enerģijas aprēķins pēc Manhatanas metrikas |\n| **Prezentācija** | `<iomanip>` tabula | Formatēta telemetrijas konsole ar precīziem lauku platumiem |\n| **Analītika** | Rādītāju agregators | Flotes gatavības skaitītājs un vidējās baterijas aprēķins |\n\n> [!NOTE]\n> Modulārā arhitektūra ļauj katru komponenti pārbaudīt un validēt atsevišķi — tas ir aviācijas un kosmosa programmatūras pamatstandarts.\n\nNākamais solis 32. nodaļā: **Noslēguma projekts II (Lielais fināls)** — pilna autonoma kanjona ekspedīcija, melnās kastes žurnāls un kursa absolvēšana!"
+    }
+  }
+}

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad31" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="100%" stop-color="#141B26"/>
+    </linearGradient>
+    <linearGradient id="headerGrad31" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#D1B784"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="840" height="440" rx="12" fill="url(#bgGrad31)" stroke="#232E3F" stroke-width="2"/>
+
+  <!-- Title Banner -->
+  <text x="40" y="44" fill="url(#headerGrad31)" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="1.2">NOSLĒGUMA PROJEKTA ARHITEKTŪRA: 4 INTEGRĒTIE SLĀŅI</text>
+  <text x="40" y="68" fill="#8E9DAE" font-family="system-ui, sans-serif" font-size="13">Simbolu virknes, vektori, struktūras, kļūdu aizsardzība un formatēts žurnāls vienotā autonomā sistēmā</text>
+
+  <!-- 4 Tier Architectural Cards -->
+  
+  <!-- 1. Ievades slānis -->
+  <g transform="translate(40, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#7FB3A3" font-family="monospace" font-size="11" font-weight="bold">1. IEVADES SLĀNIS</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="11">std::string</text>
+    <text x="12" y="68" fill="#8E9DAE" font-family="sans-serif" font-size="10">Komandu parsēšana:</text>
+    <text x="12" y="84" fill="#7FB3A3" font-family="monospace" font-size="10">.find() un .substr()</text>
+
+    <line x1="12" y1="96" x2="163" y2="96" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="116" fill="#D1B784" font-family="monospace" font-size="11">cin.fail()</text>
+    <text x="12" y="132" fill="#8E9DAE" font-family="sans-serif" font-size="10">Ievades aizsardzība:</text>
+    <text x="12" y="148" fill="#7FB3A3" font-family="monospace" font-size="10">cin.clear() + junk</text>
+    <text x="12" y="164" fill="#8E9DAE" font-family="sans-serif" font-size="10">Robežu kontrole</text>
+    <text x="12" y="180" fill="#E4DCDB" font-family="monospace" font-size="10">rezerves vērtības</text>
+  </g>
+
+  <!-- 2. Datu modeļu slānis -->
+  <g transform="translate(235, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#D1B784" font-family="monospace" font-size="11" font-weight="bold">2. STĀVOKĻA SLĀNIS</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="11">struct Drone {</text>
+    <text x="24" y="68" fill="#E4DCDB" font-family="monospace" font-size="10">int id;</text>
+    <text x="24" y="82" fill="#E4DCDB" font-family="monospace" font-size="10">string name;</text>
+    <text x="24" y="96" fill="#E4DCDB" font-family="monospace" font-size="10">int battery;</text>
+    <text x="24" y="110" fill="#E4DCDB" font-family="monospace" font-size="10">int x, y;</text>
+    <text x="12" y="126" fill="#D1B784" font-family="monospace" font-size="11">};</text>
+
+    <line x1="12" y1="138" x2="163" y2="138" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="158" fill="#7FB3A3" font-family="monospace" font-size="10">vector&lt;Drone&gt; fleet;</text>
+    <text x="12" y="174" fill="#8E9DAE" font-family="sans-serif" font-size="10">Visi 3 IRIS droni:</text>
+    <text x="12" y="190" fill="#E4DCDB" font-family="sans-serif" font-size="10">Sigma, Delta, Omega</text>
+  </g>
+
+  <!-- 3. Dzinēja slānis -->
+  <g transform="translate(430, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#B99A61" font-family="monospace" font-size="11" font-weight="bold">3. AVIONIKAS DZINĒJS</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="10">Norādes (&amp;):</text>
+    <text x="12" y="68" fill="#7FB3A3" font-family="monospace" font-size="10">update_pos(Drone&amp;)</text>
+    <text x="12" y="84" fill="#7FB3A3" font-family="monospace" font-size="10">apply_drain(Drone&amp;)</text>
+
+    <line x1="12" y1="96" x2="163" y2="96" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="116" fill="#D1B784" font-family="monospace" font-size="10">Const norādes:</text>
+    <text x="12" y="132" fill="#E4DCDB" font-family="monospace" font-size="10">const vector&lt;Drone&gt;&amp;</text>
+    <text x="12" y="152" fill="#8E9DAE" font-family="sans-serif" font-size="10">Lidojuma pārbaudes:</text>
+    <text x="12" y="168" fill="#7FB3A3" font-family="monospace" font-size="10">is_ready()</text>
+    <text x="12" y="184" fill="#7FB3A3" font-family="monospace" font-size="10">calc_distance()</text>
+  </g>
+
+  <!-- 4. Izvades un žurnāla slānis -->
+  <g transform="translate(625, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#7FB3A3" font-family="monospace" font-size="11" font-weight="bold">4. IZVADE UN ŽURNĀLS</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="11">&lt;iomanip&gt; Tabulas</text>
+    <text x="12" y="68" fill="#8E9DAE" font-family="sans-serif" font-size="10">Kolonnu platumi:</text>
+    <text x="12" y="84" fill="#7FB3A3" font-family="monospace" font-size="10">setw(), left, right</text>
+    <text x="12" y="100" fill="#7FB3A3" font-family="monospace" font-size="10">fixed + setprecision</text>
+
+    <line x1="12" y1="112" x2="163" y2="112" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="132" fill="#D1B784" font-family="monospace" font-size="11">&lt;fstream&gt; Žurnāli</text>
+    <text x="12" y="148" fill="#8E9DAE" font-family="sans-serif" font-size="10">Pastāvīgais disks:</text>
+    <text x="12" y="164" fill="#7FB3A3" font-family="monospace" font-size="10">ofstream fout</text>
+    <text x="12" y="180" fill="#7FB3A3" font-family="monospace" font-size="10">.is_open() un .close()</text>
+  </g>
+
+  <!-- Bottom Integration Banner -->
+  <g transform="translate(40, 325)">
+    <rect width="760" height="90" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <text x="24" y="32" fill="#E4DCDB" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">1. POSMA MEŽĢIS: MODULĀRĀ STRUKTŪRA UN PIRMSLIDOJUMA KVALIFIKĀCIJA</text>
+    <text x="24" y="54" fill="#8E9DAE" font-family="sans-serif" font-size="11">1. posms validē saskarnes, modelē datu struktūras un sagatavo koordinātas. 2. posmā notiks pilns autonoms lidojums!</text>
+    <text x="24" y="72" fill="#7FB3A3" font-family="monospace" font-size="11">Skaidras saskarnes + Robežu kontrole + Vienotas kolekcijas = Misijas veiksme</text>
+  </g>
+</svg>

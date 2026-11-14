@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad31" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="100%" stop-color="#141B26"/>
+    </linearGradient>
+    <linearGradient id="headerGrad31" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#D1B784"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="840" height="440" rx="12" fill="url(#bgGrad31)" stroke="#232E3F" stroke-width="2"/>
+
+  <!-- Title Banner -->
+  <text x="40" y="44" fill="url(#headerGrad31)" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="1.2">CAPSTONE ARCHITECTURE: 4 INTEGRATED TIERS</text>
+  <text x="40" y="68" fill="#8E9DAE" font-family="system-ui, sans-serif" font-size="13">Uniting strings, vectors, custom structs, stream validation, and formatted persistence into one autonomous system</text>
+
+  <!-- 4 Tier Architectural Cards -->
+  
+  <!-- Tier 1: Ingestion & Validation -->
+  <g transform="translate(40, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#7FB3A3" font-family="monospace" font-size="11" font-weight="bold">1. INGESTION TIER</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="11">std::string</text>
+    <text x="12" y="68" fill="#8E9DAE" font-family="sans-serif" font-size="10">Uplink command parsing:</text>
+    <text x="12" y="84" fill="#7FB3A3" font-family="monospace" font-size="10">.find() &amp; .substr()</text>
+
+    <line x1="12" y1="96" x2="163" y2="96" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="116" fill="#D1B784" font-family="monospace" font-size="11">cin.fail()</text>
+    <text x="12" y="132" fill="#8E9DAE" font-family="sans-serif" font-size="10">Input sanitization:</text>
+    <text x="12" y="148" fill="#7FB3A3" font-family="monospace" font-size="10">cin.clear() + junk</text>
+    <text x="12" y="164" fill="#8E9DAE" font-family="sans-serif" font-size="10">Bounds validation</text>
+    <text x="12" y="180" fill="#E4DCDB" font-family="monospace" font-size="10">fallback substitution</text>
+  </g>
+
+  <!-- Tier 2: Data Models (Fleet State) -->
+  <g transform="translate(235, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#D1B784" font-family="monospace" font-size="11" font-weight="bold">2. STATE TIER</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="11">struct Drone {</text>
+    <text x="24" y="68" fill="#E4DCDB" font-family="monospace" font-size="10">int id;</text>
+    <text x="24" y="82" fill="#E4DCDB" font-family="monospace" font-size="10">string name;</text>
+    <text x="24" y="96" fill="#E4DCDB" font-family="monospace" font-size="10">int battery;</text>
+    <text x="24" y="110" fill="#E4DCDB" font-family="monospace" font-size="10">int x, y;</text>
+    <text x="12" y="126" fill="#D1B784" font-family="monospace" font-size="11">};</text>
+
+    <line x1="12" y1="138" x2="163" y2="138" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="158" fill="#7FB3A3" font-family="monospace" font-size="10">vector&lt;Drone&gt; fleet;</text>
+    <text x="12" y="174" fill="#8E9DAE" font-family="sans-serif" font-size="10">All 3 IRIS craft:</text>
+    <text x="12" y="190" fill="#E4DCDB" font-family="sans-serif" font-size="10">Sigma, Delta, Omega</text>
+  </g>
+
+  <!-- Tier 3: Avionics Engine -->
+  <g transform="translate(430, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#B99A61" font-family="monospace" font-size="11" font-weight="bold">3. AVIONICS ENGINE</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="10">Reference Passing (&amp;):</text>
+    <text x="12" y="68" fill="#7FB3A3" font-family="monospace" font-size="10">update_pos(Drone&amp;)</text>
+    <text x="12" y="84" fill="#7FB3A3" font-family="monospace" font-size="10">apply_drain(Drone&amp;)</text>
+
+    <line x1="12" y1="96" x2="163" y2="96" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="116" fill="#D1B784" font-family="monospace" font-size="10">Const References:</text>
+    <text x="12" y="132" fill="#E4DCDB" font-family="monospace" font-size="10">const vector&lt;Drone&gt;&amp;</text>
+    <text x="12" y="152" fill="#8E9DAE" font-family="sans-serif" font-size="10">Flight checks:</text>
+    <text x="12" y="168" fill="#7FB3A3" font-family="monospace" font-size="10">is_ready()</text>
+    <text x="12" y="184" fill="#7FB3A3" font-family="monospace" font-size="10">calc_distance()</text>
+  </g>
+
+  <!-- Tier 4: Reporting & Persistence -->
+  <g transform="translate(625, 95)">
+    <rect width="175" height="210" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <rect x="0" y="0" width="175" height="30" rx="8" fill="#1B2536"/>
+    <text x="12" y="20" fill="#7FB3A3" font-family="monospace" font-size="11" font-weight="bold">4. OUTPUT &amp; LOGS</text>
+
+    <text x="12" y="52" fill="#D1B784" font-family="monospace" font-size="11">&lt;iomanip&gt; Tables</text>
+    <text x="12" y="68" fill="#8E9DAE" font-family="sans-serif" font-size="10">Fixed column widths:</text>
+    <text x="12" y="84" fill="#7FB3A3" font-family="monospace" font-size="10">setw(), left, right</text>
+    <text x="12" y="100" fill="#7FB3A3" font-family="monospace" font-size="10">fixed + setprecision</text>
+
+    <line x1="12" y1="112" x2="163" y2="112" stroke="#232E3F" stroke-width="1"/>
+
+    <text x="12" y="132" fill="#D1B784" font-family="monospace" font-size="11">&lt;fstream&gt; Logs</text>
+    <text x="12" y="148" fill="#8E9DAE" font-family="sans-serif" font-size="10">Non-volatile storage:</text>
+    <text x="12" y="164" fill="#7FB3A3" font-family="monospace" font-size="10">ofstream fout</text>
+    <text x="12" y="180" fill="#7FB3A3" font-family="monospace" font-size="10">.is_open() &amp; .close()</text>
+  </g>
+
+  <!-- Bottom Integration Banner -->
+  <g transform="translate(40, 325)">
+    <rect width="760" height="90" rx="8" fill="#151C28" stroke="#2D3B4E" stroke-width="1.5"/>
+    <text x="24" y="32" fill="#E4DCDB" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">STAGE 1 MILESTONE: MODULAR DECOMPOSITION &amp; PRE-FLIGHT QUALIFICATION</text>
+    <text x="24" y="54" fill="#8E9DAE" font-family="sans-serif" font-size="11">Stage 1 validates contracts, models data structures, and prepares coordinates. Stage 2 executes the full autonomous flight launch!</text>
+    <text x="24" y="72" fill="#7FB3A3" font-family="monospace" font-size="11">Clean interfaces + Defensive bounds + Unified collections = Mission Success</text>
+  </g>
+</svg>

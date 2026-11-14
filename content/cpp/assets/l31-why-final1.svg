@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <!-- Martian Dawn Sky Gradient -->
+    <linearGradient id="dawnSky31" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0E131E"/>
+      <stop offset="45%" stop-color="#2D1A25"/>
+      <stop offset="80%" stop-color="#843B2B"/>
+      <stop offset="100%" stop-color="#D97A48"/>
+    </linearGradient>
+
+    <!-- Cockpit / Base Interior -->
+    <linearGradient id="commandHull31" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F17"/>
+      <stop offset="50%" stop-color="#141B26"/>
+      <stop offset="100%" stop-color="#080C14"/>
+    </linearGradient>
+
+    <linearGradient id="goldCap31" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B99A61"/>
+      <stop offset="100%" stop-color="#E5C78A"/>
+    </linearGradient>
+
+    <linearGradient id="cyanCap31" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4C9482"/>
+      <stop offset="100%" stop-color="#7FB3A3"/>
+    </linearGradient>
+
+    <filter id="glow31" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outside Dawn Sky -->
+  <rect width="960" height="540" fill="url(#dawnSky31)"/>
+
+  <!-- Vast Martian Canyon & Plateau Rims -->
+  <polygon points="0,300 120,270 260,285 410,240 570,275 730,235 880,280 960,250 960,420 0,420" fill="#4E201B" opacity="0.9"/>
+  <polygon points="0,335 150,305 310,320 480,285 650,315 810,280 960,315 960,430 0,430" fill="#2E1210"/>
+
+  <!-- Glowing Morning Sun Rising over Crater Horizon -->
+  <circle cx="580" cy="225" r="38" fill="#FFE299" opacity="0.95"/>
+  <circle cx="580" cy="225" r="80" fill="#FFB852" opacity="0.25" filter="url(#glow31)"/>
+
+  <!-- Panoramic Base Windows & Structural Framework -->
+  <path d="M 0 0 L 960 0 L 960 540 L 0 540 Z M 60 45 L 900 45 L 900 405 L 60 405 Z" fill="url(#commandHull31)"/>
+  <line x1="330" y1="45" x2="300" y2="405" stroke="#1D2433" stroke-width="12"/>
+  <line x1="630" y1="45" x2="660" y2="405" stroke="#1D2433" stroke-width="12"/>
+
+  <!-- Command Bridge Floor -->
+  <polygon points="0,405 960,405 960,540 0,540" fill="#0D121B" stroke="#222F42" stroke-width="2"/>
+  <line x1="200" y1="405" x2="160" y2="540" stroke="#192333" stroke-width="3"/>
+  <line x1="760" y1="405" x2="800" y2="540" stroke="#192333" stroke-width="3"/>
+
+  <!-- Grand Central System Architecture Hologram (Stage 1 Blueprint) -->
+  <g transform="translate(170, 85)">
+    <!-- Hologram Outer Boundary -->
+    <rect width="440" height="290" rx="14" fill="#0B1420" fill-opacity="0.88" stroke="#3D617F" stroke-width="2" filter="url(#glow31)"/>
+
+    <!-- 4 Modular Subsystem Blocks -->
+    <!-- Module 1: Ingestion / Telemetry -->
+    <g transform="translate(25, 25)">
+      <rect width="180" height="110" rx="8" fill="#142233" stroke="#4C9482" stroke-width="1.5"/>
+      <rect x="15" y="14" width="70" height="12" rx="3" fill="#7FB3A3"/>
+      <rect x="15" y="36" width="150" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="52" width="120" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="74" width="90" height="18" rx="4" fill="#182E32" stroke="#4C9482"/>
+      <circle cx="150" cy="83" r="5" fill="#7FB3A3"/>
+    </g>
+
+    <!-- Module 2: Fleet State (vector<Drone>) -->
+    <g transform="translate(235, 25)">
+      <rect width="180" height="110" rx="8" fill="#142233" stroke="#B99A61" stroke-width="1.5"/>
+      <rect x="15" y="14" width="80" height="12" rx="3" fill="#D1B784"/>
+      <rect x="15" y="36" width="150" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="52" width="110" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="74" width="90" height="18" rx="4" fill="#2E2519" stroke="#B99A61"/>
+      <circle cx="150" cy="83" r="5" fill="#D1B784"/>
+    </g>
+
+    <!-- Module 3: Navigation Engine -->
+    <g transform="translate(25, 155)">
+      <rect width="180" height="110" rx="8" fill="#142233" stroke="#B99A61" stroke-width="1.5"/>
+      <rect x="15" y="14" width="90" height="12" rx="3" fill="#D1B784"/>
+      <rect x="15" y="36" width="140" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="52" width="130" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="74" width="90" height="18" rx="4" fill="#2E2519" stroke="#B99A61"/>
+      <circle cx="150" cy="83" r="5" fill="#D1B784"/>
+    </g>
+
+    <!-- Module 4: Mission Reporter & Persistence -->
+    <g transform="translate(235, 155)">
+      <rect width="180" height="110" rx="8" fill="#142233" stroke="#4C9482" stroke-width="1.5"/>
+      <rect x="15" y="14" width="85" height="12" rx="3" fill="#7FB3A3"/>
+      <rect x="15" y="36" width="150" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="52" width="120" height="8" rx="2" fill="#E4DCDB" opacity="0.8"/>
+      <rect x="15" y="74" width="90" height="18" rx="4" fill="#182E32" stroke="#4C9482"/>
+      <circle cx="150" cy="83" r="5" fill="#7FB3A3"/>
+    </g>
+
+    <!-- Central Interconnect Nexus -->
+    <circle cx="220" cy="145" r="16" fill="#1A2D3F" stroke="#7FB3A3" stroke-width="2" filter="url(#glow31)"/>
+    <circle cx="220" cy="145" r="7" fill="#E5C78A"/>
+  </g>
+
+  <!-- Robot Mascot IRIS [ o o ] Operating System Designer -->
+  <g transform="translate(710, 240)">
+    <!-- Shadow -->
+    <ellipse cx="65" cy="180" rx="55" ry="16" fill="#030508" opacity="0.85"/>
+
+    <!-- Chassis Body -->
+    <rect x="25" y="75" width="80" height="85" rx="16" fill="#1C2638" stroke="#3A4D6B" stroke-width="2.5"/>
+    <rect x="42" y="95" width="46" height="24" rx="6" fill="#0B121C" stroke="#2B3C54" stroke-width="1.5"/>
+    <circle cx="53" cy="107" r="4" fill="#7FB3A3"/>
+    <circle cx="65" cy="107" r="4" fill="#D1B784"/>
+    <circle cx="77" cy="107" r="4" fill="#7FB3A3"/>
+
+    <!-- Neck Connector -->
+    <rect x="52" y="60" width="26" height="18" rx="4" fill="#2E3C52"/>
+
+    <!-- Head Unit (Rounded Cube) -->
+    <rect x="10" y="-5" width="110" height="72" rx="22" fill="#243145" stroke="#485F84" stroke-width="3"/>
+    
+    <!-- Visor -->
+    <rect x="22" y="9" width="86" height="44" rx="14" fill="#090E17" stroke="#1D293D" stroke-width="2"/>
+
+    <!-- Bright Horizontal Pill Eyes [ o o ] -->
+    <rect x="36" y="21" width="22" height="18" rx="8" fill="#7FB3A3" filter="url(#glow31)"/>
+    <rect x="72" y="21" width="22" height="18" rx="8" fill="#7FB3A3" filter="url(#glow31)"/>
+    <circle cx="44" cy="28" r="3" fill="#FFFFFF"/>
+    <circle cx="80" cy="28" r="3" fill="#FFFFFF"/>
+
+    <!-- Antenna -->
+    <line x1="65" y1="-5" x2="65" y2="-25" stroke="#485F84" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="65" cy="-29" r="6" fill="#D1B784" filter="url(#glow31)"/>
+
+    <!-- Arm Saluting the Architecture Blueprint -->
+    <path d="M 25 100 Q -25 110 -50 70" fill="none" stroke="#2E3C52" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="-52" cy="70" r="7" fill="#E5C78A"/>
+  </g>
+</svg>
