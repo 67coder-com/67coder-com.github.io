@@ -1,0 +1,102 @@
+{
+  "n": 13,
+  "slug": "while",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-while-loop",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. Dawn after the Martian dust storm on the reinforced launch pad of Mars base IRIS. Scout drone Sigma with faceted dark carbon-slate hull and amber thruster ports sits in pre-flight diagnostics, with circular telemetry calibration rings projecting onto the tarmac. In the background, heavy surveyor drone Delta rests on an auxiliary maintenance platform beside base solar arrays under a crisp peach-amber Martian sunrise. Standing at a portable diagnostics terminal, observing a pulsing countdown loop bar, is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 on the thrusters and diagnostic telemetry rings."
+    },
+    {
+      "id": "while-syntax-and-rules",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int pressure = 20;\nwhile (pressure < 50) {\n    pressure += 10; // condition will eventually turn false\n}",
+          "ok": true
+        },
+        {
+          "code": "int pressure = 20;\nwhile (pressure < 50) {\n    cout << \"WAIT\"; // pressure never updates -> infinite loop!\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-while-count",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int pressure = 70;\n    while (pressure < 100) {\n        pressure += 10;\n    }\n    cout << pressure;\n    return 0;\n}",
+      "expected": "100",
+      "focus": "while (pressure < 100) {\n        pressure += 10;\n    }"
+    },
+    {
+      "id": "sensor-warmup-loop",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int temp;\n    cin >> temp;\n\n    // 1. while temp < 50\n    // 2. add 10 to temp and print: WARMING: <temp>\n    // 3. after loop print: READY FOR FLIGHT\n\n    return 0;\n}",
+      "expected": "WARMING: 30\nWARMING: 40\nWARMING: 50\nREADY FOR FLIGHT",
+      "requires": ["while", "<", "+=", "cout"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int temp;\n    cin >> temp;\n\n    while (temp < 50) {\n        temp += 10;\n        cout << \"WARMING: \" << temp << endl;\n    }\n    cout << \"READY FOR FLIGHT\" << endl;\n\n    return 0;\n}",
+      "stdin": "20\n"
+    },
+    {
+      "id": "predict-zero-iterations",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int charge = 95;\n    while (charge < 80) {\n        cout << \"CHARGING...\";\n        charge += 10;\n    }\n    cout << \"BATTERY READY\";\n    return 0;\n}",
+      "expected": "BATTERY READY",
+      "focus": "while (charge < 80) {"
+    },
+    {
+      "id": "do-while-syntax",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "int voltage = 10;\ndo {\n    voltage += 25;\n} while (voltage < 50);",
+          "ok": true
+        },
+        {
+          "code": "int voltage = 10;\ndo {\n    voltage += 25;\n} while (voltage < 50) // missing trailing semicolon!",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-do-while",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int attempt = 5;\n    do {\n        cout << attempt;\n        attempt++;\n    } while (attempt < 3);\n    return 0;\n}",
+      "expected": "5",
+      "focus": "do {\n        cout << attempt;\n        attempt++;\n    } while (attempt < 3);"
+    },
+    {
+      "id": "capacitor-pulse-charge",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int voltage, target;\n    cin >> voltage >> target;\n\n    // 1. do-while loop while voltage < target\n    // 2. add 25 to voltage and print: PULSE: <voltage>\n    // 3. after loop print: LIDAR CHARGED\n\n    return 0;\n}",
+      "expected": "PULSE: 35\nPULSE: 60\nLIDAR CHARGED",
+      "requires": ["do", "while", ";"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int voltage, target;\n    cin >> voltage >> target;\n\n    do {\n        voltage += 25;\n        cout << \"PULSE: \" << voltage << endl;\n    } while (voltage < target);\n\n    cout << \"LIDAR CHARGED\" << endl;\n\n    return 0;\n}",
+      "stdin": "10 60\n"
+    },
+    {
+      "id": "find-infinite-loop",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int countdown = 3;\n    while (countdown > 0) {\n        cout << \"COUNTDOWN: \" << countdown << endl;\n        countdown--;\n    }\n    int pressure = 10;\n    while (pressure < 50) {\n        cout << \"PRESSURE: LOW\" << endl;\n    }\n    return 0;\n}",
+      "answerLine": 11
+    },
+    {
+      "id": "stream-input-accumulator",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int val;\n    cin >> val;\n    int sum = 0;\n\n    // 1. while val != -1\n    // 2. add val to sum and read next val from cin\n    // 3. after loop print: TOTAL TELEMETRY: <sum>\n\n    return 0;\n}",
+      "expected": "TOTAL TELEMETRY: 50",
+      "requires": ["while", "!=", "cin >> val;"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int val;\n    cin >> val;\n    int sum = 0;\n\n    while (val != -1) {\n        sum += val;\n        cin >> val;\n    }\n\n    cout << \"TOTAL TELEMETRY: \" << sum << endl;\n\n    return 0;\n}",
+      "stdin": "10 25 15 -1\n"
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

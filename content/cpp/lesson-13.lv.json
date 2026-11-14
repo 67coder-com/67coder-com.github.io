@@ -1,0 +1,110 @@
+{
+  "title": "Cikls while",
+  "steps": {
+    "why-while-loop": {
+      "eyebrow": "Iteratīvā skaitļošana",
+      "title": "Gaidot gatavību: Nepieciešamība pēc atkārtošanas",
+      "body": [
+        "Putekļu vētra virs Mawrth Vallis ir norimusi, un rītausmā Marsa debesis atkal ir skaidras. Izlūks Sigma atrodas uz ārējās pacelšanās platformas un sāk dzinēju pirmslidojuma kalibrāciju.",
+        "Aviācijas un kosmosa inženierijā aparatūras diagnostika nekad nenotiek acumirklī. Hidrauliskajām degvielas līnijām ir jāsasniedz darba spiediens, dzinēju blokiem ir jāuzsilst, un sensoru pārbaudes ir jāveic atkārtoti, līdz visi statusa karodziņi rāda gatavību.",
+        "Līdz šim katra mūsu rakstītā C++ programma izpildījās stingri no augšas uz leju, veicot vienu izvēli ar `if / else` un beidzot darbu. Ja spiediena sensors rādīja zem nepieciešamā sliekšņa, programma vienkārši apstājās.",
+        "Lai borta programmatūra būtu patiesi autonoma, ir nepieciešams mehānisms, kas atkārto darbību, kamēr nav izpildīts konkrēts nosacījums. Valodā C++ šo pamatu veido cikls `while`."
+      ],
+      "archive": {
+        "title": "Galvenais vadības cikls (Main Control Loop) kosmonautikā",
+        "body": [
+          "Sākot no Apollo borta datora (AGC) līdz mūsdienu nesējraķetēm SpaceX Falcon 9 un Marsa helikopteram Ingenuity, reāllaika kosmosa datori darbojas nepārtrauktā borta vadības ciklā, ko sauc par **galveno vadības ciklu** (Main Control Loop).",
+          "Šī cikla ietvaros lidojuma programmatūra nolasa žiroskopus un akselerometrus, pārrēķina trajektorijas stāvokļa vektorus un koriģē stūrēšanas dzinējus ar fiksētu frekvenci (visbiežāk no 100 Hz līdz 500 Hz).",
+          "Kad Zemes vadības centrs dod komandu, piemēram, «izvadīt degvielas tvaikus, līdz spiediens tvertnē nokrītas zem 30 bāriem», mikrokontrolieris izpilda aptaujas ciklu: nolasa spiediena sensoru, gaida spiediena kritumu un atkārto pārbaudi, līdz mērķa robeža ir sasniegta."
+        ],
+        "sources": [
+          "NASA JPL, 'Mars Helicopter Ingenuity Flight Control System Architecture'",
+          "John L. Crassidis, 'Optimal Estimation of Dynamic Systems', CRC Press"
+        ]
+      }
+    },
+    "while-syntax-and-rules": {
+      "eyebrow": "Pirmsnosacījuma cikls",
+      "title": "Cikls while: Sintakse un darbības princips",
+      "compareCaptions": [
+        "Korekts cikls: mainīgais katrā solī palielinās, un nosacījums ar laiku kļūst aplams",
+        "Bezgalīga cikla kļūda: spiediens netiek mainīts, un nosacījums paliek patiess mūžīgi"
+      ],
+      "body": [
+        "syntax: while ({condition}) { {body} }\n- condition: loģiskā izteiksme, ko pārbauda PIRMS katras iterācijas\n- body: komandu bloks, ko atkārtoti izpilda, kamēr nosacījums ir patiess",
+        "Cikls `while` katrā solī darbojas trīs secīgās fāzēs:",
+        "1. **Pārbauda nosacījumu:** Procesors aprēķina iekavās doto loģisko izteiksmi.",
+        "2. **Izpilda vai iziet:** Ja nosacījums ir patiess (`true`), izpildās figūriekavu `{ ... }` iekšienē esošais kods. Ja aplams (`false`), cikls nekavējoties beidzas un izpilde pārlec uz kodu aiz noslēdzošās figūriekavas.",
+        "3. **Atkārto:** Kad cikla ķermeņa pēdējā rinda ir pabeigta, izpilde atgriežas 1. solī, lai no jauna pārbaudītu nosacījumu.",
+        "!> **Bezgalīgā cikla slazds.** Koda blokam cikla iekšienē ir obligāti jāmaina vismaz viens no mainīgajiem, kas piedalās nosacījumā! Ja nosacījums paliek patiess mūžīgi, dators nonāk bezgalīgā ciklā, iesaldējot sistēmu, līdz aparatūras taimeris (watchdog) izraisa avārijas pārlādi."
+      ]
+    },
+    "predict-while-count": {
+      "eyebrow": "Cikla gaitas izsekošana",
+      "title": "Spiediena uzkrāšanas prognoze",
+      "task": "Kādu gala skaitli izvadīs programma pēc cikla while beigām? Prognozējiet pirms palaišanas.",
+      "hint": "Izsekojiet katru iterāciju: spiediens sākas ar 70 (70 < 100 -> 80), tad 80 (80 < 100 -> 90), tad 90 (90 < 100 -> 100). Vai 100 < 100 ir patiess vai aplams?",
+      "explain": "Trešajā iterācijā `pressure` palielinās no 90 līdz 100. Atgriežoties pie pārbaudes, izteiksme `100 < 100` ir aplama (false). Cikls nekavējoties beidzas, un `cout` izvada pēdējo uzkrāto vērtību `100`."
+    },
+    "sensor-warmup-loop": {
+      "title": "Dzinēja priekšsildītāja cikls",
+      "task": "Ieprogrammējiet drona Sigma dzinēja sildītāju, izmantojot ciklu `while`:\n1. Nolasiet sākuma temperatūru `int temp` no `cin`.\n2. Kamēr `temp < 50`, pieskaitiet `10` pie `temp` un izvadiet `WARMING: `, kam seko `temp` un jauna rinda.\n3. Pēc cikla beigām izvadiet `READY FOR FLIGHT` un jaunu rindu.",
+      "hint": "Rakstiet `while (temp < 50) { temp += 10; cout << \"WARMING: \" << temp << endl; }`, kam seko gatavības paziņojums.",
+      "solutionNote": "Pie ievades 20 temperatūra kļūst 30, 40 un 50, izvadot trīs sildīšanas statusus un pēc tam READY FOR FLIGHT."
+    },
+    "predict-zero-iterations": {
+      "eyebrow": "Pirmsnosacījuma pārbaude",
+      "title": "Kad cikls while neizpildās ne reizi",
+      "task": "Ko izvadīs šī programma, ja baterijas uzlāde sākotnēji ir 95%?",
+      "hint": "Pārbaudiet cikla nosacījumu charge < 80. Vai tas ir patiess vai aplams vēl pirms cikla ķermeņa pirmās izpildes?",
+      "explain": "Tā kā `charge` ir 95, sākotnējā pārbaude `95 < 80` ir aplama (false) jau pašā sākumā! Cikla iekšiene netiek izpildīta ne reizi, un programma uzreiz pāriet pie `BATTERY READY`. Cikls `while` var izpildīties 0 reizes, ja nosacījums jau sākumā ir aplams."
+    },
+    "do-while-syntax": {
+      "eyebrow": "Pēcnosacījuma cikls",
+      "title": "Cikls do-while: Garantēta pirmā izpilde",
+      "compareCaptions": [
+        "Korekta do-while sintakse: ķermenis izpildās vispirms, aiz while nosacījuma ir obligāts semikols",
+        "Sintakses kļūda: semikola izlaišana aiz while (nosacījums) izraisa kompilācijas kļūdu"
+      ],
+      "body": [
+        "syntax: do { {body} } while ({condition});\n- body: komandu bloks, ko garantēti izpilda VISMAZ VIENU REIZI\n- condition: loģiskā pārbaude PĒC katras iterācijas; prasa semikolu beigās",
+        "Reizēm borta aparatūrā darbība ir **jāveic vismaz vienu reizi**, pirms mēs vispār varam pārbaudīt, vai to nepieciešams atkārtot. Piemēram, drona dators nevar zināt, vai sensora dati ir derīgi, neveicot vismaz vienu mērījumu.",
+        "Cikls `do-while` apgriež secību: tas vispirms izpilda koda ķermeni un tikai pēc tam pārbauda nosacījumu.",
+        "> **Sintakses likums:** Ievērojiet noslēdzošo semikolu `;` tūlīt aiz `while (condition);` konstrukcijā `do-while`. Atšķirībā no parastā `while`, šis semikols ir obligāts, un tā izlaišana izraisa kompilācijas kļūdu."
+      ]
+    },
+    "predict-do-while": {
+      "eyebrow": "Pēcnosacījuma izvērtēšana",
+      "title": "Pēcnosacījuma cikla izpildes prognoze",
+      "task": "Kādu skaitli izvadīs šī programma? Rūpīgi izsekojiet komandu secību.",
+      "hint": "Cikla ķermenis izpildās vispirms: attempt ir 5, cout izvada attempt, attempt kļūst 6. Pēc tam pārbauda: vai 6 < 3 ir patiess vai aplams?",
+      "explain": "Ciklā `do-while` ķermenis vienmēr izpildās vismaz vienu reizi. Programma izvada `5`, palielina `attempt` uz 6 un tikai tad pārbauda `6 < 3`. Tā kā nosacījums ir aplams, cikls beidzas, atstājot izvadē skaitli `5`."
+    },
+    "capacitor-pulse-charge": {
+      "title": "Lidara kondensatora impulsa uzlāde",
+      "task": "Ieprogrammējiet drona Delta lidara kondensatora uzlādi ar ciklu `do-while`:\n1. Nolasiet sākuma spriegumu `int voltage` un mērķa spriegumu `int target` no `cin`.\n2. Ciklā `do-while`, kamēr `voltage < target`: pieskaitiet `25` pie `voltage` un izvadiet `PULSE: `, kam seko `voltage` un jauna rinda.\n3. Pēc cikla beigām izvadiet `LIDAR CHARGED` un jaunu rindu.",
+      "hint": "Rakstiet `do { voltage += 25; cout << \"PULSE: \" << voltage << endl; } while (voltage < target);`, kam seko pabeigšanas paziņojums.",
+      "solutionNote": "Pie sākuma sprieguma 10 un mērķa 60 impulsi palielina spriegumu līdz 35 un 60, sasniedzot mērķi un izvadot LIDAR CHARGED."
+    },
+    "find-infinite-loop": {
+      "title": "Iesaldētā cikla kļūdas atrašana",
+      "task": "Noklikšķiniet uz rindas, kurā trūkstošs mainīgā atjauninājums izraisa drona borta datora iesalšanu.",
+      "hint": "Pārbaudiet abus ciklus: pirmais cikls samazina countdown ar countdown--; vai otrais cikls vispār maina mainīgo pressure?",
+      "explain": "11. rindā sākas `while (pressure < 50)`. Šī cikla iekšienē mainīgais `pressure` nekad netiek mainīts! Nosacījums `10 < 50` paliek patiess mūžīgi, iesaldējot borta datoru bezgalīgā ciklā."
+    },
+    "stream-input-accumulator": {
+      "title": "Papilduzdevums: Telemetrijas plūsmas akumulators",
+      "task": "Uzkrājiet ienākošās telemetrijas vērtības, līdz tiek saņemta beigu sargāta vērtība `-1`:\n1. Nolasiet pirmo mērījumu `int val` no `cin`.\n2. Definējiet akumulatoru `int sum = 0;`.\n3. Ciklā `while`, kamēr `val != -1`: pieskaitiet `val` pie `sum` un nolasiet nākamo vērtību ar `cin >> val;`.\n4. Pēc cikla beigām izvadiet `TOTAL TELEMETRY: `, kam seko `sum` un jauna rinda.",
+      "hint": "Lietojiet `while (val != -1) { sum += val; cin >> val; }`, lai apstrādātu plūsmas datus.",
+      "solutionNote": "Ievadot 10 25 15 -1, cikls saskaita 10 + 25 + 15 = 50 un apstājas pie signāla -1."
+    },
+    "recap": {
+      "title": "13. misijas kopsavilkums: Cikli apgūti",
+      "body": [
+        "Apsveicam! Jūs esat apguvuši iteratīvos ciklus valodā C++. Droni Sigma un Delta tagad spēj autonomi aptaujāt sensorus, veikt atkārtotas aparatūras pārbaudes un gaidīt labvēlīgus lidojuma apstākļus.",
+        "| Cikla veids | Kad pārbauda nosacījumu | Minimālais iterāciju skaits | Labākais pielietojums kosmosā |\n| :--- | :--- | :--- | :--- |\n| `while (cond)` | Pirms cikla ķermeņa | 0 | Ārējo sensoru aptauja, drošas pārbaudes |\n| `do { ... } while (cond);` | Pēc cikla ķermeņa | 1 | Sensora nolasīšana pirms vērtēšanas, atkārtoti pieprasījumi |",
+        "Nākamajā, 14. nodaļā mūs gaida strukturētais skaitītāja cikls: `for`. Kad drona uzdevums prasa veikt darbību precīzi zināmu reižu skaitu — piemēram, apsekot 10 maršruta koordinātu punktus pēc kārtas —, cikls `for` nodrošina tīru un kompaktu koda ietvaru."
+      ]
+    }
+  }
+}

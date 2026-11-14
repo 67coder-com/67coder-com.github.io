@@ -110,7 +110,10 @@
         {
           "n": 13,
           "slug": "while",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 14,
