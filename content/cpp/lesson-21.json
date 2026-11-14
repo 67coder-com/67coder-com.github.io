@@ -1,0 +1,124 @@
+{
+  "n": 21,
+  "slug": "functions-params",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "why-references",
+      "kind": "theory",
+      "image": "assets/l21-why-references.jpg"
+    },
+    {
+      "id": "pass-by-value-vs-ref",
+      "kind": "theory"
+    },
+    {
+      "id": "predict-ref-mutation",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nvoid consume_fuel(int regular, int &battery) {\n    regular -= 10;\n    battery -= 25;\n}\n\nint main() {\n    int fuel = 100;\n    int batt = 100;\n    consume_fuel(fuel, batt);\n    cout << fuel << \" \" << batt << endl;\n    return 0;\n}",
+      "expected": "100 75\n",
+      "options": [
+        "100 75",
+        "90 75",
+        "100 100",
+        "90 100"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "write-swap-telemetry",
+      "kind": "editor",
+      "initial": "#include <iostream>\nusing namespace std;\n\n// 1. Define void swap_coords(int &a, int &b) here\n\nint main() {\n    int x, y;\n    cin >> x >> y;\n\n    // 2. Call swap_coords\n    // 3. Print COORDINATES: x y\n\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nvoid swap_coords(int &a, int &b) {\n    int temp = a;\n    a = b;\n    b = temp;\n}\n\nint main() {\n    int x, y;\n    cin >> x >> y;\n\n    swap_coords(x, y);\n    cout << \"COORDINATES: \" << x << \" \" << y << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "120 450\n",
+          "expected": "COORDINATES: 450 120\n"
+        },
+        {
+          "in": "-10 80\n",
+          "expected": "COORDINATES: 80 -10\n"
+        },
+        {
+          "in": "0 99\n",
+          "expected": "COORDINATES: 99 0\n"
+        }
+      ]
+    },
+    {
+      "id": "const-reference-for-containers",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "#include <vector>\n#include <iostream>\nusing namespace std;\n\nvoid print_status(const vector<int> &v) {\n    cout << \"POINTS: \" << v.size(); // Zero copy, fast!\n}",
+          "ok": true
+        },
+        {
+          "code": "#include <vector>\nusing namespace std;\n\nvoid print_status(const vector<int> &v) {\n    v[0] = 99; // Error! const protects\n    // from unintended modification\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "find-value-copy-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nvoid calibrate_sensor(int reading) {\n    reading += 15;\n}\n\nint main() {\n    int sensor = 100;\n    calibrate_sensor(sensor);\n    cout << sensor << endl;\n    return 0;\n}",
+      "answerLine": 4
+    },
+    {
+      "id": "assemble-multi-return-ref",
+      "kind": "parsons",
+      "lines": [
+        "#include <iostream>",
+        "using namespace std;",
+        "void divide_power(int total, int pods, int &per_pod, int &leftover) {",
+        "    per_pod = total / pods;",
+        "    leftover = total % pods;",
+        "}",
+        "int main() {",
+        "    int q, r;",
+        "    divide_power(100, 3, q, r);",
+        "    cout << \"PER POD: \" << q << \" LEFTOVER: \" << r << endl;",
+        "    return 0;",
+        "}"
+      ]
+    },
+    {
+      "id": "predict-const-ref-protection",
+      "kind": "predict",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint count_valid(const vector<int> &v, int threshold) {\n    int c = 0;\n    for (int i = 0; i < v.size(); i++) {\n        if (v[i] >= threshold) c++;\n    }\n    return c;\n}\n\nint main() {\n    vector<int> sensors = {85, 120, 40, 150, 95};\n    int res = count_valid(sensors, 100);\n    cout << \"ABOVE: \" << res << \" TOTAL: \" << sensors.size() << endl;\n    return 0;\n}",
+      "expected": "ABOVE: 2 TOTAL: 5\n",
+      "options": [
+        "ABOVE: 2 TOTAL: 5",
+        "ABOVE: 3 TOTAL: 5",
+        "ABOVE: 2 TOTAL: 2",
+        "ABOVE: 5 TOTAL: 5"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "drone-flight-trim-controller",
+      "kind": "editor",
+      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n// 1. Define void adjust_throttle(int &current, int target, int step)\n// 2. Define int scan_peak(const vector<int> &signals)\n\nint main() {\n    int throttle, target, step, count;\n    cin >> throttle >> target >> step >> count;\n\n    // 3. Read count integers into vector<int> readings with push_back\n    // 4. Call adjust_throttle\n    // 5. Call scan_peak\n    // 6. Print TRIMMED THROTTLE: throttle\n    // 7. Print PEAK TELEMETRY: peak\n\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nvoid adjust_throttle(int &current, int target, int step) {\n    if (current < target) {\n        current += step;\n    } else if (current > target) {\n        current -= step;\n    }\n}\n\nint scan_peak(const vector<int> &signals) {\n    int max_s = signals[0];\n    for (int i = 1; i < signals.size(); i++) {\n        if (signals[i] > max_s) {\n            max_s = signals[i];\n        }\n    }\n    return max_s;\n}\n\nint main() {\n    int throttle, target, step, count;\n    cin >> throttle >> target >> step >> count;\n\n    vector<int> readings;\n    for (int i = 0; i < count; i++) {\n        int val;\n        cin >> val;\n        readings.push_back(val);\n    }\n\n    adjust_throttle(throttle, target, step);\n    int peak = scan_peak(readings);\n\n    cout << \"TRIMMED THROTTLE: \" << throttle << endl;\n    cout << \"PEAK TELEMETRY: \" << peak << endl;\n\n    return 0;\n}",
+      "tests": [
+        {
+          "in": "50 80 15 3\n10 85 40\n",
+          "expected": "TRIMMED THROTTLE: 65\nPEAK TELEMETRY: 85\n"
+        },
+        {
+          "in": "90 60 20 2\n-15 -5\n",
+          "expected": "TRIMMED THROTTLE: 70\nPEAK TELEMETRY: -5\n"
+        },
+        {
+          "in": "100 100 10 4\n20 30 50 10\n",
+          "expected": "TRIMMED THROTTLE: 100\nPEAK TELEMETRY: 50\n"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "kind": "theory"
+    }
+  ]
+}

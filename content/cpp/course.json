@@ -179,7 +179,10 @@
         {
           "n": 21,
           "slug": "functions-params",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 22,

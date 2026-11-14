@@ -1,0 +1,112 @@
+{
+  "title": "Funkcijas: parametru nodošana",
+  "steps": {
+    "why-references": {
+      "eyebrow": "Atmiņas sinhronizācija",
+      "title": "Kāpēc borta datoriem nepieciešamas norādes",
+      "body": [
+        "20. nodaļā mēs uzzinājām, ka C++ funkcijas parametrus pēc noklusējuma saņem **pēc vērtības**. Kad tiek izsaukts `calc_fuel(dist, rate)`, dators atmiņā izveido neatkarīgu katra argumenta kopiju.",
+        "Viena 4 baitu `int` skaitļa nokopēšana ir zibenīga. Bet iedomājieties izlūka dronu Sigma, kura `vector<int>` glabā 10 000 lidara mērījumu. Ja funkcija saņem `vector<int> v` pēc vērtības, datoram pie katra izsaukuma jākopē 40 kilobaiti atmiņas! Marsa borta datorā ar ierobežotu kopnes joslas platumu tas rada bīstamu aizturi un lieki tērē bateriju.",
+        "Turklāt, kā rīkoties, ja funkcijai vienlaikus jāatjaunina drona pozīcija un jāpārkalibrē divi sensoru kanāli? C++ funkcija ar `return` spēj atgriezt tikai vienu vienīgu vērtību.",
+        "C++ abus šos izaicinājumus atrisina ar **norādēm (references)** — simbolu `&`:",
+        "- **Tieša piekļuve atmiņai.** Norāde neveido kopiju. Tā kļūst par **sinonīmu** (otro vārdu) oriģinālajam mainīgajam izsaucēja atmiņā.",
+        "- **Nulles kopēšanas ātrdarbība.** Apjomīgi vektori un dati tiek nodoti acumirklī, nepatērējot nevienu papildu baitu operatīvās atmiņas.",
+        "- **Vairāku vērtību atgriešana.** Funkcija var tieši mainīt vairākus padotos mainīgos, faktiski atgriežot vairākus jaunus rezultātus."
+      ],
+      "archive": {
+        "title": "Atmiņas joslas platums un nulles kopēšana Marsa borta datoros",
+        "body": "Radiācijas drošais procesors BAE RAD750, kas vada Marsa orbītas zondi MRO, kā arī visurgājējus Curiosity un Perseverance, darbojas ar salīdzinoši nelielu 133 MHz takts frekvenci un ierobežotu atmiņas caurlaides spēju. Pie 133 MHz augstas izšķirtspējas navigācijas karšu kopēšana RAM atmiņā tērē simtiem tūkstošu procesora ciklu. NASA JPL lidojumu programmatūras standarti pieprasa stingru 'zero-copy' principu: visi telemetrijas masīvi un attēli funkcijām jānodod tikai pēc const norādes (`const T&`) vai parastās norādes (`T&`), pilnībā izslēdzot lieku atmiņas piešķiršanu un kešatmiņas bloķēšanu.",
+        "sources": [
+          "NASA JPL, 'Flight Software Architecture for Mars Science Laboratory'",
+          "BAE Systems, 'RAD750 Radiation-Hardened PowerPC Microprocessor Data Sheet'"
+        ]
+      }
+    },
+    "pass-by-value-vs-ref": {
+      "eyebrow": "Sintakse un mehānismi",
+      "title": "Nodošana pēc vērtības pret nodošanu pēc norādes (&)",
+      "alt": "Shēma salīdzina parametru nodošanas veidus: pēc vērtības izveido kopiju, pēc norādes (&) maina oriģinālu atmiņā, bet const norāde nodrošina ātru lasīšanu bez kopēšanas.",
+      "image": "assets/l21-param-passing.lv.svg",
+      "body": [
+        "Lai parametru deklarētu kā norādi, starp datu tipu un parametra nosaukumu ieraksta ampersandu **`&`**:",
+        "```cpp\nvoid refuel(int &fuel_tank, int amount) {\n    fuel_tank += amount; // Tieši atjaunina izsaucēja mainīgo!\n}\n```",
+        "Salīdzināsim abus darbības principus:",
+        "- **Pēc vērtības (`int x`):** Funkcija saņem izolētu kopiju. Jebkura vērtības piešķiršana (`x = 50;`) funkcijas iekšienē ietekmē tikai pagaidu kopiju. Izsaucēja oriģinālais mainīgais nemainās.",
+        "- **Pēc norādes (`int &x`):** Parametrs `x` tieši sasaistās ar izsaucēja mainīgā atmiņas adresi. Jebkura `x` vērtības maiņa uzreiz maina pašu izsaucēja mainīgo.",
+        "> **Svarīgs likums:** Izsaucot funkciju `refuel(omega_fuel, 50);`, mainīgo padod kā parasti, bez papildu simboliem. Zīmi `&` raksta tikai funkcijas parametru sarakstā."
+      ]
+    },
+    "predict-ref-mutation": {
+      "eyebrow": "Atmiņas izmaiņu analīze",
+      "title": "Vērtības un norādes parametru izsekošana",
+      "body": [
+        "Izsekojiet šai dzinēju vadības funkcijai, kur viens parametrs nodots pēc vērtības, bet otrs — pēc norādes.",
+        "Nosakiet konsolē izdrukāto galarezultātu."
+      ],
+      "explain": "Funkcijā `consume_fuel` parametrs `regular` ir nodots pēc vērtības, tāpēc `regular -= 10` maina tikai lokālo kopiju, un izsaucēja `fuel` paliek 100. Turpretī `battery` ir nodots pēc norādes `int &battery`, tāpēc `battery -= 25` tieši samazina `batt` no 100 uz 75. Programma izdrukā `100 75`."
+    },
+    "write-swap-telemetry": {
+      "title": "Koordinātu kanālu apmaiņas funkcija",
+      "task": "Ieprogrammējiet izlūka Sigma koordinātu apmaiņas moduli, izmantojot norādes:\n1. Virs `main()` definējiet funkciju `void swap_coords(int &a, int &b)`, kas samaina `a` un `b` vērtības vietām, izmantojot pagaidu mainīgo `int temp`.\n2. Funkcijā `main()` nolasiet divus veselus skaitļus `x` un `y` no `cin`.\n3. Izsauciet `swap_coords(x, y)`, lai samainītu to vērtības atmiņā.\n4. Izdrukājiet `COORDINATES: `, mainīgo `x`, atstarpi, mainīgo `y` un jaunu rindu.",
+      "hint": "Abiem parametriem jābūt norādēm: `int &a, int &b`. Funkcijas ķermenī: `int temp = a; a = b; b = temp;`.",
+      "solutionNote": "Tā kā norādes sasaistās ar oriģinālajiem mainīgajiem, funkcija maina abus mainīgos tieši funkcijā main."
+    },
+    "const-reference-for-containers": {
+      "eyebrow": "Ātrdarbība un drošība",
+      "title": "Const norādes vektoriem un apjomīgiem datiem",
+      "compareCaptions": [
+        "Optimāla datu nolasīšana: const norāde nodod vektoru bez kopēšanas un aizsargā pret izmaiņām",
+        "Kompilatora kļūda: mēģinājums mainīt datus caur const norādi tiek nekavējoties bloķēts"
+      ],
+      "body": [
+        "Nodošana pēc norādes novērš lieku datu kopēšanu. Taču, ja funkcijai nepieciešams vektoru tikai **nolasīt** (piemēram, aprēķināt vidējo vērtību vai izdrukāt izmēru), mēs nevēlamies pieļaut nejaušu datu izmainīšanu.",
+        "Nododot vektoru ar parasto norādi `vector<int> &v`, kļūda funkcijas kodā varētu sabojāt borta datora reģistrētos datus.",
+        "C++ piedāvā zelta standartu apjomīgiem datiem — **const norādi** (`const T &`):",
+        "```cpp\nvoid inspect_path(const vector<int> &path) {\n    cout << \"WAYPOINTS: \" << path.size() << endl;\n    // path.push_back(10); // KOMPILATORA KĻŪDA: path ir tikai lasāms!\n}\n```",
+        "!> **Const norādes labā prakse.** Vienmēr nododiet `std::vector`, `std::string` un citus apjomīgus datus pēc `const &`, ja vien funkcijas tiešais uzdevums nav modificēt pašu konteineru. Tas garantē maksimālu ātrumu bez atmiņas kopēšanas un pilnīgu aizsardzību."
+      ]
+    },
+    "find-value-copy-bug": {
+      "eyebrow": "Avionikas audits",
+      "title": "Nejaušas kopēšanas kļūdas atrašana",
+      "body": [
+        "Šai kalibrēšanas funkcijai bija jāpalielina drona sensora rādījums par 15 vienībām.",
+        "Tomēr pēc izsaukuma `main()` izdrukātais `sensor` joprojām ir 100! Noklikšķiniet uz rindiņas, kas izraisa šo kļūdu."
+      ],
+      "explain": "Rindiņā 4 ir definēts `void calibrate_sensor(int reading)`. Tā kā `reading` nodots pēc vērtības (trūkst zīmes `&`), funkcija maina tikai lokālo kopiju, un izsaucēja `sensor` paliek 100! Parametrs obligāti jādeklarē kā norāde `int &reading`."
+    },
+    "assemble-multi-return-ref": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Vairāku rezultātu atgriešanas funkcijas salikšana",
+      "body": [
+        "Nepieciešama funkcija `divide_power`, kas sadala kopējo enerģiju starp dzīvības uzturēšanas konteineriem, atgriežot gan enerģiju vienam konteineram (dalījumu), gan atlikumu, izmantojot norādes.",
+        "Salieciet koda blokus pareizā secībā, lai realizētu un pārbaudītu šo moduli."
+      ]
+    },
+    "predict-const-ref-protection": {
+      "eyebrow": "Konteinera analīze",
+      "title": "Const norādes vektora apstrādes izsekošana",
+      "body": [
+        "Izsekojiet šai sensoru analīzes funkcijai, kurai vektors tiek nodots pēc const norādes.",
+        "Nosakiet konsolē izdrukāto gala rindiņu."
+      ],
+      "explain": "Funkcija `count_valid` saņem `sensors` pēc const norādes un saskaita elementus, kas ir `>= 100`. Šādi elementi ir 120 un 150 (skaits ir 2). Vektora izmērs saglabājas 5. Rezultāts ir `ABOVE: 2 TOTAL: 5`."
+    },
+    "drone-flight-trim-controller": {
+      "title": "Sigma un Omega telemetrijas trimēšanas kontrolieris",
+      "task": "Ieprogrammējiet IRIS flotes autonomo telemetrijas trimēšanas moduli:\n1. Virs `main()` definējiet `void adjust_throttle(int &current, int target, int step)`: ja `current < target`, palieliniet `current += step`; ja `current > target`, samaziniet `current -= step`.\n2. Virs `main()` definējiet `int scan_peak(const vector<int> &signals)`, kas atrod un atgriež lielāko vērtību vektorā `signals`.\n3. Funkcijā `main()` nolasiet `throttle`, `target`, `step` un mērījumu skaitu `count` no `cin`.\n4. Ciklā nolasiet `count` skaitļus vektorā `vector<int> readings;` ar `push_back`.\n5. Izsauciet `adjust_throttle(throttle, target, step)`.\n6. Izsauciet `scan_peak(readings)` un saglabājiet rezultātu mainīgajā `peak`.\n7. Izdrukājiet `TRIMMED THROTTLE: `, mainīgo `throttle` un jaunu rindu.\n8. Izdrukājiet `PEAK TELEMETRY: `, mainīgo `peak` un jaunu rindu.",
+      "hint": "Nododiet dzinēja vilci pēc norādes `int &current`, lai tā mainītos funkcijā main. Vektoru nododiet pēc const norādes `const vector<int> &signals`.",
+      "solutionNote": "Šis noslēguma uzdevums demonstrē maināmu parametru norāžu apvienošanu ar ātrdarbīgām const norādēm datu analīzei."
+    },
+    "recap": {
+      "eyebrow": "Kopsavilkums",
+      "title": "Parametru nodošanas veidu kopsavilkums",
+      "body": [
+        "Šajā misijā jūs apguvāt trīs C++ parametru nodošanas pamatveidus:",
+        "| Nodošanas veids | Sintakse | Darbība atmiņā | Labākais pielietojums |\n| :--- | :--- | :--- | :--- |\n| **Pēc vērtības** | `void fn(int x)` | Izveido kopiju; izsaucējs izolēts | Mazi pamatipi (`int`, `double`, `bool`, `char`) |\n| **Pēc norādes** | `void fn(int &x)` | Piesaistās izsaucēja atmiņai; maina oriģinālu | Mainīgo vērtību atjaunināšana, vairāki rezultāti |\n| **Pēc const norādes** | `void fn(const vector<int> &v)` | Bez kopēšanas; aizsargā pret izmaiņām | Vektori, teksta virknes, lieli datu objekti |\n",
+        "> **Nākamā tēma: 22. nodaļa — Pārslodze, redzamība, const (Overloading, Scope, Const).**",
+        "> Kad funkcijas prot pieņemt datus dažādos veidos, mēs apgūsim funkciju pārslogošanu: vienāda nosaukuma piešķiršanu dažādām dronu konfigurācijām (Sigma pret Omega) un mainīgo redzamības apgabalus."
+      ]
+    }
+  }
+}

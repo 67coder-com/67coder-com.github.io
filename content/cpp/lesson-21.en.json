@@ -1,0 +1,112 @@
+{
+  "title": "Functions: passing parameters",
+  "steps": {
+    "why-references": {
+      "eyebrow": "Memory synchronization",
+      "title": "Why flight computers need references",
+      "body": [
+        "In Chapter 20, we learned that C++ functions receive parameters by **value**. When you call `calc_fuel(dist, rate)`, the computer makes an isolated duplicate copy of each argument in memory.",
+        "Copying a single 4-byte `int` is fast. But consider Scout drone Sigma streaming 10,000 lidar coordinates stored in a `vector<int>`. If a function accepts `vector<int> v` by value, the computer must copy 40 kilobytes of memory on every single call! On an embedded Mars flight computer with limited bus bandwidth, this causes severe latency spikes and drains battery power.",
+        "Furthermore, what happens when an avionics function needs to **update** the drone's position or recalibrate two sensor channels simultaneously? A C++ function can only return a single value via `return`.",
+        "C++ solves both challenges with **references** (the `&` operator):",
+        "- **Direct in-place memory access.** A reference does not create a copy. It acts as an **alias** (another name) for the original variable in caller memory.",
+        "- **Zero-copy performance.** Large vectors and datasets are passed instantly without allocating a single extra byte of memory.",
+        "- **Multi-output subroutines.** A function can modify multiple variables directly, effectively returning multiple updated values."
+      ],
+      "archive": {
+        "title": "Memory bandwidth and zero-copy buffers in Mars flight computers",
+        "body": "The BAE RAD750 radiation-hardened processor—powering the Mars Reconnaissance Orbiter (MRO), Curiosity rover, and Perseverance rover—operates at a modest clock speed of 133 MHz with limited memory bus throughput. At 133 MHz, copying high-resolution stereo vision buffers or terrain feature maps in RAM wastes hundreds of thousands of CPU cycles. NASA JPL flight software guidelines mandate zero-copy data passing for all sensor pipelines: large telemetry packets and image structures must be passed exclusively by const reference (`const T&`) or non-const reference (`T&`), eliminating heap allocation and cache thrashing.",
+        "sources": [
+          "NASA JPL, 'Flight Software Architecture for Mars Science Laboratory'",
+          "BAE Systems, 'RAD750 Radiation-Hardened PowerPC Microprocessor Data Sheet'"
+        ]
+      }
+    },
+    "pass-by-value-vs-ref": {
+      "eyebrow": "Syntax and mechanisms",
+      "title": "Pass by value vs pass by reference (&)",
+      "alt": "Diagram comparing parameter passing mechanisms: pass by value creates an isolated copy, pass by reference (&) mutates original in place, and const reference guarantees zero-copy read-only access.",
+      "image": "assets/l21-param-passing.en.svg",
+      "body": [
+        "To declare a parameter as a reference, place the ampersand **`&`** between the data type and the parameter name:",
+        "```cpp\nvoid refuel(int &fuel_tank, int amount) {\n    fuel_tank += amount; // Directly updates the caller's variable!\n}\n```",
+        "Let us contrast the two mechanisms:",
+        "- **By value (`int x`):** The function receives an independent copy. Any assignments (`x = 50;`) inside the function modify only the temporary copy. The caller's original variable remains unchanged.",
+        "- **By reference (`int &x`):** The function parameter `x` binds directly to the caller's memory address. Any modification to `x` immediately alters the caller's original variable.",
+        "> **Key rule:** When calling a reference function like `refuel(omega_fuel, 50);`, you pass the variable name normally without any extra symbols. The ampersand `&` is only written in the function's parameter declaration."
+      ]
+    },
+    "predict-ref-mutation": {
+      "eyebrow": "Trace memory mutation",
+      "title": "Predict value vs reference parameter updates",
+      "body": [
+        "Trace this dual propulsion routine where one parameter is passed by value and the other by reference.",
+        "Determine the final output line printed to the console."
+      ],
+      "explain": "Inside `consume_fuel`, `regular` is passed by value, so `regular -= 10` only modifies the local copy; caller's `fuel` remains 100. Conversely, `battery` is passed by reference `int &battery`, so `battery -= 25` directly updates caller's `batt` from 100 to 75. The output is `100 75`."
+    },
+    "write-swap-telemetry": {
+      "title": "Swap coordinate channels subroutine",
+      "task": "Program Sigma's coordinate channel swapper using references:\n1. Above `main()`, define a function `void swap_coords(int &a, int &b)` that swaps the values of `a` and `b` using a temporary variable `int temp`.\n2. In `main()`, read two integers `x` and `y` from `cin`.\n3. Call `swap_coords(x, y)` to exchange their values in place.\n4. Print `COORDINATES: ` followed by `x`, a space, `y`, and a newline.",
+      "hint": "Both parameters must be references: `int &a, int &b`. In the body: `int temp = a; a = b; b = temp;`.",
+      "solutionNote": "Because references bind directly to caller variables, swap_coords successfully mutates both x and y in main."
+    },
+    "const-reference-for-containers": {
+      "eyebrow": "Zero-copy safety",
+      "title": "Const references for vectors and large data",
+      "compareCaptions": [
+        "Optimal zero-copy inspection: const reference passes vector without copying while protecting data",
+        "Compile-time safety violation: attempting to mutate a const reference produces an immediate error"
+      ],
+      "body": [
+        "Passing by reference avoids memory duplication. However, what if a function only needs to **read** or inspect a vector (such as calculating the average temperature or printing waypoint count), and must NOT alter it?",
+        "If you pass by non-const reference `vector<int> &v`, a bug inside the function could accidentally modify or delete caller data.",
+        "C++ provides the gold standard for large data: **const reference** (`const T &`):",
+        "```cpp\nvoid inspect_path(const vector<int> &path) {\n    cout << \"WAYPOINTS: \" << path.size() << endl;\n    // path.push_back(10); // COMPILE ERROR: path is read-only!\n}\n```",
+        "!> **The const reference best practice.** Always pass `std::vector`, `std::string`, and large objects by `const &` unless the function specifically exists to modify the original object. It delivers zero-copy speed with total read-only safety."
+      ]
+    },
+    "find-value-copy-bug": {
+      "eyebrow": "Avionics audit",
+      "title": "Identify unintended pass-by-value bug",
+      "body": [
+        "This calibration function is intended to increase the drone's sensor reading by 15.",
+        "However, when `main()` prints `sensor`, the value is still 100! Click on the line that causes this bug."
+      ],
+      "explain": "Line 4 defines `void calibrate_sensor(int reading)`. Because `reading` is passed by value (missing `&`), the function only modifies a local copy, leaving caller's `sensor` at 100! The parameter must be declared as `int &reading`."
+    },
+    "assemble-multi-return-ref": {
+      "eyebrow": "Parsons puzzle",
+      "title": "Assemble multi-output reference subroutine",
+      "body": [
+        "We need a subroutine `divide_power` that distributes total power among life-support pods, returning both the power per pod (quotient) and leftover reserve (remainder) via references.",
+        "Arrange the code blocks in correct order to implement and execute this multi-output subroutine."
+      ]
+    },
+    "predict-const-ref-protection": {
+      "eyebrow": "Container inspection",
+      "title": "Trace const reference vector processing",
+      "body": [
+        "Trace this sensor analysis routine that inspects a vector passed by const reference.",
+        "Determine the final output line printed to the terminal."
+      ],
+      "explain": "`count_valid` receives `sensors` by const reference and counts elements `>= 100`. The elements `>= 100` are 120 and 150 (count is 2). The vector size remains 5. Output is `ABOVE: 2 TOTAL: 5`."
+    },
+    "drone-flight-trim-controller": {
+      "title": "Sigma and Omega telemetry trim controller",
+      "task": "Program an autonomous flight trim controller for Fleet IRIS:\n1. Above `main()`, define `void adjust_throttle(int &current, int target, int step)`: if `current < target`, increase `current += step`; else if `current > target`, decrease `current -= step`.\n2. Above `main()`, define `int scan_peak(const vector<int> &signals)` that returns the maximum integer value in `signals`.\n3. In `main()`, read `throttle`, `target`, `step`, and `count` from `cin`.\n4. Read `count` integers into `vector<int> readings;` with `push_back`.\n5. Call `adjust_throttle(throttle, target, step)`.\n6. Call `scan_peak(readings)` and store the result in `peak`.\n7. Print `TRIMMED THROTTLE: ` followed by `throttle` and a newline.\n8. Print `PEAK TELEMETRY: ` followed by `peak` and a newline.",
+      "hint": "Pass throttle by reference `int &current` so it updates in main. Pass readings by const reference `const vector<int> &signals` for zero-copy efficiency.",
+      "solutionNote": "This capstone combines mutating reference parameters for in-place control with const reference for efficient vector analysis."
+    },
+    "recap": {
+      "eyebrow": "Summary",
+      "title": "Parameter passing recap",
+      "body": [
+        "In this mission, you mastered the three fundamental ways to pass data into C++ functions:",
+        "| Passing mode | Syntax | Memory behavior | Best use case |\n| :--- | :--- | :--- | :--- |\n| **By value** | `void fn(int x)` | Copies data; caller isolated | Small primitives (`int`, `double`, `bool`, `char`) |\n| **By reference** | `void fn(int &x)` | Binds alias to caller memory; modifies in place | Updating caller variables, multiple return values |\n| **By const reference** | `void fn(const vector<int> &v)` | Zero copy; read-only protection | Vectors, strings, large data structures |\n",
+        "> **Next up: Chapter 22 — Pārslodze, redzamība, const (Overloading, Scope, Const).**",
+        "> Now that our functions can accept and update parameters cleanly, we unlock function overloading: giving the same function name to different drone configurations (Sigma vs Omega), while managing variable scope across flight modules."
+      ]
+    }
+  }
+}
