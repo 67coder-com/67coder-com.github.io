@@ -1,0 +1,134 @@
+{
+  "title": "Logical operators",
+  "module": "Block 2 · Decisions",
+  "steps": {
+    "multi-sensor-flight": {
+      "eyebrow": "Multi-criteria evaluation",
+      "title": "Why a single sensor is not enough",
+      "body": [
+        "Scout drone Sigma hovers over a rocky observation terrace overlooking the great Mawrth Vallis rift. Ahead lies a treacherous canyon transit where sudden gusts of thin Martian wind and localized dust turbulence threaten vehicle stability.",
+        "In the previous chapter, we made decisions using isolated checks: if altitude was low, we raised an alarm. But in real space missions, no single sensor tells the full story: liftoff must never occur merely because the battery is fully charged if a dust storm is simultaneously raging or the guidance computer reports a calibration fault.",
+        "To execute safe maneuvers, the flight computer must evaluate multiple sensor readings simultaneously inside a unified logical expression. In C++, three fundamental logical operators make this possible: `&&` (AND), `||` (OR), and `!` (NOT)."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "George Boole, Claude Shannon, and binary logic",
+          "body": [
+            "In 1854, English mathematician George Boole published 'An Investigation of the Laws of Thought', introducing a formal algebra to represent human logic using mathematical symbols. His system recognized only two states — true (1) and false (0) — governed by three core operations: AND, OR, and NOT.",
+            "For nearly a century, Boolean algebra remained an abstract branch of pure mathematics. That changed in 1937 when 21-year-old MIT graduate student Claude Shannon demonstrated in his master's thesis that electrical switches and relays could directly compute Boolean functions. Wiring two switches in series meant current flowed only when switch A AND switch B closed; wiring them in parallel meant current flowed if switch A OR switch B closed.",
+            "Shannon's insight established the foundation for all modern digital computing. From modest microcontrollers to interplanetary probe avionics, every processor consists of millions of microscopic logic gates that physically execute George Boole's algebra.",
+            "Sources: Claude Shannon, 'A Symbolic Analysis of Relay and Switching Circuits' (Transactions of the AIEE, 1938); George Boole, 'An Investigation of the Laws of Thought' (1854)."
+          ]
+        }
+      ]
+    },
+    "logical-and": {
+      "eyebrow": "Joint truth evaluation",
+      "title": "Logical AND (&&)",
+      "body": [
+        "The `&&` operator (double ampersand) combines two conditional expressions. The overall expression evaluates to true (`true`) if and only if **both** conditions evaluate to true simultaneously.",
+        "syntax: ({cond1}) && ({cond2})\n- cond1: first condition enclosed in parentheses\n- &&: logical AND operator — requires both sides to be true\n- cond2: second condition enclosed in parentheses",
+        "| cond1 | cond2 | `cond1 && cond2` | Mission meaning |\n| :--- | :--- | :--- | :--- |\n| `true` (1) | `true` (1) | **`true` (1)** | Battery ready AND wind calm → LIFTOFF APPROVED |\n| `true` (1) | `false` (0) | **`false` (0)** | Battery ready, but wind too high → HOLD |\n| `false` (0) | `true` (1) | **`false` (0)** | Wind calm, but battery depleted → HOLD |\n| `false` (0) | `false` (0) | **`false` (0)** | Both telemetry values out of bounds → HOLD |",
+        "> Parentheses for clarity:\n> Although relational operators (`<`, `>=`, `==`) hold higher precedence than `&&`, always enclose each individual comparison in parentheses: `(battery >= 50) && (wind <= 15)`. This eliminates subtle precedence errors and makes flight software instantly readable to peer reviewers."
+      ],
+      "compareCaptions": [
+        "Clean compound condition with &&: single expressive statement without nested bloat",
+        "Clumsy nested if: double curly braces and needless structural complexity"
+      ]
+    },
+    "predict-and": {
+      "title": "Predict liftoff clearance logic",
+      "task": "What number (1 or 0) will this program output? This is a prediction before running — examine both conditions.",
+      "hint": "Evaluate both parts: is 70 >= 50? Is 20 <= 15? Recall how the && operator evaluates mixed truth values.",
+      "explain": "The first condition `70 >= 50` is true (1), but the second condition `20 <= 15` is false (0) because wind speed exceeds safety limits. Because the `&&` operator requires both operands to be true, the composite result is false, and `cout` prints `0`."
+    },
+    "liftoff-clearance": {
+      "title": "Sigma liftoff clearance module",
+      "task": "Program the flight dispatch safety check:\n1. Check whether battery charge `battery >= 50` AND wind speed `wind <= 15`.\n2. If both conditions evaluate to true, print the approval message in the format shown below.",
+      "hint": "Use `if (battery >= 50 && wind <= 15) { cout << \"LIFTOFF: APPROVED\" << endl; }`.",
+      "solutionNote": "With battery at 85% and wind at 12 m/s, both requirements evaluate to true and trigger clearance approval."
+    },
+    "logical-or": {
+      "eyebrow": "Alternative hazard detection",
+      "title": "Logical OR (||)",
+      "body": [
+        "The `||` operator (double vertical bar or pipe) evaluates to `true` whenever **at least one** operand evaluates to true. If the first condition is true OR the second is true (or both), the composite expression is true.",
+        "syntax: ({cond1}) || ({cond2})\n- cond1: primary condition\n- ||: logical OR operator (typed with Shift + backslash on standard keyboards)\n- cond2: alternative condition",
+        "| cond1 | cond2 | `cond1 \\|\\| cond2` | Safety system meaning |\n| :--- | :--- | :--- | :--- |\n| `true` (1) | `true` (1) | **`true` (1)** | Hull breach AND core overheat → EMERGENCY ABORT |\n| `true` (1) | `false` (0) | **`true` (1)** | Hull breach, core normal → EMERGENCY ABORT |\n| `false` (0) | `true` (1) | **`true` (1)** | Hull intact, core overheat → EMERGENCY ABORT |\n| `false` (0) | `false` (0) | **`false` (0)** | All telemetry nominal → FLIGHT CONTINUES |",
+        "!> **The natural language trap: `x == 1 || 2`.** In everyday speech, people say: «if the code is 1 or 2». If you write `if (code == 1 || 2)` in C++, the compiler parses two separate expressions: `code == 1` and a standalone literal `2`. In C++, any non-zero integer is truthy, so this condition evaluates to true EVERY SINGLE TIME! You must explicitly repeat the comparison: `if (code == 1 || code == 2)`."
+      ],
+      "compareCaptions": [
+        "Valid syntax: variable is fully compared on both sides of the || operator",
+        "Critical logic trap: standalone number 2 evaluates to true, making the condition permanently true"
+      ]
+    },
+    "find-or-syntax-bug": {
+      "title": "Locate the incomplete comparison bug",
+      "task": "Click on the line where natural language shorthand produced an invalid || comparison.",
+      "hint": "Inspect the right-hand operand immediately following the || symbol.",
+      "explain": "Line 7 reads `if (error_code == 10 || 20)`. The literal `20` evaluates to boolean true on its own, so the alarm triggers even when error_code is 0! The condition must be written as `if (error_code == 10 || error_code == 20)`."
+    },
+    "logical-not": {
+      "eyebrow": "Truth inversion",
+      "title": "Logical NOT (!) and signal gates",
+      "body": [
+        "The `!` operator (exclamation mark) performs logical negation: converting true to false and false to true.",
+        "syntax: !({condition})\n- !: unary logical negation operator — inverts the following truth value\n- condition: the boolean expression or variable being inverted",
+        "+ **True becomes false.** `!true` evaluates to `false` (0). For instance, if `has_error = true`, then `!has_error` evaluates to `false`.\n+ **False becomes true.** `!false` evaluates to `true` (1). When no fault is present (`has_error = false`), the check `if (!has_error)` successfully passes.\n+ **Parentheses matter with !.** The `!` operator carries very high precedence. To invert an entire comparison, enclose it in parentheses: `!(altitude < 20)` means «altitude is NOT less than 20»."
+      ],
+      "alt": "Diagram illustrating the three core digital logic operations: AND (&&), OR (||), and NOT (!) with their respective signal gate flows.",
+      "image": "assets/l10-logic-gates.en.svg"
+    },
+    "short-circuit-evaluation": {
+      "eyebrow": "Speed and safety",
+      "title": "Short-circuit evaluation",
+      "body": [
+        "C++ evaluates logical expressions strictly from left to right. However, the compiler incorporates an essential optimization: it halts evaluation the precise instant the final outcome is guaranteed.",
+        "+ **Short-circuit with &&.** If the left-hand condition evaluates to `false`, the entire expression is guaranteed to be `false` regardless of what follows. The right-hand side is NEVER evaluated!\n+ **Short-circuit with ||.** If the left-hand condition evaluates to `true`, the entire expression is guaranteed to be `true`. The right-hand side is bypassed completely.",
+        "> Defensive programming technique:\n> Flight software relies on short-circuit evaluation to prevent fatal system crashes. For example, `if (count != 0 && total / count > 10)` will NEVER trigger a divide-by-zero error! When `count == 0`, the first test is `false`, and the hazardous division on the right is never executed."
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "How CPUs execute short-circuit evaluation in machine code",
+          "body": [
+            "At the assembly language level, C++ logical expressions with `&&` and `||` are not calculated with bitwise math. Instead, the compiler emits conditional branch instructions (such as `je` — jump if equal or `jne` — jump if not equal).",
+            "For `if (A && B)`, the CPU tests A first. If A is zero (false), the processor immediately jumps over the entire if body without ever fetching B from memory into hardware registers.",
+            "Consequently, systems engineers place lightweight or most frequently failing tests on the far left. This conserves clock cycles and keeps real-time flight loops running at maximum frequency."
+          ]
+        }
+      ],
+      "compareCaptions": [
+        "Defensive order: count != 0 on the left prevents fatal division by zero on the right",
+        "Hazardous order: division executes first, crashing the application before zero is checked"
+      ]
+    },
+    "predict-short-circuit": {
+      "title": "Predict short-circuit behavior",
+      "task": "What text will this program output when sensors count is 0?",
+      "hint": "Evaluate the first operand: sensors != 0. Does the CPU ever execute the division 100 / sensors?",
+      "explain": "Because `sensors` is 0, the test `sensors != 0` evaluates to false. Under short-circuit evaluation, C++ immediately abandons the `&&` check and never executes the dangerous division `100 / sensors`. Execution safely diverts to the `else` branch, outputting `SAFE FALLBACK`."
+    },
+    "emergency-abort-system": {
+      "title": "Emergency abort controller",
+      "task": "Program Scout drone Sigma's hazard monitor using the `||` operator:\n1. Read processor temperature `core_temp` and hull integrity `hull_integrity` from `cin`.\n2. If `core_temp > 80` OR `hull_integrity < 50`, issue an abort directive.\n3. Otherwise (`else`), grant permission to proceed as shown below.",
+      "hint": "Write `if (core_temp > 80 || hull_integrity < 50) { ... } else { ... }`.",
+      "solutionNote": "Given input 85 and 90, the temperature 85 > 80 evaluates to true, so the abort directive is output."
+    },
+    "drone-flight-corridor": {
+      "title": "Bonus challenge: Canyon flight corridor navigator",
+      "task": "Construct a multi-parameter flight mode controller using `||` and `&&`:\n1. Read `battery`, `wind`, and `has_fault` (0 or 1) from `cin`.\n2. If a fault is present `has_fault == 1` OR battery `battery < 20`, command an emergency landing.\n3. Else if battery `battery >= 50` AND wind `wind <= 15`, authorize high speed cruise.\n4. In all other cases, enforce cautious flight mode.",
+      "hint": "Use a cascade: `if (has_fault == 1 || battery < 20) { ... } else if (battery >= 50 && wind <= 15) { ... } else { ... }`.",
+      "solutionNote": "With input 65 12 0, no fault exists and battery exceeds 20; in the second test, 65 >= 50 and 12 <= 15 are both true, outputting ACTION: CRUISE SPEED."
+    },
+    "recap": {
+      "title": "Mission 10 summary: Logical navigation unlocked",
+      "body": [
+        "Base IRIS confirms telemetry: Scout drone Sigma has safely navigated the Mawrth Vallis canyon corridor by evaluating real-time multi-sensor criteria with boolean logic.",
+        "| Operator | Operation | Evaluates to true | Typical avionics application |\n| :--- | :--- | :--- | :--- |\n| `&&` | Logical AND | If and only if **both** conditions are true | Multi-criteria pre-flight safety checklists |\n| `\\|\\|` | Logical OR | If **at least one** condition is true | Emergency abort alarms and threshold warnings |\n| `!` | Logical NOT | If condition is **false** (inverts value) | Testing ready flags and verifying zero error codes |",
+        "In Chapter 11, «switch and the ternary operator», we will explore how to streamline multi-branch decision trees into compact command dispatchers and write concise inline condition expressions."
+      ]
+    }
+  }
+}

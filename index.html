@@ -2042,11 +2042,22 @@ function normalizeOut(s) {
 function rich(s) {
   var bold = function (x) { return x.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>"); };
   var parts = esc(s === undefined || s === null ? "" : s).split("`");
+  var codes = [];
   var out = "";
   for (var i = 0; i < parts.length; i++) {
-    if (i % 2 === 0) out += bold(parts[i]);
-    else if (i === parts.length - 1) out += "`" + bold(parts[i]);   /* непарная кавычка */
-    else out += '<code class="ic">' + parts[i] + "</code>";
+    if (i % 2 === 0) {
+      out += parts[i];
+    } else if (i === parts.length - 1) {
+      out += "`" + parts[i];   /* непарная кавычка */
+    } else {
+      var idx = codes.length;
+      codes.push('<code class="ic">' + parts[i] + "</code>");
+      out += "\x00C" + idx + "\x00";
+    }
+  }
+  out = bold(out);
+  for (var j = 0; j < codes.length; j++) {
+    out = out.replace("\x00C" + j + "\x00", codes[j]);
   }
   return out;
 }

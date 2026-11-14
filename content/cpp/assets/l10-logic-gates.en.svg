@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <title>C++ Logical Operators: AND (&amp;&amp;), OR (||), and NOT (!)</title>
+  <desc>Diagram showing three C++ logical operators and their evaluation behavior: logical AND requires both inputs to be true, logical OR requires at least one input to be true, and logical NOT inverts the input signal.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="320" rx="10" fill="#0D1117" />
+
+  <!-- Header -->
+  <text x="24" y="34" fill="#8E887D" font-size="12" letter-spacing="1.6" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">BOOLEAN LOGIC IN C++: GATE OPERATION FLOW</text>
+
+  <!-- Panel 1: AND (&&) -->
+  <g transform="translate(24, 52)">
+    <rect width="264" height="244" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#7FB3A3" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">LOGICAL AND (&amp;&amp;)</text>
+
+    <!-- Input signals -->
+    <rect x="20" y="44" width="90" height="32" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="65" y="65" text-anchor="middle" fill="#D8D0C2" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">A: 1 (true)</text>
+
+    <rect x="20" y="86" width="90" height="32" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="65" y="107" text-anchor="middle" fill="#D8D0C2" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">B: 1 (true)</text>
+
+    <!-- Gate AND -->
+    <g transform="translate(130, 60)">
+      <rect width="48" height="42" rx="6" fill="#1E2530" stroke="#7FB3A3" stroke-width="1.5" />
+      <text x="24" y="27" text-anchor="middle" fill="#7FB3A3" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">&amp;&amp;</text>
+    </g>
+
+    <!-- Flow line to output -->
+    <line x1="184" y1="81" x2="204" y2="81" stroke="#7FB3A3" stroke-width="2" />
+    <polygon points="208,81 200,77 200,85" fill="#7FB3A3" />
+
+    <!-- Output -->
+    <rect x="212" y="65" width="36" height="32" rx="4" fill="#1E2530" stroke="#7FB3A3" stroke-width="1.5" />
+    <text x="230" y="86" text-anchor="middle" fill="#7FB3A3" font-size="15" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1</text>
+
+    <!-- Explanation -->
+    <rect x="20" y="140" width="224" height="88" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="30" y="162" fill="#D8D0C2" font-size="12" style="font-family: var(--font-sans, Inter, sans-serif)">Evaluates to true ONLY if</text>
+    <text x="30" y="180" fill="#7FB3A3" font-weight="bold" font-size="12" style="font-family: var(--font-sans, Inter, sans-serif)">both inputs are 1 (true).</text>
+    <text x="30" y="202" fill="#8E887D" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">e.g.: battery &amp;&amp; wind</text>
+  </g>
+
+  <!-- Panel 2: OR (||) -->
+  <g transform="translate(308, 52)">
+    <rect width="264" height="244" rx="8" fill="#151A22" stroke="#B99A61" stroke-width="1.5" />
+    <text x="20" y="28" fill="#B99A61" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">LOGICAL OR (||)</text>
+
+    <!-- Input signals -->
+    <rect x="20" y="44" width="90" height="32" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="65" y="65" text-anchor="middle" fill="#D8D0C2" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">A: 1 (true)</text>
+
+    <rect x="20" y="86" width="90" height="32" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="65" y="107" text-anchor="middle" fill="#8E887D" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">B: 0 (false)</text>
+
+    <!-- Gate OR -->
+    <g transform="translate(130, 60)">
+      <rect width="48" height="42" rx="6" fill="#1E2530" stroke="#B99A61" stroke-width="1.5" />
+      <text x="24" y="27" text-anchor="middle" fill="#B99A61" font-size="16" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">||</text>
+    </g>
+
+    <!-- Flow line to output -->
+    <line x1="184" y1="81" x2="204" y2="81" stroke="#B99A61" stroke-width="2" />
+    <polygon points="208,81 200,77 200,85" fill="#B99A61" />
+
+    <!-- Output -->
+    <rect x="212" y="65" width="36" height="32" rx="4" fill="#1E2530" stroke="#B99A61" stroke-width="1.5" />
+    <text x="230" y="86" text-anchor="middle" fill="#B99A61" font-size="15" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">1</text>
+
+    <!-- Explanation -->
+    <rect x="20" y="140" width="224" height="88" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="30" y="162" fill="#D8D0C2" font-size="12" style="font-family: var(--font-sans, Inter, sans-serif)">Evaluates to true if</text>
+    <text x="30" y="180" fill="#B99A61" font-weight="bold" font-size="12" style="font-family: var(--font-sans, Inter, sans-serif)">at least one is 1 (true).</text>
+    <text x="30" y="202" fill="#8E887D" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">e.g.: overheat || breach</text>
+  </g>
+
+  <!-- Panel 3: NOT (!) -->
+  <g transform="translate(592, 52)">
+    <rect width="264" height="244" rx="8" fill="#151A22" stroke="#2A313C" stroke-width="1.5" />
+    <text x="20" y="28" fill="#CE8A78" font-size="11" letter-spacing="1.2" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">LOGICAL NOT (!)</text>
+
+    <!-- Input signal -->
+    <rect x="20" y="65" width="90" height="32" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="65" y="86" text-anchor="middle" fill="#D8D0C2" font-size="12" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">A: 1 (true)</text>
+
+    <!-- Gate NOT (inverter) -->
+    <g transform="translate(130, 60)">
+      <rect width="48" height="42" rx="6" fill="#1E2530" stroke="#CE8A78" stroke-width="1.5" />
+      <text x="24" y="27" text-anchor="middle" fill="#CE8A78" font-size="18" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">!</text>
+    </g>
+
+    <!-- Flow line to output -->
+    <line x1="184" y1="81" x2="204" y2="81" stroke="#CE8A78" stroke-width="2" />
+    <polygon points="208,81 200,77 200,85" fill="#CE8A78" />
+
+    <!-- Output (inverted to 0) -->
+    <rect x="212" y="65" width="36" height="32" rx="4" fill="#1E2530" stroke="#CE8A78" stroke-width="1.5" />
+    <text x="230" y="86" text-anchor="middle" fill="#CE8A78" font-size="15" font-weight="bold" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">0</text>
+
+    <!-- Explanation -->
+    <rect x="20" y="140" width="224" height="88" rx="4" fill="#1E2530" stroke="#2A313C" stroke-width="1" />
+    <text x="30" y="162" fill="#D8D0C2" font-size="12" style="font-family: var(--font-sans, Inter, sans-serif)">Inverts the input signal:</text>
+    <text x="30" y="180" fill="#CE8A78" font-weight="bold" font-size="12" style="font-family: var(--font-sans, Inter, sans-serif)">!1 → 0 and !0 → 1.</text>
+    <text x="30" y="202" fill="#8E887D" font-size="11" style="font-family: var(--font-mono, 'JetBrains Mono', monospace)">e.g.: !has_error</text>
+  </g>
+</svg>

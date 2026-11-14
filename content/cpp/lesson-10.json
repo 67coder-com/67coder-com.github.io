@@ -1,0 +1,113 @@
+{
+  "n": 10,
+  "slug": "logic",
+  "locales": ["lv", "en"],
+  "steps": [
+    {
+      "id": "multi-sensor-flight",
+      "kind": "theory",
+      "imagePrompt": "Flat vector illustration, 16:9 ratio, for an online C++ course. On an elevated rocky observation ridge overlooking a massive Martian rift canyon at twilight. Scout drone Sigma with dark carbon-slate faceted hull rests ready on the launch pad, its engine nozzles glowing in warm amber. Projected in front of the drone is an illuminated holographic pre-flight checklist with green and amber status indicators. Standing nearby at a tactical telemetry terminal is the course mascot: strictly two freestanding cream-colored square brackets facing each other [ ] with two round cream circular eyes between them. The mascot has NO legs, NO feet, NO body, NO black bounding box, NO arms. Distant Martian canyon walls in desaturated warm greys, strictly no red. Style: minimalist geometric flat vector, solid color fills, zero outlines, no gradients, no text, no letters, no numbers, no logos, technical, calm, and precise. Color palette strictly: background #090B0F, structural surfaces #151A22, warm grey #B7B0A4, cream #D8D0C2, and a single accent of aged brass #B99A61 on the holographic display glow."
+    },
+    {
+      "id": "logical-and",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "if (battery >= 50 && wind <= 15) {\n    cout << \"LIFTOFF\";\n}",
+          "ok": true
+        },
+        {
+          "code": "if (battery >= 50) {\n    if (wind <= 15) {\n        cout << \"LIFTOFF\";\n    }\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-and",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery = 70;\n    int wind = 20;\n    cout << (battery >= 50 && wind <= 15) << endl;\n    return 0;\n}",
+      "expected": "0",
+      "focus": "battery >= 50 && wind <= 15"
+    },
+    {
+      "id": "liftoff-clearance",
+      "kind": "editor",
+      "lang": "cpp",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery = 85;\n    int wind = 12;\n\n    // 1. Check if battery is >= 50 AND wind is <= 15\n    // 2. If true, print LIFTOFF: APPROVED\n\n    return 0;\n}",
+      "expected": "LIFTOFF: APPROVED",
+      "requires": ["if", "battery >= 50", "&&", "wind <= 15"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery = 85;\n    int wind = 12;\n\n    if (battery >= 50 && wind <= 15) {\n        cout << \"LIFTOFF: APPROVED\" << endl;\n    }\n\n    return 0;\n}",
+      "stdin": false
+    },
+    {
+      "id": "logical-or",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "if (status == 1 || status == 2) {\n    cout << \"WARNING\";\n}",
+          "ok": true
+        },
+        {
+          "code": "if (status == 1 || 2) {\n    // bug: 2 is non-zero (true), condition is always true!\n    cout << \"WARNING\";\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "find-or-syntax-bug",
+      "kind": "clickline",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int error_code = 0;\n    cout << \"CHECKING GYROSCOPE...\" << endl;\n    if (error_code == 10 || 20) {\n        cout << \"GYRO FAULT DETECTED\" << endl;\n    }\n    return 0;\n}",
+      "answerLine": 7
+    },
+    {
+      "id": "logical-not",
+      "kind": "explain"
+    },
+    {
+      "id": "short-circuit-evaluation",
+      "kind": "theory",
+      "compare": [
+        {
+          "code": "if (count != 0 && total / count > 10) {\n    // safe: if count is 0, division never executes!\n}",
+          "ok": true
+        },
+        {
+          "code": "if (total / count > 10 && count != 0) {\n    // crash: divides by 0 before checking count!\n}",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "id": "predict-short-circuit",
+      "kind": "predict",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sensors = 0;\n    if (sensors != 0 && 100 / sensors > 5) {\n        cout << \"TELEMETRY OK\" << endl;\n    } else {\n        cout << \"SAFE FALLBACK\" << endl;\n    }\n    return 0;\n}",
+      "expected": "SAFE FALLBACK",
+      "focus": "sensors != 0 && 100 / sensors > 5"
+    },
+    {
+      "id": "emergency-abort-system",
+      "kind": "editor",
+      "lang": "cpp",
+      "stdin": "85 90",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int core_temp, hull_integrity;\n\n    // 1. Read core_temp and hull_integrity from cin\n    // 2. If core_temp > 80 OR hull_integrity < 50: MISSION: ABORT\n    // 3. Otherwise (else): MISSION: PROCEED\n\n    return 0;\n}",
+      "expected": "MISSION: ABORT",
+      "requires": ["cin >>", "core_temp > 80", "||", "hull_integrity < 50", "else"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int core_temp, hull_integrity;\n    cin >> core_temp >> hull_integrity;\n\n    if (core_temp > 80 || hull_integrity < 50) {\n        cout << \"MISSION: ABORT\" << endl;\n    } else {\n        cout << \"MISSION: PROCEED\" << endl;\n    }\n\n    return 0;\n}"
+    },
+    {
+      "id": "drone-flight-corridor",
+      "kind": "editor",
+      "lang": "cpp",
+      "optional": true,
+      "stdin": "65 12 0",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery, wind, has_fault;\n\n    // 1. Read battery, wind, and has_fault from cin\n    // 2. If has_fault == 1 OR battery < 20: ACTION: EMERGENCY LANDING\n    // 3. Else if battery >= 50 AND wind <= 15: ACTION: CRUISE SPEED\n    // 4. Else: ACTION: CAUTIOUS FLIGHT\n\n    return 0;\n}",
+      "expected": "ACTION: CRUISE SPEED",
+      "requires": ["cin >>", "||", "&&", "else if", "else"],
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery, wind, has_fault;\n    cin >> battery >> wind >> has_fault;\n\n    if (has_fault == 1 || battery < 20) {\n        cout << \"ACTION: EMERGENCY LANDING\" << endl;\n    } else if (battery >= 50 && wind <= 15) {\n        cout << \"ACTION: CRUISE SPEED\" << endl;\n    } else {\n        cout << \"ACTION: CAUTIOUS FLIGHT\" << endl;\n    }\n\n    return 0;\n}"
+    },
+    {
+      "id": "recap",
+      "kind": "summary"
+    }
+  ]
+}

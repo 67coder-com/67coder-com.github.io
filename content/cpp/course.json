@@ -86,7 +86,10 @@
         {
           "n": 10,
           "slug": "logic",
-          "locales": []
+          "locales": [
+            "lv",
+            "en"
+          ]
         },
         {
           "n": 11,

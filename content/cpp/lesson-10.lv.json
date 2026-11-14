@@ -1,0 +1,134 @@
+{
+  "title": "Loģiskās operācijas",
+  "module": "2. bloks · Lēmumi",
+  "steps": {
+    "multi-sensor-flight": {
+      "eyebrow": "Daudzkritēriju analīze",
+      "title": "Kāpēc ar vienu sensoru nepietiek",
+      "body": [
+        "Izlūkdrons Sigma atrodas uz klinšainas terases virs Mawrth Vallis lielā lūzuma. Priekšā ir bīstams kanjona šķērsojums, kur iespējami pēkšņi vēja brāzmu triecieni un retinātās atmosfēras turburence.",
+        "Iepriekšējā nodaļā mēs pieņēmām lēmumus pēc viena parametra: ja augstums par mazu, rādām brīdinājumu. Taču reālā kosmosa lidojumā viens sensors nekad nesniedz pilnu ainu: pacelšanās nedrīkst notikt tikai tāpēc, ka baterija ir pilna, ja vienlaikus plosās vētra vai atteicis navigācijas dators.",
+        "Lai pieņemtu drošus lēmumus, borta datoram jāspēj apvienot vairāku sensoru rādījumus vienā saliktā loģiskā izteiksmē. Valodā C++ šim nolūkam izmanto trīs loģiskos operatorus: `&&` (UN), `||` (VAI) un `!` (NE)."
+      ],
+      "more": [
+        {
+          "kind": "archive",
+          "title": "Džordžs Buls, Klods Šenons un loģiskā algebra",
+          "body": [
+            "1854. gadā angļu matemātiķis Džordžs Buls publicēja darbu «Domāšanas likumi» (The Laws of Thought), kurā piedāvāja aprakstīt loģiskus spriedumus ar matemātiskiem simboliem. Viņa sistēmā bija tikai divas vērtības — patiess (1) un aplams (0) — un trīs pamatdarbības: UN, VAI, NE.",
+            "Gandrīz gadsimtu Bula algebra palika teorētiska matemātikas disciplīna. Tas mainījās 1937. gadā, kad 21 gadu vecais MIT maģistrants Klods Šenons savā diplomdarbā pierādīja, ka elektriskie slēdži un releji spēj tieši izpildīt Bula loģiskās funkcijas. Saslēdzot divus slēdžus virknē, strāva plūst tikai tad, ja ieslēgts pirmais UN otrais; saslēdzot paralēli — ja ieslēgts pirmais VAI otrais.",
+            "Šenona atklājums kļuva par visas digitālās elektronikas pamatu. No vienkāršākajiem mikrokontrolieriem līdz Marsa zonžu borta datoriem visi procesori iekšēji sastāv no loģiskajiem elementiem, kas fiziski īsteno tieši Bula algebru.",
+            "Avots: Claude Shannon, 'A Symbolic Analysis of Relay and Switching Circuits' (Transactions of the AIEE, 1938); George Boole, 'An Investigation of the Laws of Thought' (1854)."
+          ]
+        }
+      ]
+    },
+    "logical-and": {
+      "eyebrow": "Kopīgā patiesuma pārbaude",
+      "title": "Loģiskais UN (&&)",
+      "body": [
+        "Operators `&&` (divi ampersendi) apvieno divus nosacījumus vienotā pārbaudē. Rezultāts ir patiess (`true`) tad un tikai tad, ja **abi** nosacījumi ir patiesi vienlaicīgi.",
+        "syntax: ({cond1}) && ({cond2})\n- cond1: pirmais nosacījums apaļajās iekavās\n- &&: loģiskais UN operators — pieprasa abu pušu patiesumu\n- cond2: otrais nosacījums apaļajās iekavās",
+        "| cond1 | cond2 | `cond1 && cond2` | Nozīme misijā |\n| :--- | :--- | :--- | :--- |\n| `true` (1) | `true` (1) | **`true` (1)** | Baterija pilna UN vējš mierīgs → atļauja pacelties |\n| `true` (1) | `false` (0) | **`false` (0)** | Baterija pilna, bet vējš par stipru → aizliegts |\n| `false` (0) | `true` (1) | **`false` (0)** | Vējš mierīgs, bet baterija tukša → aizliegts |\n| `false` (0) | `false` (0) | **`false` (0)** | Abi parametri ārpus normas → aizliegts |",
+        "> Iekavu likums skaidrībai:\n> Lai gan salīdzināšanas operatoriem (`<`, `>=`, `==`) ir augstāka prioritāte nekā `&&`, vienmēr lieciet katru atsevišķo pārbaudi apaļajās iekavās: `(battery >= 50) && (wind <= 15)`. Tas novērš kļūdas un padara lidojuma kodu uzreiz saprotamu citam inženierim."
+      ],
+      "compareCaptions": [
+        "Elegants salikts nosacījums ar &&: viena skaidra rinda bez liekiem iekavojumiem",
+        "Neveikls iekšējais if: dubultas figūriekavas un lieka koda sarežģītība"
+      ]
+    },
+    "predict-and": {
+      "title": "Paredziet pacelšanās atļaujas loģiku",
+      "task": "Kādu skaitli (1 vai 0) izvadīs programma? Šis ir minējums pirms palaišanas — pārbaudiet abus nosacījumus.",
+      "hint": "Izvērtējiet abus apgalvojumus: vai 70 >= 50? Vai 20 <= 15? Atcerieties, kā darbojas operators &&.",
+      "explain": "Pirmais nosacījums `70 >= 50` ir patiess (1), taču otrais nosacījums `20 <= 15` ir aplams (0), jo vējš ir par stipru. Tā kā operatoram `&&` nepieciešams abu pušu patiesums, kopējais rezultāts ir aplams, un `cout` izvada `0`."
+    },
+    "liftoff-clearance": {
+      "title": "Sigmas starta atļaujas modulis",
+      "task": "Noprogrammējiet pacelšanās drošības pārbaudi:\n1. Pārbaudiet, vai baterija `battery >= 50` UN vēja ātrums `wind <= 15`.\n2. Ja abi nosacījumi izpildās, izvadiet atļaujas paziņojumu formātā zemāk.",
+      "hint": "Izmantojiet `if (battery >= 50 && wind <= 15) { cout << \"LIFTOFF: APPROVED\" << endl; }`.",
+      "solutionNote": "Tā kā uzlāde ir 85% un vējš ir 12 m/s, abi nosacījumi ir patiesi un pacelšanās tiek apstiprināta."
+    },
+    "logical-or": {
+      "eyebrow": "Alternatīvo draudu noteikšana",
+      "title": "Loģiskais VAI (||)",
+      "body": [
+        "Operators `||` (divas vertikālās svītras) atgriež `true`, ja **vismaz viens** no nosacījumiem ir patiess. Ja pirmais nosacījums ir patiess VAI otrais ir patiess (vai abi reizē), visa izteiksme ir patiesa.",
+        "syntax: ({cond1}) || ({cond2})\n- cond1: pirmais nosacījums\n- ||: loģiskais VAI operators (tastatūrā Shift + zīme virs Enter vai blakus kreisajam Shift)\n- cond2: otrais nosacījums",
+        "| cond1 | cond2 | `cond1 \\|\\| cond2` | Nozīme trauksmes sistēmā |\n| :--- | :--- | :--- | :--- |\n| `true` (1) | `true` (1) | **`true` (1)** | Korpuss bojāts UN dzinējs pārkarsis → TRAUKSME |\n| `true` (1) | `false` (0) | **`true` (1)** | Korpuss bojāts, dzinējs normā → TRAUKSME |\n| `false` (0) | `true` (1) | **`true` (1)** | Korpuss vesels, dzinējs pārkarsis → TRAUKSME |\n| `false` (0) | `false` (0) | **`false` (0)** | Visi rādītāji normā → lidojums turpinās |",
+        "!> **Cilvēku valodas slazds: `x == 1 || 2`.** Cilvēki runā: «ja kods ir 1 vai 2». Ja C++ uzrakstīsiet `if (code == 1 || 2)`, kompilators to sapratīs kā divas atsevišķas daļas: `code == 1` un patstāvīgu skaitli `2`. Valodā C++ jebkurš nenulles skaitlis nozīmē `true`, tādēļ šāds nosacījums būs patiess VIENMĒR! Pareizi ir pilnībā atkārtot salīdzinājumu: `if (code == 1 || code == 2)`."
+      ],
+      "compareCaptions": [
+        "Korekta pārbaude: mainīgais tiek pilnībā salīdzināts abās operatora || pusēs",
+        "Kritisks loģikas slazds: skaitlis 2 atsevišķi novērtējas kā true, padarot if vienmēr patiesu"
+      ]
+    },
+    "find-or-syntax-bug": {
+      "title": "Atrodiet nepilnīgā nosacījuma kļūdu",
+      "task": "Noklikšķiniet uz rindas, kurā pieļauts cilvēku valodas slazds un operators || netiek pareizi salīdzināts ar mainīgo.",
+      "hint": "Aplūkojiet nosacījuma labo pusi aiz || zīmes.",
+      "explain": "Rindā 7 ir uzrakstīts `if (error_code == 10 || 20)`. Skaitlis 20 bez salīdzināšanas C++ vienmēr nozīmē `true`, tādēļ trauksme ieslēgtos pat pie error_code = 0! Pareizi jāraksta `if (error_code == 10 || error_code == 20)`."
+    },
+    "logical-not": {
+      "eyebrow": "Loģiskā apgriešana",
+      "title": "Loģiskais NE (!) un signālu vārti",
+      "body": [
+        "Operators `!` (izsaukuma zīme) veic loģisko inversiju: pārvērš patiesu par aplamu un aplamu par patiesu.",
+        "syntax: !({condition})\n- !: unārais loģiskais nolieguma operators — apgriež sekojošo vērtību\n- condition: apgriežamais nosacījums vai bool mainīgais",
+        "+ **Patiess kļūst aplams.** `!true` novērtējas kā `false` (0). Piemēram, ja `has_error = true`, tad `!has_error` ir `false`.\n+ **Aplams kļūst patiess.** `!false` novērtējas kā `true` (1). Ja aparātam nav kļūdu (`has_error = false`), pārbaude `if (!has_error)` sekmīgi izpildīsies.\n+ **Iekavu nozīme pie ! operatora.** Operatoram `!` ir ļoti augsta prioritāte. Ja vēlaties noliegt izteiksmi, lieciet to iekavās: `!(altitude < 20)` nozīmē «augstums NAV mazāks par 20»."
+      ],
+      "alt": "Diagramma attēlo trīs digitālās loģikas pamatoperācijas: UN (&&), VAI (||) un NE (!) ar to signālu plūsmām.",
+      "image": "assets/l10-logic-gates.lv.svg"
+    },
+    "short-circuit-evaluation": {
+      "eyebrow": "Ātrdarbība un aizsardzība",
+      "title": "Īssavienojuma novērtēšana (Short-circuit)",
+      "body": [
+        "C++ loģiskos operatorus aprēķina stingri no kreisās uz labo pusi. Taču kompilators ir gudrs: tas pārtrauc izteiksmes rēķināšanu tajā pašā mirklī, kad gala iznākums jau ir garantēts.",
+        "+ **Īssavienojums ar &&.** Ja kreisā puse ir `false`, visa izteiksme garantēti būs `false` neatkarīgi no labās puses. Tādēļ labā puse vispār netiek izsaukta un izskaitļota!\n+ **Īssavienojums ar ||.** Ja kreisā puse ir `true`, visa izteiksme garantēti būs `true`. Labā puse atkal netiek izpildīta vispār.",
+        "> Koda aizsardzības zelta paņēmiens:\n> Īssavienojumu izmanto borta programmatūrā, lai pasargātu sistēmu no avārijām. Piemēram, pārbaude `if (count != 0 && total / count > 10)` nekad neizraisīs dalīšanu ar nulli! Ja `count == 0`, pirmā daļa ir `false` un bīstamā dalīšana labajā pusē nemaz netiek aiztikta."
+      ],
+      "more": [
+        {
+          "kind": "deeper",
+          "title": "Kā procesors izpilda īssavienojumu mašīnkodā",
+          "body": [
+            "Asemblera līmenī C++ loģiskās izteiksmes ar `&&` un `||` netiek rēķinātas ar aritmētiskām darbībām. Tā vietā kompilators ģenerē nosacījuma lēcienu instrukcijas (conditional jumps, piemēram, `je` — jump if equal vai `jne` — jump if not equal).",
+            "Izteiksmei `if (A && B)` procesors vispirms novērtē A. Ja A ir nulle (false), procesors uzreiz izpilda lēcienu pāri visam if blokam, pat neielādējot B datus no atmiņas reģistros.",
+            "Tas nozīmē, ka saliktos nosacījumos vieglākās un biežāk kļūdainās pārbaudes ir vērts likt pašā sākumā kreisajā pusē — tas ietaupa procesora taktis un paātrina reāllaika lidojuma cilpas darbību."
+          ]
+        }
+      ],
+      "compareCaptions": [
+        "Droša koda secība: pārbaude count != 0 kreisajā pusē novērš dalīšanu ar nulli labajā pusē",
+        "Kritisks avārijas risks: dalīšana izpildās vispirms, un programma avarē pirms nulles pārbaudes"
+      ]
+    },
+    "predict-short-circuit": {
+      "title": "Paredziet īssavienojuma uzvedību",
+      "task": "Kādu tekstu izvadīs programma, ja sensors_count ir 0?",
+      "hint": "Izvērtējiet pirmo daļu: sensors != 0. Vai dators izpildīs dalīšanu 100 / sensors?",
+      "explain": "Tā kā `sensors` ir 0, nosacījums `sensors != 0` ir aplams (false). Pateicoties īssavienojumam (short-circuit), C++ uzreiz pārtrauc `&&` pārbaudi un bīstamo dalīšanu `100 / sensors` nemaz nemēģina izpildīt! Programma droši pāriet uz `else` zaru un izvada `SAFE FALLBACK`."
+    },
+    "emergency-abort-system": {
+      "title": "Avārijas trauksmes dispečers",
+      "task": "Noprogrammējiet drona Sigmas trauksmes sistēmu ar operatoru `||`:\n1. Nolasiet procesora temperatūru `core_temp` un korpusa integritāti `hull_integrity` no `cin`.\n2. Ja temperatūra `core_temp > 80` VAI integritāte `hull_integrity < 50`, izvadiet avārijas pārtraukšanas signālu.\n3. Pretējā gadījumā (`else`) izvadiet atļauju turpināt misiju, kā parādīts zemāk.",
+      "hint": "Uzrakstiet `if (core_temp > 80 || hull_integrity < 50) { ... } else { ... }`.",
+      "solutionNote": "Ja ievadīts 85 un 90, temperatūra 85 > 80 ir patiesa, tādēļ izpildās if zars ar signālu MISSION: ABORT."
+    },
+    "drone-flight-corridor": {
+      "title": "Papilduzdevums: Kanjona lidojuma navigators",
+      "task": "Izveidojiet kompleksu lidojuma lēmumu kontrolieri ar `||` un `&&`:\n1. Nolasiet `battery`, `wind` un `has_fault` (0 vai 1) no `cin`.\n2. Ja konstatēta kļūda `has_fault == 1` VAI baterija `battery < 20`, komandējiet avārijas nosēšanos.\n3. Citādi, ja baterija `battery >= 50` UN vējš `wind <= 15`, atļaujiet maksimālo kreisēšanas ātrumu.\n4. Visos citos gadījumos nosakiet piesardzīga lidojuma režīmu.",
+      "hint": "Lietojiet kaskādi `if (has_fault == 1 || battery < 20) { ... } else if (battery >= 50 && wind <= 15) { ... } else { ... }`.",
+      "solutionNote": "Ievadot 65 12 0, kļūdas nav un baterija ir virs 20, bet otrajā pārbaudē 65 >= 50 un 12 <= 15 abi ir patiesi, tādēļ tiek izvadīts ACTION: CRUISE SPEED."
+    },
+    "recap": {
+      "title": "10. misijas kopsavilkums: Loģiskā navigācija apgūta",
+      "body": [
+        "Bāze IRIS apstiprina: izlūkdrons Sigma ir veiksmīgi pārvarējis Mawrth Vallis kanjona bīstamo sektoru, reāllaikā apvienojot sensoru signālus ar loģiskajām operācijām.",
+        "| Operators | Nosaukums | Kad ir patiess (true) | Tipisks pielietojums borta datorā |\n| :--- | :--- | :--- | :--- |\n| `&&` | Loģiskais UN | Tikai tad, ja **abi** nosacījumi ir patiesi | Kompleksas drošības pārbaudes pirms manevra |\n| `\\|\\|` | Loģiskais VAI | Ja **vismaz viens** nosacījums ir patiess | Avārijas trauksmes un kļūdu sensori |\n| `!` | Loģiskais NE | Ja nosacījums ir **aplams** (apgriež vērtību) | Drošības karodziņu un gatavības pārbaude |",
+        "Nākamajā, 11. nodaļā «switch un ternārais operators» mēs apgūsim, kā aizstāt garus `if/else` kaskādes zarus ar kompaktu komandu dispečeru un saīsināt vienkāršas izvēles līdz vienai koda rindai."
+      ]
+    }
+  }
+}
