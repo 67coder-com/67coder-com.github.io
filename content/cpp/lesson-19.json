@@ -38,22 +38,12 @@
     {
       "id": "vector-input-loop",
       "kind": "editor",
-      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Declare empty vector<int> elevations\n    // 2. Read n integers using push_back\n    // 3. Print ELEVATION #i: val in a for loop\n\n    return 0;\n}",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Declare empty vector<int> elevations\n    // 2. Read n integers using push_back\n    // 3. Print ELEVATION #i: val in a for loop\n\n    return 0;\n}",
+      "expected": "ELEVATION #0: 120\nELEVATION #1: 180\nELEVATION #2: 250\n",
+      "requires": ["vector<int>", ".push_back(", ".size()"],
       "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<int> elevations;\n    for (int i = 0; i < n; i++) {\n        int val;\n        cin >> val;\n        elevations.push_back(val);\n    }\n\n    for (int i = 0; i < elevations.size(); i++) {\n        cout << \"ELEVATION #\" << i << \": \" << elevations[i] << endl;\n    }\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "3\n120 180 250\n",
-          "expected": "ELEVATION #0: 120\nELEVATION #1: 180\nELEVATION #2: 250\n"
-        },
-        {
-          "in": "2\n-40 -15\n",
-          "expected": "ELEVATION #0: -40\nELEVATION #1: -15\n"
-        },
-        {
-          "in": "4\n10 20 30 40\n",
-          "expected": "ELEVATION #0: 10\nELEVATION #1: 20\nELEVATION #2: 30\nELEVATION #3: 40\n"
-        }
-      ]
+      "stdin": "3\n120 180 250\n"
     },
     {
       "id": "find-vector-size-bug",
@@ -84,22 +74,12 @@
     {
       "id": "vector-sum-and-peak",
       "kind": "editor",
-      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    // 1. Read count integers into vector<int> signals with push_back\n    // 2. Calculate sum of all signals\n    // 3. Find max_signal initialized to signals[0]\n    // 4. Print TOTAL SIGNAL: sum\n    // 5. Print PEAK SIGNAL: max_signal\n\n    return 0;\n}",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    // 1. Read count integers into vector<int> signals with push_back\n    // 2. Calculate sum of all signals\n    // 3. Find max_signal initialized to signals[0]\n    // 4. Print TOTAL SIGNAL: sum\n    // 5. Print PEAK SIGNAL: max_signal\n\n    return 0;\n}",
+      "expected": "TOTAL SIGNAL: 230\nPEAK SIGNAL: 90\n",
+      "requires": ["vector<int>", ".push_back(", ".size()"],
       "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    vector<int> signals;\n    for (int i = 0; i < count; i++) {\n        int s;\n        cin >> s;\n        signals.push_back(s);\n    }\n\n    int sum = 0;\n    int max_signal = signals[0];\n\n    for (int i = 0; i < signals.size(); i++) {\n        sum += signals[i];\n        if (signals[i] > max_signal) {\n            max_signal = signals[i];\n        }\n    }\n\n    cout << \"TOTAL SIGNAL: \" << sum << endl;\n    cout << \"PEAK SIGNAL: \" << max_signal << endl;\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "4\n15 80 45 90\n",
-          "expected": "TOTAL SIGNAL: 230\nPEAK SIGNAL: 90\n"
-        },
-        {
-          "in": "3\n-20 -5 -50\n",
-          "expected": "TOTAL SIGNAL: -75\nPEAK SIGNAL: -5\n"
-        },
-        {
-          "in": "5\n10 10 10 10 10\n",
-          "expected": "TOTAL SIGNAL: 50\nPEAK SIGNAL: 10\n"
-        }
-      ]
+      "stdin": "4\n15 80 45 90\n"
     },
     {
       "id": "predict-vector-empty",
@@ -117,22 +97,12 @@
     {
       "id": "drone-flight-path-logger",
       "kind": "editor",
-      "initial": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Read n altitude values into vector<int> altitudes with push_back\n    // 2. Count waypoints where altitude >= 100\n    // 3. Accumulate total altitude\n    // 4. Print WAYPOINTS LOGGED: altitudes.size()\n    // 5. Print TOTAL ALTITUDE: total\n    // 6. Print HIGH ALTITUDE FIXES: count\n\n    return 0;\n}",
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Read n altitude values into vector<int> altitudes with push_back\n    // 2. Count waypoints where altitude >= 100\n    // 3. Accumulate total altitude\n    // 4. Print WAYPOINTS LOGGED: altitudes.size()\n    // 5. Print TOTAL ALTITUDE: total\n    // 6. Print HIGH ALTITUDE FIXES: count\n\n    return 0;\n}",
+      "expected": "WAYPOINTS LOGGED: 4\nTOTAL ALTITUDE: 440\nHIGH ALTITUDE FIXES: 2\n",
+      "requires": ["vector<int>", ".push_back(", ".size()"],
       "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<int> altitudes;\n    for (int i = 0; i < n; i++) {\n        int alt;\n        cin >> alt;\n        altitudes.push_back(alt);\n    }\n\n    int high_altitude_count = 0;\n    int total_alt = 0;\n\n    for (int i = 0; i < altitudes.size(); i++) {\n        total_alt += altitudes[i];\n        if (altitudes[i] >= 100) {\n            high_altitude_count++;\n        }\n    }\n\n    cout << \"WAYPOINTS LOGGED: \" << altitudes.size() << endl;\n    cout << \"TOTAL ALTITUDE: \" << total_alt << endl;\n    cout << \"HIGH ALTITUDE FIXES: \" << high_altitude_count << endl;\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "4\n80 120 150 90\n",
-          "expected": "WAYPOINTS LOGGED: 4\nTOTAL ALTITUDE: 440\nHIGH ALTITUDE FIXES: 2\n"
-        },
-        {
-          "in": "3\n50 60 70\n",
-          "expected": "WAYPOINTS LOGGED: 3\nTOTAL ALTITUDE: 180\nHIGH ALTITUDE FIXES: 0\n"
-        },
-        {
-          "in": "5\n100 110 120 130 140\n",
-          "expected": "WAYPOINTS LOGGED: 5\nTOTAL ALTITUDE: 600\nHIGH ALTITUDE FIXES: 5\n"
-        }
-      ]
+      "stdin": "4\n80 120 150 90\n"
     },
     {
       "id": "recap",

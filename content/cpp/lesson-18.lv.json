@@ -47,7 +47,8 @@
       "body": [
         "Izsekojiet šai matricas programmai, kurā šūnas vērtība tiek mainīta pēc rindas un kolonnas koordinātām.",
         "Nosakiet konsolē izdrukāto summas vērtību."
-      ]
+      ],
+      "explain": "`grid[0][2]` piekļūst 0. rindas 2. kolonnai, kur atrodas 30. `grid[1][0]` sākotnēji bija 40, bet tika pārrakstīts uz 90. Izdrukātā summa ir `30 + 90 = 120`."
     },
     "matrix-nested-traversal": {
       "title": "2D augstuma režģa ievade un izdruka",
@@ -62,7 +63,7 @@
         "Šī programma mēģina izdrukāt 2x3 augstumu režģi.",
         "Tomēr viena no cikla robežām satur kļūdu, kuras dēļ notiek mēģinājums nolasīt atmiņu ārpus matricas. Noklikšķiniet uz kļūdainās rindas."
       ],
-      "explanation": "2x3 matricā kolonnu indeksi ir 0, 1, 2. Nosacījums c <= 3 ļauj c sasniegt 3, mēģinot nolasīt elev[r][3], kas ir ārpus kolonnu robežām. Pareizajam nosacījumam jābūt c < 3."
+      "explain": "Matricā `elev[2][3]` derīgie kolonnu indeksi ir 0, 1 un 2 (kopā 3 kolonnas). Cikla nosacījums `c <= 3` pieļauj `c` vērtību 3, mēģinot nolasīt `elev[r][3]` ārpus kolonnu robežām un izraisot nedefinētu uzvedību (UB). Pareizajam nosacījumam jābūt `c < 3`."
     },
     "assemble-matrix-flat-sum": {
       "eyebrow": "Pārsona uzdevums",
@@ -90,7 +91,8 @@
       "body": [
         "Topogrāfiskajos krātera griezumos bieži analizē diagonālo profilu, kur rindas indekss sakrīt ar kolonnas indeksu (`r == c`).",
         "Izsekojiet šim diagonāles summēšanas ciklam un nosakiet izdrukāto `diag_sum` vērtību."
-      ]
+      ],
+      "explain": "Cikls iet caur galveno diagonāli, kur rindas un kolonnas indeksi sakrīt: `map[0][0]` (5) + `map[1][1]` (8) + `map[2][2]` (7) = 20."
     },
     "capstone-landing-grid": {
       "title": "Nosēšanās laukuma raupjuma novērtētājs",

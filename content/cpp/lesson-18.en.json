@@ -47,7 +47,8 @@
       "body": [
         "Trace this matrix program where an elevation cell is updated by its row and column coordinates.",
         "Determine the final sum printed to the console."
-      ]
+      ],
+      "explain": "`grid[0][2]` accesses row 0, column 2, which holds 30. `grid[1][0]` was originally 40, but was overwritten with 90. The sum printed is `30 + 90 = 120`."
     },
     "matrix-nested-traversal": {
       "title": "Input and print a 2D elevation grid",
@@ -62,7 +63,7 @@
         "This program attempts to print a 2x3 elevation grid.",
         "However, one of the loop conditions contains an off-by-one boundary bug that attempts to access memory outside the matrix. Click on the line with the bug."
       ],
-      "explanation": "In a 2x3 matrix, column indices are 0, 1, 2. The loop condition `c <= 3` allows c to reach 3, attempting to read `elev[r][3]`, which is outside the column bounds. The condition must be `c < 3`."
+      "explain": "In the matrix `elev[2][3]`, valid column indices are 0, 1, and 2 (total 3 columns). The loop condition `c <= 3` allows `c` to reach 3, attempting to read `elev[r][3]` outside column bounds and causing undefined behavior. The condition must be `c < 3`."
     },
     "assemble-matrix-flat-sum": {
       "eyebrow": "Parsons puzzle",
@@ -90,7 +91,8 @@
       "body": [
         "Topographical transects across a crater often examine the diagonal profile where row equals column (`r == c`).",
         "Trace this diagonal accumulator loop and predict the final printed value of `diag_sum`."
-      ]
+      ],
+      "explain": "The loop traverses the main diagonal where row and column indices match: `map[0][0]` (5) + `map[1][1]` (8) + `map[2][2]` (7) = 20."
     },
     "capstone-landing-grid": {
       "title": "Landing site roughness evaluator",

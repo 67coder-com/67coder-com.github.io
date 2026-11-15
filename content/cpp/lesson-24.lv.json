@@ -11,11 +11,13 @@
     },
     "exam-predict-composite-loop": {
       "title": "Diagnostika: Cikla iterācija un vadība",
-      "content": "### Paredzi izvadi\n\nAnalizē telemetrijas akumulācijas procedūru drona navigācijas filtrā. Izseko mainīgā `sum` vērtību caur katru cikla iterāciju no `i = 1` līdz `6`.\n\nKāda vērtība tiks izvadīta terminālī?"
+      "content": "### Paredzi izvadi\n\nAnalizē telemetrijas akumulācijas procedūru drona navigācijas filtrā. Izseko mainīgā `sum` vērtību caur katru cikla iterāciju no `i = 1` līdz `6`.\n\nKāda vērtība tiks izvadīta terminālī?",
+      "explain": "Cikls iet cauri `i` no 1 līdz 6. Nepāra skaitļi (1, 3, 5) izsauc `continue` un tiek izlaisti. Pāra skaitļiem: pie `i = 2` pieskaita 2 (summa kļūst 2); pie `i = 4` pieskaita 4 (summa kļūst 6); pie `i = 6` izpildās nosacījums `i == 6`, tāpēc pieskaita 10 (summa kļūst 16). Rezultāts ir `16`."
     },
     "exam-audit-syntax-bug": {
-      "title": "Diagnostika: Norādes kļūdas audits",
-      "content": "### Atrodi loģisko kļūdu\n\nDzinēju inženieris uzrakstīja funkciju `boost_power()`, lai dubultotu drona akumulatora jaudu. Tomēr pēc funkcijas izsaukšanas funkcijā `main()` akumulatora jauda joprojām ir spītīgi `50`!\n\nNoklikšķini uz koda rindas, kuras dēļ netiek mainīts oriģinālais mainīgais no `main()`."
+      "title": "Diagnostika: Nedeklarētas funkcijas izsaukuma audits",
+      "content": "### Atrodi redzamības kļūdu\n\nŠajā borta datora programmā funkcija `boost_power` ir realizēta zem `main()`, taču virs `main()` trūkst funkcijas prototipa deklarācijas.\n\nNoklikšķini uz koda rindas, kurā kompilators paziņo par kļūdu, jo funkcija vēl nav deklarēta.",
+      "explain": "Rindiņā 6 tiek izsaukts `boost_power(battery)`. C++ kompilators lasa failu no augšas uz leju. Tā kā funkcija `boost_power` ir definēta tikai zemāk un virs `main()` nav tās prototipa (`int boost_power(int power);`), šajā rindiņā identifikators `boost_power` vēl nav zināms un izraisa kompilatora kļūdu!"
     },
     "exam-core-challenge-1-filtering": {
       "title": "1. izaicinājums: Telemetrijas diapazona filtrs",
@@ -24,7 +26,8 @@
     },
     "exam-predict-matrix-traversal": {
       "title": "Diagnostika: Matricas diagonāle",
-      "content": "### Paredzi matricas summu\n\nIzpēti divdimensiju matricas apstaigāšanas kodu. Tas inicializē 2x2 režģi un aprēķina `diag_sum` pa galveno diagonāli (`grid[i][i]`).\n\nKāda vērtība tiek izvadīta?"
+      "content": "### Paredzi matricas summu\n\nIzpēti divdimensiju matricas apstaigāšanas kodu. Tas inicializē 2x2 režģi un aprēķina `diag_sum` pa galveno diagonāli (`grid[i][i]`).\n\nKāda vērtība tiek izvadīta?",
+      "explain": "Cikls iet caur `i = 0` un `i = 1`, summējot galvenās diagonāles elementus, kur rindas un kolonnas indeksi sakrīt: `grid[0][0]` (10) + `grid[1][1]` (40) = 50."
     },
     "exam-parsons-modular-dispatch": {
       "title": "Diagnostika: Funkciju pārslogošanas montāža",

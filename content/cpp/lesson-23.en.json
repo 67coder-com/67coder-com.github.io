@@ -57,12 +57,12 @@
     },
     "find-library-ref-bug": {
       "eyebrow": "Code audit",
-      "title": "Identify missing reference parameter",
+      "title": "Identify const reference mutation bug",
       "body": [
-        "The flight engineer wrote `apply_trim` to adjust the drone's speed directly in memory.",
-        "However, tests show `drone_speed` in `main()` never changes! Click on the line causing the failure."
+        "A flight software engineer passed telemetry vector `v` by constant reference `const vector<int> &v` to avoid copying.",
+        "However, inside the function they attempt to append a value to `v`. Click on the line that causes the compilation error."
       ],
-      "explain": "Line 4 defines `void apply_trim(int speed, int delta)`. Because `speed` is passed by value (lacking `&`), the function modifies only an isolated temporary copy. The caller's `drone_speed` is untouched! The signature must be `int &speed`."
+      "explain": "Line 6 calls `v.push_back(0)`. Because parameter `v` is declared as `const vector<int> &v`, it is strictly read-only. Attempting to modify a const reference (e.g., calling non-const methods like `.push_back()`) is prohibited by the compiler and causes a compilation error!"
     },
     "assemble-telemetry-pipeline": {
       "eyebrow": "Parsons puzzle",

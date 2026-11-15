@@ -55,7 +55,8 @@
       "body": [
         "Trace this array program where an element is updated by index.",
         "Determine the final sum printed to the console."
-      ]
+      ],
+      "explain": "The statement `log[1] = 90` updates the element at index 1 from 25 to 90. Then `log[0] + log[1]` calculates `10 + 90 = 100`."
     },
     "array-loop-traversal": {
       "title": "Sensor array input and traversal",
@@ -70,7 +71,7 @@
         "This telemetry loop attempts to print 4 values from an array.",
         "However, it contains a critical boundary bug that reads memory outside the array. Click on the line containing the error."
       ],
-      "explanation": "In an array of size 4, indices are 0, 1, 2, 3. The loop condition `i <= 4` allows i to reach 4, causing `telemetry[4]` to read outside the array boundary. The condition should be `i < 4`."
+      "explain": "In an array of 4 elements, valid indices are strictly 0 to 3. The loop condition `i <= 4` allows `i` to reach 4, causing `telemetry[4]` to read unallocated memory outside the array boundaries and triggering undefined behavior (UB). The condition should be `i < 4`."
     },
     "assemble-array-sum": {
       "eyebrow": "Parsons puzzle",
@@ -98,7 +99,8 @@
       "body": [
         "Trace this linear search algorithm looking for error code `309` in an array of diagnostic codes.",
         "Determine the final value of `found_index` printed by the program."
-      ]
+      ],
+      "explain": "The loop iterates through `codes`. When `i` reaches 2, `codes[2] == 309` evaluates to true. The variable `found_index` is set to 2, and `break` exits the loop immediately, printing 2."
     },
     "cargo-batch-analyzer": {
       "title": "Cargo container health monitor",

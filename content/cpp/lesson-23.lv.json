@@ -57,12 +57,12 @@
     },
     "find-library-ref-bug": {
       "eyebrow": "Koda audits",
-      "title": "Trūkstošās norādes kļūdas atrašana",
+      "title": "Atrast const references modifikācijas kļūdu",
       "body": [
-        "Inženieris uzrakstīja funkciju `apply_trim`, lai tieši pielāgotu drona ātrumu izsaucēja atmiņā.",
-        "Tomēr testi rāda, ka `drone_speed` funkcijā `main()` vispār nemainās! Noklikšķiniet uz rindiņas, kas izraisa kļūdu."
+        "Borta programmatūras inženieris nodeva telemetrijas vektoru `v` pēc konstanta rādītāja `const vector<int> &v`, lai izvairītos no liekas kopēšanas.",
+        "Tomēr funkcijas iekšienē tiek mēģināts pievienot jaunu elementu. Noklikšķiniet uz rindiņas, kas izraisa kompilācijas kļūdu."
       ],
-      "explain": "Rindiņā 4 ir definēts `void apply_trim(int speed, int delta)`. Tā kā `speed` nodots pēc vērtības (trūkst `&`), funkcija maina tikai izolētu pagaidu kopiju, un izsaucēja `drone_speed` paliek nemainīts! Pareizam parakstam jābūt `int &speed`."
+      "explain": "Rindiņā 6 tiek izsaukts `v.push_back(0)`. Tā kā parametrs `v` ir deklarēts kā `const vector<int> &v`, tas ir aizsargāts pret izmaiņām (tikai lasāms). Mēģinājums modificēt konstantu atsauci izraisa kompilatora kļūdu!"
     },
     "assemble-telemetry-pipeline": {
       "eyebrow": "Parsons puzzle",

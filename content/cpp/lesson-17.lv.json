@@ -55,7 +55,8 @@
       "body": [
         "Izsekojiet šai programmai, kurā masīva elements tiek atjaunināts pēc tā indeksa.",
         "Nosakiet konsolē izdrukāto summas vērtību."
-      ]
+      ],
+      "explain": "Izteiksme `log[1] = 90` atjaunina elementu ar indeksu 1 no 25 uz 90. Pēc tam `log[0] + log[1]` aprēķina `10 + 90 = 100`."
     },
     "array-loop-traversal": {
       "title": "Masīva aizpildīšana un nolasīšana ciklā",
@@ -70,7 +71,7 @@
         "Šis telemetrijas cikls mēģina izdrukāt 4 vērtības no masīva.",
         "Tomēr tajā ir kritiska robežas kļūda, kas mēģina nolasīt atmiņu ārpus masīva. Noklikšķiniet uz kļūdainās rindas."
       ],
-      "explanation": "Masīvā ar 4 elementiem derīgie indeksi ir 0, 1, 2, 3. Nosacījums i <= 4 ļauj i sasniegt 4, mēģinot nolasīt telemetry[4], kas atrodas ārpus masīva atmiņas. Pareizajam nosacījumam jābūt i < 4."
+      "explain": "Masīvā ar 4 elementiem derīgie indeksi ir no 0 līdz 3. Izteiksme `i <= 4` mēģina nolasīt `telemetry[4]`, kas atrodas ārpus masīva robežām un izraisa nedefinētu uzvedību (UB). Pareizajam nosacījumam jābūt `i < 4`."
     },
     "assemble-array-sum": {
       "eyebrow": "Pārsona uzdevums",
@@ -98,7 +99,8 @@
       "body": [
         "Izsekojiet lineārās meklēšanas algoritmam, kas meklē kļūdas kodu `309` diagnostikas kodu masīvā.",
         "Nosakiet mainīgā `found_index` gala vērtību, ko izvadīs programma."
-      ]
+      ],
+      "explain": "Cikls iet cauri masīvam. Kad `i` sasniedz 2, nosacījums `codes[2] == 309` ir patiess. Mainīgajam `found_index` tiek piešķirts 2, un `break` nekavējoties pārtrauc ciklu, izdrukājot 2."
     },
     "cargo-batch-analyzer": {
       "title": "Kravas konteineru veselības monitors",
