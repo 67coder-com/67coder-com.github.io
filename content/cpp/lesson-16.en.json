@@ -28,17 +28,18 @@
       "body": [
         "Trace the execution of this composite sector scan loop combining `continue` and `break`.",
         "Determine the final value of `valid_points` printed by the program."
-      ]
+      ],
+      "explain": "Trace the loop step by step: for `sector = 1`, the point is counted (`valid_points = 1`). At `sector = 2`, `continue` triggers and skips counting. For `sector = 3` and `4`, points are counted (`valid_points` reaches 2 and 3). When `sector` reaches 5, `break;` triggers, immediately terminating the loop before counting. Thus, the total scanned sectors count is 3."
     },
     "sensor-warmup-while": {
       "title": "Inertial gyro calibration loop",
-      "task": "Program Sigma's gyro calibration routine using a `while` loop:\n1. Read initial drift `int drift` and step decrease `int step` from `cin`.\n2. While `drift > 5`: subtract `step` from `drift` using `drift -= step`, then print `CALIBRATING: ` followed by `drift` and a newline.\n3. After the loop terminates, print `SENSOR STABILIZED` and a newline.",
+      "task": "Program Sigma's gyro calibration routine using a `while` loop (test input: `20 5`):\n1. Read initial drift `int drift` and step decrease `int step` from `cin`.\n2. While `drift > 5`: subtract `step` from `drift` using `drift -= step`, then print `CALIBRATING: ` followed by `drift` and a newline.\n3. After the loop terminates, print `SENSOR STABILIZED` and a newline.",
       "hint": "Write `while (drift > 5) { drift -= step; cout << \"CALIBRATING: \" << drift << endl; }` followed by the completion message.",
       "solutionNote": "With input 20 and 5, drift drops from 20 to 15, 10, and 5. At 5, the condition 5 > 5 is false, terminating calibration."
     },
     "elevation-sweep-for": {
       "title": "Stepped altitude ladder survey",
-      "task": "Program Delta's stepped altitude ladder survey using a `for` loop:\n1. Read minimum altitude `int min_alt` and maximum altitude `int max_alt` from `cin`.\n2. Maintain an accumulator `int total_samples = 0` initialized to 0.\n3. In a `for` loop starting at `int alt = min_alt`, continuing while `alt <= max_alt`, stepping by `alt += 25`: add 10 to `total_samples` using `total_samples += 10`, and print `TIER: ` followed by `alt` and a newline.\n4. After the loop completes, print `TOTAL SAMPLES: ` followed by `total_samples` and a newline.",
+      "task": "Program Delta's stepped altitude ladder survey using a `for` loop (test input: `50 100`):\n1. Read minimum altitude `int min_alt` and maximum altitude `int max_alt` from `cin`.\n2. Maintain an accumulator `int total_samples = 0` initialized to 0.\n3. In a `for` loop starting at `int alt = min_alt`, continuing while `alt <= max_alt`, stepping by `alt += 25`: add 10 to `total_samples` using `total_samples += 10`, and print `TIER: ` followed by `alt` and a newline.\n4. After the loop completes, print `TOTAL SAMPLES: ` followed by `total_samples` and a newline.",
       "hint": "Use `for (int alt = min_alt; alt <= max_alt; alt += 25) { total_samples += 10; cout << \"TIER: \" << alt << endl; }`.",
       "solutionNote": "For bounds 50 to 100, the loop runs for tiers 50, 75, and 100, accumulating 30 total samples."
     },
@@ -49,7 +50,7 @@
         "The following while loop was intended to sample sectors 1 through 5 while skipping sector 3.",
         "However, the flight computer enters an infinite freeze when executed. Click on the exact line responsible for the infinite loop."
       ],
-      "explanation": "At sample = 3, the `continue` statement immediately jumps back to the `while (sample <= 5)` condition without executing `sample++`. Because `sample` remains 3 forever, the loop hangs in an infinite freeze. In a `while` loop, counter updates must happen before `continue`, or the loop should be structured as a `for` loop."
+      "explain": "At sample = 3, the `continue` statement immediately jumps back to the `while (sample <= 5)` condition without executing `sample++`. Because `sample` remains 3 forever, the loop hangs in an infinite freeze. In a `while` loop, counter updates must happen before `continue`, or the loop should be structured as a `for` loop."
     },
     "telemetry-sample-dowhile": {
       "eyebrow": "Parsons puzzle",
@@ -61,13 +62,13 @@
     },
     "shadow-filter-continue": {
       "title": "Solar flux noise filter",
-      "task": "Program Sigma's solar panel flux scanner using a `for` loop with `continue`:\n1. Read the number of sensor cells `int count` from `cin`.\n2. Maintain an accumulator `int active_power = 0` initialized to 0.\n3. In a `for` loop from `i = 1` up to and including `count` (`i <= count`): read an integer `reading` from `cin`.\n4. If `reading < 20`, skip the rest of the current iteration using `continue`.\n5. Otherwise, add `reading` to `active_power` using `active_power += reading` and print `CELL #` followed by `i` and `: VALID` on a new line.\n6. After the loop finishes, print `ACTIVE POWER: ` followed by `active_power` and a newline.",
+      "task": "Program Sigma's solar panel flux scanner using a `for` loop with `continue` (test input: `4` and values `10 45 15 30`):\n1. Read the number of sensor cells `int count` from `cin`.\n2. Maintain an accumulator `int active_power = 0` initialized to 0.\n3. In a `for` loop from `i = 1` up to and including `count` (`i <= count`): read an integer `reading` from `cin`.\n4. If `reading < 20`, skip the rest of the current iteration using `continue`.\n5. Otherwise, add `reading` to `active_power` using `active_power += reading` and print `CELL #` followed by `i` and `: VALID` on a new line.\n6. After the loop finishes, print `ACTIVE POWER: ` followed by `active_power` and a newline.",
       "hint": "Inside the loop: `cin >> reading; if (reading < 20) { continue; } active_power += reading; cout << \"CELL #\" << i << \": VALID\" << endl;`.",
       "solutionNote": "Readings 10 and 15 are skipped by continue, while 45 and 30 are accumulated, yielding 75 total power."
     },
     "thermal-spike-break": {
       "title": "Corridor thermal abort safeguard",
-      "task": "Program Sigma's thermal hazard safeguard using a `for` loop with `break`:\n1. Read the maximum number of scan sectors `int max_sectors` from `cin`.\n2. Maintain a counter `int completed = 0` initialized to 0.\n3. In a `for` loop from sector `s = 1` up to and including `max_sectors` (`s <= max_sectors`): read integer temperature `temp` from `cin`.\n4. If `temp >= 100`: print `THERMAL SPIKE AT SECTOR ` followed by `s` and a newline, then immediately terminate the loop with `break`.\n5. Otherwise: increment `completed++` and print `SECTOR ` followed by `s` and `: NOMINAL` on a new line.\n6. After the loop, print `COMPLETED SECTORS: ` followed by `completed` and a newline.",
+      "task": "Program Sigma's thermal hazard safeguard using a `for` loop with `break` (test input: `5` and values `65 72 108 50 60`):\n1. Read the maximum number of scan sectors `int max_sectors` from `cin`.\n2. Maintain a counter `int completed = 0` initialized to 0.\n3. In a `for` loop from sector `s = 1` up to and including `max_sectors` (`s <= max_sectors`): read integer temperature `temp` from `cin`.\n4. If `temp >= 100`: print `THERMAL SPIKE AT SECTOR ` followed by `s` and a newline, then immediately terminate the loop with `break`.\n5. Otherwise: increment `completed++` and print `SECTOR ` followed by `s` and `: NOMINAL` on a new line.\n6. After the loop, print `COMPLETED SECTORS: ` followed by `completed` and a newline.",
       "hint": "Check `if (temp >= 100) { cout << \"THERMAL SPIKE AT SECTOR \" << s << endl; break; }` before incrementing `completed`.",
       "solutionNote": "When sector 3 registers 108 deg C, the loop logs the thermal spike and terminates immediately, logging 2 completed sectors."
     },
@@ -77,11 +78,12 @@
       "body": [
         "Predict the output of this nested coordinate sweep simulating a two-dimensional canyon scan pass.",
         "Pay careful attention to which coordinate points are skipped by the inner loop's `continue`."
-      ]
+      ],
+      "explain": "The outer loop iterates through zones `zone = 1` and `zone = 2`. For each zone, the inner loop processes points `p = 1`, `2`, `3`. When `p == 2`, the inner loop's `continue` skips only point 2 without affecting other points or the outer loop. Consequently, points P1 and P3 are printed for each zone: `Z1-P1 Z1-P3 Z2-P1 Z2-P3 DONE`."
     },
     "capstone-sector-scanner": {
       "title": "Autonomous sector scanner engine",
-      "task": "Program the complete autonomous canyon sector scanner for Sigma and Delta:\n1. Read the total number of survey waypoints `int n` from `cin`.\n2. Initialize three tracking variables: `int valid_points = 0`, `int total_telemetry = 0`, `int max_signal = 0`.\n3. In a `for` loop from `i = 1` up to and including `n` (`i <= n`): read integer `signal` from `cin`.\n4. If `signal < 0`: print `CRITICAL FAILURE AT POINT ` followed by `i` and a newline, then immediately abort the loop with `break`.\n5. If `signal == 0`: print `POINT ` followed by `i` and `: SHADOW SKIPPED` on a new line, then skip to the next iteration with `continue`.\n6. Otherwise (valid signal): increment `valid_points++`, add `signal` to `total_telemetry`, and if `signal > max_signal` update `max_signal = signal`; then print `POINT ` followed by `i` and `: SIGNAL ` followed by `signal` on a new line.\n7. After the loop completes, print the three summary metrics on separate lines: `VALID POINTS: ` followed by `valid_points`, `TOTAL TELEMETRY: ` followed by `total_telemetry`, and `PEAK SIGNAL: ` followed by `max_signal`.",
+      "task": "Program the complete autonomous canyon sector scanner for Sigma and Delta (test input: `5` and values `12 0 45 28 0`):\n1. **Input and tracking setup:** read waypoint count `int n` from `cin` and initialize `valid_points = 0`, `total_telemetry = 0`, `max_signal = 0`.\n2. **Emergency and shadow filters in `for` loop (`i = 1` to `n`):** read `signal` from `cin`. If `signal < 0`, print `CRITICAL FAILURE AT POINT ` followed by `i` and a newline, then immediately abort the loop with `break;`. If `signal == 0`, print `POINT ` followed by `i` and `: SHADOW SKIPPED` on a new line, then skip to the next iteration with `continue;`.\n3. **Valid telemetry processing:** otherwise (valid signal), increment `valid_points++`, add `signal` to `total_telemetry`, update `max_signal` (if `signal > max_signal`), and print `POINT ` followed by `i` and `: SIGNAL ` followed by `signal` on a new line.\n4. **Mission summary after loop:** print the three summary metrics on separate lines: `VALID POINTS: ` followed by `valid_points`, `TOTAL TELEMETRY: ` followed by `total_telemetry`, and `PEAK SIGNAL: ` followed by `max_signal`.",
       "hint": "Handle the `signal < 0` abort first, then `signal == 0` continue, then accumulate valid metrics.",
       "solutionNote": "This program combines counting, filtering, emergency exit, accumulation, and peak tracking in a single autonomous flight loop."
     },

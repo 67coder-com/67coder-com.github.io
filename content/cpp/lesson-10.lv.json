@@ -112,13 +112,13 @@
     },
     "emergency-abort-system": {
       "title": "Avārijas trauksmes dispečers",
-      "task": "Noprogrammējiet drona Sigmas trauksmes sistēmu ar operatoru `||`:\n1. Nolasiet procesora temperatūru `core_temp` un korpusa integritāti `hull_integrity` no `cin`.\n2. Ja temperatūra `core_temp > 80` VAI integritāte `hull_integrity < 50`, izvadiet avārijas pārtraukšanas signālu.\n3. Pretējā gadījumā (`else`) izvadiet atļauju turpināt misiju, kā parādīts zemāk.",
+      "task": "Noprogrammējiet drona Sigmas trauksmes sistēmu ar operatoru `||` (testa ievade: `85 90`):\n1. Nolasiet procesora temperatūru `core_temp` un korpusa integritāti `hull_integrity` no `cin`.\n2. Ja temperatūra `core_temp > 80` VAI integritāte `hull_integrity < 50`, izvadiet avārijas pārtraukšanas signālu.\n3. Pretējā gadījumā (`else`) izvadiet atļauju turpināt misiju, kā parādīts zemāk.",
       "hint": "Uzrakstiet `if (core_temp > 80 || hull_integrity < 50) { ... } else { ... }`.",
       "solutionNote": "Ja ievadīts 85 un 90, temperatūra 85 > 80 ir patiesa, tādēļ izpildās if zars ar signālu MISSION: ABORT."
     },
     "drone-flight-corridor": {
       "title": "Papilduzdevums: Kanjona lidojuma navigators",
-      "task": "Izveidojiet kompleksu lidojuma lēmumu kontrolieri ar `||` un `&&`:\n1. Nolasiet `battery`, `wind` un `has_fault` (0 vai 1) no `cin`.\n2. Ja konstatēta kļūda `has_fault == 1` VAI baterija `battery < 20`, komandējiet avārijas nosēšanos.\n3. Citādi, ja baterija `battery >= 50` UN vējš `wind <= 15`, atļaujiet maksimālo kreisēšanas ātrumu.\n4. Visos citos gadījumos nosakiet piesardzīga lidojuma režīmu.",
+      "task": "Izveidojiet kompleksu lidojuma lēmumu kontrolieri ar `||` un `&&` (testa ievade: `65 12 0`):\n1. Nolasiet `battery`, `wind` un `has_fault` (0 vai 1) no `cin`.\n2. Ja konstatēta kļūda `has_fault == 1` VAI baterija `battery < 20`, komandējiet avārijas nosēšanos.\n3. Citādi, ja baterija `battery >= 50` UN vējš `wind <= 15`, atļaujiet maksimālo kreisēšanas ātrumu.\n4. Visos citos gadījumos nosakiet piesardzīga lidojuma režīmu.\nIzmantojiet kaskādi ar `else if` vai iegultas `if` pārbaudes.",
       "hint": "Lietojiet kaskādi `if (has_fault == 1 || battery < 20) { ... } else if (battery >= 50 && wind <= 15) { ... } else { ... }`.",
       "solutionNote": "Ievadot 65 12 0, kļūdas nav un baterija ir virs 20, bet otrajā pārbaudē 65 >= 50 un 12 <= 15 abi ir patiesi, tādēļ tiek izvadīts ACTION: CRUISE SPEED."
     },

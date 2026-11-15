@@ -48,7 +48,7 @@
     },
     "sensor-warmup-loop": {
       "title": "Engine pre-heater warmup controller",
-      "task": "Program Scout drone Sigma's engine pre-heater using a `while` loop:\n1. Read starting engine temperature `int temp` from `cin`.\n2. While `temp < 50`, add `10` to `temp` and print `WARMING: ` followed by `temp` and a newline.\n3. After the loop completes, print `READY FOR FLIGHT` and a newline.",
+      "task": "Program Scout drone Sigma's engine pre-heater using a `while` loop (test input: `20`):\n1. Read starting engine temperature `int temp` from `cin`.\n2. While `temp < 50`, add `10` to `temp` and print `WARMING: ` followed by `temp` and a newline.\n3. After the loop completes, print `READY FOR FLIGHT` and a newline.",
       "hint": "Write `while (temp < 50) { temp += 10; cout << \"WARMING: \" << temp << endl; }` followed by the flight readiness message.",
       "solutionNote": "With input 20, temp becomes 30, 40, and 50, triggering three warmup status lines before exiting to READY FOR FLIGHT."
     },
@@ -82,7 +82,7 @@
     },
     "capacitor-pulse-charge": {
       "title": "LiDAR capacitor charging cycle",
-      "task": "Program Surveyor drone Delta's LiDAR capacitor charger using a `do-while` loop:\n1. Read initial voltage `int voltage` and target voltage `int target` from `cin`.\n2. In a `do-while` loop while `voltage < target`: add `25` to `voltage` and print `PULSE: ` followed by `voltage` and a newline.\n3. After the loop completes, print `LIDAR CHARGED` and a newline.",
+      "task": "Program Surveyor drone Delta's LiDAR capacitor charger using a `do-while` loop (test input: `10 60`):\n1. Read initial voltage `int voltage` and target voltage `int target` from `cin`.\n2. In a `do-while` loop while `voltage < target`: add `25` to `voltage` and print `PULSE: ` followed by `voltage` and a newline.\n3. After the loop completes, print `LIDAR CHARGED` and a newline.",
       "hint": "Write `do { voltage += 25; cout << \"PULSE: \" << voltage << endl; } while (voltage < target);` followed by the completion message.",
       "solutionNote": "With voltage 10 and target 60, pulses charge the capacitor to 35 and 60, satisfying the target condition and printing LIDAR CHARGED."
     },
@@ -94,7 +94,7 @@
     },
     "stream-input-accumulator": {
       "title": "Bonus challenge: Telemetry stream accumulator",
-      "task": "Accumulate incoming sensor telemetry until an end-of-stream sentinel value `-1` is encountered:\n1. Read initial measurement `int val` from `cin`.\n2. Declare accumulator `int sum = 0;`.\n3. In a `while` loop while `val != -1`: add `val` to `sum`, then read the next `val` from `cin` with `cin >> val;`.\n4. After the loop terminates, print `TOTAL TELEMETRY: ` followed by `sum` and a newline.",
+      "task": "Accumulate incoming sensor telemetry until an end-of-stream sentinel value `-1` is encountered (test input: `10 25 15 -1`):\n1. Read initial measurement `int val` from `cin`.\n2. Declare accumulator `int sum = 0;`.\n3. In a `while` loop while `val != -1`: add `val` to `sum`, then read the next `val` from `cin` with `cin >> val;`.\n4. After the loop terminates, print `TOTAL TELEMETRY: ` followed by `sum` and a newline.",
       "hint": "Use `while (val != -1) { sum += val; cin >> val; }` to process continuous stream values.",
       "solutionNote": "With input 10 25 15 -1, the loop sums 10 + 25 + 15 = 50 and terminates when sentinel -1 is read."
     },

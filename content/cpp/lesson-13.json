@@ -90,7 +90,7 @@
       "optional": true,
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int val;\n    cin >> val;\n    int sum = 0;\n\n    // 1. while val != -1\n    // 2. add val to sum and read next val from cin\n    // 3. after loop print: TOTAL TELEMETRY: <sum>\n\n    return 0;\n}",
       "expected": "TOTAL TELEMETRY: 50",
-      "requires": ["while", "!=", "cin >> val;"],
+      "requires": ["while", "!=", "cin >>"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int val;\n    cin >> val;\n    int sum = 0;\n\n    while (val != -1) {\n        sum += val;\n        cin >> val;\n    }\n\n    cout << \"TOTAL TELEMETRY: \" << sum << endl;\n\n    return 0;\n}",
       "stdin": "10 25 15 -1\n"
     },

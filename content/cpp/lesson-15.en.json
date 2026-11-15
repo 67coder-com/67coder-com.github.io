@@ -46,7 +46,7 @@
     },
     "canyon-obstacle-abort": {
       "title": "Canyon obstacle abort controller",
-      "task": "Program Scout drone Sigma's patrol route with an early obstacle abort:\n1. Read the blocked sector number `int obstacle` from `cin`.\n2. In a `for` loop for `int sector = 1` up to and including `5` (`sector <= 5`):\n3. If `sector == obstacle`, print `OBSTACLE AT SECTOR ` followed by `sector`, a newline, and immediately exit the loop with `break;`.\n4. Otherwise (`else`), print `SECTOR ` followed by `sector`, ` CLEARED`, and a newline.\n5. After the loop completes, print `PATROL ENDED` and a newline.",
+      "task": "Program Scout drone Sigma's patrol route with an early obstacle abort (test input: `3`):\n1. Read the blocked sector number `int obstacle` from `cin`.\n2. In a `for` loop for `int sector = 1` up to and including `5` (`sector <= 5`): if `sector == obstacle`, print `OBSTACLE AT SECTOR ` followed by `sector`, a newline, and immediately exit the loop with `break;`; otherwise (`else`), print `SECTOR ` followed by `sector`, ` CLEARED`, and a newline.\n3. After the loop ends (outside the braces), print `PATROL ENDED` and a newline.",
       "hint": "Use `if (sector == obstacle) { cout << \"OBSTACLE AT SECTOR \" << sector << endl; break; } else { ... }`.",
       "solutionNote": "With obstacle at 3, sectors 1 and 2 clear successfully, sector 3 prints the obstacle alert, and break terminates the loop."
     },
@@ -75,7 +75,7 @@
     },
     "shadow-sector-bypass": {
       "title": "Shadow sector bypass filter",
-      "task": "Program Sigma's LiDAR scanner to skip shadowed sectors using `continue`:\n1. Read shadowed sector number `int shadow` from `cin`.\n2. In a `for` loop for `int sector = 1` up to and including `5` (`sector <= 5`):\n3. If `sector == shadow`, print `SKIPPING SHADOW SECTOR ` followed by `sector`, a newline, and skip to the next iteration with `continue;`.\n4. Print `SCANNING SECTOR ` followed by `sector` and a newline.\n5. After the loop completes, print `SCAN COMPLETE` and a newline.",
+      "task": "Program Sigma's LiDAR scanner to skip shadowed sectors using `continue` (test input: `2`):\n1. Read shadowed sector number `int shadow` from `cin`.\n2. In a `for` loop for `int sector = 1` up to and including `5` (`sector <= 5`):\n3. If `sector == shadow`, print `SKIPPING SHADOW SECTOR ` followed by `sector`, a newline, and skip to the next iteration with `continue;`.\n4. Print `SCANNING SECTOR ` followed by `sector` and a newline.\n5. After the loop completes, print `SCAN COMPLETE` and a newline.",
       "hint": "Write `if (sector == shadow) { cout << \"SKIPPING SHADOW SECTOR \" << sector << endl; continue; }` followed by the regular scanning print.",
       "solutionNote": "With shadow sector 2, sector 2 triggers the bypass and skips scanning, while sectors 1, 3, 4, and 5 are scanned."
     },
@@ -94,7 +94,7 @@
     },
     "search-target-beacon": {
       "title": "Bonus challenge: Emergency beacon frequency scanner",
-      "task": "Search frequency channels until an emergency beacon signal is detected:\n1. Read the target beacon frequency `int target` from `cin`.\n2. In a `for` loop from `int freq = 100` up to and including `104` (`freq <= 104`):\n3. If `freq == target`, print `BEACON FOUND AT ` followed by `freq`, a newline, and terminate search with `break;`.\n4. Otherwise (`else`), print `SEARCHING ` followed by `freq` and a newline.\n5. After the loop completes, print `SEARCH SEQUENCE FINISHED` and a newline.",
+      "task": "Search frequency channels until an emergency beacon signal is detected (test input: `102`):\n1. Read the target beacon frequency `int target` from `cin`.\n2. In a `for` loop from `int freq = 100` up to and including `104` (`freq <= 104`):\n3. If `freq == target`, print `BEACON FOUND AT ` followed by `freq`, a newline, and terminate search with `break;`.\n4. Otherwise (`else`), print `SEARCHING ` followed by `freq` and a newline.\n5. After the loop completes, print `SEARCH SEQUENCE FINISHED` and a newline.",
       "hint": "Use `if (freq == target) { cout << \"BEACON FOUND AT \" << freq << endl; break; } else { cout << \"SEARCHING \" << freq << endl; }`.",
       "solutionNote": "With target 102, frequencies 100 and 101 are searched, 102 triggers the match, and break concludes the search."
     },

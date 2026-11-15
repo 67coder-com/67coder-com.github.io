@@ -47,7 +47,7 @@
       "id": "find-switch-bug",
       "kind": "clickline",
       "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int code = 1;\n    cout << \"DISPATCHING...\" << endl;\n    switch (code) {\n        case 1:\n            cout << \"MODE: NORMAL\" << endl;\n        case 2:\n            cout << \"MODE: EMERGENCY\" << endl;\n            break;\n        default:\n            cout << \"MODE: UNKNOWN\" << endl;\n    }\n    return 0;\n}",
-      "answerLine": 8
+      "answerLine": 9
     },
     {
       "id": "grouping-switch-cases",

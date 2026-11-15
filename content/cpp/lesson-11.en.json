@@ -64,7 +64,7 @@
       "title": "Locate the missing break bug",
       "task": "Click on the line where a missing break causes execution to inadvertently fall through into emergency mode.",
       "hint": "Check what is missing at the conclusion of case 1: before the next case begins.",
-      "explain": "Line 8 is missing a `break;` after `cout << \"MODE: NORMAL\" << endl;`. Due to this omission, selecting mode 1 causes the program to print the normal message and immediately bleed into emergency mode!"
+      "explain": "The bug relates to case 1 branch (lines 8–9): after line 9 (`cout << \"MODE: NORMAL\" << endl;`), the `break;` statement is missing. Due to this omission, code 1 would execute normal mode and then immediately fall through into emergency mode from `case 2:`!"
     },
     "grouping-switch-cases": {
       "eyebrow": "Intentional fall-through",
@@ -81,7 +81,7 @@
     },
     "dispatch-telemetry-mode": {
       "title": "Interactive flight mode dispatcher",
-      "task": "Program Surveyor Delta's mission mode selector using console `cin`:\n1. Read character `cmd` from `cin`.\n2. Using `switch (cmd)` route execution:\n   - `'R'`: print `MODE: RECON`\n   - `'M'`: print `MODE: MAPPING`\n   - `'H'`: print `MODE: RETURN HOME`\n   - `default:`: print `MODE: INVALID`\n3. Ensure every branch ends with `break;`.",
+      "task": "Program Surveyor Delta's mission mode selector using console `cin` (test input: `M`):\n1. Read character `cmd` from `cin`.\n2. Using `switch (cmd)` route execution: `'R'` -> `MODE: RECON`, `'M'` -> `MODE: MAPPING`, `'H'` -> `MODE: RETURN HOME`, and default (`default:`) -> `MODE: INVALID`.\n3. Ensure every branch ends with `break;`.",
       "hint": "Read with `cin >> cmd;`, then write `switch (cmd) { case 'R': ... break; ... }`.",
       "solutionNote": "Given input 'M', the case 'M': branch executes and prints MODE: MAPPING."
     },
@@ -117,7 +117,7 @@
     },
     "delta-mission-controller": {
       "title": "Bonus challenge: Surveyor instrument controller",
-      "task": "Combine the ternary operator and `switch` inside Delta's instrument monitor:\n1. Read tool selector `char tool` and battery charge `int battery` from `cin`.\n2. Use the ternary operator to choose power mode: if `battery >= 40`, power is `\"FULL\"`, otherwise `\"ECO\"`.\n3. Handle `'L'`: print `TOOL: LIDAR | POWER: ` followed by power mode and newline.\n4. Handle `'C'`: print `TOOL: CAMERA | POWER: ` followed by power mode and newline.\n5. In all other cases (`default:`): print `TOOL: STANDBY` and newline.",
+      "task": "Combine the ternary operator and `switch` inside Delta's instrument monitor (test input: `L 60`):\n1. Read tool selector `char tool` and battery charge `int battery` from `cin`.\n2. Use the ternary operator to choose power mode: if `battery >= 40`, power is `\"FULL\"`, otherwise `\"ECO\"`.\n3. Handle `'L'`: print `TOOL: LIDAR | POWER: ` followed by power mode and newline.\n4. Handle `'C'`: print `TOOL: CAMERA | POWER: ` followed by power mode and newline.\n5. In all other cases (`default:`): print `TOOL: STANDBY` and newline.",
       "hint": "Use `string power = (battery >= 40) ? \"FULL\" : \"ECO\";`, followed by `switch (tool)` with corresponding output lines.",
       "solutionNote": "With input 'L' and 60, battery 60 >= 40 sets power mode to FULL, and case 'L': prints TOOL: LIDAR | POWER: FULL."
     },

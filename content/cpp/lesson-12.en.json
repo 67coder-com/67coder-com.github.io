@@ -33,21 +33,21 @@
     },
     "sigma-wind-guard": {
       "title": "Subsystem 1: Sigma environmental monitor",
-      "task": "Program Scout drone Sigma's weather safety validator using `cin`, `if`, `else if`, and `else`:\n1. Read wind speed `int wind` and battery charge `int battery` from `cin`.\n2. If `wind > 18` OR `battery < 20`, print `EMERGENCY LAND` and a newline.\n3. Else if `battery >= 50` AND `wind <= 12`, print `FLIGHT NOMINAL` and a newline.\n4. In all other cases (`else`), print `CAUTION: REDUCE SPEED` and a newline.",
+      "task": "Program Scout drone Sigma's weather safety validator using `cin`, `if`, `else if`, and `else` (test input: `22 80`):\n1. Read wind speed `int wind` and battery charge `int battery` from `cin`.\n2. If `wind > 18` OR `battery < 20`, print `EMERGENCY LAND` and a newline.\n3. Else if `battery >= 50` AND `wind <= 12`, print `FLIGHT NOMINAL` and a newline.\n4. In all other cases (`else`), print `CAUTION: REDUCE SPEED` and a newline.",
       "hint": "Write `if (wind > 18 || battery < 20) { cout << \"EMERGENCY LAND\" << endl; } else if (battery >= 50 && wind <= 12) { cout << \"FLIGHT NOMINAL\" << endl; } else { cout << \"CAUTION: REDUCE SPEED\" << endl; }`.",
       "solutionNote": "With input 22 and 80, the wind condition 22 > 18 triggers the emergency land directive immediately."
     },
     "delta-sensor-dispatcher": {
       "title": "Subsystem 2: Delta instrument router",
-      "task": "Program Surveyor drone Delta's sensor router using `switch (sensor)`:\n1. Read sensor code `char sensor` from `cin`.\n2. If `'L'`, print `SENSOR: LIDAR ONLINE` and exit with `break;`.\n3. If `'C'`, print `SENSOR: CAMERA ONLINE` and exit with `break;`.\n4. If `'R'`, print `SENSOR: RADAR ONLINE` and exit with `break;`.\n5. In all other cases (`default:`), print `SENSOR: UNKNOWN` and exit with `break;`.",
+      "task": "Program Surveyor drone Delta's sensor router using `switch (sensor)` (test input: `L`):\n1. Read sensor code `char sensor` from `cin`.\n2. If `'L'`, print `SENSOR: LIDAR ONLINE` and exit with `break;`.\n3. If `'C'`, print `SENSOR: CAMERA ONLINE` and exit with `break;`.\n4. If `'R'`, print `SENSOR: RADAR ONLINE` and exit with `break;`.\n5. In all other cases (`default:`), print `SENSOR: UNKNOWN` and exit with `break;`.",
       "hint": "Use `switch (sensor) { case 'L': cout << \"SENSOR: LIDAR ONLINE\" << endl; break; ... default: ... }`.",
       "solutionNote": "Input 'L' matches the first case label and outputs SENSOR: LIDAR ONLINE."
     },
     "find-safety-bug": {
-      "title": "Subsystem audit: The false alarm trap",
-      "task": "Click on the line where natural language ambiguity created an alarm condition that triggers on every single execution.",
-      "hint": "Examine line 7 carefully: what is the right-hand operand of the || operator?",
-      "explain": "Line 7 reads `if (alert_code == 1 || 2)`. Because `2` is a standalone non-zero integer, it evaluates to boolean `true` regardless of `alert_code`! This triggers the evacuation alarm even during diagnostic checks when `alert_code` is 0. The check must be written as `if (alert_code == 1 || alert_code == 2)`."
+      "title": "Subsystem audit: Operator precedence bug",
+      "task": "Click on the line where missing parentheses between && and || operators create a dangerous logic flaw.",
+      "hint": "In C++, the && operator has higher precedence than ||. Check the condition line with three comparisons.",
+      "explain": "Line 9 contains `if (is_emergency || battery > 50 && wind < 15)`. Because `&&` has higher precedence than `||`, C++ evaluates this as `is_emergency || (battery > 50 && wind < 15)`. If `is_emergency` is true, the drone will attempt to launch even in a dangerous gale with 35 m/s wind! To enforce the wind limit in both cases, parentheses are mandatory: `if ((is_emergency || battery > 50) && wind < 15)`."
     },
     "assemble-sensor-packet": {
       "title": "Subsystem 3: Telemetry packet pre-filter",
@@ -57,13 +57,13 @@
     },
     "power-allocator-ternary": {
       "title": "Subsystem 4: Dynamic LiDAR purge controller",
-      "task": "Use the ternary operator `?:` to assign Delta's LiDAR purge mode based on dust density:\n1. Read dust concentration `int dust` from `cin`.\n2. Use the ternary operator to choose power mode: if `dust > 60`, mode is `\"PURGE\"`, otherwise `\"ACTIVE\"`.\n3. Print `LIDAR MODE: ` followed by the mode string and a newline.",
+      "task": "Use the ternary operator `?:` to assign Delta's LiDAR purge mode based on dust density (test input: `75`):\n1. Read dust concentration `int dust` from `cin`.\n2. Use the ternary operator to choose power mode: if `dust > 60`, mode is `\"PURGE\"`, otherwise `\"ACTIVE\"`.\n3. Print `LIDAR MODE: ` followed by the mode string and a newline.",
       "hint": "Write `string mode = (dust > 60) ? \"PURGE\" : \"ACTIVE\";` followed by `cout << \"LIDAR MODE: \" << mode << endl;`.",
       "solutionNote": "With input 75, dust level 75 > 60 activates the high-pressure purge cleaning cycle."
     },
     "squadron-safety-controller": {
       "title": "Capstone Project: Unified Squadron Safety Controller",
-      "task": "Construct the integrated mission safety controller combining `switch`, `if`, and `else`:\n1. Read drone identifier `char drone` and flight metric `int metric` from `cin`.\n2. Route on `switch (drone)`.\n3. For case `'S'` (Sigma, where metric represents wind speed): if `metric > 20`, print `SIGMA: GROUNDED`; otherwise print `SIGMA: AIRBORNE`.\n4. For case `'D'` (Delta, where metric represents dust level): if `metric > 50`, print `DELTA: SHELTERED`; otherwise print `DELTA: SCANNING`.\n5. For `default:`: print `DRONE: UNRECOGNIZED` and exit with `break;`.",
+      "task": "Construct the integrated mission safety controller combining `switch`, `if`, and `else` (test input: `S 25`):\n1. Read drone identifier `char drone` and flight metric `int metric` from `cin`.\n2. Route on `switch (drone)`.\n3. For case `'S'` (Sigma, where metric represents wind speed): if `metric > 20`, print `SIGMA: GROUNDED`; otherwise print `SIGMA: AIRBORNE`.\n4. For case `'D'` (Delta, where metric represents dust level): if `metric > 50`, print `DELTA: SHELTERED`; otherwise print `DELTA: SCANNING`.\n5. For `default:`: print `DRONE: UNRECOGNIZED` and exit with `break;`.",
       "hint": "Inside each case of switch (drone), place an if / else statement checking metric against that drone's specific threshold.",
       "solutionNote": "With input 'S' 25, case 'S' executes, finds wind 25 > 20, and grounds Scout drone Sigma."
     },
@@ -76,7 +76,7 @@
     },
     "storm-evacuation-override": {
       "title": "Bonus challenge: Planetary storm evacuation override",
-      "task": "Program the base-wide emergency evacuation override protocol:\n1. Read storm severity index `int storm` and clearance flag `char clearance` from `cin`.\n2. If `storm >= 90` OR `clearance == 'R'`, print `PROTOCOL: IMMEDIATE EVACUATION` and a newline.\n3. Else if `storm >= 50` AND `clearance == 'Y'`, print `PROTOCOL: RETURN TO DOCK` and a newline.\n4. In all other cases (`else`), print `PROTOCOL: STANDBY FOR UPDATES` and a newline.",
+      "task": "Program the base-wide emergency evacuation override protocol (test input: `95 G`):\n1. Read storm severity index `int storm` and clearance flag `char clearance` from `cin`.\n2. If `storm >= 90` OR `clearance == 'R'`, print `PROTOCOL: IMMEDIATE EVACUATION` and a newline.\n3. Else if `storm >= 50` AND `clearance == 'Y'`, print `PROTOCOL: RETURN TO DOCK` and a newline.\n4. In all other cases (`else`), print `PROTOCOL: STANDBY FOR UPDATES` and a newline.",
       "hint": "Use a cascading if-else structure with || for the highest priority emergency and && for the intermediate warning.",
       "solutionNote": "With storm index 95 and clearance 'G', the storm threshold 95 >= 90 triggers an immediate evacuation protocol."
     },

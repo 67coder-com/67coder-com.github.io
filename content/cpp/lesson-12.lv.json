@@ -33,21 +33,21 @@
     },
     "sigma-wind-guard": {
       "title": "1. apakšsistēma: Izlūka Sigma vides uzraugs",
-      "task": "Ieprogrammējiet drona Sigma laikapstākļu drošības moduli ar `cin`, `if`, `else if` un `else`:\n1. Nolasiet vēja ātrumu `int wind` un baterijas uzlādi `int battery` no `cin`.\n2. Ja `wind > 18` VAI `battery < 20`, izvadiet `EMERGENCY LAND` un jaunu rindu.\n3. Citādi, ja `battery >= 50` UN `wind <= 12`, izvadiet `FLIGHT NOMINAL` un jaunu rindu.\n4. Visos pārējos gadījumos (`else`), izvadiet `CAUTION: REDUCE SPEED` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma laikapstākļu drošības moduli ar `cin`, `if`, `else if` un `else` (testa ievade: `22 80`):\n1. Nolasiet vēja ātrumu `int wind` un baterijas uzlādi `int battery` no `cin`.\n2. Ja `wind > 18` VAI `battery < 20`, izvadiet `EMERGENCY LAND` un jaunu rindu.\n3. Citādi, ja `battery >= 50` UN `wind <= 12`, izvadiet `FLIGHT NOMINAL` un jaunu rindu.\n4. Visos pārējos gadījumos (`else`), izvadiet `CAUTION: REDUCE SPEED` un jaunu rindu.",
       "hint": "Rakstiet `if (wind > 18 || battery < 20) { cout << \"EMERGENCY LAND\" << endl; } else if (battery >= 50 && wind <= 12) { cout << \"FLIGHT NOMINAL\" << endl; } else { cout << \"CAUTION: REDUCE SPEED\" << endl; }`.",
       "solutionNote": "Pie ievades datiem 22 un 80 vēja ātrums 22 > 18 nekavējoties aktivizē ārkārtas nosēšanās komandu."
     },
     "delta-sensor-dispatcher": {
       "title": "2. apakšsistēma: Kartogrāfa Delta instrumentu maršrutētājs",
-      "task": "Ieprogrammējiet drona Delta sensoru selektoru, izmantojot `switch (sensor)`:\n1. Nolasiet sensora kodu `char sensor` no `cin`.\n2. Ja `'L'`, izvadiet `SENSOR: LIDAR ONLINE` un izejiet ar `break;`.\n3. Ja `'C'`, izvadiet `SENSOR: CAMERA ONLINE` un izejiet ar `break;`.\n4. Ja `'R'`, izvadiet `SENSOR: RADAR ONLINE` un izejiet ar `break;`.\n5. Pārējos gadījumos (`default:`), izvadiet `SENSOR: UNKNOWN` un izejiet ar `break;`.",
+      "task": "Ieprogrammējiet drona Delta sensoru selektoru, izmantojot `switch (sensor)` (testa ievade: `L`):\n1. Nolasiet sensora kodu `char sensor` no `cin`.\n2. Ja `'L'`, izvadiet `SENSOR: LIDAR ONLINE` un izejiet ar `break;`.\n3. Ja `'C'`, izvadiet `SENSOR: CAMERA ONLINE` un izejiet ar `break;`.\n4. Ja `'R'`, izvadiet `SENSOR: RADAR ONLINE` un izejiet ar `break;`.\n5. Pārējos gadījumos (`default:`), izvadiet `SENSOR: UNKNOWN` un izejiet ar `break;`.",
       "hint": "Lietojiet `switch (sensor) { case 'L': cout << \"SENSOR: LIDAR ONLINE\" << endl; break; ... default: ... }`.",
       "solutionNote": "Ievadītais kods 'L' atbilst pirmajai iezīmei un izvada SENSOR: LIDAR ONLINE."
     },
     "find-safety-bug": {
-      "title": "Koda audits: Viltus trauksmes slazds",
-      "task": "Noklikšķiniet uz rindas, kurā cilvēku sarunvalodas pieraksts radījis trauksmes nosacījumu, kas nostrādā katrā programmas palaišanas reizē.",
-      "hint": "Uzmanīgi pārbaudiet 7. rindu: kas atrodas labajā pusē aiz || operatora?",
-      "explain": "7. rindā rakstīts `if (alert_code == 1 || 2)`. Tā kā skaitlis `2` ir patstāvīgs nenulles literālis, C++ to vienmēr novērtē kā `true`, neatkarīgi no `alert_code` vērtības! Tādēļ evakuācijas trauksme nostrādā pat pie koda 0. Pareizs pieraksts ir `if (alert_code == 1 || alert_code == 2)`."
+      "title": "Koda audits: Operatoru prioritātes kļūda",
+      "task": "Noklikšķiniet uz rindas, kurā iekavu trūkums starp && un || operatoriem rada bīstamu loģikas kļūdu.",
+      "hint": "C++ valodā operatoram && ir augstāka prioritāte nekā ||. Pārbaudiet nosacījuma rindu ar trim salīdzinājumiem.",
+      "explain": "Rindā 9 ir uzrakstīts `if (is_emergency || battery > 50 && wind < 15)`. Tā kā `&&` ir augstāka prioritāte nekā `||`, C++ to izpilda kā `is_emergency || (battery > 50 && wind < 15)`. Ja `is_emergency` ir patiess, drons mēģinās pacelties pat bīstamā vētrā ar vēju 35 m/s! Lai pārbaudītu vēju abos gadījumos, obligāti jāizmanto iekavas: `if ((is_emergency || battery > 50) && wind < 15)`."
     },
     "assemble-sensor-packet": {
       "title": "3. apakšsistēma: Telemetrijas paketes priekšfiltrs",
@@ -57,13 +57,13 @@
     },
     "power-allocator-ternary": {
       "title": "4. apakšsistēma: Lidara putekļu aizsardzības kontrolieris",
-      "task": "Izmantojiet ternāro operatoru `?:`, lai noteiktu lidara attīrīšanas režīmu pēc putekļu sensora rādījuma:\n1. Nolasiet putekļu koncentrāciju `int dust` no `cin`.\n2. Ar ternāro operatoru izvēlieties jaudas režīmu: ja `dust > 60`, režīms ir `\"PURGE\"`, citādi `\"ACTIVE\"`.\n3. Izvadiet `LIDAR MODE: `, kam seko režīma nosaukums un jauna rinda.",
+      "task": "Izmantojiet ternāro operatoru `?:`, lai noteiktu lidara attīrīšanas režīmu pēc putekļu sensora rādījuma (testa ievade: `75`):\n1. Nolasiet putekļu koncentrāciju `int dust` no `cin`.\n2. Ar ternāro operatoru izvēlieties jaudas režīmu: ja `dust > 60`, režīms ir `\"PURGE\"`, citādi `\"ACTIVE\"`.\n3. Izvadiet `LIDAR MODE: `, kam seko režīma nosaukums un jauna rinda.",
       "hint": "Rakstiet `string mode = (dust > 60) ? \"PURGE\" : \"ACTIVE\";` un tad `cout << \"LIDAR MODE: \" << mode << endl;`.",
       "solutionNote": "Pie ievades 75 putekļu līmenis 75 > 60 aktivizē augstspiediena attīrīšanas ciklu PURGE."
     },
     "squadron-safety-controller": {
       "title": "Lielais projekts: Vienotais eskadras drošības kontrolieris",
-      "task": "Izveidojiet integrēto misijas drošības kontrolieri, apvienojot `switch`, `if` un `else`:\n1. Nolasiet drona kodu `char drone` un mērījumu `int metric` no `cin`.\n2. Maršrutējiet ar `switch (drone)`.\n3. Zaram `'S'` (Sigma, kur rādījums ir vēja ātrums): ja `metric > 20`, izvadiet `SIGMA: GROUNDED`; citādi izvadiet `SIGMA: AIRBORNE`.\n4. Zaram `'D'` (Delta, kur rādījums ir putekļu līmenis): ja `metric > 50`, izvadiet `DELTA: SHELTERED`; citādi izvadiet `DELTA: SCANNING`.\n5. Zaram `default:`: izvadiet `DRONE: UNRECOGNIZED` un izejiet ar `break;`.",
+      "task": "Izveidojiet integrēto misijas drošības kontrolieri, apvienojot `switch`, `if` un `else` (testa ievade: `S 25`):\n1. Nolasiet drona kodu `char drone` un mērījumu `int metric` no `cin`.\n2. Maršrutējiet ar `switch (drone)`.\n3. Zaram `'S'` (Sigma, kur rādījums ir vēja ātrums): ja `metric > 20`, izvadiet `SIGMA: GROUNDED`; citādi izvadiet `SIGMA: AIRBORNE`.\n4. Zaram `'D'` (Delta, kur rādījums ir putekļu līmenis): ja `metric > 50`, izvadiet `DELTA: SHELTERED`; citādi izvadiet `DELTA: SCANNING`.\n5. Zaram `default:`: izvadiet `DRONE: UNRECOGNIZED` un izejiet ar `break;`.",
       "hint": "Katra switch (drone) zara iekšienē ievietojiet if / else nosacījumu, pārbaudot metric pret konkrētā drona slieksni.",
       "solutionNote": "Pie ievades 'S' 25 izpildās zars 'S', konstatē vēju 25 > 20 un atceļ izlūka Sigma lidojumu."
     },
@@ -76,7 +76,7 @@
     },
     "storm-evacuation-override": {
       "title": "Papilduzdevums: Planētas vētras evakuācijas protokols",
-      "task": "Ieprogrammējiet visas bāzes ārkārtas evakuācijas prioritāro protokolu:\n1. Nolasiet vētras intensitātes indeksu `int storm` un atļaujas karodziņu `char clearance` no `cin`.\n2. Ja `storm >= 90` VAI `clearance == 'R'`, izvadiet `PROTOCOL: IMMEDIATE EVACUATION` un jaunu rindu.\n3. Citādi, ja `storm >= 50` UN `clearance == 'Y'`, izvadiet `PROTOCOL: RETURN TO DOCK` un jaunu rindu.\n4. Visos pārējos gadījumos (`else`), izvadiet `PROTOCOL: STANDBY FOR UPDATES` un jaunu rindu.",
+      "task": "Ieprogrammējiet visas bāzes ārkārtas evakuācijas prioritāro protokolu (testa ievade: `95 G`):\n1. Nolasiet vētras intensitātes indeksu `int storm` un atļaujas karodziņu `char clearance` no `cin`.\n2. Ja `storm >= 90` VAI `clearance == 'R'`, izvadiet `PROTOCOL: IMMEDIATE EVACUATION` un jaunu rindu.\n3. Citādi, ja `storm >= 50` UN `clearance == 'Y'`, izvadiet `PROTOCOL: RETURN TO DOCK` un jaunu rindu.\n4. Visos pārējos gadījumos (`else`), izvadiet `PROTOCOL: STANDBY FOR UPDATES` un jaunu rindu.",
       "hint": "Izmantojiet if-else kaskādi ar || visaugstākās prioritātes trauksmei un && brīdinājuma režīmam.",
       "solutionNote": "Pie vētras indeksa 95 un koda 'G' kritiskais vētras slieksnis 95 >= 90 nekavējoties aktivizē tūlītēju evakuāciju."
     },

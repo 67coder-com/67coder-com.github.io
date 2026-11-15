@@ -83,7 +83,7 @@
     },
     "battery-decision": {
       "title": "Autonoma baterijas lēmuma pieņemšana",
-      "task": "Noprogrammējiet Sigmas enerģijas dispečeru:\n1. Nolasiet baterijas līmeni no konsoles `cin` mainīgajā `battery`.\n2. Ja `battery >= 25`, izvadiet atļauju lidojuma turpināšanai.\n3. Pretējā gadījumā (`else`) izvadiet komandu doties uz uzlādi, kā parādīts zemāk.",
+      "task": "Noprogrammējiet Sigmas enerģijas dispečeru (testa ievade: `18`):\n1. Nolasiet baterijas līmeni no konsoles `cin` mainīgajā `battery`.\n2. Ja `battery >= 25`, izvadiet atļauju lidojuma turpināšanai.\n3. Pretējā gadījumā (`else`) izvadiet komandu doties uz uzlādi, kā parādīts zemāk.",
       "hint": "Nolasiet ar `cin >> battery;`, tad uzrakstiet `if (battery >= 25) { ... } else { ... }`.",
       "solutionNote": "Ja ievadīts 18, nosacījums 18 >= 25 ir aplams, tādēļ izpildās else zars ar paziņojumu par uzlādi."
     },
@@ -115,7 +115,7 @@
     },
     "drone-obstacle-avoidance": {
       "title": "Papilduzdevums: Autonoms šķēršļu apvedējs",
-      "task": "Noprogrammējiet drona Sigmas šķēršļu analīzes mezglu:\n1. Nolasiet attālumu līdz šķērslim metros no `cin` mainīgajā `distance`.\n2. Ja `distance <= 10`, izvadiet ārkārtas bremzēšanas komandu.\n3. Ja `distance <= 50`, izvadiet šķēršļa apiešanas manevra komandu.\n4. Visos citos gadījumos izvadiet paziņojumu par brīvu ceļu.",
+      "task": "Noprogrammējiet drona Sigmas šķēršļu analīzes mezglu (testa ievade: `35`):\n1. Nolasiet attālumu līdz šķērslim metros no `cin` mainīgajā `distance`.\n2. Ja `distance <= 10`, izvadiet ārkārtas bremzēšanas komandu.\n3. Ja `distance <= 50`, izvadiet šķēršļa apiešanas manevra komandu.\n4. Visos citos gadījumos izvadiet paziņojumu par brīvu ceļu.",
       "hint": "Izmantojiet kaskādi `if (distance <= 10) { ... } else if (distance <= 50) { ... } else { ... }`.",
       "solutionNote": "Ievadot distanci 35 metrus, pirmais nosacījums 35 <= 10 ir aplams, bet otrais 35 <= 50 ir patiess, tādēļ tiek izvadīts ACTION: EVADE OBSTACLE."
     },

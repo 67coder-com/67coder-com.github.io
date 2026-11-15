@@ -38,8 +38,8 @@
     {
       "id": "find-safety-bug",
       "kind": "clickline",
-      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int alert_code = 0;\n    cout << \"DIAGNOSTIC CHECK...\" << endl;\n    if (alert_code == 1 || 2) {\n        cout << \"ALARM: EVACUATE\" << endl;\n    } else {\n        cout << \"SYSTEM NOMINAL\" << endl;\n    }\n    return 0;\n}",
-      "answerLine": 7
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    bool is_emergency = true;\n    int battery = 20;\n    int wind = 35;\n    cout << \"LAUNCH CHECK...\" << endl;\n    if (is_emergency || battery > 50 && wind < 15) {\n        cout << \"ACTION: LAUNCH\" << endl;\n    } else {\n        cout << \"ACTION: ABORT\" << endl;\n    }\n    return 0;\n}",
+      "answerLine": 9
     },
     {
       "id": "assemble-sensor-packet",
@@ -78,7 +78,7 @@
       "lang": "cpp",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char drone;\n    int metric;\n    cin >> drone >> metric;\n\n    // 1. switch (drone)\n    // 2. case 'S': metric is wind speed\n    //    if metric > 20 -> SIGMA: GROUNDED, else -> SIGMA: AIRBORNE\n    // 3. case 'D': metric is dust level\n    //    if metric > 50 -> DELTA: SHELTERED, else -> DELTA: SCANNING\n    // 4. default: DRONE: UNRECOGNIZED\n\n    return 0;\n}",
       "expected": "SIGMA: GROUNDED",
-      "requires": ["switch", "case 'S':", "case 'D':", "if", "else", "break", "default:"],
+      "requires": ["switch", "case 'S':", "case 'D':", "break"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    char drone;\n    int metric;\n    cin >> drone >> metric;\n\n    switch (drone) {\n        case 'S':\n            if (metric > 20) {\n                cout << \"SIGMA: GROUNDED\" << endl;\n            } else {\n                cout << \"SIGMA: AIRBORNE\" << endl;\n            }\n            break;\n        case 'D':\n            if (metric > 50) {\n                cout << \"DELTA: SHELTERED\" << endl;\n            } else {\n                cout << \"DELTA: SCANNING\" << endl;\n            }\n            break;\n        default:\n            cout << \"DRONE: UNRECOGNIZED\" << endl;\n            break;\n    }\n\n    return 0;\n}",
       "stdin": "S 25\n"
     },

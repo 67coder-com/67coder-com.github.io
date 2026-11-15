@@ -112,13 +112,13 @@
     },
     "emergency-abort-system": {
       "title": "Emergency abort controller",
-      "task": "Program Scout drone Sigma's hazard monitor using the `||` operator:\n1. Read processor temperature `core_temp` and hull integrity `hull_integrity` from `cin`.\n2. If `core_temp > 80` OR `hull_integrity < 50`, issue an abort directive.\n3. Otherwise (`else`), grant permission to proceed as shown below.",
+      "task": "Program Scout drone Sigma's hazard monitor using the `||` operator (test input: `85 90`):\n1. Read processor temperature `core_temp` and hull integrity `hull_integrity` from `cin`.\n2. If `core_temp > 80` OR `hull_integrity < 50`, issue an abort directive.\n3. Otherwise (`else`), grant permission to proceed as shown below.",
       "hint": "Write `if (core_temp > 80 || hull_integrity < 50) { ... } else { ... }`.",
       "solutionNote": "Given input 85 and 90, the temperature 85 > 80 evaluates to true, so the abort directive is output."
     },
     "drone-flight-corridor": {
       "title": "Bonus challenge: Canyon flight corridor navigator",
-      "task": "Construct a multi-parameter flight mode controller using `||` and `&&`:\n1. Read `battery`, `wind`, and `has_fault` (0 or 1) from `cin`.\n2. If a fault is present `has_fault == 1` OR battery `battery < 20`, command an emergency landing.\n3. Else if battery `battery >= 50` AND wind `wind <= 15`, authorize high speed cruise.\n4. In all other cases, enforce cautious flight mode.",
+      "task": "Construct a multi-parameter flight mode controller using `||` and `&&` (test input: `65 12 0`):\n1. Read `battery`, `wind`, and `has_fault` (0 or 1) from `cin`.\n2. If a fault is present `has_fault == 1` OR battery `battery < 20`, command an emergency landing.\n3. Else if battery `battery >= 50` AND wind `wind <= 15`, authorize high speed cruise.\n4. In all other cases, enforce cautious flight mode.\nUse an `else if` cascade or nested `if` checks.",
       "hint": "Use a cascade: `if (has_fault == 1 || battery < 20) { ... } else if (battery >= 50 && wind <= 15) { ... } else { ... }`.",
       "solutionNote": "With input 65 12 0, no fault exists and battery exceeds 20; in the second test, 65 >= 50 and 12 <= 15 are both true, outputting ACTION: CRUISE SPEED."
     },

@@ -46,7 +46,7 @@
     },
     "canyon-obstacle-abort": {
       "title": "Kanjona šķēršļa avārijas pārtraukšana",
-      "task": "Ieprogrammējiet drona Sigma patruļas maršrutu ar avārijas pārtraukšanu pie šķēršļa:\n1. Nolasiet bloķētā sektora numuru `int obstacle` no `cin`.\n2. Ciklā `for` no `int sector = 1` līdz un ieskaitot `5` (`sector <= 5`):\n3. Ja `sector == obstacle`, izvadiet `OBSTACLE AT SECTOR `, kam seko `sector`, jauna rinda, un tūlīt izejiet no cikla ar `break;`.\n4. Citādi (`else`), izvadiet `SECTOR `, kam seko `sector`, ` CLEARED` un jauna rinda.\n5. Pēc cikla beigām izvadiet `PATROL ENDED` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma patruļas maršrutu ar avārijas pārtraukšanu pie šķēršļa (testa ievade: `3`):\n1. Nolasiet bloķētā sektora numuru `int obstacle` no `cin`.\n2. Ciklā `for` no `int sector = 1` līdz un ieskaitot `5` (`sector <= 5`): ja `sector == obstacle`, izvadiet `OBSTACLE AT SECTOR `, kam seko `sector`, jauna rinda, un tūlīt izejiet no cikla ar `break;`; citādi (`else`) izvadiet `SECTOR `, kam seko `sector`, ` CLEARED` un jauna rinda.\n3. Pēc cikla beigām (ārpus figūriekavām) izvadiet `PATROL ENDED` un jaunu rindu.",
       "hint": "Lietojiet `if (sector == obstacle) { cout << \"OBSTACLE AT SECTOR \" << sector << endl; break; } else { ... }`.",
       "solutionNote": "Pie šķēršļa 3. sektorā sektori 1 un 2 tiek apsekoti veiksmīgi, 3. sektors izvada trauksmi, un break noslēdz ciklu."
     },
@@ -75,7 +75,7 @@
     },
     "shadow-sector-bypass": {
       "title": "Ēnas sektora apiešanas filtrs",
-      "task": "Ieprogrammējiet drona Sigma lidara filtru ēnas sektoru izlaišanai ar `continue`:\n1. Nolasiet ēnas sektora numuru `int shadow` no `cin`.\n2. Ciklā `for` no `int sector = 1` līdz un ieskaitot `5` (`sector <= 5`):\n3. Ja `sector == shadow`, izvadiet `SKIPPING SHADOW SECTOR `, kam seko `sector`, jauna rinda, un izlaidiet soli ar `continue;`.\n4. Izvadiet `SCANNING SECTOR `, kam seko `sector` un jauna rinda.\n5. Pēc cikla beigām izvadiet `SCAN COMPLETE` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma lidara filtru ēnas sektoru izlaišanai ar `continue` (testa ievade: `2`):\n1. Nolasiet ēnas sektora numuru `int shadow` no `cin`.\n2. Ciklā `for` no `int sector = 1` līdz un ieskaitot `5` (`sector <= 5`):\n3. Ja `sector == shadow`, izvadiet `SKIPPING SHADOW SECTOR `, kam seko `sector`, jauna rinda, un izlaidiet soli ar `continue;`.\n4. Izvadiet `SCANNING SECTOR `, kam seko `sector` un jauna rinda.\n5. Pēc cikla beigām izvadiet `SCAN COMPLETE` un jaunu rindu.",
       "hint": "Rakstiet `if (sector == shadow) { cout << \"SKIPPING SHADOW SECTOR \" << sector << endl; continue; }`, kam seko parastā skenēšanas rinda.",
       "solutionNote": "Pie ēnas sektora 2 tas tiek izlaists, bet sektori 1, 3, 4 un 5 tiek sekmīgi noskenēti."
     },
@@ -94,7 +94,7 @@
     },
     "search-target-beacon": {
       "title": "Papilduzdevums: Avārijas bākas frekvenču meklētājs",
-      "task": "Meklējiet frekvenču kanālus, līdz tiek uztverts avārijas bākas signāls:\n1. Nolasiet meklējamās bākas frekvenci `int target` no `cin`.\n2. Ciklā `for` no `int freq = 100` līdz un ieskaitot `104` (`freq <= 104`):\n3. Ja `freq == target`, izvadiet `BEACON FOUND AT `, kam seko `freq`, jauna rinda, un pārtrauciet meklēšanu ar `break;`.\n4. Citādi (`else`), izvadiet `SEARCHING `, kam seko `freq` un jauna rinda.\n5. Pēc cikla beigām izvadiet `SEARCH SEQUENCE FINISHED` un jaunu rindu.",
+      "task": "Meklējiet frekvenču kanālus, līdz tiek uztverts avārijas bākas signāls (testa ievade: `102`):\n1. Nolasiet meklējamās bākas frekvenci `int target` no `cin`.\n2. Ciklā `for` no `int freq = 100` līdz un ieskaitot `104` (`freq <= 104`):\n3. Ja `freq == target`, izvadiet `BEACON FOUND AT `, kam seko `freq`, jauna rinda, un pārtrauciet meklēšanu ar `break;`.\n4. Citādi (`else`), izvadiet `SEARCHING `, kam seko `freq` un jauna rinda.\n5. Pēc cikla beigām izvadiet `SEARCH SEQUENCE FINISHED` un jaunu rindu.",
       "hint": "Lietojiet `if (freq == target) { cout << \"BEACON FOUND AT \" << freq << endl; break; } else { cout << \"SEARCHING \" << freq << endl; }`.",
       "solutionNote": "Meklējot 102, frekvences 100 un 101 tiek pārmeklētas, 102 uztver signālu un break noslēdz meklēšanu."
     },

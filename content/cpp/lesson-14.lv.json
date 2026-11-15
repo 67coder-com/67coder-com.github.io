@@ -48,7 +48,7 @@
     },
     "waypoint-surveyor": {
       "title": "Kontrolpunktu maršruta reģistrators",
-      "task": "Ieprogrammējiet drona Sigma kontrolpunktu fiksatoru ar ciklu `for`:\n1. Nolasiet kopējo kontrolpunktu skaitu `int n` no `cin`.\n2. Ciklā `for` no `int i = 1` līdz un ieskaitot `n` (`i <= n`), ar soli `i++`: izvadiet `WAYPOINT #`, kam seko `i` un jauna rinda.\n3. Pēc cikla beigām izvadiet `ROUTE COMPLETE` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma kontrolpunktu fiksatoru ar ciklu `for` (testa ievade: `3`):\n1. Nolasiet kopējo kontrolpunktu skaitu `int n` no `cin`.\n2. Ciklā `for` no `int i = 1` līdz un ieskaitot `n` (`i <= n`), ar soli `i++`: izvadiet `WAYPOINT #`, kam seko `i` un jauna rinda.\n3. Pēc cikla beigām izvadiet `ROUTE COMPLETE` un jaunu rindu.",
       "hint": "Rakstiet `for (int i = 1; i <= n; i++) { cout << \"WAYPOINT #\" << i << endl; }`, kam seko noslēguma ziņojums.",
       "solutionNote": "Pie ievades 3 cikls izpildās vērtībām i = 1, 2 un 3, izvadot trīs punktu paziņojumus un pēc tam ROUTE COMPLETE."
     },
@@ -75,7 +75,7 @@
     },
     "altitude-stepper": {
       "title": "Pakāpeniskās augstuma uzņemšanas kontrolieris",
-      "task": "Ieprogrammējiet drona Sigma pakāpenisko pacelšanos:\n1. Nolasiet sākuma augstumu `int start` un maksimālo augstumu `int max_alt` no `cin`.\n2. Ciklā `for`, sākot ar `int alt = start`, kamēr `alt <= max_alt`, ar soli `alt += 20`: izvadiet `ALTITUDE: `, kam seko `alt` un jauna rinda.\n3. Pēc cikla beigām izvadiet `LEVEL FLIGHT ESTABLISHED` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma pakāpenisko pacelšanos (testa ievade: `20 60`):\n1. Nolasiet sākuma augstumu `int start` un maksimālo augstumu `int max_alt` no `cin`.\n2. Ciklā `for`, sākot ar `int alt = start`, ietverot augšējo robežu ar operatoru `<=`, ar soli `alt += 20`: izvadiet `ALTITUDE: `, kam seko `alt` un jauna rinda.\n3. Pēc cikla beigām izvadiet `LEVEL FLIGHT ESTABLISHED` un jaunu rindu.",
       "hint": "Rakstiet `for (int alt = start; alt <= max_alt; alt += 20) { cout << \"ALTITUDE: \" << alt << endl; }`.",
       "solutionNote": "Pie ievades 20 un 60 augstums pakāpeniski pieaug caur 20, 40 un 60, pirms tiek izvadīts paziņojums par horizontālu lidojumu."
     },
@@ -94,7 +94,7 @@
     },
     "solar-radiation-sum": {
       "title": "Papilduzdevums: Saules radiācijas akumulators",
-      "task": "Uzkrājiet fiksētas telemetrijas mērījumu sērijas summu:\n1. Nolasiet mērījumu skaitu `int count` no `cin`.\n2. Definējiet akumulatoru `int sum = 0;`.\n3. Ciklā `for` no `int i = 0` līdz `i < count`: nolasiet `int reading` ar `cin >> reading;` un pieskaitiet to pie `sum`.\n4. Pēc cikla beigām izvadiet `TOTAL RADIATION: `, kam seko `sum` un jauna rinda.",
+      "task": "Uzkrājiet fiksētas telemetrijas mērījumu sērijas summu (testa ievade: `4 15 20 25 10`):\n1. Nolasiet mērījumu skaitu `int count` no `cin`.\n2. Definējiet akumulatoru `int sum = 0;`.\n3. Ciklā `for` no `int i = 0` līdz `i < count`: nolasiet `int reading` ar `cin >> reading;` un pieskaitiet to pie `sum`.\n4. Pēc cikla beigām izvadiet `TOTAL RADIATION: `, kam seko `sum` un jauna rinda.",
       "hint": "Lietojiet `for (int i = 0; i < count; i++) { int reading; cin >> reading; sum += reading; }`.",
       "solutionNote": "Pie skaita 4 un vērtībām 15 20 25 10 cikls saskaita 4 mērījumus, iegūst 70 un izvada TOTAL RADIATION: 70."
     },

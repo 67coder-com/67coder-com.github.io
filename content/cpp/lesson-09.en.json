@@ -83,7 +83,7 @@
     },
     "battery-decision": {
       "title": "Autonomous battery routing",
-      "task": "Program Sigma's power management controller:\n1. Read the battery charge percentage from console `cin` into variable `battery`.\n2. If `battery >= 25`, print permission to advance.\n3. Otherwise (`else`), print the recharge directive as shown below.",
+      "task": "Program Sigma's power management controller (test input: `18`):\n1. Read the battery charge percentage from console `cin` into variable `battery`.\n2. If `battery >= 25`, print permission to advance.\n3. Otherwise (`else`), print the recharge directive as shown below.",
       "hint": "Read the value with `cin >> battery;`, then write `if (battery >= 25) { ... } else { ... }`.",
       "solutionNote": "Given input 18, the condition 18 >= 25 is false, so the else branch executes with the recharge message."
     },
@@ -115,7 +115,7 @@
     },
     "drone-obstacle-avoidance": {
       "title": "Bonus challenge: Autonomous obstacle evasion",
-      "task": "Program Scout drone Sigma's forward proximity resolver:\n1. Read obstacle distance in meters from `cin` into variable `distance`.\n2. If `distance <= 10`, issue an emergency stop command.\n3. Else if `distance <= 50`, issue an obstacle evasion command.\n4. In all other cases, report a clear flight corridor.",
+      "task": "Program Scout drone Sigma's forward proximity resolver (test input: `35`):\n1. Read obstacle distance in meters from `cin` into variable `distance`.\n2. If `distance <= 10`, issue an emergency stop command.\n3. Else if `distance <= 50`, issue an obstacle evasion command.\n4. In all other cases, report a clear flight corridor.",
       "hint": "Use a cascade: `if (distance <= 10) { ... } else if (distance <= 50) { ... } else { ... }`.",
       "solutionNote": "With input 35 meters, 35 <= 10 is false, but 35 <= 50 is true, so ACTION: EVADE OBSTACLE is output."
     },

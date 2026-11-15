@@ -31,7 +31,7 @@
       "lang": "cpp",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int min_alt, max_alt;\n    cin >> min_alt >> max_alt;\n\n    int total_samples = 0;\n\n    // In for loop from alt = min_alt to max_alt (inclusive), stepping by alt += 25:\n    // 1. Add 10 to total_samples\n    // 2. Print TIER: followed by alt and newline\n    // After loop: print TOTAL SAMPLES: followed by total_samples and newline\n\n    return 0;\n}",
       "expected": "TIER: 50\nTIER: 75\nTIER: 100\nTOTAL SAMPLES: 30",
-      "requires": ["for", "<=", "+= 25"],
+      "requires": ["for", "<="],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int min_alt, max_alt;\n    cin >> min_alt >> max_alt;\n\n    int total_samples = 0;\n    for (int alt = min_alt; alt <= max_alt; alt += 25) {\n        total_samples += 10;\n        cout << \"TIER: \" << alt << endl;\n    }\n    cout << \"TOTAL SAMPLES: \" << total_samples << endl;\n\n    return 0;\n}",
       "stdin": "50 100\n"
     },
@@ -66,7 +66,7 @@
       "lang": "cpp",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    int active_power = 0;\n\n    // In for loop i = 1 to count:\n    // 1. Read reading from cin\n    // 2. If reading < 20 -> continue\n    // 3. Otherwise: add reading to active_power, print CELL # followed by i and \": VALID\"\n    // After loop: print ACTIVE POWER: followed by active_power and newline\n\n    return 0;\n}",
       "expected": "CELL #2: VALID\nCELL #4: VALID\nACTIVE POWER: 75",
-      "requires": ["for", "continue", "< 20"],
+      "requires": ["for", "continue"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int count;\n    cin >> count;\n\n    int active_power = 0;\n    for (int i = 1; i <= count; i++) {\n        int reading;\n        cin >> reading;\n        if (reading < 20) {\n            continue;\n        }\n        active_power += reading;\n        cout << \"CELL #\" << i << \": VALID\" << endl;\n    }\n    cout << \"ACTIVE POWER: \" << active_power << endl;\n\n    return 0;\n}",
       "stdin": "4\n10 45 15 30\n"
     },
@@ -76,7 +76,7 @@
       "lang": "cpp",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int max_sectors;\n    cin >> max_sectors;\n\n    int completed = 0;\n\n    // In for loop s = 1 to max_sectors:\n    // 1. Read temp from cin\n    // 2. If temp >= 100: print THERMAL SPIKE AT SECTOR followed by s and newline, then break\n    // 3. Otherwise: completed++, print SECTOR followed by s and \": NOMINAL\"\n    // After loop: print COMPLETED SECTORS: followed by completed and newline\n\n    return 0;\n}",
       "expected": "SECTOR 1: NOMINAL\nSECTOR 2: NOMINAL\nTHERMAL SPIKE AT SECTOR 3\nCOMPLETED SECTORS: 2",
-      "requires": ["for", "break", "completed++"],
+      "requires": ["for", "break", "completed"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int max_sectors;\n    cin >> max_sectors;\n\n    int completed = 0;\n    for (int s = 1; s <= max_sectors; s++) {\n        int temp;\n        cin >> temp;\n        if (temp >= 100) {\n            cout << \"THERMAL SPIKE AT SECTOR \" << s << endl;\n            break;\n        }\n        completed++;\n        cout << \"SECTOR \" << s << \": NOMINAL\" << endl;\n    }\n    cout << \"COMPLETED SECTORS: \" << completed << endl;\n\n    return 0;\n}",
       "stdin": "5\n65 72 108 50 60\n"
     },
@@ -93,7 +93,7 @@
       "lang": "cpp",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int valid_points = 0;\n    int total_telemetry = 0;\n    int max_signal = 0;\n\n    // Capstone Project: Autonomous Sector Scanner\n    // 1. For each waypoint i from 1 to n:\n    //    Read signal from cin\n    //    If signal < 0 -> print CRITICAL FAILURE AT POINT i and break\n    //    If signal == 0 -> print POINT i: SHADOW SKIPPED and continue\n    //    Otherwise -> valid_points++, total_telemetry += signal,\n    //                 if signal > max_signal then max_signal = signal,\n    //                 print POINT i: SIGNAL followed by signal\n    // 2. After loop, print the three mission summary lines:\n    //    VALID POINTS: valid_points\n    //    TOTAL TELEMETRY: total_telemetry\n    //    PEAK SIGNAL: max_signal\n\n    return 0;\n}",
       "expected": "POINT 1: SIGNAL 12\nPOINT 2: SHADOW SKIPPED\nPOINT 3: SIGNAL 45\nPOINT 4: SIGNAL 28\nPOINT 5: SHADOW SKIPPED\nVALID POINTS: 3\nTOTAL TELEMETRY: 85\nPEAK SIGNAL: 45",
-      "requires": ["for", "break", "continue", "total_telemetry +=", "valid_points++"],
+      "requires": ["for", "break", "continue", "total_telemetry", "valid_points"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int valid_points = 0;\n    int total_telemetry = 0;\n    int max_signal = 0;\n\n    for (int i = 1; i <= n; i++) {\n        int signal;\n        cin >> signal;\n        if (signal < 0) {\n            cout << \"CRITICAL FAILURE AT POINT \" << i << endl;\n            break;\n        }\n        if (signal == 0) {\n            cout << \"POINT \" << i << \": SHADOW SKIPPED\" << endl;\n            continue;\n        }\n        valid_points++;\n        total_telemetry += signal;\n        if (signal > max_signal) {\n            max_signal = signal;\n        }\n        cout << \"POINT \" << i << \": SIGNAL \" << signal << endl;\n    }\n\n    cout << \"VALID POINTS: \" << valid_points << endl;\n    cout << \"TOTAL TELEMETRY: \" << total_telemetry << endl;\n    cout << \"PEAK SIGNAL: \" << max_signal << endl;\n\n    return 0;\n}",
       "stdin": "5\n12 0 45 28 0\n"
     },

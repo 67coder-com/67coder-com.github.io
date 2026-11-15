@@ -48,7 +48,7 @@
     },
     "sensor-warmup-loop": {
       "title": "Dzinēja priekšsildītāja cikls",
-      "task": "Ieprogrammējiet drona Sigma dzinēja sildītāju, izmantojot ciklu `while`:\n1. Nolasiet sākuma temperatūru `int temp` no `cin`.\n2. Kamēr `temp < 50`, pieskaitiet `10` pie `temp` un izvadiet `WARMING: `, kam seko `temp` un jauna rinda.\n3. Pēc cikla beigām izvadiet `READY FOR FLIGHT` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma dzinēja sildītāju, izmantojot ciklu `while` (testa ievade: `20`):\n1. Nolasiet sākuma temperatūru `int temp` no `cin`.\n2. Kamēr `temp < 50`, pieskaitiet `10` pie `temp` un izvadiet `WARMING: `, kam seko `temp` un jauna rinda.\n3. Pēc cikla beigām izvadiet `READY FOR FLIGHT` un jaunu rindu.",
       "hint": "Rakstiet `while (temp < 50) { temp += 10; cout << \"WARMING: \" << temp << endl; }`, kam seko gatavības paziņojums.",
       "solutionNote": "Pie ievades 20 temperatūra kļūst 30, 40 un 50, izvadot trīs sildīšanas statusus un pēc tam READY FOR FLIGHT."
     },
@@ -82,7 +82,7 @@
     },
     "capacitor-pulse-charge": {
       "title": "Lidara kondensatora impulsa uzlāde",
-      "task": "Ieprogrammējiet drona Delta lidara kondensatora uzlādi ar ciklu `do-while`:\n1. Nolasiet sākuma spriegumu `int voltage` un mērķa spriegumu `int target` no `cin`.\n2. Ciklā `do-while`, kamēr `voltage < target`: pieskaitiet `25` pie `voltage` un izvadiet `PULSE: `, kam seko `voltage` un jauna rinda.\n3. Pēc cikla beigām izvadiet `LIDAR CHARGED` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Delta lidara kondensatora uzlādi ar ciklu `do-while` (testa ievade: `10 60`):\n1. Nolasiet sākuma spriegumu `int voltage` un mērķa spriegumu `int target` no `cin`.\n2. Ciklā `do-while`, kamēr `voltage < target`: pieskaitiet `25` pie `voltage` un izvadiet `PULSE: `, kam seko `voltage` un jauna rinda.\n3. Pēc cikla beigām izvadiet `LIDAR CHARGED` un jaunu rindu.",
       "hint": "Rakstiet `do { voltage += 25; cout << \"PULSE: \" << voltage << endl; } while (voltage < target);`, kam seko pabeigšanas paziņojums.",
       "solutionNote": "Pie sākuma sprieguma 10 un mērķa 60 impulsi palielina spriegumu līdz 35 un 60, sasniedzot mērķi un izvadot LIDAR CHARGED."
     },
@@ -94,7 +94,7 @@
     },
     "stream-input-accumulator": {
       "title": "Papilduzdevums: Telemetrijas plūsmas akumulators",
-      "task": "Uzkrājiet ienākošās telemetrijas vērtības, līdz tiek saņemta beigu sargāta vērtība `-1`:\n1. Nolasiet pirmo mērījumu `int val` no `cin`.\n2. Definējiet akumulatoru `int sum = 0;`.\n3. Ciklā `while`, kamēr `val != -1`: pieskaitiet `val` pie `sum` un nolasiet nākamo vērtību ar `cin >> val;`.\n4. Pēc cikla beigām izvadiet `TOTAL TELEMETRY: `, kam seko `sum` un jauna rinda.",
+      "task": "Uzkrājiet ienākošās telemetrijas vērtības, līdz tiek saņemta beigu sargāta vērtība `-1` (testa ievade: `10 25 15 -1`):\n1. Nolasiet pirmo mērījumu `int val` no `cin`.\n2. Definējiet akumulatoru `int sum = 0;`.\n3. Ciklā `while`, kamēr `val != -1`: pieskaitiet `val` pie `sum` un nolasiet nākamo vērtību ar `cin >> val;`.\n4. Pēc cikla beigām izvadiet `TOTAL TELEMETRY: `, kam seko `sum` un jauna rinda.",
       "hint": "Lietojiet `while (val != -1) { sum += val; cin >> val; }`, lai apstrādātu plūsmas datus.",
       "solutionNote": "Ievadot 10 25 15 -1, cikls saskaita 10 + 25 + 15 = 50 un apstājas pie signāla -1."
     },

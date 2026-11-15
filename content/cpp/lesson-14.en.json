@@ -48,7 +48,7 @@
     },
     "waypoint-surveyor": {
       "title": "Waypoint navigation tracker",
-      "task": "Program Scout drone Sigma's waypoint logger using a `for` loop:\n1. Read total number of waypoints `int n` from `cin`.\n2. In a `for` loop from `int i = 1` up to and including `n` (`i <= n`), stepping by `i++`: print `WAYPOINT #` followed by `i` and a newline.\n3. After the loop completes, print `ROUTE COMPLETE` and a newline.",
+      "task": "Program Scout drone Sigma's waypoint logger using a `for` loop (test input: `3`):\n1. Read total number of waypoints `int n` from `cin`.\n2. In a `for` loop from `int i = 1` up to and including `n` (`i <= n`), stepping by `i++`: print `WAYPOINT #` followed by `i` and a newline.\n3. After the loop completes, print `ROUTE COMPLETE` and a newline.",
       "hint": "Write `for (int i = 1; i <= n; i++) { cout << \"WAYPOINT #\" << i << endl; }` followed by the completion message.",
       "solutionNote": "With input 3, the loop iterates for i = 1, 2, and 3, outputting three waypoint milestones before logging ROUTE COMPLETE."
     },
@@ -75,7 +75,7 @@
     },
     "altitude-stepper": {
       "title": "Stepped altitude ascent controller",
-      "task": "Program Sigma's stepped altitude ascent ladder:\n1. Read initial altitude `int start` and maximum altitude `int max_alt` from `cin`.\n2. In a `for` loop starting at `int alt = start`, while `alt <= max_alt`, stepping by `alt += 20`: print `ALTITUDE: ` followed by `alt` and a newline.\n3. After the loop completes, print `LEVEL FLIGHT ESTABLISHED` and a newline.",
+      "task": "Program Sigma's stepped altitude ascent ladder (test input: `20 60`):\n1. Read initial altitude `int start` and maximum altitude `int max_alt` from `cin`.\n2. In a `for` loop starting at `int alt = start`, including the upper boundary using the `<=` operator, stepping by `alt += 20`: print `ALTITUDE: ` followed by `alt` and a newline.\n3. After the loop completes, print `LEVEL FLIGHT ESTABLISHED` and a newline.",
       "hint": "Write `for (int alt = start; alt <= max_alt; alt += 20) { cout << \"ALTITUDE: \" << alt << endl; }`.",
       "solutionNote": "With input 20 and 60, altitude advances through 20, 40, and 60 before leveling off."
     },
@@ -94,7 +94,7 @@
     },
     "solar-radiation-sum": {
       "title": "Bonus challenge: Solar radiation accumulator",
-      "task": "Accumulate a fixed series of telemetry sensor samples:\n1. Read sample count `int count` from `cin`.\n2. Declare accumulator `int sum = 0;`.\n3. In a `for` loop from `int i = 0` to `i < count`: read `int reading` from `cin` with `cin >> reading;` and add `reading` to `sum`.\n4. After the loop terminates, print `TOTAL RADIATION: ` followed by `sum` and a newline.",
+      "task": "Accumulate a fixed series of telemetry sensor samples (test input: `4 15 20 25 10`):\n1. Read sample count `int count` from `cin`.\n2. Declare accumulator `int sum = 0;`.\n3. In a `for` loop from `int i = 0` to `i < count`: read `int reading` from `cin` with `cin >> reading;` and add `reading` to `sum`.\n4. After the loop terminates, print `TOTAL RADIATION: ` followed by `sum` and a newline.",
       "hint": "Use `for (int i = 0; i < count; i++) { int reading; cin >> reading; sum += reading; }`.",
       "solutionNote": "With count 4 and values 15 20 25 10, the loop sums the 4 samples to 70 and prints TOTAL RADIATION: 70."
     },

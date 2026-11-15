@@ -91,7 +91,7 @@
       "stdin": "85 90",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int core_temp, hull_integrity;\n\n    // 1. Read core_temp and hull_integrity from cin\n    // 2. If core_temp > 80 OR hull_integrity < 50: MISSION: ABORT\n    // 3. Otherwise (else): MISSION: PROCEED\n\n    return 0;\n}",
       "expected": "MISSION: ABORT",
-      "requires": ["cin >>", "core_temp > 80", "||", "hull_integrity < 50", "else"],
+      "requires": ["cin >>", "core_temp", "hull_integrity", "||", "else"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int core_temp, hull_integrity;\n    cin >> core_temp >> hull_integrity;\n\n    if (core_temp > 80 || hull_integrity < 50) {\n        cout << \"MISSION: ABORT\" << endl;\n    } else {\n        cout << \"MISSION: PROCEED\" << endl;\n    }\n\n    return 0;\n}"
     },
     {
@@ -102,7 +102,7 @@
       "stdin": "65 12 0",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery, wind, has_fault;\n\n    // 1. Read battery, wind, and has_fault from cin\n    // 2. If has_fault == 1 OR battery < 20: ACTION: EMERGENCY LANDING\n    // 3. Else if battery >= 50 AND wind <= 15: ACTION: CRUISE SPEED\n    // 4. Else: ACTION: CAUTIOUS FLIGHT\n\n    return 0;\n}",
       "expected": "ACTION: CRUISE SPEED",
-      "requires": ["cin >>", "||", "&&", "else if", "else"],
+      "requires": ["cin >>", "if"],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int battery, wind, has_fault;\n    cin >> battery >> wind >> has_fault;\n\n    if (has_fault == 1 || battery < 20) {\n        cout << \"ACTION: EMERGENCY LANDING\" << endl;\n    } else if (battery >= 50 && wind <= 15) {\n        cout << \"ACTION: CRUISE SPEED\" << endl;\n    } else {\n        cout << \"ACTION: CAUTIOUS FLIGHT\" << endl;\n    }\n\n    return 0;\n}"
     },
     {

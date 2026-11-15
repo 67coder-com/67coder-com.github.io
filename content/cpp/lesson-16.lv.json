@@ -28,17 +28,18 @@
       "body": [
         "Izsekojiet šī saliktā skenēšanas cikla izpildei, kurā apvienoti operatori `continue` un `break`.",
         "Nosakiet programmas izdrukāto mainīgā `valid_points` gala vērtību."
-      ]
+      ],
+      "explain": "Izsekojiet vērtībām pa soļiem: pie `sector = 1` punkts tiek ieskaitīts (`valid_points = 1`). Pie `sector = 2` nostrādā `continue`, un punkts tiek izlaists. Pie `sector = 3` un `4` punkti tiek ieskaitīti (`valid_points` kļūst 2 un 3). Kad `sector` sasniedz 5, izpildās `break;`, kas nekavējoties pārtrauc ciklu pirms pieskaitīšanas. Tādējādi kopējais noskenēto sektoru skaits ir 3."
     },
     "sensor-warmup-while": {
       "title": "Inerciālā žiroskopa kalibrācijas cikls",
-      "task": "Ieprogrammējiet drona Sigma žiroskopa kalibrāciju ar ciklu `while`:\n1. Nolasiet sākuma d線fu `int drift` un samazinājuma soli `int step` no `cin`.\n2. Kamēr `drift > 5`: atņemiet `step` no `drift` ar `drift -= step` un izdrukājiet `CALIBRATING: `, kam seko `drift` un jauna rinda.\n3. Pēc cikla beigām izdrukājiet `SENSOR STABILIZED` un jaunu rindu.",
+      "task": "Ieprogrammējiet drona Sigma žiroskopa kalibrāciju ar ciklu `while` (testa ievade: `20 5`):\n1. Nolasiet sākuma d線fu `int drift` un samazinājuma soli `int step` no `cin`.\n2. Kamēr `drift > 5`: atņemiet `step` no `drift` ar `drift -= step` un izdrukājiet `CALIBRATING: `, kam seko `drift` un jauna rinda.\n3. Pēc cikla beigām izdrukājiet `SENSOR STABILIZED` un jaunu rindu.",
       "hint": "Rakstiet `while (drift > 5) { drift -= step; cout << \"CALIBRATING: \" << drift << endl; }`, kam seko noslēguma ziņojums.",
       "solutionNote": "Pie ievades 20 un 5 d線fs krītas no 20 uz 15, 10 un 5. Pie 5 nosacījums 5 > 5 kļūst aplams un cikls beidzas."
     },
     "elevation-sweep-for": {
       "title": "Augstuma ešelonu pakāpeniskā skenēšana",
-      "task": "Ieprogrammējiet drona Delta augstuma pakāpienu apsekošanu ar ciklu `for`:\n1. Nolasiet minimālo augstumu `int min_alt` un maksimālo augstumu `int max_alt` no `cin`.\n2. Izveidojiet akumulatoru `int total_samples = 0`, inicializētu ar 0.\n3. Ciklā `for` no `int alt = min_alt`, kamēr `alt <= max_alt`, ar soli `alt += 25`: pieskaitiet 10 pie `total_samples` ar `total_samples += 10` un izdrukājiet `TIER: `, kam seko `alt` un jauna rinda.\n4. Pēc cikla beigām izdrukājiet `TOTAL SAMPLES: `, kam seko `total_samples` un jauna rinda.",
+      "task": "Ieprogrammējiet drona Delta augstuma pakāpienu apsekošanu ar ciklu `for` (testa ievade: `50 100`):\n1. Nolasiet minimālo augstumu `int min_alt` un maksimālo augstumu `int max_alt` no `cin`.\n2. Izveidojiet akumulatoru `int total_samples = 0`, inicializētu ar 0.\n3. Ciklā `for` no `int alt = min_alt`, kamēr `alt <= max_alt`, ar soli `alt += 25`: pieskaitiet 10 pie `total_samples` ar `total_samples += 10` un izdrukājiet `TIER: `, kam seko `alt` un jauna rinda.\n4. Pēc cikla beigām izdrukājiet `TOTAL SAMPLES: `, kam seko `total_samples` un jauna rinda.",
       "hint": "Lietojiet `for (int alt = min_alt; alt <= max_alt; alt += 25) { total_samples += 10; cout << \"TIER: \" << alt << endl; }`.",
       "solutionNote": "Pie robežām 50 un 100 cikls izpildās ešeloniem 50, 75 un 100, uzkrājot kopā 30 paraugus."
     },
@@ -49,7 +50,7 @@
         "Šim ciklam while bija jāpārbauda paraugi no 1 līdz 5, izlaižot 3. paraugu.",
         "Tomēr borta dators izpildes laikā bezgalīgi iesalst. Noklikšķiniet uz tās koda rindas, kuras dēļ cikls nekad nebeidzas."
       ],
-      "explanation": "Pie sample = 3 komanda continue nekavējoties pāriet uz cikla galveni while (sample <= 5), neizpildot sample++. Mainīgais sample paliek 3 uz visiem laikiem, izraisot bezgalīgu ciklu. Ciklā while skaitītāja solis jāveic pirms continue, vai arī jāizmanto cikls for."
+      "explain": "Pie sample = 3 komanda continue nekavējoties pāriet uz cikla galveni while (sample <= 5), neizpildot sample++. Mainīgais sample paliek 3 uz visiem laikiem, izraisot bezgalīgu ciklu. Ciklā while skaitītāja solis jāveic pirms continue, vai arī jāizmanto cikls for."
     },
     "telemetry-sample-dowhile": {
       "eyebrow": "Pārsona uzdevums",
@@ -61,13 +62,13 @@
     },
     "shadow-filter-continue": {
       "title": "Saules bateriju plūsmas trokšņu filtrs",
-      "task": "Ieprogrammējiet Sigma saules paneļu mērījumu apstrādi ar ciklu `for` un `continue`:\n1. Nolasiet sensoru šūnu skaitu `int count` no `cin`.\n2. Izveidojiet akumulatoru `int active_power = 0`, inicializētu ar 0.\n3. Ciklā `for` ar `i = 1` līdz `count` ieskaitot (`i <= count`): nolasiet skaitli `reading` no `cin`.\n4. Ja `reading < 20`, izlaidiet atlikušo koda daļu ar komandu `continue`.\n5. Pretējā gadījumā pieskaitiet `reading` pie `active_power` ar `active_power += reading` un izdrukājiet `CELL #`, kam seko `i` un `: VALID` jaunā rindā.\n6. Pēc cikla beigām izdrukājiet `ACTIVE POWER: `, kam seko `active_power` un jauna rinda.",
+      "task": "Ieprogrammējiet Sigma saules paneļu mērījumu apstrādi ar ciklu `for` un `continue` (testa ievade: `4` un vērtības `10 45 15 30`):\n1. Nolasiet sensoru šūnu skaitu `int count` no `cin`.\n2. Izveidojiet akumulatoru `int active_power = 0`, inicializētu ar 0.\n3. Ciklā `for` ar `i = 1` līdz `count` ieskaitot (`i <= count`): nolasiet skaitli `reading` no `cin`.\n4. Ja `reading < 20`, izlaidiet atlikušo koda daļu ar komandu `continue`.\n5. Pretējā gadījumā pieskaitiet `reading` pie `active_power` ar `active_power += reading` un izdrukājiet `CELL #`, kam seko `i` un `: VALID` jaunā rindā.\n6. Pēc cikla beigām izdrukājiet `ACTIVE POWER: `, kam seko `active_power` un jauna rinda.",
       "hint": "Cikla iekšienē: `cin >> reading; if (reading < 20) { continue; } active_power += reading; cout << \"CELL #\" << i << \": VALID\" << endl;`.",
       "solutionNote": "Mērījumi 10 un 15 tiek izlaisti ar continue, bet 45 un 30 tiek pieskaitīti, dodot kopējo jaudu 75."
     },
     "thermal-spike-break": {
       "title": "Termiskās pārslodzes avārijas pārtraukšana",
-      "task": "Ieprogrammējiet drošības pārbaudi ar ciklu `for` un komandu `break`:\n1. Nolasiet maksimālo skenējamo sektoru skaitu `int max_sectors` no `cin`.\n2. Izveidojiet skaitītāju `int completed = 0`, inicializētu ar 0.\n3. Ciklā `for` sektoram `s = 1` līdz `max_sectors` ieskaitot (`s <= max_sectors`): nolasiet temperatūru `temp` no `cin`.\n4. Ja `temp >= 100`: izdrukājiet `THERMAL SPIKE AT SECTOR `, kam seko `s` un jauna rinda, un nekavējoties pārtrauciet ciklu ar `break`.\n5. Pretējā gadījumā palieliniet `completed++` un izdrukājiet `SECTOR `, kam seko `s` un `: NOMINAL` jaunā rindā.\n6. Pēc cikla beigām izdrukājiet `COMPLETED SECTORS: `, kam seko `completed` un jauna rinda.",
+      "task": "Ieprogrammējiet drošības pārbaudi ar ciklu `for` un komandu `break` (testa ievade: `5` un vērtības `65 72 108 50 60`):\n1. Nolasiet maksimālo skenējamo sektoru skaitu `int max_sectors` no `cin`.\n2. Izveidojiet skaitītāju `int completed = 0`, inicializētu ar 0.\n3. Ciklā `for` sektoram `s = 1` līdz `max_sectors` ieskaitot (`s <= max_sectors`): nolasiet temperatūru `temp` no `cin`.\n4. Ja `temp >= 100`: izdrukājiet `THERMAL SPIKE AT SECTOR `, kam seko `s` un jauna rinda, un nekavējoties pārtrauciet ciklu ar `break`.\n5. Pretējā gadījumā palieliniet `completed++` un izdrukājiet `SECTOR `, kam seko `s` un `: NOMINAL` jaunā rindā.\n6. Pēc cikla beigām izdrukājiet `COMPLETED SECTORS: `, kam seko `completed` un jauna rinda.",
       "hint": "Pārbaudiet `if (temp >= 100) { cout << \"THERMAL SPIKE AT SECTOR \" << s << endl; break; }` pirms completed palielināšanas.",
       "solutionNote": "Kad 3. sektorā temperatūra sasniedz 108 grādus, cikls fiksē pārslodzi un nekavējoties apstājas, uzrādot 2 pabeigtus sektorus."
     },
@@ -77,11 +78,12 @@
       "body": [
         "Nosakiet divdimensiju kanjona režģa koordinātu izdrukas gaitu ligzdotajā ciklā.",
         "Pievērsiet uzmanību tam, kuri koordinātu punkti tiek izlaisti ar iekšējā cikla komandu `continue`."
-      ]
+      ],
+      "explain": "Ārējais cikls iziet cauri zonām `zone = 1` un `zone = 2`. Katrā zonā iekšējais cikls mēģina apstrādāt punktus `p = 1`, `2`, `3`. Kad `p == 2`, iekšējā cikla komanda `continue` izlaiž tikai 2. punktu, neietekmējot citus punktus vai ārējo ciklu. Rezultātā tiek izvadīti punkti P1 un P3 katrai zonai: `Z1-P1 Z1-P3 Z2-P1 Z2-P3 DONE`."
     },
     "capstone-sector-scanner": {
       "title": "Autonoms kanjona sektora skeneris",
-      "task": "Ieprogrammējiet pilnu autonomā kanjona sektora skenera loģiku drōniem Sigma un Delta:\n1. Nolasiet kontrolpunktu kopējo skaitu `int n` no `cin`.\n2. Inicializējiet trīs uzskaites mainīgos: `int valid_points = 0`, `int total_telemetry = 0`, `int max_signal = 0`.\n3. Ciklā `for` no `i = 1` līdz `n` ieskaitot (`i <= n`): nolasiet signāla vērtību `signal` no `cin`.\n4. Ja `signal < 0`: izdrukājiet `CRITICAL FAILURE AT POINT `, kam seko `i` un jauna rinda, un tūlīt pārtrauciet ciklu ar `break`.\n5. Ja `signal == 0`: izdrukājiet `POINT `, kam seko `i` un `: SHADOW SKIPPED` jaunā rindā, un pārejiet pie nākamā soļa ar `continue`.\n6. Pretējā gadījumā (derīgs signāls): palieliniet `valid_points++`, pieskaitiet `signal` pie `total_telemetry`, ja `signal > max_signal`, atjauniniet `max_signal = signal`, un izdrukājiet `POINT `, kam seko `i` un `: SIGNAL ` ar `signal` jaunā rindā.\n7. Pēc cikla beigām izdrukājiet trīs kopsavilkuma rindas: `VALID POINTS: `, kam seko `valid_points`, `TOTAL TELEMETRY: `, kam seko `total_telemetry`, un `PEAK SIGNAL: `, kam seko `max_signal` (katru savā rindā).",
+      "task": "Ieprogrammējiet pilnu autonomā kanjona sektora skenera loģiku drōniem Sigma un Delta (testa ievade: `5` un vērtības `12 0 45 28 0`):\n1. **Ievade un uzskaite:** nolasiet punktu skaitu `int n` no `cin` un inicializējiet `valid_points = 0`, `total_telemetry = 0`, `max_signal = 0`.\n2. **Avārijas un ēnu filtri ciklā `for` (`i = 1` līdz `n`):** nolasiet `signal` no `cin`. Ja `signal < 0`, izvadiet `CRITICAL FAILURE AT POINT ` ar `i` un jaunu rindu, un pārtrauciet ar `break;`. Ja `signal == 0`, izvadiet `POINT `, kam seko `i` un `: SHADOW SKIPPED` jaunā rindā, un izlaidiet ar `continue;`.\n3. **Derīgo datu apstrāde:** visos citos gadījumos palieliniet `valid_points++`, pieskaitiet `signal` pie `total_telemetry`, atjauniniet `max_signal` (ja `signal > max_signal`) un izvadiet `POINT `, kam seko `i`, `: SIGNAL ` un `signal` jaunā rindā.\n4. **Kopsavilkums pēc cikla:** izvadiet trīs kopsavilkuma rindas: `VALID POINTS: `, kam seko `valid_points`, `TOTAL TELEMETRY: `, kam seko `total_telemetry`, un `PEAK SIGNAL: `, kam seko `max_signal` (katru savā rindā).",
       "hint": "Vispirms apstrādājiet avāriju `signal < 0` ar break, tad ēnu `signal == 0` ar continue, un beigās uzkrājiet derīgos datus.",
       "solutionNote": "Šī programma vienā autonomā lidojuma ciklā apvieno skaitīšanu, filtrēšanu, avārijas izeju, summēšanu un maksimuma meklēšanu."
     },

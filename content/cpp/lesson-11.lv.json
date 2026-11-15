@@ -64,7 +64,7 @@
       "title": "Atrodiet trūkstošā break kļūdu",
       "task": "Noklikšķiniet uz rindas ar kļūdu, kur aizmirsts break un izpilde kļūdaini caurkrīt uz avārijas režīmu.",
       "hint": "Pārbaudiet, kas trūkst zara case 1: beigās pirms nākamā case.",
-      "explain": "Rindā 8 aiz `cout << \"MODE: NORMAL\" << endl;` trūkst komandas `break;`. Šīs kļūdas dēļ programma pie koda 1 izpildītu normālo režīmu un uzreiz arī avārijas režīmu no case 2!"
+      "explain": "Kļūda attiecas uz 1. gadījuma zaru (8.–9. rinda): aiz 9. rindas (`cout << \"MODE: NORMAL\" << endl;`) trūkst iziešanas komandas `break;`. Šīs kļūdas dēļ programma pie koda 1 izpildītu normālo režīmu un uzreiz caurkristu arī uz avārijas režīmu no `case 2:`!"
     },
     "grouping-switch-cases": {
       "eyebrow": "Apzināts caurkritums",
@@ -81,7 +81,7 @@
     },
     "dispatch-telemetry-mode": {
       "title": "Interaktīvais misijas dispečers",
-      "task": "Noprogrammējiet drona režīmu selektoru no konsoles `cin`:\n1. Nolasiet simbolu `cmd` no konsoles.\n2. Ar `switch (cmd)` apstrādājiet režīmus:\n   - `'R'`: izvadiet `MODE: RECON`\n   - `'M'`: izvadiet `MODE: MAPPING`\n   - `'H'`: izvadiet `MODE: RETURN HOME`\n   - `default:`: izvadiet `MODE: INVALID`\n3. Neaizmirstiet pievienot `break;` katram zaram.",
+      "task": "Noprogrammējiet drona režīmu selektoru no konsoles `cin` (testa ievade: `M`):\n1. Nolasiet simbolu `cmd` no konsoles.\n2. Ar `switch (cmd)` apstrādājiet režīmus: `'R'` -> `MODE: RECON`, `'M'` -> `MODE: MAPPING`, `'H'` -> `MODE: RETURN HOME`, bet noklusējuma gadījumā (`default:`) -> `MODE: INVALID`.\n3. Neaizmirstiet pievienot `break;` katram zaram.",
       "hint": "Nolasiet ar `cin >> cmd;`, pēc tam uzrakstiet `switch (cmd) { case 'R': ... break; ... }`.",
       "solutionNote": "Ievadot 'M', izpildās zars case 'M': un terminālī tiek izvadīts MODE: MAPPING."
     },
@@ -117,7 +117,7 @@
     },
     "delta-mission-controller": {
       "title": "Papilduzdevums: Kartogrāfa instrumentu panelis",
-      "task": "Apvienojiet ternāro operatoru un `switch` drona Delta borta kontrolierī:\n1. Nolasiet instrumenta kodu `char tool` un baterijas līmeni `int battery` no `cin`.\n2. Ar ternāro operatoru nosakiet jaudas režīmu: ja `battery >= 40`, jauda ir `\"FULL\"`, citādi `\"ECO\"`.\n3. Apstrādājiet `'L'`: izvadiet `TOOL: LIDAR | POWER: `, kam seko jaudas režīms un jauna rinda.\n4. Apstrādājiet `'C'`: izvadiet `TOOL: CAMERA | POWER: `, kam seko jaudas režīms un jauna rinda.\n5. Pārējos gadījumos (`default:`): izvadiet `TOOL: STANDBY` un jaunu rindu.",
+      "task": "Apvienojiet ternāro operatoru un `switch` drona Delta borta kontrolierī (testa ievade: `L 60`):\n1. Nolasiet instrumenta kodu `char tool` un baterijas līmeni `int battery` no `cin`.\n2. Ar ternāro operatoru nosakiet jaudas režīmu: ja `battery >= 40`, jauda ir `\"FULL\"`, citādi `\"ECO\"`.\n3. Apstrādājiet `'L'`: izvadiet `TOOL: LIDAR | POWER: `, kam seko jaudas režīms un jauna rinda.\n4. Apstrādājiet `'C'`: izvadiet `TOOL: CAMERA | POWER: `, kam seko jaudas režīms un jauna rinda.\n5. Pārējos gadījumos (`default:`): izvadiet `TOOL: STANDBY` un jaunu rindu.",
       "hint": "Lietojiet `string power = (battery >= 40) ? \"FULL\" : \"ECO\";`, kam seko `switch (tool)` ar atbilstošajām izvades rindām.",
       "solutionNote": "Ievadot 'L' un 60, baterija 60 >= 40 iestata jaudu uz FULL, un case 'L': izvada TOOL: LIDAR | POWER: FULL."
     },
