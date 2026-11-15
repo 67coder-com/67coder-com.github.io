@@ -119,8 +119,8 @@
     },
     "drone-memory-audit": {
       "title": "Sigma memory audit",
-      "task": "Write a complete program by following two steps:\n1. Declare four variables: an `int` for mission sol (14), a `double` for Mars gravity (3.73), a `char` for sector code ('A'), and a `bool` for active status (`true`).\n2. Print each variable along with its byte size using `sizeof` in the format shown below.",
-      "hint": "Remember that `char` uses single quotes `'A'`, and `bool` prints `true` as 1 through `cout`. Example: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
+      "task": "Complete Sigma's telemetry audit in two steps:\n1. Declare two variables: `int sol = 14;` and `double gravity = 3.73;`. The `char` and `bool` variables are already declared for you in the starter code.\n2. Print each of the four variables along with its byte size using `sizeof` in the format shown below.",
+      "hint": "Use `sizeof(variable)` inside the stream. Example: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
     },
     "recap": {
       "title": "Third mission recap",

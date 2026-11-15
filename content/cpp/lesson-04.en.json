@@ -99,8 +99,8 @@
     },
     "calibrate-fuel": {
       "title": "Calibrate Sigma's fuel telemetry",
-      "task": "Write a telemetry calibration routine for Scout Sigma completing two steps:\n1. Declare two variables: `short tank_id` with value 3, and `unsigned int fuel_ml` with value 40000 (representing 40 liters in milliliters).\n2. Print the telemetry lines in the format shown below.",
-      "hint": "Declare `short tank_id = 3;` and `unsigned int fuel_ml = 40000;`, then print each with `cout` and `endl`.",
+      "task": "Write a telemetry calibration routine for Scout Sigma completing two steps:\n1. Declare two variables: `short tank_id` with value 3, and `unsigned int fuel_ml` with value 75000 (representing 75 liters in milliliters, which exceeds the 16-bit limit 65,535).\n2. Print the telemetry lines in the format shown below.",
+      "hint": "Declare `short tank_id = 3;` and `unsigned int fuel_ml = 75000;`, then print each with `cout` and `endl`.",
       "solutionNote": "Both types fit their respective telemetry domains without waste or overflow."
     },
     "mission-clock": {

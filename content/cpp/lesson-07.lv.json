@@ -92,7 +92,7 @@
       "body": [
         "Visbiežākā aritmētiskā operācija datorprogrammās ir skaitītāja palielināšana vai samazināšana tieši par 1. C++ šim nolūkam piedāvā īpašus unāros operatorus: `++` (inkrements) un `--` (dekrements).",
         "syntax: {skaititājs}++;\n- skaititājs: vesela skaitļa mainīgais\n- ++: inkrementa operators, kas pieskaita 1\n- ;: semikols — obligāts katras komandas noslēgums C++",
-        "> Inkrementa darbības principi:\n> 1. **Kompakts solis.** Izteiksme `waypoints++;` ir līdzvērtīga `waypoints += 1;` un `waypoints = waypoints + 1;`.\n> 2. **Prefikss pret postfiksu.** Atsevišķā komandā (`x++;` vai `++x;`) abas formas palielina `x` par 1. Sarežģītās izteiksmēs prefikss (`++x`) palielina pirms nolasīšanas, bet postfikss (`x++`) — pēc nolasīšanas.\n> 3. **C++ standarts.** Kā atsevišķu komandu mūsdienu C++ pirmkodā skaitītāju un maršruta punktu atjaunināšanai klasiski izmanto `counter++;`.",
+        "> Inkrementa darbības principi:\n> 1. **Kompakts solis.** Izteiksme `waypoints++;` ir līdzvērtīga `waypoints += 1;` un `waypoints = waypoints + 1;`.\n> 2. **Prefikss pret postfiksu.** Kamēr operators atrodas atsevišķā rindiņā (`x++;` vai `++x;`), abas formas dod identisku rezultātu (palielina `x` par 1). Atšķirību sarežģītās izteiksmēs aplūkosim vēlāk, bet patlaban izmantojam standarta formu `x++;`.\n> 3. **C++ standarts.** Kā atsevišķu komandu mūsdienu C++ pirmkodā skaitītāju un maršruta punktu atjaunināšanai klasiski izmanto `counter++;`.",
         "!> **Ieradums no Python.** Valodā Python nav operatoru `++` un `--` (`x++` valodā Python ir sintakses kļūda, bet `++x` nozīmē tikai divas plusa zīmes `+(+x)`). Valodā C++ operators `++` ir pamata veids, kā palielināt skaitītājus!"
       ]
     },
@@ -100,7 +100,7 @@
       "title": "Izseko inkrementa un salikto operatoru izmaiņām",
       "body": [
         "Izseko mainīgā `waypoints` vērtībai cauri secīgām komandām. Paredzi galīgo terminālī izvadīto rezultātu.",
-        "Pievērs uzmanību: `waypoints` sākas ar `3`, pēc tam tiek izpildīts `waypoints++;`, un visbeidzot `waypoints += 4;`."
+        "Atceries: kamēr operators atrodas atsevišķā rindiņā, `waypoints++;` vienkārši pieskaita skaitītājam 1."
       ],
       "explain": "`waypoints` sākotnējā vērtība ir 3. Komanda `waypoints++;` palielina to par 1, iegūstot 4. Pēc tam `waypoints += 4;` pieskaita vēl 4, iegūstot 8. Programma izvada `WAYPOINTS: 8`."
     },

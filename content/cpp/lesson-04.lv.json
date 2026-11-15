@@ -99,8 +99,8 @@
     },
     "calibrate-fuel": {
       "title": "Kalibrē Sigma degvielas telemetriju",
-      "task": "Uzraksti Sigma telemetrijas kalibrēšanas programmu, veicot divus soļus:\n1. Izveido divus mainīgos: `short tank_id` ar vērtību 3 un `unsigned int fuel_ml` ar vērtību 40000 (40 litri mililitros).\n2. Izvadi telemetrijas rindiņas formātā, kā parādīts zemāk.",
-      "hint": "Izveido `short tank_id = 3;` un `unsigned int fuel_ml = 40000;`, pēc tam izvadi katru ar `cout` un `endl`.",
+      "task": "Uzraksti Sigma telemetrijas kalibrēšanas programmu, veicot divus soļus:\n1. Izveido divus mainīgos: `short tank_id` ar vērtību 3 un `unsigned int fuel_ml` ar vērtību 75000 (75 litri mililitros, kas pārsniedz 16 bitu robežu 65 535).\n2. Izvadi telemetrijas rindiņas formātā, kā parādīts zemāk.",
+      "hint": "Izveido `short tank_id = 3;` un `unsigned int fuel_ml = 75000;`, pēc tam izvadi katru ar `cout` un `endl`.",
       "solutionNote": "Abi tipi precīzi atbilst saviem mērījumu diapazoniem bez atmiņas izšķērdēšanas vai pārpildes."
     },
     "mission-clock": {

@@ -47,10 +47,10 @@
       "id": "fix-crater-math",
       "kind": "editor",
       "lang": "cpp",
-      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int target = 5;\n    int step = 2;\n    double dist = 5 / 2;\n    cout << \"DESCENT STEP: \" << dist << \" M\" << endl;\n    return 0;\n}",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    double dist = 5 / 2;\n    cout << \"DESCENT STEP: \" << dist << \" M\" << endl;\n    return 0;\n}",
       "expected": "DESCENT STEP: 2.5 M",
       "requires": [".0"],
-      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int target = 5;\n    int step = 2;\n    double dist = 5.0 / 2;\n    cout << \"DESCENT STEP: \" << dist << \" M\" << endl;\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    double dist = 5.0 / 2;\n    cout << \"DESCENT STEP: \" << dist << \" M\" << endl;\n    return 0;\n}",
       "stdin": false
     },
     {

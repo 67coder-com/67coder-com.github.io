@@ -133,7 +133,7 @@
     "status-panel": {
       "title": "Build the Sigma status panel",
       "task": "Write a complete C++ program to output Sigma's three-line telemetry panel in the format shown below:\n1. Include the `<iostream>` header and enable `using namespace std;`.\n2. In `main()`, print the header `=== SIGMA ===`.\n3. Print `FUEL: 87%` on the second line and `STATUS: READY` on the third line.\n4. End each line with `endl` and terminate each statement with a semicolon `;`.",
-      "hint": "Write three separate `cout << ... << endl;` statements inside `main()`."
+      "hint": "Write three separate `cout << ... << endl;` statements inside `main()`. In a `cout` stream, the `%` symbol is printed as normal text inside quotes and does not require escaping."
     },
     "recap": {
       "title": "Mission 1 recap",

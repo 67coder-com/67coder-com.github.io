@@ -92,7 +92,7 @@
       "body": [
         "The most frequent arithmetic operation in computing is increasing or decreasing a counter by exactly 1. C++ provides dedicated unary operators for this: `++` (increment) and `--` (decrement).",
         "syntax: {counter}++;\n- counter: integer or numeric variable\n- ++: increment operator adding 1\n- ;: statement terminator — mandatory in C++",
-        "> Increment mechanics:\n> 1. **Compact step.** Writing `waypoints++;` is equivalent to `waypoints += 1;` or `waypoints = waypoints + 1;`.\n> 2. **Prefix vs postfix.** In standalone statements (`x++;` or `++x;`), both forms increase `x` by 1. In complex expressions, prefix (`++x`) increments before reading, while postfix (`x++`) increments after reading.\n> 3. **Idiomatic C++.** As standalone statements, both are widely used; in modern C++, `counter++;` is the classic choice for updating counters and waypoints.",
+        "> Increment mechanics:\n> 1. **Compact step.** Writing `waypoints++;` is equivalent to `waypoints += 1;` or `waypoints = waypoints + 1;`.\n> 2. **Prefix vs postfix.** As long as the operator stands on its own line (`x++;` or `++x;`), both forms produce the exact same result (increasing `x` by 1). We will explore the difference inside complex expressions later; for now, we use the standard postfix form `x++;`.\n> 3. **Idiomatic C++.** As standalone statements, both are widely used; in modern C++, `counter++;` is the classic choice for updating counters and waypoints.",
         "!> **Python habit to unlearn.** Python does NOT have `++` or `--` (`x++` is a syntax error in Python, and `++x` in Python is just double positive sign `+(+x)`). In C++, `++` is the standard, native way to step through counters!"
       ]
     },
@@ -100,7 +100,7 @@
       "title": "Trace increment and compound updates",
       "body": [
         "Track the value of `waypoints` through the consecutive operations below. Predict the final output printed to the terminal.",
-        "Notice that `waypoints` starts at `3`, then encounters `waypoints++;`, and then `waypoints += 4;`."
+        "Remember: standing on its own line, `waypoints++;` simply adds 1 to the counter."
       ],
       "explain": "`waypoints` starts at 3. The `waypoints++;` statement increases it by 1, making it 4. Next, `waypoints += 4;` adds 4 to 4, resulting in 8. The program outputs `WAYPOINTS: 8`."
     },

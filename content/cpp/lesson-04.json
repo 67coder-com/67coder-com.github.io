@@ -71,9 +71,9 @@
       "kind": "editor",
       "lang": "cpp",
       "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-      "expected": "TANK: 3\nFUEL: 40000 ML",
+      "expected": "TANK: 3\nFUEL: 75000 ML",
       "requires": ["short", "unsigned int", "cout"],
-      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    short tank_id = 3;\n    unsigned int fuel_ml = 40000;\n\n    cout << \"TANK: \" << tank_id << endl;\n    cout << \"FUEL: \" << fuel_ml << \" ML\" << endl;\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    short tank_id = 3;\n    unsigned int fuel_ml = 75000;\n\n    cout << \"TANK: \" << tank_id << endl;\n    cout << \"FUEL: \" << fuel_ml << \" ML\" << endl;\n    return 0;\n}",
       "stdin": false
     },
     {

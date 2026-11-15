@@ -77,7 +77,7 @@
       "lang": "cpp",
       "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string station = \"LUNAR-BASE\";\n    string channel = \"ALPHA\";\n    \n    // 1. Combine station, \"/\", and channel into full_channel\n    // 2. Print full_channel\n    // 3. Print full_channel.length()\n    \n    return 0;\n}",
       "expected": "LUNAR-BASE/ALPHA\n16",
-      "requires": ["string", "station + \"/\" + channel", ".length()"],
+      "requires": ["full_channel", ".length()"],
       "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string station = \"LUNAR-BASE\";\n    string channel = \"ALPHA\";\n    string full_channel = station + \"/\" + channel;\n\n    cout << full_channel << endl;\n    cout << full_channel.length() << endl;\n    return 0;\n}",
       "stdin": false
     },
@@ -92,9 +92,9 @@
       "kind": "blanks",
       "code": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    [[1]] ready = true;\n    [[2]] tier = 'S';\n    [[3]] callsign = \"IRIS-01\";\n    cout << ready << \" \" << tier << \" \" << callsign << endl;\n    return 0;\n}",
       "blanks": {
-        "1": ["bool", "char"],
-        "2": ["char", "bool"],
-        "3": ["string", "char"]
+        "1": ["bool"],
+        "2": ["char"],
+        "3": ["string"]
       }
     },
     {

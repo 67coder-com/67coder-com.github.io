@@ -119,8 +119,8 @@
     },
     "drone-memory-audit": {
       "title": "Sigma atmiņas audits",
-      "task": "Uzraksti pilnu programmu, veicot divus soļus:\n1. Izveido četrus mainīgos: `int` misijas solam (14), `double` Marsa gravitācijai (3.73), `char` sektora kodam ('A') un `bool` aktīvam stāvoklim (`true`).\n2. Izvadi katru vērtību kopā ar tās izmēru baitos ar `sizeof` formātā, kā parādīts zemāk.",
-      "hint": "Atceries: `char` vērtību raksta vienpēdiņās `'A'`, bet `bool` vērtību `true` `cout` izvada kā 1. Piemēram: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
+      "task": "Pabeidz Sigma telemetrijas auditu divos soļos:\n1. Izveido divus mainīgos: `int sol = 14;` un `double gravity = 3.73;`. Mainīgie `char` un `bool` starta kodā jau ir doti.\n2. Izvadi katru no četriem mainīgajiem kopā ar tā izmēru baitos, izmantojot `sizeof`, formātā zemāk.",
+      "hint": "Izmanto `sizeof(mainīgais)` plūsmā. Piemēram: `cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;`."
     },
     "recap": {
       "title": "Trešās misijas kopsavilkums",

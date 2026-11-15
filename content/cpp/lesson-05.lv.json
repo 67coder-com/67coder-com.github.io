@@ -71,7 +71,7 @@
     "fix-crater-math": {
       "title": "Salabo Sigma nosēšanās aprēķinu",
       "task": "Drona nosēšanās programma aprēķināja soli `dist` ar veselu skaitļu dalīšanu, liekot dronam nolaisties krāterī. Salabo aprēķinu, lai `dist` būtu precīzi 2.5 metri formātā zemāk:\n1. Aizstāj skaitli `5` ar `5.0` (vai `2` ar `2.0`).\n2. Nospied «Palaist» un pārliecinies, ka terminālī parādās `2.5 M`.",
-      "hint": "Labo 6. rindiņu: `double dist = 5.0 / 2;`.",
+      "hint": "Labo rindiņu uz: `double dist = 5.0 / 2;`.",
       "solutionNote": "Pievienojot `.0`, C++ izpilda daļskaitļu dalīšanu un saglabā precīzu vērtību `2.5`."
     },
     "precision-map": {

@@ -133,7 +133,7 @@
     "status-panel": {
       "title": "Izveido drona Sigma statusa paneli",
       "task": "Uzraksti pilnu C++ programmu, kas terminālī izvada drona Sigma trīs rindu telemetriju formātā zemāk:\n1. Pievieno galveni `<iostream>` un atver vārdtelpu `std`.\n2. Funkcijā `main()` izvadi virsrakstu `=== SIGMA ===`.\n3. Otrajā rindā izvadi `FUEL: 87%` un trešajā rindā `STATUS: READY`.\n4. Katru rindu noslēdz ar `endl` un katru komandu — ar semikolu `;`.",
-      "hint": "Ieraksti trīs atsevišķas `cout << ... << endl;` komandas funkcijas `main()` iekšienē."
+      "hint": "Ieraksti trīs atsevišķas `cout << ... << endl;` komandas funkcijas `main()` iekšienē. Plūsmā `cout` simbols `%` pēdiņās tiek izvadīts kā parasts teksts un nav jāekranē."
     },
     "recap": {
       "title": "1. misijas kopsavilkums",

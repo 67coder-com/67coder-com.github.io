@@ -50,13 +50,16 @@
     },
     "predict-cin-math": {
       "title": "Predict stream calculation",
-      "task": "Given the terminal input 3 4, what will this program output?",
-      "hint": "cin >> a >> b assigns 3 to a and 4 to b. Evaluate a * b + 2 using standard operator precedence.",
-      "explain": "The extraction `cin >> a >> b` assigns `a = 3` and `b = 4`. The arithmetic expression `3 * 4 + 2` evaluates `3 * 4 = 12` first, then `12 + 2 = 14`."
+      "body": [
+        "Track how data entered from the terminal flows through `cin` into variables. Predict the exact number that will be output to the console.",
+        "> **Console input:** `3 4`\n> The user enters two numbers separated by a space into the standard input stream.",
+        "Evaluate what values `a` and `b` receive from `cin >> a >> b;`, and calculate `a * b + 2`."
+      ],
+      "explain": "The extraction `cin >> a >> b;` reads `3` into `a` and `4` into `b`. The expression `a * b + 2` evaluates multiplication first (`3 * 4 = 12`) and then addition (`12 + 2 = 14`). The program outputs `14`."
     },
     "read-flight-params": {
       "title": "Read mission flight parameters",
-      "task": "Configure Sigma's dispatch computer:\n1. Read `distance` and `speed` from `cin`.\n2. Calculate flight duration: `int hours = distance / speed;`.\n3. Output `DURATION: ` followed by `hours` and ` H` on a new line.",
+      "task": "Configure Sigma's dispatch computer:\n1. Read `distance` and `speed` from `cin` (the console input stream `stdin` contains `120 40`).\n2. Calculate flight duration: `int hours = distance / speed;`.\n3. Output `DURATION: ` followed by `hours` and ` H` on a new line.",
       "hint": "Use `cin >> distance >> speed;`, then print `\"DURATION: \" << hours << \" H\" << endl;`.",
       "solutionNote": "With input 120 and 40, 120 / 40 yields 3 hours."
     },
@@ -100,7 +103,7 @@
     },
     "drone-dispatch-console": {
       "title": "Drone dispatch console",
-      "task": "Write the launch dispatch program for Scout drone Sigma:\n1. Read the target sector name on the first line using `getline(cin, target);`.\n2. Read distance and speed from the second line using `cin >> distance >> speed;`.\n3. Compute flight duration: `int time = distance / speed;`.\n4. Output `TARGET: ` followed by `target`.\n5. Output `TIME: ` followed by `time` and ` H`.",
+      "task": "Write the launch dispatch program for Scout drone Sigma:\n1. Read the target sector name on the first line using `getline(cin, target);` (the console input stream contains `Mawrth Vallis`).\n2. Read distance and speed from the second line using `cin >> distance >> speed;` (the console input stream contains `180 60`).\n3. Compute flight duration: `int time = distance / speed;`.\n4. Output `TARGET: ` followed by `target`.\n5. Output `TIME: ` followed by `time` and ` H`.",
       "hint": "Call `getline(cin, target);`, then `cin >> distance >> speed;`, calculate `time = distance / speed;`, and print both lines with `endl`.",
       "solutionNote": "With sector 'Mawrth Vallis' and flight metrics 180 km at 60 km/h, the program outputs 3 hours."
     },

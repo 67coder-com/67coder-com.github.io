@@ -91,9 +91,9 @@
       "kind": "editor",
       "lang": "cpp",
       "optional": true,
-      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}",
+      "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // 1. Declare sol (14) and gravity (3.73):\n    \n    // char and bool are already declared for you:\n    char sector = 'A';\n    bool active = true;\n\n    // 2. Print each variable with its byte size:\n    \n    return 0;\n}",
       "expected": "SOL: 14 (4 B)\nGRAVITY: 3.73 (8 B)\nSECTOR: A (1 B)\nACTIVE: 1 (1 B)",
-      "requires": ["int", "double", "char", "bool", "sizeof("],
+      "requires": ["int", "double", "sizeof("],
       "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int sol = 14;\n    double gravity = 3.73;\n    char sector = 'A';\n    bool active = true;\n\n    cout << \"SOL: \" << sol << \" (\" << sizeof(sol) << \" B)\" << endl;\n    cout << \"GRAVITY: \" << gravity << \" (\" << sizeof(gravity) << \" B)\" << endl;\n    cout << \"SECTOR: \" << sector << \" (\" << sizeof(sector) << \" B)\" << endl;\n    cout << \"ACTIVE: \" << active << \" (\" << sizeof(active) << \" B)\" << endl;\n    return 0;\n}",
       "stdin": false
     },

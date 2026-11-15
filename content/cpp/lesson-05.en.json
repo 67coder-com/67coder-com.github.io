@@ -71,7 +71,7 @@
     "fix-crater-math": {
       "title": "Fix Sigma's descent calculation",
       "task": "Sigma's landing routine calculated `dist` using integer division, causing the drone to touch down in a crater. Fix the calculation so `dist` evaluates accurately to 2.5 meters in the format shown below:\n1. Change the integer literal `5` to `5.0` (or `2` to `2.0`).\n2. Click «Run» and verify that the descent step prints `2.5 M`.",
-      "hint": "Change line 6 to: `double dist = 5.0 / 2;`.",
+      "hint": "Change the line to: `double dist = 5.0 / 2;`.",
       "solutionNote": "With `5.0` as a double operand, C++ executes floating-point division and stores `2.5` in `dist`."
     },
     "precision-map": {

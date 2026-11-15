@@ -49,15 +49,18 @@
       ]
     },
     "predict-cin-math": {
-      "title": "Paredziet plūsmas aprēķinu",
-      "task": "Kādu rezultātu izvadīs programma, ja terminālī ievada 3 4?",
-      "hint": "cin >> a >> b piešķir 3 mainīgajam a un 4 mainīgajam b. Aprēķiniet a * b + 2 pēc standarta prioritātēm.",
-      "explain": "Komanda `cin >> a >> b` iestata `a = 3` un `b = 4`. Izteiksme `3 * 4 + 2` vispirms izpilda reizināšanu `3 * 4 = 12` un tad saskaitīšanu `12 + 2 = 14`."
+      "title": "Paredzi plūsmas aprēķinu",
+      "body": [
+        "Izseko, kā terminālī ievadītie dati caur `cin` nonāk mainīgajos. Paredzi precīzu skaitli, kas tiks izvadīts konsolē.",
+        "> **Ievade konsolē:** `3 4`\n> Lietotājs standarta ievades plūsmā ievada divus skaitļus, kas atdalīti ar atstarpi.",
+        "Novērtē, kādas vērtības saņem `a` un `b` ar `cin >> a >> b;`, un aprēķini izteiksmi `a * b + 2`."
+      ],
+      "explain": "Ievades komanda `cin >> a >> b;` ielasa `3` mainīgajā `a` un `4` mainīgajā `b`. Izteiksme `a * b + 2` vispirms izpilda reizināšanu (`3 * 4 = 12`) un tad saskaitīšanu (`12 + 2 = 14`). Programma izvada `14`."
     },
     "read-flight-params": {
-      "title": "Nolasiet misijas lidojuma parametrus",
-      "task": "Nokonfigurējiet Sigmas dispečera datoru:\n1. Nolasiet `distance` un `speed` no `cin`.\n2. Aprēķiniet lidojuma ilgumu: `int hours = distance / speed;`.\n3. Izvadiet `DURATION: `, kam seko `hours` un ` H` jaunā rindā.",
-      "hint": "Izmantojiet `cin >> distance >> speed;`, pēc tam izdrukājiet `\"DURATION: \" << hours << \" H\" << endl;`.",
+      "title": "Nolasi misijas lidojuma parametrus",
+      "task": "Nokonfigurē Sigmas dispečera datoru:\n1. Nolasi `distance` un `speed` no `cin` (konsoles ievades plūsmā `stdin` jau ir `120 40`).\n2. Aprēķini lidojuma ilgumu: `int hours = distance / speed;`.\n3. Izvadi `DURATION: `, kam seko `hours` un ` H` jaunā rindā.",
+      "hint": "Izmanto `cin >> distance >> speed;`, pēc tam izdrukā `\"DURATION: \" << hours << \" H\" << endl;`.",
       "solutionNote": "Ja ievadīti skaitļi 120 un 40, dalījums 120 / 40 dod 3 stundas."
     },
     "cin-strings-and-whitespace": {
@@ -100,7 +103,7 @@
     },
     "drone-dispatch-console": {
       "title": "Drona izlidošanas dispečera konsole",
-      "task": "Uzrakstiet izlūkdrona Sigma starta vadības programmu:\n1. Nolasiet mērķa sektora nosaukumu pirmajā rindā ar `getline(cin, target);`.\n2. Nolasiet attālumu un ātrumu otrajā rindā ar `cin >> distance >> speed;`.\n3. Aprēķiniet lidojuma laiku: `int time = distance / speed;`.\n4. Izvadiet `TARGET: `, kam seko `target`.\n5. Izvadiet `TIME: `, kam seko `time` un ` H`.",
+      "task": "Uzraksti izlūkdrona Sigma starta vadības programmu:\n1. Pirmajā rindā ielasi mērķa sektora nosaukumu ar `getline(cin, target);` (konsoles ievades plūsmā ir `Mawrth Vallis`).\n2. Otrajā rindā ielasi attālumu un ātrumu ar `cin >> distance >> speed;` (konsoles ievades plūsmā ir `180 60`).\n3. Aprēķini lidojuma laiku: `int time = distance / speed;`.\n4. Izvadi `TARGET: `, kam seko `target`.\n5. Izvadi `TIME: `, kam seko `time` un ` H`.",
       "hint": "Izsauciet `getline(cin, target);`, tad `cin >> distance >> speed;`, aprēķiniet `time = distance / speed;` un izdrukājiet abas rindas ar `endl`.",
       "solutionNote": "Ievadot sektoru 'Mawrth Vallis' un parametrus 180 km ar 60 km/h, programma izvada 3 stundas."
     },
