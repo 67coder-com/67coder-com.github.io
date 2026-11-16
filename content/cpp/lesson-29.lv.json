@@ -3,46 +3,111 @@
   "steps": {
     "why-files": {
       "title": "Pastāvīgā misijas žurnāla veidošana",
-      "content": "### Kā saglabāt datus pēc strāvas zuduma\n\nLīdz šim katrs mūsu izveidotais mainīgais, masīvs un struktūra atradās tikai un vienīgi **operatīvajā atmiņā (RAM)**. Kolīdz programma beidz darbu vai drona borta datorā pārtrūkst barošana Marsa putekļu vētras laikā, visi RAM dati acumirklī izgaist.\n\nLai nodrošinātu patiesu autonomiju, izlūka dronam Sigma ir jāsaglabā:\n- Misijas žurnāli un sensoru vēsture caur vairākiem soliem.\n- Maršruta lidojuma punkti, kas nosūtīti no Zemes.\n- Kalibrēšanas nobīdes un konfigurācijas parametri.\n\nValodā C++ pastāvīgo diska atmiņu nodrošina bibliotēka **`<fstream>`**.\n\nFailu plūsmas piedāvā vienotu un pazīstamu saskarni: lasīšanai no faila izmanto tieši to pašu ekstrakcijas operatoru `>>` kā ar `cin`, bet rakstīšanai failā — to pašu ievietošanas operatoru `<<` kā ar `cout`. Novirzot plūsmas uz fiziskiem failiem, tava borta programmatūra iegūst spēju saglabāt datus uz visiem laikiem."
+      "content": "### Kā saglabāt datus pēc strāvas zuduma\n\nLīdz šim katrs mūsu izveidotais mainīgais, masīvs un struktūra atradās tikai un vienīgi **operatīvajā atmiņā (RAM)**. Kolīdz programma beidz darbu vai drona borta datorā pārtrūkst barošana Marsa putekļu vētras laikā, visi RAM dati acumirklī izgaist.\n\nLai nodrošinātu patiesu autonomiju, izlūka dronam Sigma ir jāsaglabā:\n- Misijas žurnāli un sensoru vēsture caur vairākiem soliem.\n- Maršruta lidojuma punkti, kas nosūtīti no Zemes.\n- Kalibrēšanas nobīdes un konfigurācijas parametri.\n\nValodā C++ pastāvīgo diska atmiņu nodrošina bibliotēka **`<fstream>`**.\n\nFailu plūsmas piedāvā vienotu un pazīstamu saskarni: lasīšanai no faila izmanto tieši to pašu ekstrakcijas operatoru `>>` kā ar `cin`, bet rakstīšanai failā — to pašu ievietošanas operatoru `<<` kā ar `cout`. Novirzot plūsmas uz fiziskiem failiem, tava borta programmatūra iegūst spēju saglabāt datus uz visiem laikiem.",
+      "body": [
+        "**Kā saglabāt datus pēc strāvas zuduma**",
+        "Līdz šim katrs mūsu izveidotais mainīgais, masīvs un struktūra atradās tikai un vienīgi **operatīvajā atmiņā (RAM)**. Kolīdz programma beidz darbu vai drona borta datorā pārtrūkst barošana Marsa putekļu vētras laikā, visi RAM dati acumirklī izgaist.",
+        "Lai nodrošinātu patiesu autonomiju, izlūka dronam Sigma ir jāsaglabā:\n- Misijas žurnāli un sensoru vēsture caur vairākiem soliem.\n- Maršruta lidojuma punkti, kas nosūtīti no Zemes.\n- Kalibrēšanas nobīdes un konfigurācijas parametri.",
+        "Valodā C++ pastāvīgo diska atmiņu nodrošina bibliotēka **`<fstream>`**.",
+        "Failu plūsmas piedāvā vienotu un pazīstamu saskarni: lasīšanai no faila izmanto tieši to pašu ekstrakcijas operatoru `>>` kā ar `cin`, bet rakstīšanai failā — to pašu ievietošanas operatoru `<<` kā ar `cout`. Novirzot plūsmas uz fiziskiem failiem, tava borta programmatūra iegūst spēju saglabāt datus uz visiem laikiem."
+      ]
     },
     "fstream-architecture": {
       "title": "Failu plūsmu arhitektūra un dzīves cikls",
-      "content": "### Divi galvenie plūsmu veidi: ifstream un ofstream\n\nBibliotēka `<fstream>` piedāvā divas galvenās plūsmu klases:\n\n![C++ fstream arhitektūra](assets/l29-fstream-anatomy.lv.svg)\n\n#### 1. Ievades failu plūsma (`std::ifstream`)\n- Paredzēta esošu failu **lasīšanai** no diska: `ifstream fin(\"route.txt\");`\n- Nolasa datus ar `fin >> mainīgais;` vai veselas rindas ar `getline(fin, rinda);`.\n- Standarta lasīšanas cikls: `while (fin >> x) { /* apstrādā katru vērtību līdz faila beigām */ }`.\n\n#### 2. Izvades failu plūsma (`std::ofstream`)\n- Paredzēta jaunu failu **veidošanai un rakstīšanai** diskā: `ofstream fout(\"flight_log.txt\");`\n- Ieraksta formatētus datus tieši tāpat kā ar `cout`: `fout << \"ALTITUDE: \" << alt << endl;`.\n\n#### Kritiskais drošības likums: `.is_open()`\nNekad nepaļaujies, ka fails atvērsies automātiski! Disks var būt aizsargāts pret rakstīšanu vai meklētais fails var neeksistēt. Vienmēr pārbaudi:\n```cpp\nif (!fin.is_open()) {\n    cout << \"KĻŪDA: Failam nevar piekļūt!\" << endl;\n    return 1;\n}\n```\nKad darbs pabeigts, vienmēr izsauc `.close()`, lai atbrīvotu sistēmas resursus un garantētu datu fizisku ierakstīšanu diskā."
+      "content": "### Divi galvenie plūsmu veidi: ifstream un ofstream\n\nBibliotēka `<fstream>` piedāvā divas galvenās plūsmu klases:\n\n![C++ fstream arhitektūra](assets/l29-fstream-anatomy.lv.svg)\n\n#### 1. Ievades failu plūsma (`std::ifstream`)\n- Paredzēta esošu failu **lasīšanai** no diska: `ifstream fin(\"route.txt\");`\n- Nolasa datus ar `fin >> mainīgais;` vai veselas rindas ar `getline(fin, rinda);`.\n- Standarta lasīšanas cikls: `while (fin >> x) { /* apstrādā katru vērtību līdz faila beigām */ }`.\n\n#### 2. Izvades failu plūsma (`std::ofstream`)\n- Paredzēta jaunu failu **veidošanai un rakstīšanai** diskā: `ofstream fout(\"flight_log.txt\");`\n- Ieraksta formatētus datus tieši tāpat kā ar `cout`: `fout << \"ALTITUDE: \" << alt << endl;`.\n\n#### Kritiskais drošības likums: `.is_open()`\nNekad nepaļaujies, ka fails atvērsies automātiski! Disks var būt aizsargāts pret rakstīšanu vai meklētais fails var neeksistēt. Vienmēr pārbaudi:\n```cpp\nif (!fin.is_open()) {\n    cout << \"KĻŪDA: Failam nevar piekļūt!\" << endl;\n    return 1;\n}\n```\nKad darbs pabeigts, vienmēr izsauc `.close()`, lai atbrīvotu sistēmas resursus un garantētu datu fizisku ierakstīšanu diskā.",
+      "body": [
+        "**Divi galvenie plūsmu veidi: ifstream un ofstream**",
+        "syntax: ifstream {ieejas_plusma}(\"{faila_vards}\");\n- ieejas_plusma: ievades faila plūsmas mainīgais\n- faila_vards: ceļš līdz failam uz diska",
+        "syntax: ofstream {izejas_plusma}(\"{faila_vards}\");\n- izejas_plusma: izvades faila plūsmas mainīgais\n- faila_vards: mērķa faila nosaukums uz diska",
+        "Bibliotēka `<fstream>` piedāvā divas galvenās plūsmu klases:",
+        "**1. Ievades failu plūsma (`std::ifstream`)**\n- Paredzēta esošu failu **lasīšanai** no diska: `ifstream fin(\"route.txt\");`\n- Nolasa datus ar `fin >> mainīgais;` vai veselas rindas ar `getline(fin, rinda);`.\n- Standarta lasīšanas cikls: `while (fin >> x) { /* apstrādā katru vērtību līdz faila beigām */ }`.",
+        "**2. Izvades failu plūsma (`std::ofstream`)**\n- Paredzēta jaunu failu **veidošanai un rakstīšanai** diskā: `ofstream fout(\"flight_log.txt\");`\n- Ieraksta formatētus datus tieši tāpat kā ar `cout`: `fout << \"ALTITUDE: \" << alt << endl;`.",
+        "**Kritiskais drošības likums: `.is_open()`**\nNekad nepaļaujies, ka fails atvērsies automātiski! Disks var būt aizsargāts pret rakstīšanu vai meklētais fails var neeksistēt. Vienmēr pārbaudi:\n```cpp\nif (!fin.is_open()) {\n    cout << \"KĻŪDA: Failam nevar piekļūt!\" << endl;\n    return 1;\n}\n```\nKad darbs pabeigts, vienmēr izsauc `.close()`, lai atbrīvotu sistēmas resursus un garantētu datu fizisku ierakstīšanu diskā."
+      ]
     },
     "inspect-file-modes": {
       "title": "Diagnostika: Faila atvēršanas pārbaude",
-      "content": "### Paredzi izvadi\n\nAnalizē koda rindu, kura mēģina atvērt neesošu failu lasīšanai.\n\nKāda vērtība tiks izvadīta terminālī?"
+      "content": "### Paredzi izvadi\n\nAnalizē koda rindu, kura mēģina atvērt neesošu failu lasīšanai.\n\nKāda vērtība tiks izvadīta terminālī?",
+      "body": [
+        "**Paredzi izvadi**",
+        "Analizē koda rindu, kura mēģina atvērt neesošu failu lasīšanai.",
+        "Kāda vērtība tiks izvadīta terminālī?"
+      ],
+      "explain": "Mēģinot atvērt neeksistējošu failu lasīšanai ar `ifstream`, plūsma nonāk kļūdas stāvoklī un `fin.is_open()` atgriež `false`. Programma izpilda zaru `else` un izvada `NOT OPEN`."
     },
     "audit-missing-close-bug": {
       "title": "Diagnostika: Neapstrādātas nolasīšanas audits",
-      "content": "### Atrodi nedrošo vietu\n\nTelemetrijas programmētājs uzrakstīja procedūru koordinātu nolasīšanai no `route.txt`. Ja fails neeksistē vai ir bojāts, programma mēģina lasīt neinicializētus datus, nepārbaudot plūsmas stāvokli!\n\nNoklikšķini uz koda rindas, kurā veikta nedrošā lasīšana bez pārbaudes."
+      "content": "### Atrodi nedrošo vietu\n\nTelemetrijas programmētājs uzrakstīja procedūru koordinātu nolasīšanai no `route.txt`. Ja fails neeksistē vai ir bojāts, programma mēģina lasīt neinicializētus datus, nepārbaudot plūsmas stāvokli!\n\nNoklikšķini uz koda rindas, kurā veikta nedrošā lasīšana bez pārbaudes.",
+      "body": [
+        "**Atrodi nedrošo vietu**",
+        "Telemetrijas programmētājs uzrakstīja procedūru koordinātu nolasīšanai no `route.txt`. Ja fails neeksistē vai ir bojāts, programma mēģina lasīt neinicializētus datus, nepārbaudot plūsmas stāvokli!",
+        "Noklikšķini uz koda rindas, kurā veikta nedrošā lasīšana bez pārbaudes."
+      ],
+      "explain": "8. rindiņa mēģina nolasīt `fin >> x`, nepārbaudot `if (fin.is_open())`. Ja fails neeksistē vai to neizdodas atvērt, nolasīšana neizdodas un `x` paliek neinicializēts. Pirms nolasīšanas vienmēr jāpārbauda `is_open()`."
     },
     "write-file-stream-validator": {
       "title": "Avionikas drošība: Failu validators",
       "content": "### Plūsmas pieejamības aizsardzība\n\nIzveido aizsargājošo funkciju:\n`bool verify_log_file(const string &filename)`\n\n1. Tā mēģina atvērt failu ar `ifstream fin(filename)`.\n2. Pārbauda atvēršanas stāvokli ar `fin.is_open()`.\n3. Ja fails ir atvērts, aizver to ar `fin.close()` un atgriež `true`.\n4. Pretējā gadījumā atgriež `false`.\n\nFunkcijā `main()`:\n1. Nolasi faila nosaukumu `filename` no `cin`.\n2. Ja `verify_log_file(filename)` atgriež `true`, izvadi `FILE READY: <filename>`.\n3. Ja atgriež `false`, izvadi `FILE OFFLINE: <filename>`.",
-      "task": "1. Izveido `bool verify_log_file(const string &filename)`.\n2. Aizver plūsmu un atgriez rezultātu.\n3. Funkcijā `main()` nolasi `filename` no `cin`.\n4. Izvadi `FILE READY: <filename>` vai `FILE OFFLINE: <filename>`."
+      "task": "1. Izveido `bool verify_log_file(const string &filename)`.\n2. Aizver plūsmu un atgriez rezultātu.\n3. Funkcijā `main()` nolasi `filename` no `cin`.\n4. Izvadi `FILE READY: <filename>` vai `FILE OFFLINE: <filename>`.",
+      "body": [
+        "**Plūsmas pieejamības aizsardzība**",
+        "Izveido aizsargājošo funkciju:\n`bool verify_log_file(const string &filename)`",
+        "1. Tā mēģina atvērt failu ar `ifstream fin(filename)`.\n2. Pārbauda atvēršanas stāvokli ar `fin.is_open()`.\n3. Ja fails ir atvērts, aizver to ar `fin.close()` un atgriež `true`.\n4. Pretējā gadījumā atgriež `false`.",
+        "Funkcijā `main()`:\n1. Nolasi faila nosaukumu `filename` no `cin`.\n2. Ja `verify_log_file(filename)` atgriež `true`, izvadi `FILE READY: <filename>`.\n3. Ja atgriež `false`, izvadi `FILE OFFLINE: <filename>`."
+      ]
     },
     "predict-ifstream-loop": {
       "title": "Diagnostika: Plūsmas nolasīšanas cikls",
-      "content": "### Paredzi nolasīto skaitļu summu\n\nIzpēti plūsmas ciklu `while (ss >> val)`. Izseko, cik skaitļi tiek nolasīti un kāda ir to kopsumma.\n\nKāda vērtība tiks izdrukāta terminālī?"
+      "content": "### Paredzi nolasīto skaitļu summu\n\nIzpēti plūsmas ciklu `while (ss >> val)`. Izseko, cik skaitļi tiek nolasīti un kāda ir to kopsumma.\n\nKāda vērtība tiks izdrukāta terminālī?",
+      "body": [
+        "**Paredzi nolasīto skaitļu summu**",
+        "Izpēti plūsmas ciklu `while (ss >> val)`. Izseko, cik skaitļi tiek nolasīti un kāda ir to kopsumma.",
+        "Kāda vērtība tiks izdrukāta terminālī?"
+      ],
+      "explain": "Cikls `while (ss >> val)` secīgi nolasa skaitļus no plūsmas: 10, 20, 30 un 40. `count` kļūst 4, bet `sum` sasniedz `10 + 20 + 30 + 40 = 100`. Programma izvada `4 100`."
     },
     "parsons-file-writer-pipeline": {
       "title": "Avionikas montāža: Telemetrijas arhivētājs",
-      "content": "### Saliec pastāvīgo arhivētāju\n\nSakārto koda blokus loģiskā secībā, lai izveidotu funkciju `save_telemetry(const string &filename, int sol, int battery)`, kura atver failu ar `ofstream`, pārbauda `.is_open()`, ieraksta telemetrijas rindu un droši aizver plūsmu."
+      "content": "### Saliec pastāvīgo arhivētāju\n\nSakārto koda blokus loģiskā secībā, lai izveidotu funkciju `save_telemetry(const string &filename, int sol, int battery)`, kura atver failu ar `ofstream`, pārbauda `.is_open()`, ieraksta telemetrijas rindu un droši aizver plūsmu.",
+      "body": [
+        "**Saliec pastāvīgo arhivētāju**",
+        "Sakārto koda blokus loģiskā secībā, lai izveidotu funkciju `save_telemetry(const string &filename, int sol, int battery)`, kura atver failu ar `ofstream`, pārbauda `.is_open()`, ieraksta telemetrijas rindu un droši aizver plūsmu."
+      ],
+      "explain": "Iekļauj `<iostream>`, `<fstream>` un `<string>`. Funkcijā `save_telemetry()` izveido `ofstream fout(filename)`. Pārbauda `fout.is_open()`, ieraksta telemetriju un izsauc `fout.close()`. Funkcijā `main()` izsauc funkciju un izvada `TELEMETRY ARCHIVED`."
     },
     "write-telemetry-log-formatter": {
       "title": "Žurnāla formatēšana: Strukturēts ieraksts",
       "content": "### Sagatavošanās datu saglabāšanai diskā\n\nPirms telemetrijas ierakstīšanas pastāvīgajā žurnālā ierakstiem jāatbilst IRIS misijas standartam:\n`[SOL <sol>] DRONE#<id> STATUS:<status>`\n\nFunkcijā `main()`:\n1. Nolasi no `cin` trīs vērtības: `sol` (int), `id` (int) un `status` (string).\n2. Noformatē un izvadi standarta telemetrijas rindu ar jaunu rindu beigās.",
-      "task": "1. Nolasi `sol`, `id` un `status` no `cin`.\n2. Izvadi rindu formātā `[SOL <sol>] DRONE#<id> STATUS:<status>`.\n3. Nobeidz ar jaunu rindu."
+      "task": "1. Nolasi `sol`, `id` un `status` no `cin`.\n2. Izvadi rindu formātā `[SOL <sol>] DRONE#<id> STATUS:<status>`.\n3. Nobeidz ar jaunu rindu.",
+      "body": [
+        "**Sagatavošanās datu saglabāšanai diskā**",
+        "Pirms telemetrijas ierakstīšanas pastāvīgajā žurnālā ierakstiem jāatbilst IRIS misijas standartam:\n`[SOL <sol>] DRONE#<id> STATUS:<status>`",
+        "Funkcijā `main()`:\n1. Nolasi no `cin` trīs vērtības: `sol` (int), `id` (int) un `status` (string).\n2. Noformatē un izvadi standarta telemetrijas rindu ar jaunu rindu beigās."
+      ]
     },
     "capstone-flight-blackbox-recorder": {
       "title": "Autonomais lidojumu melnās kastes reģistrators",
       "content": "### Borta trajektorijas reģistrators\n\nIzveido Sigmas melnās kastes lidojuma reģistratoru.\n\nDrons sāk lidojumu koordinātās `(0, 0)`.\n\nIevade:\n1. Vesels skaitlis `n` (maršruta punktu skaits).\n2. `n` rindas, kur katrā ir koordinātas `x` un `y`.\n\nDarbības:\n1. Aprēķini kopējo Manhatanas attālumu: katram punktam pieskaiti `abs(x - cur_x) + abs(y - cur_y)` un atjaunini tekošās koordinātas.\n2. Mēģini atvērt diska žurnālu ar `ofstream fout(\"blackbox.log\")`.\n3. Ja atvērts, ieraksti `DISTANCE <total_dist>` un aizver plūsmu.\n4. Izvadi telemetrijas ziņojumu:\n   - `LOG STATUS: <LOGGED TO DISK vai BUFFERED IN RAM>`\n   - `WAYPOINTS RECORDED: <n>`\n   - `TOTAL DISTANCE: <total_dist>`",
-      "task": "1. Funkcijā `main()` nolasi `n`.\n2. Izstaigā visus maršruta punktus, summējot noieto attālumu.\n3. Pārbaudi `ofstream fout(\"blackbox.log\")` ar `.is_open()`.\n4. Izvadi `LOG STATUS: <LOGGED TO DISK vai BUFFERED IN RAM>`.\n5. Izvadi `WAYPOINTS RECORDED: <n>`.\n6. Izvadi `TOTAL DISTANCE: <dist>`."
+      "task": "1. Funkcijā `main()` nolasi `n`.\n2. Izstaigā visus maršruta punktus, summējot noieto attālumu.\n3. Pārbaudi `ofstream fout(\"blackbox.log\")` ar `.is_open()`.\n4. Izvadi `LOG STATUS: <LOGGED TO DISK vai BUFFERED IN RAM>`.\n5. Izvadi `WAYPOINTS RECORDED: <n>`.\n6. Izvadi `TOTAL DISTANCE: <dist>`.",
+      "body": [
+        "**Borta trajektorijas reģistrators**",
+        "Izveido Sigmas melnās kastes lidojuma reģistratoru.",
+        "Drons sāk lidojumu koordinātās `(0, 0)`.",
+        "Ievade:\n1. Vesels skaitlis `n` (maršruta punktu skaits).\n2. `n` rindas, kur katrā ir koordinātas `x` un `y`.",
+        "Darbības:\n1. Aprēķini kopējo Manhatanas attālumu: katram punktam pieskaiti `abs(x - cur_x) + abs(y - cur_y)` un atjaunini tekošās koordinātas.\n2. Mēģini atvērt diska žurnālu ar `ofstream fout(\"blackbox.log\")`.\n3. Ja atvērts, ieraksti `DISTANCE <total_dist>` un aizver plūsmu.\n4. Izvadi telemetrijas ziņojumu:\n   - `LOG STATUS: <LOGGED TO DISK vai BUFFERED IN RAM>`\n   - `WAYPOINTS RECORDED: <n>`\n   - `TOTAL DISTANCE: <total_dist>`"
+      ]
     },
     "recap": {
       "title": "Kopsavilkums: Darbs ar failiem C++",
-      "content": "### 29. nodaļa pabeigta: Pastāvīgā atmiņa apgūta\n\nIzlūka drons Sigma tagad spēj saglabāt datus starp lidojumiem un droši atjaunot savu stāvokli.\n\n#### Galvenie failu plūsmu principi\n\n| Rīks | Plūsmas veids | Uzdevums |\n| :--- | :--- | :--- |\n| `std::ifstream` | Ievade | Datu nolasīšana no diska failiem |\n| `std::ofstream` | Izvade | Failu veidošana un datu ierakstīšana diskā |\n| `.is_open()` | Pārbaude | VIENMĒR jāpārbauda pirms jebkuras nolasīšanas vai ierakstīšanas |\n| `while (fin >> x)` | Nolasīšanas cikls | Automātiski lasa līdz faila beigām (EOF) |\n| `.close()` | Pabeigšana | Atbrīvo operētājsistēmas resursus un nodod datus diskam |\n\n> [!NOTE]\n> Standarta C++ vidē (GCC, Clang, Visual Studio) faili tiek izveidoti tavā darba mapē. Tīmekļa pārlūka smilškastē ieraksti tiek droši buferēti atmiņā.\n\nNākamajā, 30. nodaļā: **Kļūdu apstrāde (`error-handling`)** — aizsardzība pret bojātiem sensoru datiem un ievades atjaunošana ar `cin.fail()` un `cin.clear()`!"
+      "content": "### 29. nodaļa pabeigta: Pastāvīgā atmiņa apgūta\n\nIzlūka drons Sigma tagad spēj saglabāt datus starp lidojumiem un droši atjaunot savu stāvokli.\n\n#### Galvenie failu plūsmu principi\n\n| Rīks | Plūsmas veids | Uzdevums |\n| :--- | :--- | :--- |\n| `std::ifstream` | Ievade | Datu nolasīšana no diska failiem |\n| `std::ofstream` | Izvade | Failu veidošana un datu ierakstīšana diskā |\n| `.is_open()` | Pārbaude | VIENMĒR jāpārbauda pirms jebkuras nolasīšanas vai ierakstīšanas |\n| `while (fin >> x)` | Nolasīšanas cikls | Automātiski lasa līdz faila beigām (EOF) |\n| `.close()` | Pabeigšana | Atbrīvo operētājsistēmas resursus un nodod datus diskam |\n\n> [!NOTE]\n> Standarta C++ vidē (GCC, Clang, Visual Studio) faili tiek izveidoti tavā darba mapē. Tīmekļa pārlūka smilškastē ieraksti tiek droši buferēti atmiņā.\n\nNākamajā, 30. nodaļā: **Kļūdu apstrāde (`error-handling`)** — aizsardzība pret bojātiem sensoru datiem un ievades atjaunošana ar `cin.fail()` un `cin.clear()`!",
+      "body": [
+        "**29. nodaļa pabeigta: Pastāvīgā atmiņa apgūta**",
+        "Izlūka drons Sigma tagad spēj saglabāt datus starp lidojumiem un droši atjaunot savu stāvokli.",
+        "**Galvenie failu plūsmu principi**",
+        "| Rīks | Plūsmas veids | Uzdevums |\n| :--- | :--- | :--- |\n| `std::ifstream` | Ievade | Datu nolasīšana no diska failiem |\n| `std::ofstream` | Izvade | Failu veidošana un datu ierakstīšana diskā |\n| `.is_open()` | Pārbaude | VIENMĒR jāpārbauda pirms jebkuras nolasīšanas vai ierakstīšanas |\n| `while (fin >> x)` | Nolasīšanas cikls | Automātiski lasa līdz faila beigām (EOF) |\n| `.close()` | Pabeigšana | Atbrīvo operētājsistēmas resursus un nodod datus diskam |",
+        "> [!NOTE]\n> Standarta C++ vidē (GCC, Clang, Visual Studio) faili tiek izveidoti tavā darba mapē. Tīmekļa pārlūka smilškastē ieraksti tiek droši buferēti atmiņā.",
+        "Nākamajā, 30. nodaļā: **Kļūdu apstrāde (`error-handling`)** — aizsardzība pret bojātiem sensoru datiem un ievades atjaunošana ar `cin.fail()` un `cin.clear()`!"
+      ]
     }
   }
 }

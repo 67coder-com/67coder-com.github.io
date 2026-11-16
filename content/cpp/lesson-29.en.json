@@ -3,46 +3,111 @@
   "steps": {
     "why-files": {
       "title": "Persistent Mission Logging",
-      "content": "### Surviving Volatile Power Cycles\n\nUntil now, every variable, array, and structure we created lived exclusively in **volatile RAM**. When a program finishes, or when a drone resets its power rails during a Martian dust storm, everything in RAM evaporates instantly.\n\nTo achieve true autonomous survival, Scout Drone Sigma must store:\n- Mission logs and sensor histories across consecutive sols.\n- Waypoint flight plans transmitted from Earth.\n- Calibration offsets and persistent configuration parameters.\n\nIn C++, non-volatile disk persistence is handled by the **`<fstream>`** header.\n\nFile streams provide a unified, elegant abstraction: reading from a file uses the exact same `>>` extraction operator as `cin`, and writing to a file uses the exact same `<<` insertion operator as `cout`. By redirecting stream pipelines to physical files, your avionics software bridges the gap between ephemeral memory and permanent storage."
+      "content": "### Surviving Volatile Power Cycles\n\nUntil now, every variable, array, and structure we created lived exclusively in **volatile RAM**. When a program finishes, or when a drone resets its power rails during a Martian dust storm, everything in RAM evaporates instantly.\n\nTo achieve true autonomous survival, Scout Drone Sigma must store:\n- Mission logs and sensor histories across consecutive sols.\n- Waypoint flight plans transmitted from Earth.\n- Calibration offsets and persistent configuration parameters.\n\nIn C++, non-volatile disk persistence is handled by the **`<fstream>`** header.\n\nFile streams provide a unified, elegant abstraction: reading from a file uses the exact same `>>` extraction operator as `cin`, and writing to a file uses the exact same `<<` insertion operator as `cout`. By redirecting stream pipelines to physical files, your avionics software bridges the gap between ephemeral memory and permanent storage.",
+      "body": [
+        "**Surviving Volatile Power Cycles**",
+        "Until now, every variable, array, and structure we created lived exclusively in **volatile RAM**. When a program finishes, or when a drone resets its power rails during a Martian dust storm, everything in RAM evaporates instantly.",
+        "To achieve true autonomous survival, Scout Drone Sigma must store:\n- Mission logs and sensor histories across consecutive sols.\n- Waypoint flight plans transmitted from Earth.\n- Calibration offsets and persistent configuration parameters.",
+        "In C++, non-volatile disk persistence is handled by the **`<fstream>`** header.",
+        "File streams provide a unified, elegant abstraction: reading from a file uses the exact same `>>` extraction operator as `cin`, and writing to a file uses the exact same `<<` insertion operator as `cout`. By redirecting stream pipelines to physical files, your avionics software bridges the gap between ephemeral memory and permanent storage."
+      ]
     },
     "fstream-architecture": {
       "title": "File Stream Architecture & Lifecycle",
-      "content": "### The Two Core Streams: ifstream and ofstream\n\nThe `<fstream>` library defines two fundamental stream types:\n\n![C++ fstream Architecture](assets/l29-fstream-anatomy.en.svg)\n\n#### 1. Input File Streams (`std::ifstream`)\n- Used for **reading** existing files from disk: `ifstream fin(\"route.txt\");`\n- Read tokens using `fin >> variable;` or full lines with `getline(fin, line);`.\n- Continuous reading loop idiom: `while (fin >> x) { /* processes every token until EOF */ }`.\n\n#### 2. Output File Streams (`std::ofstream`)\n- Used for **creating and writing** files to disk: `ofstream fout(\"flight_log.txt\");`\n- Write formatted data just like `cout`: `fout << \"ALTITUDE: \" << alt << endl;`.\n\n#### The Critical Safety Rule: `.is_open()`\nNever assume a file was opened successfully! Disk drives can be write-protected, full, or the target file might not exist. Always verify:\n```cpp\nif (!fin.is_open()) {\n    cout << \"ERROR: File not accessible!\" << endl;\n    return 1;\n}\n```\nAlways call `.close()` when finished to release system handles and flush write buffers to disk."
+      "content": "### The Two Core Streams: ifstream and ofstream\n\nThe `<fstream>` library defines two fundamental stream types:\n\n![C++ fstream Architecture](assets/l29-fstream-anatomy.en.svg)\n\n#### 1. Input File Streams (`std::ifstream`)\n- Used for **reading** existing files from disk: `ifstream fin(\"route.txt\");`\n- Read tokens using `fin >> variable;` or full lines with `getline(fin, line);`.\n- Continuous reading loop idiom: `while (fin >> x) { /* processes every token until EOF */ }`.\n\n#### 2. Output File Streams (`std::ofstream`)\n- Used for **creating and writing** files to disk: `ofstream fout(\"flight_log.txt\");`\n- Write formatted data just like `cout`: `fout << \"ALTITUDE: \" << alt << endl;`.\n\n#### The Critical Safety Rule: `.is_open()`\nNever assume a file was opened successfully! Disk drives can be write-protected, full, or the target file might not exist. Always verify:\n```cpp\nif (!fin.is_open()) {\n    cout << \"ERROR: File not accessible!\" << endl;\n    return 1;\n}\n```\nAlways call `.close()` when finished to release system handles and flush write buffers to disk.",
+      "body": [
+        "**The Two Core Streams: ifstream and ofstream**",
+        "syntax: ifstream {fin}(\"{filename}\");\n- fin: input file stream variable\n- filename: path to the target file on disk",
+        "syntax: ofstream {fout}(\"{filename}\");\n- fout: output file stream variable\n- filename: destination file path on disk",
+        "The `<fstream>` library defines two fundamental stream types:",
+        "**1. Input File Streams (`std::ifstream`)**\n- Used for **reading** existing files from disk: `ifstream fin(\"route.txt\");`\n- Read tokens using `fin >> variable;` or full lines with `getline(fin, line);`.\n- Continuous reading loop idiom: `while (fin >> x) { /* processes every token until EOF */ }`.",
+        "**2. Output File Streams (`std::ofstream`)**\n- Used for **creating and writing** files to disk: `ofstream fout(\"flight_log.txt\");`\n- Write formatted data just like `cout`: `fout << \"ALTITUDE: \" << alt << endl;`.",
+        "**The Critical Safety Rule: `.is_open()`**\nNever assume a file was opened successfully! Disk drives can be write-protected, full, or the target file might not exist. Always verify:\n```cpp\nif (!fin.is_open()) {\n    cout << \"ERROR: File not accessible!\" << endl;\n    return 1;\n}\n```\nAlways call `.close()` when finished to release system handles and flush write buffers to disk."
+      ]
     },
     "inspect-file-modes": {
       "title": "Diagnostics: File Open Validation",
-      "content": "### Predict the Output\n\nAnalyze this file opening statement attempting to read from a non-existent file.\n\nWhat is printed to the terminal?"
+      "content": "### Predict the Output\n\nAnalyze this file opening statement attempting to read from a non-existent file.\n\nWhat is printed to the terminal?",
+      "body": [
+        "**Predict the Output**",
+        "Analyze this file opening statement attempting to read from a non-existent file.",
+        "What is printed to the terminal?"
+      ],
+      "explain": "Attempting to open a non-existent file for reading with `ifstream` leaves the stream in a failed state where `fin.is_open()` returns `false`. The program branches into the `else` block and prints `NOT OPEN`."
     },
     "audit-missing-close-bug": {
       "title": "Diagnostics: Missing Open Check Audit",
-      "content": "### Spot the Risky Stream Operation\n\nA telemetry programmer wrote this routine to read coordinates from `route.txt`. If the file is missing or corrupted, the program attempts to read uninitialized memory without checking the stream state!\n\nClick the line that performs an unchecked extraction."
+      "content": "### Spot the Risky Stream Operation\n\nA telemetry programmer wrote this routine to read coordinates from `route.txt`. If the file is missing or corrupted, the program attempts to read uninitialized memory without checking the stream state!\n\nClick the line that performs an unchecked extraction.",
+      "body": [
+        "**Spot the Risky Stream Operation**",
+        "A telemetry programmer wrote this routine to read coordinates from `route.txt`. If the file is missing or corrupted, the program attempts to read uninitialized memory without checking the stream state!",
+        "Click the line that performs an unchecked extraction."
+      ],
+      "explain": "Line 8 attempts to read `fin >> x` without verifying `if (fin.is_open())`. If the file is missing or failed to open, the stream extraction fails, leaving `x` uninitialized and leading to invalid data. Always verify `is_open()` before reading."
     },
     "write-file-stream-validator": {
       "title": "Avionics Safety: File Validator",
       "content": "### Guarding the File Pipeline\n\nImplement the defensive helper function:\n`bool verify_log_file(const string &filename)`\n\n1. It attempts to open `filename` using `ifstream fin(filename)`.\n2. It checks whether the stream is open using `fin.is_open()`.\n3. If open, it closes the stream with `fin.close()` and returns `true`.\n4. Otherwise, it returns `false`.\n\nIn `main()`:\n1. Read `string filename` from standard input.\n2. If `verify_log_file(filename)` returns `true`, print `FILE READY: <filename>`.\n3. If `false`, print `FILE OFFLINE: <filename>`.",
-      "task": "1. Implement `bool verify_log_file(const string &filename)`.\n2. Safely close the stream if open and return boolean result.\n3. In `main()`, read `filename` from `cin`.\n4. Output `FILE READY: <filename>` if true, or `FILE OFFLINE: <filename>` if false."
+      "task": "1. Implement `bool verify_log_file(const string &filename)`.\n2. Safely close the stream if open and return boolean result.\n3. In `main()`, read `filename` from `cin`.\n4. Output `FILE READY: <filename>` if true, or `FILE OFFLINE: <filename>` if false.",
+      "body": [
+        "**Guarding the File Pipeline**",
+        "Implement the defensive helper function:\n`bool verify_log_file(const string &filename)`",
+        "1. It attempts to open `filename` using `ifstream fin(filename)`.\n2. It checks whether the stream is open using `fin.is_open()`.\n3. If open, it closes the stream with `fin.close()` and returns `true`.\n4. Otherwise, it returns `false`.",
+        "In `main()`:\n1. Read `string filename` from standard input.\n2. If `verify_log_file(filename)` returns `true`, print `FILE READY: <filename>`.\n3. If `false`, print `FILE OFFLINE: <filename>`."
+      ]
     },
     "predict-ifstream-loop": {
       "title": "Diagnostics: Stream Extraction Loop",
-      "content": "### Predict Token Extraction\n\nExamine the stream extraction loop `while (ss >> val)`. Trace how many integer tokens are extracted and their cumulative sum.\n\nWhat is printed to standard output?"
+      "content": "### Predict Token Extraction\n\nExamine the stream extraction loop `while (ss >> val)`. Trace how many integer tokens are extracted and their cumulative sum.\n\nWhat is printed to standard output?",
+      "body": [
+        "**Predict Token Extraction**",
+        "Examine the stream extraction loop `while (ss >> val)`. Trace how many integer tokens are extracted and their cumulative sum.",
+        "What is printed to standard output?"
+      ],
+      "explain": "The `while (ss >> val)` loop extracts integers from the stream: 10, 20, 30, and 40. `count` increments to 4, and `sum` accumulates `10 + 20 + 30 + 40 = 100`. The output is `4 100`."
     },
     "parsons-file-writer-pipeline": {
       "title": "Avionics Assembly: Telemetry Archiver",
-      "content": "### Assemble the Persistent Archiver\n\nReorder the code blocks to construct function `save_telemetry(const string &filename, int sol, int battery)` which opens `filename` with `ofstream`, checks `.is_open()`, writes the log entry, and safely closes the file."
+      "content": "### Assemble the Persistent Archiver\n\nReorder the code blocks to construct function `save_telemetry(const string &filename, int sol, int battery)` which opens `filename` with `ofstream`, checks `.is_open()`, writes the log entry, and safely closes the file.",
+      "body": [
+        "**Assemble the Persistent Archiver**",
+        "Reorder the code blocks to construct function `save_telemetry(const string &filename, int sol, int battery)` which opens `filename` with `ofstream`, checks `.is_open()`, writes the log entry, and safely closes the file."
+      ],
+      "explain": "Include `<iostream>`, `<fstream>`, and `<string>`. In `save_telemetry()`, create `ofstream fout(filename)`. Check `fout.is_open()`, write the sol and battery telemetry, and call `fout.close()`. In `main()`, call `save_telemetry` and print `TELEMETRY ARCHIVED`."
     },
     "write-telemetry-log-formatter": {
       "title": "Log Formatting: Structured Entry",
       "content": "### Preparing Formatted Records\n\nBefore streaming entries into persistent log files, records must conform to the IRIS mission logging standard:\n`[SOL <sol>] DRONE#<id> STATUS:<status>`\n\nIn `main()`:\n1. Read integer `sol`, integer `id`, and string `status` from `cin`.\n2. Format and print the standard log record line followed by a newline.",
-      "task": "1. Read `sol`, `id`, and `status` from `cin`.\n2. Output the line formatted strictly as `[SOL <sol>] DRONE#<id> STATUS:<status>`.\n3. End with a newline."
+      "task": "1. Read `sol`, `id`, and `status` from `cin`.\n2. Output the line formatted strictly as `[SOL <sol>] DRONE#<id> STATUS:<status>`.\n3. End with a newline.",
+      "body": [
+        "**Preparing Formatted Records**",
+        "Before streaming entries into persistent log files, records must conform to the IRIS mission logging standard:\n`[SOL <sol>] DRONE#<id> STATUS:<status>`",
+        "In `main()`:\n1. Read integer `sol`, integer `id`, and string `status` from `cin`.\n2. Format and print the standard log record line followed by a newline."
+      ]
     },
     "capstone-flight-blackbox-recorder": {
       "title": "Autonomous Blackbox Flight Recorder",
       "content": "### Flight Blackbox Mission Recorder\n\nImplement Sigma's blackbox trajectory recorder.\n\nThe drone starts at origin `(0, 0)`.\n\nInput:\n1. Integer `n` (number of waypoints).\n2. `n` lines, each containing destination coordinates `x` and `y`.\n\nOperations:\n1. Compute total Manhattan distance traveled: for each waypoint, add `abs(x - cur_x) + abs(y - cur_y)` and update current position.\n2. Attempt to open persistent disk log `ofstream fout(\"blackbox.log\")`.\n3. If open, write `DISTANCE <total_dist>` and close.\n4. Output the telemetry report:\n   - `LOG STATUS: <LOGGED TO DISK or BUFFERED IN RAM>`\n   - `WAYPOINTS RECORDED: <n>`\n   - `TOTAL DISTANCE: <total_dist>`",
-      "task": "1. In `main()`, read integer `n`.\n2. Traverse waypoints, tracking current position and accumulating total distance.\n3. Test `ofstream fout(\"blackbox.log\")` with `.is_open()`.\n4. Output `LOG STATUS: <LOGGED TO DISK or BUFFERED IN RAM>`.\n5. Output `WAYPOINTS RECORDED: <n>`.\n6. Output `TOTAL DISTANCE: <dist>`."
+      "task": "1. In `main()`, read integer `n`.\n2. Traverse waypoints, tracking current position and accumulating total distance.\n3. Test `ofstream fout(\"blackbox.log\")` with `.is_open()`.\n4. Output `LOG STATUS: <LOGGED TO DISK or BUFFERED IN RAM>`.\n5. Output `WAYPOINTS RECORDED: <n>`.\n6. Output `TOTAL DISTANCE: <dist>`.",
+      "body": [
+        "**Flight Blackbox Mission Recorder**",
+        "Implement Sigma's blackbox trajectory recorder.",
+        "The drone starts at origin `(0, 0)`.",
+        "Input:\n1. Integer `n` (number of waypoints).\n2. `n` lines, each containing destination coordinates `x` and `y`.",
+        "Operations:\n1. Compute total Manhattan distance traveled: for each waypoint, add `abs(x - cur_x) + abs(y - cur_y)` and update current position.\n2. Attempt to open persistent disk log `ofstream fout(\"blackbox.log\")`.\n3. If open, write `DISTANCE <total_dist>` and close.\n4. Output the telemetry report:\n   - `LOG STATUS: <LOGGED TO DISK or BUFFERED IN RAM>`\n   - `WAYPOINTS RECORDED: <n>`\n   - `TOTAL DISTANCE: <total_dist>`"
+      ]
     },
     "recap": {
       "title": "Summary: File Operations Mastery",
-      "content": "### Chapter 29 Complete: Persistent Storage Unlocked\n\nScout Drone Sigma can now bridge ephemeral RAM computation with permanent non-volatile disk records.\n\n#### Key File Stream Mechanics\n\n| Facility | Stream Type | Purpose |\n| :--- | :--- | :--- |\n| `std::ifstream` | Input | Reading data tokens and lines from disk files |\n| `std::ofstream` | Output | Writing and creating persistent files on disk |\n| `.is_open()` | Verification | Must ALWAYS be checked before reading/writing |\n| `while (fin >> x)` | Extraction Loop | Reads until End-Of-File (EOF) automatically |\n| `.close()` | Cleanup | Flushes write buffers and releases OS file handle |\n\n> [!NOTE]\n> In standard environments (GCC, Clang, Visual Studio), files are saved directly in your working directory. In sandboxed WebAssembly environments, disk writes fall back gracefully to buffered memory.\n\nNext in Chapter 30: **Error Handling (`error-handling`)** — defending against corrupted sensor inputs, invalid data streams, and recovering with `cin.fail()`!"
+      "content": "### Chapter 29 Complete: Persistent Storage Unlocked\n\nScout Drone Sigma can now bridge ephemeral RAM computation with permanent non-volatile disk records.\n\n#### Key File Stream Mechanics\n\n| Facility | Stream Type | Purpose |\n| :--- | :--- | :--- |\n| `std::ifstream` | Input | Reading data tokens and lines from disk files |\n| `std::ofstream` | Output | Writing and creating persistent files on disk |\n| `.is_open()` | Verification | Must ALWAYS be checked before reading/writing |\n| `while (fin >> x)` | Extraction Loop | Reads until End-Of-File (EOF) automatically |\n| `.close()` | Cleanup | Flushes write buffers and releases OS file handle |\n\n> [!NOTE]\n> In standard environments (GCC, Clang, Visual Studio), files are saved directly in your working directory. In sandboxed WebAssembly environments, disk writes fall back gracefully to buffered memory.\n\nNext in Chapter 30: **Error Handling (`error-handling`)** — defending against corrupted sensor inputs, invalid data streams, and recovering with `cin.fail()`!",
+      "body": [
+        "**Chapter 29 Complete: Persistent Storage Unlocked**",
+        "Scout Drone Sigma can now bridge ephemeral RAM computation with permanent non-volatile disk records.",
+        "**Key File Stream Mechanics**",
+        "| Facility | Stream Type | Purpose |\n| :--- | :--- | :--- |\n| `std::ifstream` | Input | Reading data tokens and lines from disk files |\n| `std::ofstream` | Output | Writing and creating persistent files on disk |\n| `.is_open()` | Verification | Must ALWAYS be checked before reading/writing |\n| `while (fin >> x)` | Extraction Loop | Reads until End-Of-File (EOF) automatically |\n| `.close()` | Cleanup | Flushes write buffers and releases OS file handle |",
+        "> [!NOTE]\n> In standard environments (GCC, Clang, Visual Studio), files are saved directly in your working directory. In sandboxed WebAssembly environments, disk writes fall back gracefully to buffered memory.",
+        "Next in Chapter 30: **Error Handling (`error-handling`)** — defending against corrupted sensor inputs, invalid data streams, and recovering with `cin.fail()`!"
+      ]
     }
   }
 }

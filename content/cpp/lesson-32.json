@@ -1,7 +1,10 @@
 {
   "n": 32,
   "slug": "final-2",
-  "locales": ["lv", "en"],
+  "locales": [
+    "lv",
+    "en"
+  ],
   "steps": [
     {
       "id": "why-autonomous-mission",
@@ -35,21 +38,14 @@
       "id": "write-hazard-obstacle-detector",
       "kind": "editor",
       "stdin": "15 20 18 22 10\n",
-      "initial": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\n// 1. Define bool is_hazard(int x, int y, int hx, int hy, int safe_dist)\n\nint main() {\n    int x, y, hx, hy, safe_dist;\n    cin >> x >> y >> hx >> hy >> safe_dist;\n\n    // 2. Call is_hazard\n    // 3. Output: HAZARD: <1 or 0>\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nbool is_hazard(int x, int y, int hx, int hy, int safe_dist) {\n    return (abs(x - hx) + abs(y - hy)) < safe_dist;\n}\n\nint main() {\n    int x, y, hx, hy, safe_dist;\n    cin >> x >> y >> hx >> hy >> safe_dist;\n\n    bool haz = is_hazard(x, y, hx, hy, safe_dist);\n    cout << \"HAZARD: \" << (haz ? 1 : 0) << endl;\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "15 20 18 22 10\n",
-          "expected": "HAZARD: 1\n"
-        },
-        {
-          "in": "10 10 50 50 20\n",
-          "expected": "HAZARD: 0\n"
-        },
-        {
-          "in": "0 0 5 5 10\n",
-          "expected": "HAZARD: 0\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\n// 1. Define bool is_hazard(int x, int y, int hx, int hy, int safe_dist)\n\nint main() {\n    int x, y, hx, hy, safe_dist;\n    cin >> x >> y >> hx >> hy >> safe_dist;\n\n    // 2. Call is_hazard\n    // 3. Output: HAZARD: <1 or 0>\n\n    return 0;\n}",
+      "expected": "HAZARD: 1\n",
+      "requires": [
+        "is_hazard",
+        "abs(",
+        "HAZARD:"
       ]
     },
     {
@@ -90,38 +86,29 @@
       "id": "write-drone-flight-simulator",
       "kind": "editor",
       "stdin": "100 2\n10 10\n30 30\n",
-      "initial": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int battery, n;\n    cin >> battery >> n;\n\n    int cur_x = 0, cur_y = 0;\n    bool aborted = false;\n\n    // 1. Loop n times reading x and y\n    // 2. cost = abs(x - cur_x) + abs(y - cur_y)\n    // 3. if cost > battery -> print \"MISSION ABORTED\" and set aborted = true, break\n    // 4. else battery -= cost, cur_x = x, cur_y = y\n    // 5. if not aborted, print:\n    //    \"MISSION SUCCESS\"\n    //    \"REMAINING BATTERY: <battery>\"\n    //    \"FINAL POS: (<cur_x>, <cur_y>)\"\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int battery, n;\n    cin >> battery >> n;\n\n    int cur_x = 0, cur_y = 0;\n    bool aborted = false;\n\n    for (int i = 0; i < n; i++) {\n        int x, y;\n        cin >> x >> y;\n        int cost = abs(x - cur_x) + abs(y - cur_y);\n        if (cost > battery) {\n            cout << \"MISSION ABORTED\" << endl;\n            aborted = true;\n            break;\n        }\n        battery -= cost;\n        cur_x = x;\n        cur_y = y;\n    }\n\n    if (!aborted) {\n        cout << \"MISSION SUCCESS\" << endl;\n        cout << \"REMAINING BATTERY: \" << battery << endl;\n        cout << \"FINAL POS: (\" << cur_x << \", \" << cur_y << \")\" << endl;\n    }\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "100 2\n10 10\n30 30\n",
-          "expected": "MISSION SUCCESS\nREMAINING BATTERY: 40\nFINAL POS: (30, 30)\n"
-        },
-        {
-          "in": "25 2\n10 10\n50 50\n",
-          "expected": "MISSION ABORTED\n"
-        },
-        {
-          "in": "50 1\n20 20\n",
-          "expected": "MISSION SUCCESS\nREMAINING BATTERY: 10\nFINAL POS: (20, 20)\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int battery, n;\n    cin >> battery >> n;\n\n    int cur_x = 0, cur_y = 0;\n    bool aborted = false;\n\n    // 1. Loop n times reading x and y\n    // 2. cost = abs(x - cur_x) + abs(y - cur_y)\n    // 3. if cost > battery -> print \"MISSION ABORTED\" and set aborted = true, break\n    // 4. else battery -= cost, cur_x = x, cur_y = y\n    // 5. if not aborted, print:\n    //    \"MISSION SUCCESS\"\n    //    \"REMAINING BATTERY: <battery>\"\n    //    \"FINAL POS: (<cur_x>, <cur_y>)\"\n\n    return 0;\n}",
+      "expected": "MISSION SUCCESS\nREMAINING BATTERY: 40\nFINAL POS: (30, 30)\n",
+      "requires": [
+        "abs(",
+        "MISSION SUCCESS",
+        "REMAINING BATTERY:"
       ]
     },
     {
       "id": "capstone-stage2-grand-finale",
       "kind": "editor",
       "stdin": "3\n1 SIGMA 85 45 READY\n2 DELTA 70 60 SURVEY\n3 OMEGA 90 25 CARGO\n",
-      "initial": "#include <iostream>\n#include <iomanip>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct DroneReport {\n    int id;\n    string name;\n    int battery;\n    int distance;\n    string status;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Read n drone reports into vector<DroneReport> fleet\n    // 2. Print header: left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\"\n    // 3. Print each drone row with identical widths\n    // 4. Output TOTAL DISTANCE: <sum of distance> KM\n    // 5. Output FLEET STATUS: <n> DRONES OPERATIONAL\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <iomanip>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct DroneReport {\n    int id;\n    string name;\n    int battery;\n    int distance;\n    string status;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    vector<DroneReport> fleet;\n    for (int i = 0; i < n; i++) {\n        int id, bat, dist;\n        string name, status;\n        cin >> id >> name >> bat >> dist >> status;\n        fleet.push_back({id, name, bat, dist, status});\n    }\n\n    cout << left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\" << endl;\n\n    int total_dist = 0;\n    for (size_t i = 0; i < fleet.size(); i++) {\n        cout << left << setw(8) << fleet[i].name << right << setw(10) << fleet[i].battery << setw(12) << fleet[i].distance << setw(12) << fleet[i].status << endl;\n        total_dist += fleet[i].distance;\n    }\n\n    cout << \"TOTAL DISTANCE: \" << total_dist << \" KM\" << endl;\n    cout << \"FLEET STATUS: \" << n << \" DRONES OPERATIONAL\" << endl;\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "3\n1 SIGMA 85 45 READY\n2 DELTA 70 60 SURVEY\n3 OMEGA 90 25 CARGO\n",
-          "expected": "DRONE        BATTERY    DISTANCE      STATUS\nSIGMA             85          45       READY\nDELTA             70          60      SURVEY\nOMEGA             90          25       CARGO\nTOTAL DISTANCE: 130 KM\nFLEET STATUS: 3 DRONES OPERATIONAL\n"
-        },
-        {
-          "in": "2\n1 ALPHA 95 100 PATROL\n2 BETA 80 50 RETURN\n",
-          "expected": "DRONE        BATTERY    DISTANCE      STATUS\nALPHA             95         100      PATROL\nBETA              80          50      RETURN\nTOTAL DISTANCE: 150 KM\nFLEET STATUS: 2 DRONES OPERATIONAL\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <iomanip>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct DroneReport {\n    int id;\n    string name;\n    int battery;\n    int distance;\n    string status;\n};\n\nint main() {\n    int n;\n    cin >> n;\n\n    // TODO 1: Read n drone reports into vector<DroneReport> fleet\n    vector<DroneReport> fleet;\n\n    // TODO 2: Print formatted table header:\n    // left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\"\n\n    // TODO 3: Print each drone row with matching column widths, and accumulate total distance\n\n    // TODO 4: Output TOTAL DISTANCE: <total_dist> KM\n    // TODO 5: Output FLEET STATUS: <n> DRONES OPERATIONAL\n\n    return 0;\n}",
+      "expected": "DRONE      BATTERY    DISTANCE      STATUS\nSIGMA           85          45       READY\nDELTA           70          60      SURVEY\nOMEGA           90          25       CARGO\nTOTAL DISTANCE: 130 KM\nFLEET STATUS: 3 DRONES OPERATIONAL\n",
+      "requires": [
+        "vector<DroneReport>",
+        "left << setw(8)",
+        "TOTAL DISTANCE:",
+        "FLEET STATUS:"
       ]
     },
     {

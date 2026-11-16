@@ -3,46 +3,113 @@
   "steps": {
     "why-capstone-architecture": {
       "title": "The Martian Capstone Mission",
-      "content": "### The Grand Fleet Deployment\n\nAll systems are primed. The entire IRIS autonomous exploration squadron — **Scout Drone Sigma**, **Survey Drone Delta**, and **Heavy Drone Omega** — stands on the launch terraces overlooking the vast canyon of Valles Marineris.\n\nOver the past 30 chapters, you mastered every foundational element of modern C++:\n- Data types, variables, arithmetic, and conditional logic\n- Loops, standard algorithms, and arrays (1D & 2D)\n- Dynamic memory collections with `std::vector`\n- Modular function design, references, and parameter passing\n- Strings (`std::string`), output formatting (`<iomanip>`), and structures (`struct`)\n- Stream I/O, file storage (`<fstream>`), and defensive input validation\n\nNow, in this two-part **Capstone Project (Chapters 31 & 32)**, you will unite these separate techniques into an industrial-grade autonomous mission control architecture.\n\nIn **Phase I (Chapter 31)**, you will design the core data models, flight readiness validators, waypoint energy dispatchers, and formatted squadron telemetry reporting.\n\nIn **Phase II (Chapter 32)**, you will execute the full autonomous mission simulation, terrain navigation, and emergency flight blackbox recording!"
+      "content": "### The Grand Fleet Deployment\n\nAll systems are primed. The entire IRIS autonomous exploration squadron — **Scout Drone Sigma**, **Survey Drone Delta**, and **Heavy Drone Omega** — stands on the launch terraces overlooking the vast canyon of Valles Marineris.\n\nOver the past 30 chapters, you mastered every foundational element of modern C++:\n- Data types, variables, arithmetic, and conditional logic\n- Loops, standard algorithms, and arrays (1D & 2D)\n- Dynamic memory collections with `std::vector`\n- Modular function design, references, and parameter passing\n- Strings (`std::string`), output formatting (`<iomanip>`), and structures (`struct`)\n- Stream I/O, file storage (`<fstream>`), and defensive input validation\n\nNow, in this two-part **Capstone Project (Chapters 31 & 32)**, you will unite these separate techniques into an industrial-grade autonomous mission control architecture.\n\nIn **Phase I (Chapter 31)**, you will design the core data models, flight readiness validators, waypoint energy dispatchers, and formatted squadron telemetry reporting.\n\nIn **Phase II (Chapter 32)**, you will execute the full autonomous mission simulation, terrain navigation, and emergency flight blackbox recording!",
+      "body": [
+        "**The Grand Fleet Deployment**",
+        "All systems are primed. The entire IRIS autonomous exploration squadron — **Scout Drone Sigma**, **Survey Drone Delta**, and **Heavy Drone Omega** — stands on the launch terraces overlooking the vast canyon of Valles Marineris.",
+        "Over the past 30 chapters, you mastered every foundational element of modern C++:\n- Data types, variables, arithmetic, and conditional logic\n- Loops, standard algorithms, and arrays (1D & 2D)\n- Dynamic memory collections with `std::vector`\n- Modular function design, references, and parameter passing\n- Strings (`std::string`), output formatting (`<iomanip>`), and structures (`struct`)\n- Stream I/O, file storage (`<fstream>`), and defensive input validation",
+        "Now, in this two-part **Capstone Project (Chapters 31 & 32)**, you will unite these separate techniques into an industrial-grade autonomous mission control architecture.",
+        "In **Phase I (Chapter 31)**, you will design the core data models, flight readiness validators, waypoint energy dispatchers, and formatted squadron telemetry reporting.",
+        "In **Phase II (Chapter 32)**, you will execute the full autonomous mission simulation, terrain navigation, and emergency flight blackbox recording!"
+      ]
     },
     "capstone-system-architecture": {
       "title": "Modular Avionics Architecture",
-      "content": "### Software Design of the Fleet Controller\n\nA robust space software architecture divides responsibilities into distinct modular layers:\n\n![Capstone System Architecture](assets/l31-final1-architecture.en.svg)\n\n#### 1. Data Models (`struct`)\nClean definitions representing real-world entities:\n- `struct Drone`: identity, name, battery level, current altitude.\n- `struct Waypoint`: navigational coordinates `(x, y)`.\n\n#### 2. Logic & Validation Functions\nModular routines passed by constant reference (`const &`) for zero-copy safety:\n- `bool is_launch_ready(const Drone &d)`: ensures minimum 50% battery and non-negative altitude.\n- `int step_cost(const Waypoint &from, const Waypoint &to)`: calculates energy consumed between coordinates.\n\n#### 3. Storage & Presentation Engine\n- `std::vector<Drone>` manages dynamic squadron rosters.\n- `<iomanip>` (`left`, `right`, `setw`, `setprecision`) renders crystal-clear mission control displays."
+      "content": "### Software Design of the Fleet Controller\n\nA robust space software architecture divides responsibilities into distinct modular layers:\n\n![Capstone System Architecture](assets/l31-final1-architecture.en.svg)\n\n#### 1. Data Models (`struct`)\nClean definitions representing real-world entities:\n- `struct Drone`: identity, name, battery level, current altitude.\n- `struct Waypoint`: navigational coordinates `(x, y)`.\n\n#### 2. Logic & Validation Functions\nModular routines passed by constant reference (`const &`) for zero-copy safety:\n- `bool is_launch_ready(const Drone &d)`: ensures minimum 50% battery and non-negative altitude.\n- `int step_cost(const Waypoint &from, const Waypoint &to)`: calculates energy consumed between coordinates.\n\n#### 3. Storage & Presentation Engine\n- `std::vector<Drone>` manages dynamic squadron rosters.\n- `<iomanip>` (`left`, `right`, `setw`, `setprecision`) renders crystal-clear mission control displays.",
+      "body": [
+        "**Software Design of the Fleet Controller**",
+        "A robust space software architecture divides responsibilities into distinct modular layers:",
+        "**1. Data Models (`struct`)**\nClean definitions representing real-world entities:\n- `struct Drone`: identity, name, battery level, current altitude.\n- `struct Waypoint`: navigational coordinates `(x, y)`.",
+        "**2. Logic & Validation Functions**\nModular routines passed by constant reference (`const &`) for zero-copy safety:\n- `bool is_launch_ready(const Drone &d)`: ensures minimum 50% battery and non-negative altitude.\n- `int step_cost(const Waypoint &from, const Waypoint &to)`: calculates energy consumed between coordinates.",
+        "**3. Storage & Presentation Engine**\n- `std::vector<Drone>` manages dynamic squadron rosters.\n- `<iomanip>` (`left`, `right`, `setw`, `setprecision`) renders crystal-clear mission control displays."
+      ]
     },
     "inspect-capstone-data-model": {
       "title": "Diagnostics: Drone Data Model",
-      "content": "### Predict the Output\n\nAnalyze this structure instantiation and field access representing Scout Drone Sigma's telemetry record.\n\nWhat is printed to standard output?"
+      "content": "### Predict the Output\n\nAnalyze this structure instantiation and field access representing Scout Drone Sigma's telemetry record.\n\nWhat is printed to standard output?",
+      "body": [
+        "**Predict the Output**",
+        "Analyze this structure instantiation and field access representing Scout Drone Sigma's telemetry record.",
+        "What is printed to standard output?"
+      ],
+      "explain": "`sigma` is initialized with `name = \"SIGMA\"` and `battery = 95`. Printing `sigma.name << \" BAT:\" << sigma.battery` produces `SIGMA BAT:95`."
     },
     "audit-capstone-modular-bug": {
       "title": "Code Audit: Pass-by-Value Mutability Bug",
-      "content": "### Spot the Architecture Flaw\n\nA programmer wrote an altitude boost function `ascend()`, but after calling it, the drone's altitude remained completely unchanged in `main()`!\n\nClick the function header line that mistakenly copies the drone struct by value instead of taking a reference (`Drone &d`)."
+      "content": "### Spot the Architecture Flaw\n\nA programmer wrote an altitude boost function `ascend()`, but after calling it, the drone's altitude remained completely unchanged in `main()`!\n\nClick the function header line that mistakenly copies the drone struct by value instead of taking a reference (`Drone &d`).",
+      "body": [
+        "**Spot the Architecture Flaw**",
+        "A programmer wrote an altitude boost function `ascend()`, but after calling it, the drone's altitude remained completely unchanged in `main()`!",
+        "Click the function header line that mistakenly copies the drone struct by value instead of taking a reference (`Drone &d`)."
+      ],
+      "explain": "Line 9 defines `void ascend(Drone d, int delta)`, passing `Drone d` by value. Modifying `d.altitude` changes only the local copy, leaving the original drone in `main()` at `100`. To modify the original object in place, pass by reference: `Drone &d`."
     },
     "write-capstone-drone-model": {
       "title": "Avionics Logic: Launch Readiness Gate",
       "content": "### Fleet Qualification Gatekeeper\n\nDefine the flight qualification function `is_launch_ready`.\n\nA drone is qualified for launch if and only if:\n1. `d.battery >= 50`\n2. `d.altitude >= 0`\n\nInput format:\nFour tokens on one line: `int id`, `string name`, `int battery`, `int altitude`.\n\nOutput format:\n`LAUNCH READY: 1` (if ready) or `LAUNCH READY: 0` (if not ready).",
-      "task": "1. Define function `bool is_launch_ready(const Drone &d)` that returns `true` if `battery >= 50 && altitude >= 0`, and `false` otherwise.\n2. In `main()`, call `is_launch_ready(d)`.\n3. Output `LAUNCH READY: <1 or 0>` followed by a newline."
+      "task": "1. Define function `bool is_launch_ready(const Drone &d)` that returns `true` if `battery >= 50 && altitude >= 0`, and `false` otherwise.\n2. In `main()`, call `is_launch_ready(d)`.\n3. Output `LAUNCH READY: <1 or 0>` followed by a newline.",
+      "body": [
+        "**Fleet Qualification Gatekeeper**",
+        "Define the flight qualification function `is_launch_ready`.",
+        "A drone is qualified for launch if and only if:\n1. `d.battery >= 50`\n2. `d.altitude >= 0`",
+        "Input format:\nFour tokens on one line: `int id`, `string name`, `int battery`, `int altitude`.",
+        "Output format:\n`LAUNCH READY: 1` (if ready) or `LAUNCH READY: 0` (if not ready)."
+      ]
     },
     "predict-capstone-pipeline-trace": {
       "title": "Diagnostics: Route Energy Accumulator",
-      "content": "### Predict the Output\n\nTrace the execution of this route energy calculator iterating through a vector of waypoint cost nodes.\n\nWhat is the total route cost printed to the terminal?"
+      "content": "### Predict the Output\n\nTrace the execution of this route energy calculator iterating through a vector of waypoint cost nodes.\n\nWhat is the total route cost printed to the terminal?",
+      "body": [
+        "**Predict the Output**",
+        "Trace the execution of this route energy calculator iterating through a vector of waypoint cost nodes.",
+        "What is the total route cost printed to the terminal?"
+      ],
+      "explain": "The loop sums the `cost` field across all 3 nodes: `10 + 25 + 15 = 50`. The program prints `ROUTE COST: 50`."
     },
     "parsons-capstone-architecture-assembly": {
       "title": "Modular Assembly: Waypoint Cost Function",
-      "content": "### Assemble the Navigational Evaluator\n\nArrange the code fragments in order to construct `struct Waypoint` and the helper function `step_cost(from, to)` calculating Manhattan distance (`abs(dx) + abs(dy)`)."
+      "content": "### Assemble the Navigational Evaluator\n\nArrange the code fragments in order to construct `struct Waypoint` and the helper function `step_cost(from, to)` calculating Manhattan distance (`abs(dx) + abs(dy)`).",
+      "body": [
+        "**Assemble the Navigational Evaluator**",
+        "Arrange the code fragments in order to construct `struct Waypoint` and the helper function `step_cost(from, to)` calculating Manhattan distance (`abs(dx) + abs(dy)`)."
+      ],
+      "explain": "Include `<iostream>` and `<cmath>`. Define `struct Waypoint` with `x` and `y`. In `step_cost()`, calculate Manhattan distance `abs(to.x - from.x) + abs(to.y - from.y)`. In `main()`, compute the distance between `{0, 0}` and `{30, 40}` (`30 + 40 = 70`) and print `COST: 70`."
     },
     "write-capstone-waypoint-dispatcher": {
       "title": "Navigation Engine: Waypoint Battery Dispatcher",
       "content": "### Energy Trajectory Simulation\n\nScout Drone Sigma starts at coordinate `(0, 0)` with a known battery level.\n\nInput:\n1. Two integers: `battery` and `n` (number of waypoints).\n2. `n` pairs of integers representing `x` and `y` coordinates.\n\nRules:\n- Movement cost from `(cur_x, cur_y)` to `(x, y)` is `abs(x - cur_x) + abs(y - cur_y)`.\n- Deduct movement cost from `battery`.\n- If `battery` drops below 0, clamp it to 0.\n- Update current coordinates to `(x, y)`.\n\nOutput:\n`FINAL BATTERY: <battery>`",
-      "task": "1. In `main()`, read `battery` and `n`.\n2. Initialize `cur_x = 0` and `cur_y = 0`.\n3. Loop `n` times reading `x` and `y`.\n4. Subtract Manhattan distance `abs(x - cur_x) + abs(y - cur_y)` from `battery`.\n5. If `battery < 0`, set `battery = 0`.\n6. Output `FINAL BATTERY: <battery>` followed by a newline."
+      "task": "1. In `main()`, read `battery` and `n`.\n2. Initialize `cur_x = 0` and `cur_y = 0`.\n3. Loop `n` times reading `x` and `y`.\n4. Subtract Manhattan distance `abs(x - cur_x) + abs(y - cur_y)` from `battery`.\n5. If `battery < 0`, set `battery = 0`.\n6. Output `FINAL BATTERY: <battery>` followed by a newline.",
+      "body": [
+        "**Energy Trajectory Simulation**",
+        "Scout Drone Sigma starts at coordinate `(0, 0)` with a known battery level.",
+        "Input:\n1. Two integers: `battery` and `n` (number of waypoints).\n2. `n` pairs of integers representing `x` and `y` coordinates.",
+        "Rules:\n- Movement cost from `(cur_x, cur_y)` to `(x, y)` is `abs(x - cur_x) + abs(y - cur_y)`.\n- Deduct movement cost from `battery`.\n- If `battery` drops below 0, clamp it to 0.\n- Update current coordinates to `(x, y)`.",
+        "Output:\n`FINAL BATTERY: <battery>`"
+      ]
     },
     "capstone-stage1-fleet-director": {
       "title": "Capstone Phase I: Fleet Readiness Director",
       "content": "### Squadron Flight Deck Controller\n\nImplement the Phase I Fleet Director program.\n\nInput format:\n1. Integer `n` (number of drones in squadron).\n2. `n` lines, each containing:\n   `int id`, `string name`, `int battery`, `int altitude`.\n\nProcessing:\n- Store all drones in `vector<Drone> fleet`.\n- Count how many drones are launch ready (`battery >= 50 && altitude >= 0`).\n- Calculate the average battery percentage across all `n` drones.\n\nOutput format:\n1. Formatted table header:\n   `DRONE        BATTERY  ALTITUDE`\n   (Columns: name left-aligned width 8, battery right-aligned width 10, altitude right-aligned width 10).\n2. For each drone, output its row using identical alignment and widths.\n3. Output `FLEET READY: <ready_count>`.\n4. Output `AVG BATTERY: <fixed << setprecision(1) << avg>`.",
-      "task": "1. Read integer `n` and populate `vector<Drone> fleet`.\n2. Print the table header using `left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(10) << \"ALTITUDE\"`.\n3. Loop over `fleet` and print each drone row using identical widths.\n4. Count drones satisfying `battery >= 50 && altitude >= 0` and print `FLEET READY: <count>`.\n5. Calculate average battery and print `AVG BATTERY: <fixed << setprecision(1) << avg>`."
+      "task": "1. Read integer `n` and populate `vector<Drone> fleet`.\n2. Print the table header using `left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(10) << \"ALTITUDE\"`.\n3. Loop over `fleet` and print each drone row using identical widths.\n4. Count drones satisfying `battery >= 50 && altitude >= 0` and print `FLEET READY: <count>`.\n5. Calculate average battery and print `AVG BATTERY: <fixed << setprecision(1) << avg>`.",
+      "body": [
+        "**Squadron Flight Deck Controller**",
+        "Implement the Phase I Fleet Director program.",
+        "Input format:\n1. Integer `n` (number of drones in squadron).\n2. `n` lines, each containing:\n   `int id`, `string name`, `int battery`, `int altitude`.",
+        "Processing:\n- Store all drones in `vector<Drone> fleet`.\n- Count how many drones are launch ready (`battery >= 50 && altitude >= 0`).\n- Calculate the average battery percentage across all `n` drones.",
+        "Output format:\n1. Formatted table header:\n   `DRONE        BATTERY  ALTITUDE`\n   (Columns: name left-aligned width 8, battery right-aligned width 10, altitude right-aligned width 10).\n2. For each drone, output its row using identical alignment and widths.\n3. Output `FLEET READY: <ready_count>`.\n4. Output `AVG BATTERY: <fixed << setprecision(1) << avg>`."
+      ]
     },
     "recap": {
       "title": "Summary: Capstone Phase I Accomplished",
-      "content": "### Capstone Architecture Ready for Launch\n\nYou have constructed the modular backbone of the IRIS mission control software!\n\n#### Phase I Architecture Summary\n\n| Layer | Module | Responsibilities |\n| :--- | :--- | :--- |\n| **Model** | `struct Drone` | Encapsulates ID, name, battery %, and altitude |\n| **Model** | `struct Waypoint` | Navigational coordinates `(x, y)` |\n| **Logic** | `is_launch_ready()` | Constant reference pass-by-ref (`const &`) qualification |\n| **Logic** | `step_cost()` | Energy projection via Manhattan metric |\n| **Presentation** | `<iomanip>` Table | Formatted telemetry board with aligned fields |\n| **Analytics** | Metrics Aggregator | Fleet-wide readiness counters and battery averages |\n\n> [!NOTE]\n> Modular separation allows each component to be tested and verified independently — the fundamental standard of mission-critical aerospace software.\n\nNext in Chapter 32: **Capstone Project II (Grand Finale)** — full autonomous canyon expedition, blackbox logging, flight simulation, and course graduation!"
+      "content": "### Capstone Architecture Ready for Launch\n\nYou have constructed the modular backbone of the IRIS mission control software!\n\n#### Phase I Architecture Summary\n\n| Layer | Module | Responsibilities |\n| :--- | :--- | :--- |\n| **Model** | `struct Drone` | Encapsulates ID, name, battery %, and altitude |\n| **Model** | `struct Waypoint` | Navigational coordinates `(x, y)` |\n| **Logic** | `is_launch_ready()` | Constant reference pass-by-ref (`const &`) qualification |\n| **Logic** | `step_cost()` | Energy projection via Manhattan metric |\n| **Presentation** | `<iomanip>` Table | Formatted telemetry board with aligned fields |\n| **Analytics** | Metrics Aggregator | Fleet-wide readiness counters and battery averages |\n\n> [!NOTE]\n> Modular separation allows each component to be tested and verified independently — the fundamental standard of mission-critical aerospace software.\n\nNext in Chapter 32: **Capstone Project II (Grand Finale)** — full autonomous canyon expedition, blackbox logging, flight simulation, and course graduation!",
+      "body": [
+        "**Capstone Architecture Ready for Launch**",
+        "You have constructed the modular backbone of the IRIS mission control software!",
+        "**Phase I Architecture Summary**",
+        "| Layer | Module | Responsibilities |\n| :--- | :--- | :--- |\n| **Model** | `struct Drone` | Encapsulates ID, name, battery %, and altitude |\n| **Model** | `struct Waypoint` | Navigational coordinates `(x, y)` |\n| **Logic** | `is_launch_ready()` | Constant reference pass-by-ref (`const &`) qualification |\n| **Logic** | `step_cost()` | Energy projection via Manhattan metric |\n| **Presentation** | `<iomanip>` Table | Formatted telemetry board with aligned fields |\n| **Analytics** | Metrics Aggregator | Fleet-wide readiness counters and battery averages |",
+        "> [!NOTE]\n> Modular separation allows each component to be tested and verified independently — the fundamental standard of mission-critical aerospace software.",
+        "Next in Chapter 32: **Capstone Project II (Grand Finale)** — full autonomous canyon expedition, blackbox logging, flight simulation, and course graduation!"
+      ]
     }
   }
 }

@@ -3,46 +3,110 @@
   "steps": {
     "why-autonomous-mission": {
       "title": "Kanjona ekspedīcijas starts",
-      "content": "### Marisa ielejas varenie apvāršņi\n\nMarisa ielejas (*Valles Marineris*) klintis apspīd rīta saule vara, dzintara un zelta toņos. Uz novērošanas terases robots **IRIS [ o o ]** vēro telemetrijas paneli, dzinējiem sasniedzot pilnu jaudu.\n\nVisi trīs autonomās eskadriļas droni paceļas vienotā ierindā:\n- **Izlūks Sigma** lido priekšgalā, skenējot dziļās aizas.\n- **Kartogrāfs Delta** kartē derīgo izrakteņu iegulas kanjona gultnē.\n- **Kravas drons Omega** nogādā nepieciešamo aprīkojumu uz priekšējo zinātnisko bāzi.\n\nŠī noslēguma nodaļa ir tavs vainagojums visam ceļojumam cauri C++ programmēšanai. Katrs cikls, katrs zars, masīvs, vektors, funkcijas atsauce, struktūra un aizsargājošā ievades pārbaude ir tevi sagatavojusi šim brīdim.\n\nKopā mēs palaidīsim noslēguma navigācijas simulāciju, pārbaudīsim šķēršļu uztvērējus, sekosim enerģijas patēriņam maršrutā un sagatavosim galīgo misijas atskaiti!"
+      "content": "### Marisa ielejas varenie apvāršņi\n\nMarisa ielejas (*Valles Marineris*) klintis apspīd rīta saule vara, dzintara un zelta toņos. Uz novērošanas terases robots **IRIS [ o o ]** vēro telemetrijas paneli, dzinējiem sasniedzot pilnu jaudu.\n\nVisi trīs autonomās eskadriļas droni paceļas vienotā ierindā:\n- **Izlūks Sigma** lido priekšgalā, skenējot dziļās aizas.\n- **Kartogrāfs Delta** kartē derīgo izrakteņu iegulas kanjona gultnē.\n- **Kravas drons Omega** nogādā nepieciešamo aprīkojumu uz priekšējo zinātnisko bāzi.\n\nŠī noslēguma nodaļa ir tavs vainagojums visam ceļojumam cauri C++ programmēšanai. Katrs cikls, katrs zars, masīvs, vektors, funkcijas atsauce, struktūra un aizsargājošā ievades pārbaude ir tevi sagatavojusi šim brīdim.\n\nKopā mēs palaidīsim noslēguma navigācijas simulāciju, pārbaudīsim šķēršļu uztvērējus, sekosim enerģijas patēriņam maršrutā un sagatavosim galīgo misijas atskaiti!",
+      "body": [
+        "**Marisa ielejas varenie apvāršņi**",
+        "Marisa ielejas (*Valles Marineris*) klintis apspīd rīta saule vara, dzintara un zelta toņos. Uz novērošanas terases robots **IRIS [ o o ]** vēro telemetrijas paneli, dzinējiem sasniedzot pilnu jaudu.",
+        "Visi trīs autonomās eskadriļas droni paceļas vienotā ierindā:\n- **Izlūks Sigma** lido priekšgalā, skenējot dziļās aizas.\n- **Kartogrāfs Delta** kartē derīgo izrakteņu iegulas kanjona gultnē.\n- **Kravas drons Omega** nogādā nepieciešamo aprīkojumu uz priekšējo zinātnisko bāzi.",
+        "Šī noslēguma nodaļa ir tavs vainagojums visam ceļojumam cauri C++ programmēšanai. Katrs cikls, katrs zars, masīvs, vektors, funkcijas atsauce, struktūra un aizsargājošā ievades pārbaude ir tevi sagatavojusi šim brīdim.",
+        "Kopā mēs palaidīsim noslēguma navigācijas simulāciju, pārbaudīsim šķēršļu uztvērējus, sekosim enerģijas patēriņam maršrutā un sagatavosim galīgo misijas atskaiti!"
+      ]
     },
     "mission-pipeline-architecture": {
       "title": "Pilnā lidojuma simulācijas arhitektūra",
-      "content": "### Pilnais kosmosa programmatūras konveijers\n\nNoslēguma projekta II posma arhitektūra koordinē visu misiju no pirmslidojuma pārbaudēm līdz sekmīgai nosēšanās atskaitei:\n\n![Arhitektūra](assets/l32-final2-launch.lv.svg)\n\n#### 1. Pirmslidojuma flotes kvalifikācija\n- Dinamisks saraksts: `vector<DroneReport> fleet`.\n- Pārbauda akumulatoru rezerves pirms atļaujas pacelties.\n\n#### 2. Autonomais simulācijas dzinējs\n- Soli pa solim apstrādā maršruta punktus `(x, y)`.\n- Aprēķina Manhatanas navigācijas izmaksas: `abs(dx) + abs(dy)`.\n- Pārbauda bīstamo zonu tuvumu ar funkciju `is_hazard()`.\n- Droši aptur lidojumu, ja enerģijas rezerves ir izsmeltas.\n\n#### 3. Formatēta misijas atskaite\n- Rūpnieciska līmeņa telemetrijas konsole ar `<iomanip>` (`setw`, `left`, `right`).\n- Apkopo eskadriļas nolidoto attālumu, darbības statusu un misijas gatavību."
+      "content": "### Pilnais kosmosa programmatūras konveijers\n\nNoslēguma projekta II posma arhitektūra koordinē visu misiju no pirmslidojuma pārbaudēm līdz sekmīgai nosēšanās atskaitei:\n\n![Arhitektūra](assets/l32-final2-launch.lv.svg)\n\n#### 1. Pirmslidojuma flotes kvalifikācija\n- Dinamisks saraksts: `vector<DroneReport> fleet`.\n- Pārbauda akumulatoru rezerves pirms atļaujas pacelties.\n\n#### 2. Autonomais simulācijas dzinējs\n- Soli pa solim apstrādā maršruta punktus `(x, y)`.\n- Aprēķina Manhatanas navigācijas izmaksas: `abs(dx) + abs(dy)`.\n- Pārbauda bīstamo zonu tuvumu ar funkciju `is_hazard()`.\n- Droši aptur lidojumu, ja enerģijas rezerves ir izsmeltas.\n\n#### 3. Formatēta misijas atskaite\n- Rūpnieciska līmeņa telemetrijas konsole ar `<iomanip>` (`setw`, `left`, `right`).\n- Apkopo eskadriļas nolidoto attālumu, darbības statusu un misijas gatavību.",
+      "body": [
+        "**Pilnais kosmosa programmatūras konveijers**",
+        "Noslēguma projekta II posma arhitektūra koordinē visu misiju no pirmslidojuma pārbaudēm līdz sekmīgai nosēšanās atskaitei:",
+        "**1. Pirmslidojuma flotes kvalifikācija**\n- Dinamisks saraksts: `vector<DroneReport> fleet`.\n- Pārbauda akumulatoru rezerves pirms atļaujas pacelties.",
+        "**2. Autonomais simulācijas dzinējs**\n- Soli pa solim apstrādā maršruta punktus `(x, y)`.\n- Aprēķina Manhatanas navigācijas izmaksas: `abs(dx) + abs(dy)`.\n- Pārbauda bīstamo zonu tuvumu ar funkciju `is_hazard()`.\n- Droši aptur lidojumu, ja enerģijas rezerves ir izsmeltas.",
+        "**3. Formatēta misijas atskaite**\n- Rūpnieciska līmeņa telemetrijas konsole ar `<iomanip>` (`setw`, `left`, `right`).\n- Apkopo eskadriļas nolidoto attālumu, darbības statusu un misijas gatavību."
+      ]
     },
     "inspect-flight-state-evolution": {
       "title": "Diagnostika: koordinātu un enerģijas solis",
-      "content": "### Prognozē programmas izvadi\n\nIzanalizē drona stāvokļa izmaiņas, kad tas pārvietojas pa koordinātām un patērē baterijas enerģiju.\n\nKas tiek izvadīts terminālī?"
+      "content": "### Prognozē programmas izvadi\n\nIzanalizē drona stāvokļa izmaiņas, kad tas pārvietojas pa koordinātām un patērē baterijas enerģiju.\n\nKas tiek izvadīts terminālī?",
+      "body": [
+        "**Prognozē programmas izvadi**",
+        "Izanalizē drona stāvokļa izmaiņas, kad tas pārvietojas pa koordinātām un patērē baterijas enerģiju.",
+        "Kas tiek izvadīts terminālī?"
+      ],
+      "explain": "`d` sākas ar `{0, 0, 100}`. `d.x += 15` iestata x uz 15, `d.y += 20` iestata y uz 20, un `d.battery -= 35` samazina bateriju līdz 65. Programma izvada `POS:(15,20) BAT:65`."
     },
     "audit-mission-loop-condition": {
       "title": "Koda audits: masīva robežu kļūda ciklā",
-      "content": "### Atrodi indeksācijas kļūdu\n\nNavigācijas lidojuma cikls avarē, ejot cauri maršruta punktu vektoram, jo cikla nosacījums mēģina piekļūt elementam aiz vektora robežām!\n\nUzklikšķini uz cikla rindiņas, kur kļūdaini izmantots `<=` simbola `<` vietā."
+      "content": "### Atrodi indeksācijas kļūdu\n\nNavigācijas lidojuma cikls avarē, ejot cauri maršruta punktu vektoram, jo cikla nosacījums mēģina piekļūt elementam aiz vektora robežām!\n\nUzklikšķini uz cikla rindiņas, kur kļūdaini izmantots `<=` simbola `<` vietā.",
+      "body": [
+        "**Atrodi indeksācijas kļūdu**",
+        "Navigācijas lidojuma cikls avarē, ejot cauri maršruta punktu vektoram, jo cikla nosacījums mēģina piekļūt elementam aiz vektora robežām!",
+        "Uzklikšķini uz cikla rindiņas, kur kļūdaini izmantots `<=` simbola `<` vietā."
+      ],
+      "explain": "9. rindā tiek izmantots `i <= path.size()`. Ar 0 bāzētu indeksāciju derīgie elementi ir no `0` līdz `path.size() - 1`. Nosacījums `<=` pēdējā solī mēģina nolasīt `path[path.size()]`, izraisot iziešanu ārpus masīva robežām. Nosacījumam jābūt `i < path.size()`."
     },
     "write-hazard-obstacle-detector": {
       "title": "Lidojuma navigācija: bīstamības tuvuma sensors",
       "content": "### Sadursmju novēršanas vārti\n\nIzveido bīstamo šķēršļu atpazīšanas funkciju `is_hazard`.\n\nMaršruta punkts koordinātās `(x, y)` tiek uzskatīts par bīstamu, ja tā Manhatanas attālums līdz bīstamības zonai `(hx, hy)` ir mazāks par drošo rādiusu `safe_dist`:\n`(abs(x - hx) + abs(y - hy)) < safe_dist`\n\nIevades formāts:\nPieci skaitļi vienā rindā: `x y hx hy safe_dist`.\n\nIzvades formāts:\n`HAZARD: 1` (ja punkts ir bīstams) vai `HAZARD: 0` (ja ceļš ir brīvs).",
-      "task": "1. Definē funkciju `bool is_hazard(int x, int y, int hx, int hy, int safe_dist)`, kas atgriež `true`, ja `(abs(x - hx) + abs(y - hy)) < safe_dist`, un `false` pretējā gadījumā.\n2. Funkcijā `main()` nolasi `x`, `y`, `hx`, `hy` un `safe_dist` no `cin`.\n3. Izsauc `is_hazard` un izvadi `HAZARD: <1 vai 0>`, kam seko jauna rindiņa."
+      "task": "1. Definē funkciju `bool is_hazard(int x, int y, int hx, int hy, int safe_dist)`, kas atgriež `true`, ja `(abs(x - hx) + abs(y - hy)) < safe_dist`, un `false` pretējā gadījumā.\n2. Funkcijā `main()` nolasi `x`, `y`, `hx`, `hy` un `safe_dist` no `cin`.\n3. Izsauc `is_hazard` un izvadi `HAZARD: <1 vai 0>`, kam seko jauna rindiņa.",
+      "body": [
+        "**Sadursmju novēršanas vārti**",
+        "Izveido bīstamo šķēršļu atpazīšanas funkciju `is_hazard`.",
+        "Maršruta punkts koordinātās `(x, y)` tiek uzskatīts par bīstamu, ja tā Manhatanas attālums līdz bīstamības zonai `(hx, hy)` ir mazāks par drošo rādiusu `safe_dist`:\n`(abs(x - hx) + abs(y - hy)) < safe_dist`",
+        "Ievades formāts:\nPieci skaitļi vienā rindā: `x y hx hy safe_dist`.",
+        "Izvades formāts:\n`HAZARD: 1` (ja punkts ir bīstams) vai `HAZARD: 0` (ja ceļš ir brīvs)."
+      ]
     },
     "predict-fleet-mission-summary": {
       "title": "Diagnostika: enerģijas patēriņa izsekošana",
-      "content": "### Prognozē programmas izvadi\n\nIzseko enerģijas patēriņa cikla darbību, kad drons veic 3 secīgus manevrus.\n\nKāds atlikušās baterijas skaitlis tiek izvadīts standarta izvadē?"
+      "content": "### Prognozē programmas izvadi\n\nIzseko enerģijas patēriņa cikla darbību, kad drons veic 3 secīgus manevrus.\n\nKāds atlikušās baterijas skaitlis tiek izvadīts standarta izvadē?",
+      "body": [
+        "**Prognozē programmas izvadi**",
+        "Izseko enerģijas patēriņa cikla darbību, kad drons veic 3 secīgus manevrus.",
+        "Kāds atlikušās baterijas skaitlis tiek izvadīts standarta izvadē?"
+      ],
+      "explain": "Cikls izpildās 3 reizes, katrā solī atņemot 25 no baterijas: `100 - (3 * 25) = 100 - 75 = 25`. Programma izvada `SURVIVING BATTERY: 25`."
     },
     "parsons-mission-simulation-loop": {
       "title": "Moduļu salikšana: drošais lidojuma cikls",
-      "content": "### Saliec navigācijas drošības moduli\n\nSakārto koda fragmentus pareizā secībā, lai izveidotu autonomu lidojuma ciklu, kas atskaita baterijas enerģiju un pārtrauc lidojumu, ja enerģija nokrītas līdz nullei vai zemāk."
+      "content": "### Saliec navigācijas drošības moduli\n\nSakārto koda fragmentus pareizā secībā, lai izveidotu autonomu lidojuma ciklu, kas atskaita baterijas enerģiju un pārtrauc lidojumu, ja enerģija nokrītas līdz nullei vai zemāk.",
+      "body": [
+        "**Saliec navigācijas drošības moduli**",
+        "Sakārto koda fragmentus pareizā secībā, lai izveidotu autonomu lidojuma ciklu, kas atskaita baterijas enerģiju un pārtrauc lidojumu, ja enerģija nokrītas līdz nullei vai zemāk."
+      ],
+      "explain": "Iekļauj `<iostream>` un paziņo `using namespace std;`. Funkcijā `main()` inicializē bateriju uz 80. Ciklā pa punktiem atņem 20. Ja baterija nokrītas līdz 0 vai zemāk, izvada `ABORT` un beidz darbu. Pēc cikla pabeigšanas izvada `SURVIVED: <battery>`."
     },
     "write-drone-flight-simulator": {
       "title": "Avionikas kodols: vairāku punktu lidojuma simulators",
       "content": "### Trajektorijas simulācijas dzinējs\n\nSimulē drona autonomu lidojumu no sākuma punkta `(0, 0)` cauri `n` maršruta punktiem.\n\nIevade:\n1. Divi skaitļi: `battery` un `n` (punktu skaits).\n2. `n` koordinātu pāri: `x y`.\n\nSimulācijas noteikumi:\n- Sākuma pozīcija ir `(0, 0)`.\n- Pārvietošanās uz `(x, y)` patērē `cost = abs(x - cur_x) + abs(y - cur_y)` baterijas vienības.\n- Ja `cost > battery`, drons nespēj sasniegt punktu: nekavējoties izvadi `MISSION ABORTED` un pārtrauc ciklu.\n- Pretējā gadījumā atņem `cost` no `battery` un atjauno pozīciju uz `(x, y)`.\n- Ja visi `n` punkti ir sekmīgi sasniegti, izvadi:\n  `MISSION SUCCESS`\n  `REMAINING BATTERY: <battery>`\n  `FINAL POS: (<cur_x>, <cur_y>)`",
-      "task": "1. Funkcijā `main()` nolasi `battery` un `n` no `cin`.\n2. Inicializē `cur_x = 0`, `cur_y = 0` un `bool aborted = false`.\n3. Ciklā `n` reizes nolasi `x` un `y`.\n4. Ja `abs(x - cur_x) + abs(y - cur_y) > battery`, izvadi `MISSION ABORTED`, iestati `aborted = true` un pārtrauc ciklu ar `break`.\n5. Pretējā gadījumā atņem izmaksas no `battery` un atjauno koordinātas.\n6. Ja lidojums netika pārtraukts, izvadi `MISSION SUCCESS`, `REMAINING BATTERY: <battery>` un `FINAL POS: (<cur_x>, <cur_y>)`."
+      "task": "1. Funkcijā `main()` nolasi `battery` un `n` no `cin`.\n2. Inicializē `cur_x = 0`, `cur_y = 0` un `bool aborted = false`.\n3. Ciklā `n` reizes nolasi `x` un `y`.\n4. Ja `abs(x - cur_x) + abs(y - cur_y) > battery`, izvadi `MISSION ABORTED`, iestati `aborted = true` un pārtrauc ciklu ar `break`.\n5. Pretējā gadījumā atņem izmaksas no `battery` un atjauno koordinātas.\n6. Ja lidojums netika pārtraukts, izvadi `MISSION SUCCESS`, `REMAINING BATTERY: <battery>` un `FINAL POS: (<cur_x>, <cur_y>)`.",
+      "body": [
+        "**Trajektorijas simulācijas dzinējs**",
+        "Simulē drona autonomu lidojumu no sākuma punkta `(0, 0)` cauri `n` maršruta punktiem.",
+        "Ievade:\n1. Divi skaitļi: `battery` un `n` (punktu skaits).\n2. `n` koordinātu pāri: `x y`.",
+        "Simulācijas noteikumi:\n- Sākuma pozīcija ir `(0, 0)`.\n- Pārvietošanās uz `(x, y)` patērē `cost = abs(x - cur_x) + abs(y - cur_y)` baterijas vienības.\n- Ja `cost > battery`, drons nespēj sasniegt punktu: nekavējoties izvadi `MISSION ABORTED` un pārtrauc ciklu.\n- Pretējā gadījumā atņem `cost` no `battery` un atjauno pozīciju uz `(x, y)`.\n- Ja visi `n` punkti ir sekmīgi sasniegti, izvadi:\n  `MISSION SUCCESS`\n  `REMAINING BATTERY: <battery>`\n  `FINAL POS: (<cur_x>, <cur_y>)`"
+      ]
     },
     "capstone-stage2-grand-finale": {
       "title": "Noslēguma 2. posms: lielais eskadriļas misijas direktors",
       "content": "### Lielā misijas kopsavilkuma atskaite\n\nIzveido noslēguma misijas vadības programmu, kas apkopo eskadriļas telemetriju kopējā lidojuma tabulā.\n\nIevades formāts:\n1. Vesels skaitlis `n` (dronu skaits eskadriļā).\n2. `n` rindas, katrā: `int id`, `string name`, `int battery`, `int distance`, `string status`.\n\nApstrāde un izvade:\n1. Izvadi formatētu tabulas virsrakstu:\n   `DRONE        BATTERY    DISTANCE      STATUS`\n   (Kolonnas: nosaukums pa kreisi platums 8, baterija pa labi platums 10, attālums pa labi platums 12, statuss pa labi platums 12).\n2. Katram dronam izvadi rindu ar identiskiem lauku platumiem un līdzinājumu.\n3. Izvadi `TOTAL DISTANCE: <kopējais attālums> KM`.\n4. Izvadi `FLEET STATUS: <n> DRONES OPERATIONAL`.",
-      "task": "1. Nolasi veselu skaitli `n` un saglabā datus vektorā `vector<DroneReport> fleet`.\n2. Izvadi tabulas virsrakstu ar `left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\"`.\n3. Ciklā ej cauri `fleet` un izvadi katra drona rindu ar vienādiem platumiem.\n4. Saskaiti kopējo attālumu un izvadi `TOTAL DISTANCE: <total_dist> KM`.\n5. Izvadi `FLEET STATUS: <n> DRONES OPERATIONAL`."
+      "task": "1. Nolasi veselu skaitli `n` un saglabā datus vektorā `vector<DroneReport> fleet`.\n2. Izvadi tabulas virsrakstu ar `left << setw(8) << \"DRONE\" << right << setw(10) << \"BATTERY\" << setw(12) << \"DISTANCE\" << setw(12) << \"STATUS\"`.\n3. Ciklā ej cauri `fleet` un izvadi katra drona rindu ar vienādiem platumiem.\n4. Saskaiti kopējo attālumu un izvadi `TOTAL DISTANCE: <total_dist> KM`.\n5. Izvadi `FLEET STATUS: <n> DRONES OPERATIONAL`.",
+      "body": [
+        "**Lielā misijas kopsavilkuma atskaite**",
+        "Izveido noslēguma misijas vadības programmu, kas apkopo eskadriļas telemetriju kopējā lidojuma tabulā.",
+        "Ievades formāts:\n1. Vesels skaitlis `n` (dronu skaits eskadriļā).\n2. `n` rindas, katrā: `int id`, `string name`, `int battery`, `int distance`, `string status`.",
+        "Apstrāde un izvade:\n1. Izvadi formatētu tabulas virsrakstu:\n   `DRONE        BATTERY    DISTANCE      STATUS`\n   (Kolonnas: nosaukums pa kreisi platums 8, baterija pa labi platums 10, attālums pa labi platums 12, statuss pa labi platums 12).\n2. Katram dronam izvadi rindu ar identiskiem lauku platumiem un līdzinājumu.\n3. Izvadi `TOTAL DISTANCE: <kopējais attālums> KM`.\n4. Izvadi `FLEET STATUS: <n> DRONES OPERATIONAL`."
+      ]
     },
     "recap": {
       "title": "Misija izpildīta: kursa absolvēšana!",
-      "content": "### Apsveicam, lidojumu inženiere!\n\nTu esi sekmīgi pabeidzis visas 32 kursa **C++ programmēšana: Misija IRIS** nodaļas!\n\n#### Tavs ceļš no iesācēja līdz kosmiskās programmatūras inženierim\n\n```\n[1. nodaļa: Pirmais impulss]  ──>  Hello World, izvades plūsmas, kompilatori\n           │\n[2.–8. nodaļa: Lidojuma pamati] ──>  Tipi, matemātika, loģika, zarošanās, cikli\n           │\n[9.–16. nodaļa: Navigācija] ──>  Masīvi, apeja, 2D radari, algoritmi\n           │\n[17.–24. nodaļa: Flotes kodols] ──>  Vektori, dinamiskā atmiņa, funkcijas, atsauces\n           │\n[25.–30. nodaļa: Borta kopne] ──>  Virknes, iomanip, struktūras, fstream, aizsargājošā ievade\n           │\n[31.–32. nodaļa: Noslēguma projekts] ──>  Pilna autonoma multi-dronu kosmiskās misijas arhitektūra!\n```\n\n#### Ko tu esi apguvis un sasniedzis\n- **Inženiertehnisko domāšanu:** droša, pret kļūmēm noturīga koda rakstīšanu.\n- **Datu arhitektūru:** sarežģītu reālās pasaules objektu modelēšanu struktūrās.\n- **Algoritmisko meistarību:** 2D navigāciju, resursu optimizāciju un sensoru datu filtrēšanu.\n- **Profesionālu prezentāciju:** atskaišu formatēšanu, kļūdu novēršanu un modulāru izstrādi.\n\nRobots **IRIS [ o o ]** un visa drona eskadriļa sveic tevi ar kursa pabeigšanu! Iesniedz noslēguma projektu novērtēšanai, pārbaudi lidojumu žurnālus un droši dodies pretī jauniem programmēšanas izaicinājumiem!"
+      "content": "### Apsveicam, lidojumu inženiere!\n\nTu esi sekmīgi pabeidzis visas 32 kursa **C++ programmēšana: Misija IRIS** nodaļas!\n\n#### Tavs ceļš no iesācēja līdz kosmiskās programmatūras inženierim\n\n```\n[1. nodaļa: Pirmais impulss]  ──>  Hello World, izvades plūsmas, kompilatori\n           │\n[2.–8. nodaļa: Lidojuma pamati] ──>  Tipi, matemātika, loģika, zarošanās, cikli\n           │\n[9.–16. nodaļa: Navigācija] ──>  Masīvi, apeja, 2D radari, algoritmi\n           │\n[17.–24. nodaļa: Flotes kodols] ──>  Vektori, dinamiskā atmiņa, funkcijas, atsauces\n           │\n[25.–30. nodaļa: Borta kopne] ──>  Virknes, iomanip, struktūras, fstream, aizsargājošā ievade\n           │\n[31.–32. nodaļa: Noslēguma projekts] ──>  Pilna autonoma multi-dronu kosmiskās misijas arhitektūra!\n```\n\n#### Ko tu esi apguvis un sasniedzis\n- **Inženiertehnisko domāšanu:** droša, pret kļūmēm noturīga koda rakstīšanu.\n- **Datu arhitektūru:** sarežģītu reālās pasaules objektu modelēšanu struktūrās.\n- **Algoritmisko meistarību:** 2D navigāciju, resursu optimizāciju un sensoru datu filtrēšanu.\n- **Profesionālu prezentāciju:** atskaišu formatēšanu, kļūdu novēršanu un modulāru izstrādi.\n\nRobots **IRIS [ o o ]** un visa drona eskadriļa sveic tevi ar kursa pabeigšanu! Iesniedz noslēguma projektu novērtēšanai, pārbaudi lidojumu žurnālus un droši dodies pretī jauniem programmēšanas izaicinājumiem!",
+      "body": [
+        "**Apsveicam, lidojumu inženiere!**",
+        "Tu esi sekmīgi pabeidzis visas 32 kursa **C++ programmēšana: Misija IRIS** nodaļas!",
+        "**Tavs ceļš no iesācēja līdz kosmiskās programmatūras inženierim**",
+        "```\n[1. nodaļa: Pirmais impulss]  ──>  Hello World, izvades plūsmas, kompilatori\n           │\n[2.–8. nodaļa: Lidojuma pamati] ──>  Tipi, matemātika, loģika, zarošanās, cikli\n           │\n[9.–16. nodaļa: Navigācija] ──>  Masīvi, apeja, 2D radari, algoritmi\n           │\n[17.–24. nodaļa: Flotes kodols] ──>  Vektori, dinamiskā atmiņa, funkcijas, atsauces\n           │\n[25.–30. nodaļa: Borta kopne] ──>  Virknes, iomanip, struktūras, fstream, aizsargājošā ievade\n           │\n[31.–32. nodaļa: Noslēguma projekts] ──>  Pilna autonoma multi-dronu kosmiskās misijas arhitektūra!\n```",
+        "**Ko tu esi apguvis un sasniedzis**\n- **Inženiertehnisko domāšanu:** droša, pret kļūmēm noturīga koda rakstīšanu.\n- **Datu arhitektūru:** sarežģītu reālās pasaules objektu modelēšanu struktūrās.\n- **Algoritmisko meistarību:** 2D navigāciju, resursu optimizāciju un sensoru datu filtrēšanu.\n- **Profesionālu prezentāciju:** atskaišu formatēšanu, kļūdu novēršanu un modulāru izstrādi.",
+        "Robots **IRIS [ o o ]** un visa drona eskadriļa sveic tevi ar kursa pabeigšanu! Iesniedz noslēguma projektu novērtēšanai, pārbaudi lidojumu žurnālus un droši dodies pretī jauniem programmēšanas izaicinājumiem!"
+      ]
     }
   }
 }

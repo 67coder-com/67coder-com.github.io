@@ -3,46 +3,110 @@
   "steps": {
     "why-squadrons": {
       "title": "The IRIS Fleet Squadron",
-      "content": "### Uniting the Trio of Explorers\n\nUntil now, our programs operated on a single drone at a time. But on the Martian frontier, the mission relies on an integrated three-drone squadron:\n- **IZLŪKS «Sigma»:** Fast scout with advanced communication relays.\n- **KARTOGRĀFS «Delta»:** Medium survey craft equipped with lidar surface mapping arrays.\n- **KRAVAS «Omega»:** Heavy transport drone carrying soil sampling pods.\n\nHow do we organize, track, and command all three drones simultaneously in C++?\n\nBy combining **`struct`** with arrays and dynamic vectors!\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};\n\nvector<Drone> fleet;\n```\nWith a container of structures, the entire squadron lives in a single collection. We can loop over the fleet, calculate total energy reserves, locate the craft closest to an objective, and issue synchronized flight directives."
+      "content": "### Uniting the Trio of Explorers\n\nUntil now, our programs operated on a single drone at a time. But on the Martian frontier, the mission relies on an integrated three-drone squadron:\n- **IZLŪKS «Sigma»:** Fast scout with advanced communication relays.\n- **KARTOGRĀFS «Delta»:** Medium survey craft equipped with lidar surface mapping arrays.\n- **KRAVAS «Omega»:** Heavy transport drone carrying soil sampling pods.\n\nHow do we organize, track, and command all three drones simultaneously in C++?\n\nBy combining **`struct`** with arrays and dynamic vectors!\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};\n\nvector<Drone> fleet;\n```\nWith a container of structures, the entire squadron lives in a single collection. We can loop over the fleet, calculate total energy reserves, locate the craft closest to an objective, and issue synchronized flight directives.",
+      "body": [
+        "**Uniting the Trio of Explorers**",
+        "Until now, our programs operated on a single drone at a time. But on the Martian frontier, the mission relies on an integrated three-drone squadron:\n- **IZLŪKS «Sigma»:** Fast scout with advanced communication relays.\n- **KARTOGRĀFS «Delta»:** Medium survey craft equipped with lidar surface mapping arrays.\n- **KRAVAS «Omega»:** Heavy transport drone carrying soil sampling pods.",
+        "How do we organize, track, and command all three drones simultaneously in C++?",
+        "By combining **`struct`** with arrays and dynamic vectors!\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};",
+        "vector<Drone> fleet;\n```\nWith a container of structures, the entire squadron lives in a single collection. We can loop over the fleet, calculate total energy reserves, locate the craft closest to an objective, and issue synchronized flight directives."
+      ]
     },
     "squadron-memory-and-access": {
       "title": "Squadron Memory & Index-Dot Syntax",
-      "content": "### The Syntax Order: Index First, Dot Second\n\nA container of structures packs multiple struct instances into contiguous memory.\n\n![Squadron Architecture](assets/l28-squadron-anatomy.en.svg)\n\n#### The Critical Rule of Access\n\nTo access a member field of a specific drone inside a fleet container:\n1. **First, select the drone** using array brackets: `fleet[i]`.\n2. **Second, select the field** using the dot operator: `.battery`.\n\n```cpp\nfleet[i].battery -= 10; // CORRECT: element i, then its battery field\n```\n\n> [!CAUTION]\n> Never write `fleet.battery[i]`! The vector `fleet` does not possess a `.battery` member; each individual `Drone` inside it does!\n\n#### Passing the Fleet to Functions\nAlways pass fleet containers by reference to avoid copying all structures:\n- `void boost_fleet(vector<Drone> &fleet)` (modifies in-place)\n- `int compute_total(const vector<Drone> &fleet)` (zero-copy read-only)"
+      "content": "### The Syntax Order: Index First, Dot Second\n\nA container of structures packs multiple struct instances into contiguous memory.\n\n![Squadron Architecture](assets/l28-squadron-anatomy.en.svg)\n\n#### The Critical Rule of Access\n\nTo access a member field of a specific drone inside a fleet container:\n1. **First, select the drone** using array brackets: `fleet[i]`.\n2. **Second, select the field** using the dot operator: `.battery`.\n\n```cpp\nfleet[i].battery -= 10; // CORRECT: element i, then its battery field\n```\n\n> [!CAUTION]\n> Never write `fleet.battery[i]`! The vector `fleet` does not possess a `.battery` member; each individual `Drone` inside it does!\n\n#### Passing the Fleet to Functions\nAlways pass fleet containers by reference to avoid copying all structures:\n- `void boost_fleet(vector<Drone> &fleet)` (modifies in-place)\n- `int compute_total(const vector<Drone> &fleet)` (zero-copy read-only)",
+      "body": [
+        "**The Syntax Order: Index First, Dot Second**",
+        "syntax: vector<{StructType}> {fleet};\n- StructType: struct type stored inside the vector\n- fleet: identifier of the vector collection",
+        "syntax: {fleet}[{index}].{member};\n- fleet: vector or array holding the struct instances\n- index: 0-based element position\n- member: struct field to access or modify",
+        "A container of structures packs multiple struct instances into contiguous memory.",
+        "**The Critical Rule of Access**",
+        "To access a member field of a specific drone inside a fleet container:\n1. **First, select the drone** using array brackets: `fleet[i]`.\n2. **Second, select the field** using the dot operator: `.battery`.",
+        "```cpp\nfleet[i].battery -= 10; // CORRECT: element i, then its battery field\n```",
+        "> [!CAUTION]\n> Never write `fleet.battery[i]`! The vector `fleet` does not possess a `.battery` member; each individual `Drone` inside it does!",
+        "**Passing the Fleet to Functions**\nAlways pass fleet containers by reference to avoid copying all structures:\n- `void boost_fleet(vector<Drone> &fleet)` (modifies in-place)\n- `int compute_total(const vector<Drone> &fleet)` (zero-copy read-only)"
+      ]
     },
     "inspect-squadron-traversal": {
       "title": "Diagnostics: Fleet Energy Aggregation",
-      "content": "### Predict the Output\n\nAnalyze this fleet accumulation loop over a fixed-size array of 3 `Drone` structs.\n\nWhat total battery sum is printed?"
+      "content": "### Predict the Output\n\nAnalyze this fleet accumulation loop over a fixed-size array of 3 `Drone` structs.\n\nWhat total battery sum is printed?",
+      "body": [
+        "**Predict the Output**",
+        "Analyze this fleet accumulation loop over a fixed-size array of 3 `Drone` structs.",
+        "What total battery sum is printed?"
+      ],
+      "explain": "The array `fleet` contains 3 drones with batteries 80, 60, and 90. The loop sums them: `80 + 60 + 90 = 230`. The program outputs `230`."
     },
     "audit-struct-array-index-bug": {
       "title": "Diagnostics: Syntax Ordering Trap",
-      "content": "### Spot the Access Bug\n\nA junior flight programmer tried to read the battery of the first drone in the fleet vector. The compiler rejects the line with a member access error!\n\nClick the line that reverses the index-and-dot syntax order."
+      "content": "### Spot the Access Bug\n\nA junior flight programmer tried to read the battery of the first drone in the fleet vector. The compiler rejects the line with a member access error!\n\nClick the line that reverses the index-and-dot syntax order.",
+      "body": [
+        "**Spot the Access Bug**",
+        "A junior flight programmer tried to read the battery of the first drone in the fleet vector. The compiler rejects the line with a member access error!",
+        "Click the line that reverses the index-and-dot syntax order."
+      ],
+      "explain": "To access a member of a struct inside a vector, you must index the element first, then use the dot operator: `fleet[0].battery`. Writing `fleet.battery[0]` causes a compile error because `vector` itself has no member called `battery`."
     },
     "write-fleet-battery-audit": {
       "title": "Fleet Health Audit: Critical Energy Count",
       "content": "### Monitoring Squadron Power\n\nDefine `struct Drone { int id; int battery; };`.\n\nIn `main()`:\n1. Read integer `n`.\n2. Read `n` pairs of `id` and `battery`, pushing each `Drone` into `vector<Drone> fleet`.\n3. Iterate over `fleet` and count how many drones have `battery < 30`.\n4. Output `CRITICAL COUNT: <count>`.",
-      "task": "1. Define `struct Drone` with fields `int id` and `int battery`.\n2. In `main()`, read `n` and populate `vector<Drone> fleet`.\n3. Iterate over `fleet` and count how many have `battery < 30`.\n4. Print `CRITICAL COUNT: <count>` followed by a newline."
+      "task": "1. Define `struct Drone` with fields `int id` and `int battery`.\n2. In `main()`, read `n` and populate `vector<Drone> fleet`.\n3. Iterate over `fleet` and count how many have `battery < 30`.\n4. Print `CRITICAL COUNT: <count>` followed by a newline.",
+      "body": [
+        "**Monitoring Squadron Power**",
+        "Define `struct Drone { int id; int battery; };`.",
+        "In `main()`:\n1. Read integer `n`.\n2. Read `n` pairs of `id` and `battery`, pushing each `Drone` into `vector<Drone> fleet`.\n3. Iterate over `fleet` and count how many drones have `battery < 30`.\n4. Output `CRITICAL COUNT: <count>`."
+      ]
     },
     "predict-vector-push-back-struct": {
       "title": "Diagnostics: Dynamic Fleet Growth",
-      "content": "### Predict Vector Push Operations\n\nExamine the dynamic population of the fleet vector via `.push_back()`.\n\nWhat is printed to standard output?"
+      "content": "### Predict Vector Push Operations\n\nExamine the dynamic population of the fleet vector via `.push_back()`.\n\nWhat is printed to standard output?",
+      "body": [
+        "**Predict Vector Push Operations**",
+        "Examine the dynamic population of the fleet vector via `.push_back()`.",
+        "What is printed to standard output?"
+      ],
+      "explain": "Two `Drone` elements are pushed into `fleet`. Thus `fleet.size()` is 2. The element at index 1 is `{20}`, so `fleet[1].id` is 20. The program outputs `2 20`."
     },
     "parsons-fleet-search-minimum": {
       "title": "Avionics Assembly: Lowest Battery Search",
-      "content": "### Assemble the Squadron Search Routine\n\nReorder the code blocks to build function `int find_lowest_battery_id(const vector<Drone> &fleet)` which iterates through the fleet, tracks the index with minimum battery, and returns its drone ID."
+      "content": "### Assemble the Squadron Search Routine\n\nReorder the code blocks to build function `int find_lowest_battery_id(const vector<Drone> &fleet)` which iterates through the fleet, tracks the index with minimum battery, and returns its drone ID.",
+      "body": [
+        "**Assemble the Squadron Search Routine**",
+        "Reorder the code blocks to build function `int find_lowest_battery_id(const vector<Drone> &fleet)` which iterates through the fleet, tracks the index with minimum battery, and returns its drone ID."
+      ],
+      "explain": "Define `struct Drone`. In `find_lowest_battery_id()`, pass `const vector<Drone> &fleet` by reference. Loop through the fleet from index 1 to track `min_idx`. Return `fleet[min_idx].id`. In `main()`, initialize the fleet and print `LOWEST BATTERY DRONE: 2`."
     },
     "write-fleet-dispatch-coordinator": {
       "title": "Fleet Dispatch: Emergency In-Place Boost",
       "content": "### Synchronized In-Place Fleet Modification\n\nImplement `void boost_squadron(vector<Drone> &fleet, int boost_val)`.\nIt must iterate through `fleet`, adding `boost_val` to each drone's `battery`. If any battery exceeds `100`, cap it at `100`.\n\nIn `main()`:\n1. Read `n` and `boost`.\n2. Read `n` pairs of `id` and `battery` into `vector<Drone> fleet`.\n3. Call `boost_squadron(fleet, boost)`.\n4. Print each drone on a new line: `DRONE <id>: <battery>`.",
-      "task": "1. Implement `void boost_squadron(vector<Drone> &fleet, int boost_val)` modifying elements in-place.\n2. Clamp every battery at `100`.\n3. In `main()`, read `n`, `boost`, and populate `fleet`.\n4. Call `boost_squadron` and print each drone's updated battery: `DRONE <id>: <battery>`."
+      "task": "1. Implement `void boost_squadron(vector<Drone> &fleet, int boost_val)` modifying elements in-place.\n2. Clamp every battery at `100`.\n3. In `main()`, read `n`, `boost`, and populate `fleet`.\n4. Call `boost_squadron` and print each drone's updated battery: `DRONE <id>: <battery>`.",
+      "body": [
+        "**Synchronized In-Place Fleet Modification**",
+        "Implement `void boost_squadron(vector<Drone> &fleet, int boost_val)`.\nIt must iterate through `fleet`, adding `boost_val` to each drone's `battery`. If any battery exceeds `100`, cap it at `100`.",
+        "In `main()`:\n1. Read `n` and `boost`.\n2. Read `n` pairs of `id` and `battery` into `vector<Drone> fleet`.\n3. Call `boost_squadron(fleet, boost)`.\n4. Print each drone on a new line: `DRONE <id>: <battery>`."
+      ]
     },
     "capstone-iris-squadron-commander": {
       "title": "Autonomous IRIS Squadron Commander",
       "content": "### Full Fleet Mission Analytics Suite\n\nDefine `struct Drone { int id; int battery; int altitude; };`.\n\nInput:\n1. Integer `n` (number of drones in the squadron).\n2. `n` lines, each with `id`, `battery`, and `altitude`.\n\nIn `main()`:\n1. Read all `n` drones into `vector<Drone> fleet`.\n2. Calculate `TOTAL ENERGY`: sum of all drone batteries.\n3. Identify `HIGHEST DRONE`: ID of the drone with the highest `altitude` (first if tied).\n4. Count `MISSION READY`: count of drones satisfying `battery >= 50 && altitude >= 0`.\n5. Print the three summary lines exactly as specified.",
-      "task": "1. Define `struct Drone` with `id`, `battery`, and `altitude`.\n2. In `main()`, read `n` and populate `vector<Drone> fleet`.\n3. Calculate total battery energy across the squadron.\n4. Find the drone ID with maximum altitude.\n5. Count how many drones have `battery >= 50` and `altitude >= 0`.\n6. Output `TOTAL ENERGY: <sum>`.\n7. Output `HIGHEST DRONE: <id>`.\n8. Output `MISSION READY: <count>`."
+      "task": "1. Define `struct Drone` with `id`, `battery`, and `altitude`.\n2. In `main()`, read `n` and populate `vector<Drone> fleet`.\n3. Calculate total battery energy across the squadron.\n4. Find the drone ID with maximum altitude.\n5. Count how many drones have `battery >= 50` and `altitude >= 0`.\n6. Output `TOTAL ENERGY: <sum>`.\n7. Output `HIGHEST DRONE: <id>`.\n8. Output `MISSION READY: <count>`.",
+      "body": [
+        "**Full Fleet Mission Analytics Suite**",
+        "Define `struct Drone { int id; int battery; int altitude; };`.",
+        "Input:\n1. Integer `n` (number of drones in the squadron).\n2. `n` lines, each with `id`, `battery`, and `altitude`.",
+        "In `main()`:\n1. Read all `n` drones into `vector<Drone> fleet`.\n2. Calculate `TOTAL ENERGY`: sum of all drone batteries.\n3. Identify `HIGHEST DRONE`: ID of the drone with the highest `altitude` (first if tied).\n4. Count `MISSION READY`: count of drones satisfying `battery >= 50 && altitude >= 0`.\n5. Print the three summary lines exactly as specified."
+      ]
     },
     "recap": {
       "title": "Summary: Fleet Collections in C++",
-      "content": "### Chapter 28 Complete: Squadron Command Achieved\n\nThe entire IRIS drone fleet is now operating as a coordinated autonomous unit.\n\n#### Key Architectural Takeaways\n\n| Concept | Pattern | Purpose |\n| :--- | :--- | :--- |\n| **Static Array** | `Drone fleet[3];` | Fixed-size squadron allocated on stack |\n| **Dynamic Vector** | `vector<Drone> fleet;` | Dynamically scalable fleet size |\n| **Access Syntax** | `fleet[i].field` | Index element first, access field second |\n| **In-place Mutation** | `void fn(vector<Drone> &f)` | Modify drone properties across entire fleet |\n| **Const Inspection** | `void fn(const vector<Drone> &f)` | Inspect fleet statistics without copying memory |\n\nNext in Chapter 29: **File Operations (`<fstream>`)** — persisting mission logs, flight plans, and telemetry data to non-volatile disk storage so state survives power cycles and reboots!"
+      "content": "### Chapter 28 Complete: Squadron Command Achieved\n\nThe entire IRIS drone fleet is now operating as a coordinated autonomous unit.\n\n#### Key Architectural Takeaways\n\n| Concept | Pattern | Purpose |\n| :--- | :--- | :--- |\n| **Static Array** | `Drone fleet[3];` | Fixed-size squadron allocated on stack |\n| **Dynamic Vector** | `vector<Drone> fleet;` | Dynamically scalable fleet size |\n| **Access Syntax** | `fleet[i].field` | Index element first, access field second |\n| **In-place Mutation** | `void fn(vector<Drone> &f)` | Modify drone properties across entire fleet |\n| **Const Inspection** | `void fn(const vector<Drone> &f)` | Inspect fleet statistics without copying memory |\n\nNext in Chapter 29: **File Operations (`<fstream>`)** — persisting mission logs, flight plans, and telemetry data to non-volatile disk storage so state survives power cycles and reboots!",
+      "body": [
+        "**Chapter 28 Complete: Squadron Command Achieved**",
+        "The entire IRIS drone fleet is now operating as a coordinated autonomous unit.",
+        "**Key Architectural Takeaways**",
+        "| Concept | Pattern | Purpose |\n| :--- | :--- | :--- |\n| **Static Array** | `Drone fleet[3];` | Fixed-size squadron allocated on stack |\n| **Dynamic Vector** | `vector<Drone> fleet;` | Dynamically scalable fleet size |\n| **Access Syntax** | `fleet[i].field` | Index element first, access field second |\n| **In-place Mutation** | `void fn(vector<Drone> &f)` | Modify drone properties across entire fleet |\n| **Const Inspection** | `void fn(const vector<Drone> &f)` | Inspect fleet statistics without copying memory |",
+        "Next in Chapter 29: **File Operations (`<fstream>`)** — persisting mission logs, flight plans, and telemetry data to non-volatile disk storage so state survives power cycles and reboots!"
+      ]
     }
   }
 }

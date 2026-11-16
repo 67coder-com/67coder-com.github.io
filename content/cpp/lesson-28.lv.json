@@ -3,46 +3,110 @@
   "steps": {
     "why-squadrons": {
       "title": "IRIS flotes eskadra",
-      "content": "### Trīs pētnieku apvienošana\n\nLīdz šim mūsu programmas strādāja tikai ar vienu dronu vienlaikus. Taču uz Marsa virsmas misijas panākumi ir atkarīgi no visas trīs dronu eskadras saskaņotas darbības:\n- **IZLŪKS «Sigma»:** ātrs izlūks ar sakaru retranslācijas mezglu.\n- **KARTOGRĀFS «Delta»:** vidējas klases lidaparāts ar lidara virsmas skenēšanas matricām.\n- **KRAVAS «Omega»:** smags transporta drons grunts paraugu pārvadāšanai.\n\nKā mēs varam vienlaikus organizēt, uzraudzīt un vadīt visus trīs dronus programmā C++?\n\nApvienojot **`struct`** ar masīviem un dinamiskajiem vektoriem!\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};\n\nvector<Drone> fleet;\n```\nAr struktūru konteineru visa eskadra atrodas vienotā krātuvē. Mēs varam ciklā pārlūkot floti, aprēķināt kopējās enerģijas rezerves, atrast mērķim tuvāko lidaparātu un dot sinhronas komandas visiem droniem reizē."
+      "content": "### Trīs pētnieku apvienošana\n\nLīdz šim mūsu programmas strādāja tikai ar vienu dronu vienlaikus. Taču uz Marsa virsmas misijas panākumi ir atkarīgi no visas trīs dronu eskadras saskaņotas darbības:\n- **IZLŪKS «Sigma»:** ātrs izlūks ar sakaru retranslācijas mezglu.\n- **KARTOGRĀFS «Delta»:** vidējas klases lidaparāts ar lidara virsmas skenēšanas matricām.\n- **KRAVAS «Omega»:** smags transporta drons grunts paraugu pārvadāšanai.\n\nKā mēs varam vienlaikus organizēt, uzraudzīt un vadīt visus trīs dronus programmā C++?\n\nApvienojot **`struct`** ar masīviem un dinamiskajiem vektoriem!\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};\n\nvector<Drone> fleet;\n```\nAr struktūru konteineru visa eskadra atrodas vienotā krātuvē. Mēs varam ciklā pārlūkot floti, aprēķināt kopējās enerģijas rezerves, atrast mērķim tuvāko lidaparātu un dot sinhronas komandas visiem droniem reizē.",
+      "body": [
+        "**Trīs pētnieku apvienošana**",
+        "Līdz šim mūsu programmas strādāja tikai ar vienu dronu vienlaikus. Taču uz Marsa virsmas misijas panākumi ir atkarīgi no visas trīs dronu eskadras saskaņotas darbības:\n- **IZLŪKS «Sigma»:** ātrs izlūks ar sakaru retranslācijas mezglu.\n- **KARTOGRĀFS «Delta»:** vidējas klases lidaparāts ar lidara virsmas skenēšanas matricām.\n- **KRAVAS «Omega»:** smags transporta drons grunts paraugu pārvadāšanai.",
+        "Kā mēs varam vienlaikus organizēt, uzraudzīt un vadīt visus trīs dronus programmā C++?",
+        "Apvienojot **`struct`** ar masīviem un dinamiskajiem vektoriem!\n```cpp\nstruct Drone {\n    int id;\n    int battery;\n    int altitude;\n};",
+        "vector<Drone> fleet;\n```\nAr struktūru konteineru visa eskadra atrodas vienotā krātuvē. Mēs varam ciklā pārlūkot floti, aprēķināt kopējās enerģijas rezerves, atrast mērķim tuvāko lidaparātu un dot sinhronas komandas visiem droniem reizē."
+      ]
     },
     "squadron-memory-and-access": {
       "title": "Eskadras atmiņa un piekļuves sintakse",
-      "content": "### Sintakses secība: vispirms indekss, tad punkts\n\nStruktūru konteiners novieto vairākus struktūru eksemplārus nepārtrauktā atmiņas apgabalā.\n\n![Eskadras arhitektūra](assets/l28-squadron-anatomy.lv.svg)\n\n#### Būtiskākais piekļuves likums\n\nLai piekļūtu konkrēta flotes drona laukam:\n1. **Vispirms izvēlies dronu** ar masīva kvadrātiekavām: `fleet[i]`.\n2. **Tad izvēlies lauku** ar punkta operatoru: `.battery`.\n\n```cpp\nfleet[i].battery -= 10; // PAREIZI: elements i, pēc tam tā baterijas lauks\n```\n\n> [!CAUTION]\n> Nekad neraksti `fleet.battery[i]`! Vektoram `fleet` nav lauka `.battery` — šis lauks pieder katram atsevišķajam `Drone` elementam tā iekšienē!\n\n#### Flotes nodošana funkcijām\nVienmēr nodod flotes konteinerus pēc norādes, lai novērstu visu struktūru dārgu kopēšanu:\n- `void boost_fleet(vector<Drone> &fleet)` (modificē uz vietas)\n- `int compute_total(const vector<Drone> &fleet)` (lasīšana bez kopēšanas)"
+      "content": "### Sintakses secība: vispirms indekss, tad punkts\n\nStruktūru konteiners novieto vairākus struktūru eksemplārus nepārtrauktā atmiņas apgabalā.\n\n![Eskadras arhitektūra](assets/l28-squadron-anatomy.lv.svg)\n\n#### Būtiskākais piekļuves likums\n\nLai piekļūtu konkrēta flotes drona laukam:\n1. **Vispirms izvēlies dronu** ar masīva kvadrātiekavām: `fleet[i]`.\n2. **Tad izvēlies lauku** ar punkta operatoru: `.battery`.\n\n```cpp\nfleet[i].battery -= 10; // PAREIZI: elements i, pēc tam tā baterijas lauks\n```\n\n> [!CAUTION]\n> Nekad neraksti `fleet.battery[i]`! Vektoram `fleet` nav lauka `.battery` — šis lauks pieder katram atsevišķajam `Drone` elementam tā iekšienē!\n\n#### Flotes nodošana funkcijām\nVienmēr nodod flotes konteinerus pēc norādes, lai novērstu visu struktūru dārgu kopēšanu:\n- `void boost_fleet(vector<Drone> &fleet)` (modificē uz vietas)\n- `int compute_total(const vector<Drone> &fleet)` (lasīšana bez kopēšanas)",
+      "body": [
+        "**Sintakses secība: vispirms indekss, tad punkts**",
+        "syntax: vector<{StrukturasTips}> {flote};\n- StrukturasTips: struktūras tips, ko glabā vektors\n- flote: vektora kolekcijas nosaukums",
+        "syntax: {flote}[{indekss}].{lauks};\n- flote: vektors vai masīvs, kurā glabājas struktūras\n- indekss: 0 bāzēta elementa pozīcija\n- lauks: struktūras lauks nolasīšanai vai maiņai",
+        "Struktūru konteiners novieto vairākus struktūru eksemplārus nepārtrauktā atmiņas apgabalā.",
+        "**Būtiskākais piekļuves likums**",
+        "Lai piekļūtu konkrēta flotes drona laukam:\n1. **Vispirms izvēlies dronu** ar masīva kvadrātiekavām: `fleet[i]`.\n2. **Tad izvēlies lauku** ar punkta operatoru: `.battery`.",
+        "```cpp\nfleet[i].battery -= 10; // PAREIZI: elements i, pēc tam tā baterijas lauks\n```",
+        "> [!CAUTION]\n> Nekad neraksti `fleet.battery[i]`! Vektoram `fleet` nav lauka `.battery` — šis lauks pieder katram atsevišķajam `Drone` elementam tā iekšienē!",
+        "**Flotes nodošana funkcijām**\nVienmēr nodod flotes konteinerus pēc norādes, lai novērstu visu struktūru dārgu kopēšanu:\n- `void boost_fleet(vector<Drone> &fleet)` (modificē uz vietas)\n- `int compute_total(const vector<Drone> &fleet)` (lasīšana bez kopēšanas)"
+      ]
     },
     "inspect-squadron-traversal": {
       "title": "Diagnostika: Flotes enerģijas aprēķins",
-      "content": "### Paredzi izvadi\n\nAnalizē flotes enerģijas summēšanas ciklu pār 3 `Drone` struktūru masīvu.\n\nKāda kopējā bateriju summa tiks izvadīta?"
+      "content": "### Paredzi izvadi\n\nAnalizē flotes enerģijas summēšanas ciklu pār 3 `Drone` struktūru masīvu.\n\nKāda kopējā bateriju summa tiks izvadīta?",
+      "body": [
+        "**Paredzi izvadi**",
+        "Analizē flotes enerģijas summēšanas ciklu pār 3 `Drone` struktūru masīvu.",
+        "Kāda kopējā bateriju summa tiks izvadīta?"
+      ],
+      "explain": "Masīvā `fleet` ir 3 droni ar baterijām 80, 60 un 90. Cikls tās saskaita: `80 + 60 + 90 = 230`. Programma izvada `230`."
     },
     "audit-struct-array-index-bug": {
       "title": "Diagnostika: Sintakses secības lamatas",
-      "content": "### Atrodi piekļuves kļūdu\n\nJaunākais programmētājs mēģināja nolasīt pirmā drona akumulatora līmeni no flotes vektora. Kompilators noraida rindu ar kļūdu par neesošu lauku!\n\nNoklikšķini uz koda rindas, kurā apgriezta indeksācijas un punkta operatora secība."
+      "content": "### Atrodi piekļuves kļūdu\n\nJaunākais programmētājs mēģināja nolasīt pirmā drona akumulatora līmeni no flotes vektora. Kompilators noraida rindu ar kļūdu par neesošu lauku!\n\nNoklikšķini uz koda rindas, kurā apgriezta indeksācijas un punkta operatora secība.",
+      "body": [
+        "**Atrodi piekļuves kļūdu**",
+        "Jaunākais programmētājs mēģināja nolasīt pirmā drona akumulatora līmeni no flotes vektora. Kompilators noraida rindu ar kļūdu par neesošu lauku!",
+        "Noklikšķini uz koda rindas, kurā apgriezta indeksācijas un punkta operatora secība."
+      ],
+      "explain": "Lai piekļūtu struktūras laukam vektorā, vispirms jānorāda elementa indekss un tad punkts: `fleet[0].battery`. Pieraksts `fleet.battery[0]` izraisa kļūdu, jo pašam vektoram nav lauka `battery`."
     },
     "write-fleet-battery-audit": {
       "title": "Flotes veselības audits: Kritisko dronu skaits",
       "content": "### Eskadras enerģijas uzraudzība\n\nDefinē `struct Drone { int id; int battery; };`.\n\nFunkcijā `main()`:\n1. Nolasi veselu skaitli `n`.\n2. Nolasi `n` pārus `id` un `battery`, pievienojot katru dronu ar `.push_back()` vektorā `vector<Drone> fleet`.\n3. Ciklā pārskaiti floti un saskaiti, cik droniem ir `battery < 30`.\n4. Izvadi `CRITICAL COUNT: <skaits>`.",
-      "task": "1. Definē `struct Drone` ar laukiem `int id` un `int battery`.\n2. Funkcijā `main()` nolasi `n` un aizpildi `vector<Drone> fleet`.\n3. Pārlūko `fleet` un saskaiti dronus ar `battery < 30`.\n4. Izvadi `CRITICAL COUNT: <skaits>` ar jaunu rindu."
+      "task": "1. Definē `struct Drone` ar laukiem `int id` un `int battery`.\n2. Funkcijā `main()` nolasi `n` un aizpildi `vector<Drone> fleet`.\n3. Pārlūko `fleet` un saskaiti dronus ar `battery < 30`.\n4. Izvadi `CRITICAL COUNT: <skaits>` ar jaunu rindu.",
+      "body": [
+        "**Eskadras enerģijas uzraudzība**",
+        "Definē `struct Drone { int id; int battery; };`.",
+        "Funkcijā `main()`:\n1. Nolasi veselu skaitli `n`.\n2. Nolasi `n` pārus `id` un `battery`, pievienojot katru dronu ar `.push_back()` vektorā `vector<Drone> fleet`.\n3. Ciklā pārskaiti floti un saskaiti, cik droniem ir `battery < 30`.\n4. Izvadi `CRITICAL COUNT: <skaits>`."
+      ]
     },
     "predict-vector-push-back-struct": {
       "title": "Diagnostika: Dinamiska flotes papildināšana",
-      "content": "### Paredzi vektora papildināšanu\n\nIzpēti flotes vektora aizpildīšanu ar metodi `.push_back()`.\n\nKāda vērtība tiks izvadīta terminālī?"
+      "content": "### Paredzi vektora papildināšanu\n\nIzpēti flotes vektora aizpildīšanu ar metodi `.push_back()`.\n\nKāda vērtība tiks izvadīta terminālī?",
+      "body": [
+        "**Paredzi vektora papildināšanu**",
+        "Izpēti flotes vektora aizpildīšanu ar metodi `.push_back()`.",
+        "Kāda vērtība tiks izvadīta terminālī?"
+      ],
+      "explain": "Vektorā `fleet` tiek ievietoti divi `Drone` elementi. Tāpēc `fleet.size()` ir 2. Elements ar indeksu 1 ir `{20}`, tātad `fleet[1].id` ir 20. Programma izvada `2 20`."
     },
     "parsons-fleet-search-minimum": {
       "title": "Avionikas montāža: Minimālās baterijas meklēšana",
-      "content": "### Saliec eskadras meklēšanas funkciju\n\nSakārto koda blokus loģiskā secībā, lai izveidotu funkciju `int find_lowest_battery_id(const vector<Drone> &fleet)`, kura atrod dronu ar viszemāko akumulatora uzlādi un atgriež tā ID."
+      "content": "### Saliec eskadras meklēšanas funkciju\n\nSakārto koda blokus loģiskā secībā, lai izveidotu funkciju `int find_lowest_battery_id(const vector<Drone> &fleet)`, kura atrod dronu ar viszemāko akumulatora uzlādi un atgriež tā ID.",
+      "body": [
+        "**Saliec eskadras meklēšanas funkciju**",
+        "Sakārto koda blokus loģiskā secībā, lai izveidotu funkciju `int find_lowest_battery_id(const vector<Drone> &fleet)`, kura atrod dronu ar viszemāko akumulatora uzlādi un atgriež tā ID."
+      ],
+      "explain": "Definē `struct Drone`. Funkcijā `find_lowest_battery_id()` padod `const vector<Drone> &fleet` pēc norādes. Ciklā no indeksa 1 atrod mazāko vērtību un atgriež `fleet[min_idx].id`. Funkcijā `main()` inicializē eskadru un izvada `LOWEST BATTERY DRONE: 2`."
     },
     "write-fleet-dispatch-coordinator": {
       "title": "Flotes dispečers: Ārkārtas uzlāde uz vietas",
       "content": "### Sinhronizēta flotes modificēšana\n\nIzveido funkciju `void boost_squadron(vector<Drone> &fleet, int boost_val)`.\nTai jāiziet cauri visai flotei `fleet`, pieskaitot `boost_val` pie katra drona `battery`. Ja kāda drona baterija pārsniedz `100`, ierobežo to pie `100`.\n\nFunkcijā `main()`:\n1. Nolasi `n` un `boost`.\n2. Nolasi `n` dronu datus (`id`, `battery`) vektorā `vector<Drone> fleet`.\n3. Izsauc `boost_squadron(fleet, boost)`.\n4. Izvadi katru dronu jaunā rindā: `DRONE <id>: <battery>`.",
-      "task": "1. Izveido `void boost_squadron(vector<Drone> &fleet, int boost_val)`, modificējot elementus uz vietas.\n2. Ierobežo katru akumulatoru pie `100`.\n3. Funkcijā `main()` nolasi datus un aizpildi `fleet`.\n4. Izsauc funkciju un izvadi katra drona stāvokli: `DRONE <id>: <battery>`."
+      "task": "1. Izveido `void boost_squadron(vector<Drone> &fleet, int boost_val)`, modificējot elementus uz vietas.\n2. Ierobežo katru akumulatoru pie `100`.\n3. Funkcijā `main()` nolasi datus un aizpildi `fleet`.\n4. Izsauc funkciju un izvadi katra drona stāvokli: `DRONE <id>: <battery>`.",
+      "body": [
+        "**Sinhronizēta flotes modificēšana**",
+        "Izveido funkciju `void boost_squadron(vector<Drone> &fleet, int boost_val)`.\nTai jāiziet cauri visai flotei `fleet`, pieskaitot `boost_val` pie katra drona `battery`. Ja kāda drona baterija pārsniedz `100`, ierobežo to pie `100`.",
+        "Funkcijā `main()`:\n1. Nolasi `n` un `boost`.\n2. Nolasi `n` dronu datus (`id`, `battery`) vektorā `vector<Drone> fleet`.\n3. Izsauc `boost_squadron(fleet, boost)`.\n4. Izvadi katru dronu jaunā rindā: `DRONE <id>: <battery>`."
+      ]
     },
     "capstone-iris-squadron-commander": {
       "title": "Autonomais IRIS eskadras komandieris",
       "content": "### Pilna flotes misijas analītika\n\nDefinē `struct Drone { int id; int battery; int altitude; };`.\n\nIevade:\n1. Skaitlis `n` (dronu skaits eskadrā).\n2. `n` rindas, kur katrā ir `id`, `battery` un `altitude`.\n\nFunkcijā `main()`:\n1. Nolasi visus `n` dronus `vector<Drone> fleet` konteinerā.\n2. Aprēķini `TOTAL ENERGY`: visu dronu bateriju summu.\n3. Nosaki `HIGHEST DRONE`: ID dronam ar vislielāko `altitude` (pirmais, ja vienādi).\n4. Saskaiti `MISSION READY`: cik droniem ir `battery >= 50 && altitude >= 0`.\n5. Izvadi trīs kopsavilkuma rindas precīzi pēc prasībām.",
-      "task": "1. Definē `struct Drone` ar laukiem `id`, `battery` un `altitude`.\n2. Funkcijā `main()` nolasi `n` un aizpildi `vector<Drone> fleet`.\n3. Aprēķini flotes kopējo bateriju enerģiju.\n4. Atrodi augstāk lidojošā drona ID.\n5. Saskaiti, cik droniem ir `battery >= 50` un `altitude >= 0`.\n6. Izvadi `TOTAL ENERGY: <summa>`.\n7. Izvadi `HIGHEST DRONE: <id>`.\n8. Izvadi `MISSION READY: <skaits>`."
+      "task": "1. Definē `struct Drone` ar laukiem `id`, `battery` un `altitude`.\n2. Funkcijā `main()` nolasi `n` un aizpildi `vector<Drone> fleet`.\n3. Aprēķini flotes kopējo bateriju enerģiju.\n4. Atrodi augstāk lidojošā drona ID.\n5. Saskaiti, cik droniem ir `battery >= 50` un `altitude >= 0`.\n6. Izvadi `TOTAL ENERGY: <summa>`.\n7. Izvadi `HIGHEST DRONE: <id>`.\n8. Izvadi `MISSION READY: <skaits>`.",
+      "body": [
+        "**Pilna flotes misijas analītika**",
+        "Definē `struct Drone { int id; int battery; int altitude; };`.",
+        "Ievade:\n1. Skaitlis `n` (dronu skaits eskadrā).\n2. `n` rindas, kur katrā ir `id`, `battery` un `altitude`.",
+        "Funkcijā `main()`:\n1. Nolasi visus `n` dronus `vector<Drone> fleet` konteinerā.\n2. Aprēķini `TOTAL ENERGY`: visu dronu bateriju summu.\n3. Nosaki `HIGHEST DRONE`: ID dronam ar vislielāko `altitude` (pirmais, ja vienādi).\n4. Saskaiti `MISSION READY`: cik droniem ir `battery >= 50 && altitude >= 0`.\n5. Izvadi trīs kopsavilkuma rindas precīzi pēc prasībām."
+      ]
     },
     "recap": {
       "title": "Kopsavilkums: Flotes datu modeļi C++",
-      "content": "### 28. nodaļa pabeigta: Eskadras vadība apgūta\n\nVisa IRIS drona flote tagad darbojas kā vienota koordinēta komanda.\n\n#### Būtiskākie arhitektūras paņēmieni\n\n| Koncepts | Šablons | Pielietojums |\n| :--- | :--- | :--- |\n| **Statiskais masīvs** | `Drone fleet[3];` | Fiksēta izmēra eskadra steka atmiņā |\n| **Dinamiskais vektors** | `vector<Drone> fleet;` | Brīvi paplašināms flotes izmērs |\n| **Piekļuves sintakse** | `fleet[i].lauks` | Vispirms elements, pēc tam tā lauks |\n| **Modificēšana uz vietas** | `void fn(vector<Drone> &f)` | Dronu parametru atjaunošana visā flotē |\n| **Const pārbaude** | `void fn(const vector<Drone> &f)` | Droša analītika bez datu kopēšanas |\n\nNākamajā, 29. nodaļā: **Darbs ar failiem (`<fstream>`)** — misijas žurnālu, lidojumu plānu un telemetrijas saglabāšana diskā, lai dati neietu zudumā pēc borta datora pārstartēšanas!"
+      "content": "### 28. nodaļa pabeigta: Eskadras vadība apgūta\n\nVisa IRIS drona flote tagad darbojas kā vienota koordinēta komanda.\n\n#### Būtiskākie arhitektūras paņēmieni\n\n| Koncepts | Šablons | Pielietojums |\n| :--- | :--- | :--- |\n| **Statiskais masīvs** | `Drone fleet[3];` | Fiksēta izmēra eskadra steka atmiņā |\n| **Dinamiskais vektors** | `vector<Drone> fleet;` | Brīvi paplašināms flotes izmērs |\n| **Piekļuves sintakse** | `fleet[i].lauks` | Vispirms elements, pēc tam tā lauks |\n| **Modificēšana uz vietas** | `void fn(vector<Drone> &f)` | Dronu parametru atjaunošana visā flotē |\n| **Const pārbaude** | `void fn(const vector<Drone> &f)` | Droša analītika bez datu kopēšanas |\n\nNākamajā, 29. nodaļā: **Darbs ar failiem (`<fstream>`)** — misijas žurnālu, lidojumu plānu un telemetrijas saglabāšana diskā, lai dati neietu zudumā pēc borta datora pārstartēšanas!",
+      "body": [
+        "**28. nodaļa pabeigta: Eskadras vadība apgūta**",
+        "Visa IRIS drona flote tagad darbojas kā vienota koordinēta komanda.",
+        "**Būtiskākie arhitektūras paņēmieni**",
+        "| Koncepts | Šablons | Pielietojums |\n| :--- | :--- | :--- |\n| **Statiskais masīvs** | `Drone fleet[3];` | Fiksēta izmēra eskadra steka atmiņā |\n| **Dinamiskais vektors** | `vector<Drone> fleet;` | Brīvi paplašināms flotes izmērs |\n| **Piekļuves sintakse** | `fleet[i].lauks` | Vispirms elements, pēc tam tā lauks |\n| **Modificēšana uz vietas** | `void fn(vector<Drone> &f)` | Dronu parametru atjaunošana visā flotē |\n| **Const pārbaude** | `void fn(const vector<Drone> &f)` | Droša analītika bez datu kopēšanas |",
+        "Nākamajā, 29. nodaļā: **Darbs ar failiem (`<fstream>`)** — misijas žurnālu, lidojumu plānu un telemetrijas saglabāšana diskā, lai dati neietu zudumā pēc borta datora pārstartēšanas!"
+      ]
     }
   }
 }

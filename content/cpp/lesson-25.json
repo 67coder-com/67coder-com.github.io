@@ -1,7 +1,10 @@
 {
   "n": 25,
   "slug": "text",
-  "locales": ["lv", "en"],
+  "locales": [
+    "lv",
+    "en"
+  ],
   "steps": [
     {
       "id": "why-text-protocols",
@@ -35,21 +38,14 @@
       "id": "write-command-extractor",
       "kind": "editor",
       "stdin": "ALTITUDE 120\n",
-      "initial": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string raw;\n    getline(cin, raw);\n\n    // 1. Find space index with raw.find(' ')\n    // 2. Extract verb with raw.substr(0, pos)\n    // 3. Extract payload with raw.substr(pos + 1) and parse with stoi\n    // 4. Output:\n    //    VERB: <verb>\n    //    PAYLOAD: <val>\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string raw;\n    getline(cin, raw);\n\n    size_t pos = raw.find(' ');\n    if (pos != string::npos) {\n        string verb = raw.substr(0, pos);\n        string arg = raw.substr(pos + 1);\n        int payload = stoi(arg);\n\n        cout << \"VERB: \" << verb << endl;\n        cout << \"PAYLOAD: \" << payload << endl;\n    }\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "ALTITUDE 120\n",
-          "expected": "VERB: ALTITUDE\nPAYLOAD: 120\n"
-        },
-        {
-          "in": "SPEED 85\n",
-          "expected": "VERB: SPEED\nPAYLOAD: 85\n"
-        },
-        {
-          "in": "BATTERY 99\n",
-          "expected": "VERB: BATTERY\nPAYLOAD: 99\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string raw;\n    getline(cin, raw);\n\n    // 1. Find space index with raw.find(' ')\n    // 2. Extract verb with raw.substr(0, pos)\n    // 3. Extract payload with raw.substr(pos + 1) and parse with stoi\n    // 4. Output:\n    //    VERB: <verb>\n    //    PAYLOAD: <val>\n\n    return 0;\n}",
+      "expected": "VERB: ALTITUDE\nPAYLOAD: 120\n",
+      "requires": [
+        "raw.find(' ')",
+        "raw.substr(",
+        "stoi("
       ]
     },
     {
@@ -89,41 +85,29 @@
     {
       "id": "write-telemetry-scrubber",
       "kind": "editor",
-      "initial": "#include <iostream>\n#include <string>\nusing namespace std;\n\n// 1. int count_delimiters(const string &data, char delimiter)\n\nint main() {\n    string line;\n    cin >> line;\n\n    // 2. Count commas ',' with count_delimiters\n    // 3. Print DELIMITER COUNT: <count>\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint count_delimiters(const string &data, char delimiter) {\n    int count = 0;\n    for (size_t i = 0; i < data.length(); i++) {\n        if (data[i] == delimiter) {\n            count++;\n        }\n    }\n    return count;\n}\n\nint main() {\n    string line;\n    cin >> line;\n\n    int c = count_delimiters(line, ',');\n    cout << \"DELIMITER COUNT: \" << c << endl;\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "10,20,30,40\n",
-          "expected": "DELIMITER COUNT: 3\n"
-        },
-        {
-          "in": "SOLO\n",
-          "expected": "DELIMITER COUNT: 0\n"
-        },
-        {
-          "in": "A,B\n",
-          "expected": "DELIMITER COUNT: 1\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\n// 1. int count_delimiters(const string &data, char delimiter)\n\nint main() {\n    string line;\n    cin >> line;\n\n    // 2. Count commas ',' with count_delimiters\n    // 3. Print DELIMITER COUNT: <count>\n\n    return 0;\n}",
+      "stdin": "10,20,30,40\n",
+      "expected": "DELIMITER COUNT: 3\n",
+      "requires": [
+        "count_delimiters(",
+        "const string &",
+        "char delimiter"
       ]
     },
     {
       "id": "capstone-flight-packet-decoder",
       "kind": "editor",
-      "initial": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int speed = 0;\n    int altitude = 0;\n    int heading = 0;\n\n    // Read n packets formatted as <ACTION>:<VALUE>\n    // Use find(':'), substr, and stoi to parse\n    // If ACTION is \"THRUST\", speed += val\n    // If ACTION is \"ELEVATION\", altitude = val\n    // If ACTION is \"YAW\", heading += val\n\n    // Output:\n    // FINAL SPEED: <speed>\n    // FINAL ALTITUDE: <altitude>\n    // FINAL HEADING: <heading>\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int speed = 0;\n    int altitude = 0;\n    int heading = 0;\n\n    for (int i = 0; i < n; i++) {\n        string packet;\n        cin >> packet;\n        size_t sep = packet.find(':');\n        if (sep != string::npos) {\n            string verb = packet.substr(0, sep);\n            int val = stoi(packet.substr(sep + 1));\n            if (verb == \"THRUST\") {\n                speed += val;\n            } else if (verb == \"ELEVATION\") {\n                altitude = val;\n            } else if (verb == \"YAW\") {\n                heading += val;\n            }\n        }\n    }\n\n    cout << \"FINAL SPEED: \" << speed << endl;\n    cout << \"FINAL ALTITUDE: \" << altitude << endl;\n    cout << \"FINAL HEADING: \" << heading << endl;\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "3\nTHRUST:40\nELEVATION:150\nTHRUST:20\n",
-          "expected": "FINAL SPEED: 60\nFINAL ALTITUDE: 150\nFINAL HEADING: 0\n"
-        },
-        {
-          "in": "2\nELEVATION:80\nYAW:90\n",
-          "expected": "FINAL SPEED: 0\nFINAL ALTITUDE: 80\nFINAL HEADING: 90\n"
-        },
-        {
-          "in": "4\nTHRUST:10\nYAW:45\nELEVATION:200\nYAW:45\n",
-          "expected": "FINAL SPEED: 10\nFINAL ALTITUDE: 200\nFINAL HEADING: 90\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int speed = 0;\n    int altitude = 0;\n    int heading = 0;\n\n    // TODO 1: Loop n times reading command packet <ACTION>:<VALUE>\n    // TODO 2: Locate ':' with packet.find(':')\n    // TODO 3: Extract ACTION with substr(0, sep) and VALUE with stoi(substr(sep + 1))\n    // TODO 4: Update speed (THRUST), altitude (ELEVATION), heading (YAW)\n    // TODO 5: Print:\n    // FINAL SPEED: <speed>\n    // FINAL ALTITUDE: <altitude>\n    // FINAL HEADING: <heading>\n\n    return 0;\n}",
+      "stdin": "3\nTHRUST:40\nELEVATION:150\nTHRUST:20\n",
+      "expected": "FINAL SPEED: 60\nFINAL ALTITUDE: 150\nFINAL HEADING: 0\n",
+      "requires": [
+        ".find(':'",
+        ".substr(",
+        "stoi("
       ]
     },
     {

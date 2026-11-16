@@ -3,46 +3,113 @@
   "steps": {
     "why-output-formatting": {
       "title": "Avionics Dashboard Engineering",
-      "content": "### The Chaos of Unformatted Streams\n\nWhen Scout Drone Sigma transmits high-frequency telemetry back to Mission Control on Earth, human flight directors must evaluate critical systems at a glance.\n\nConsider raw default `cout` output:\n```text\nSENSOR READING THRESH\nBATTERY 12.3456 14\nCORE_TEMP 78.9 80\nRADAR 108.2001 120\n```\nBecause numbers have different digit lengths, columns zigzag across the screen, decimal points drift wildly, and parsing data becomes hazardous during flight maneuvers.\n\nTo produce clear, professional telemetry displays, C++ provides the **`<iomanip>`** (Input/Output Manipulators) header.\n\nWith `<iomanip>`, you can:\n- Enforce strict column widths using `setw(width)`.\n- Align text cleanly to the `left` or `right`.\n- Fix decimal precision with `fixed` and `setprecision(digits)`.\n- Guarantee that every flight report matches Mission Control specifications down to the exact character."
+      "content": "### The Chaos of Unformatted Streams\n\nWhen Scout Drone Sigma transmits high-frequency telemetry back to Mission Control on Earth, human flight directors must evaluate critical systems at a glance.\n\nConsider raw default `cout` output:\n```text\nSENSOR READING THRESH\nBATTERY 12.3456 14\nCORE_TEMP 78.9 80\nRADAR 108.2001 120\n```\nBecause numbers have different digit lengths, columns zigzag across the screen, decimal points drift wildly, and parsing data becomes hazardous during flight maneuvers.\n\nTo produce clear, professional telemetry displays, C++ provides the **`<iomanip>`** (Input/Output Manipulators) header.\n\nWith `<iomanip>`, you can:\n- Enforce strict column widths using `setw(width)`.\n- Align text cleanly to the `left` or `right`.\n- Fix decimal precision with `fixed` and `setprecision(digits)`.\n- Guarantee that every flight report matches Mission Control specifications down to the exact character.",
+      "body": [
+        "**The Chaos of Unformatted Streams**",
+        "When Scout Drone Sigma transmits high-frequency telemetry back to Mission Control on Earth, human flight directors must evaluate critical systems at a glance.",
+        "Consider raw default `cout` output:\n```text\nSENSOR READING THRESH\nBATTERY 12.3456 14\nCORE_TEMP 78.9 80\nRADAR 108.2001 120\n```\nBecause numbers have different digit lengths, columns zigzag across the screen, decimal points drift wildly, and parsing data becomes hazardous during flight maneuvers.",
+        "To produce clear, professional telemetry displays, C++ provides the **`<iomanip>`** (Input/Output Manipulators) header.",
+        "With `<iomanip>`, you can:\n- Enforce strict column widths using `setw(width)`.\n- Align text cleanly to the `left` or `right`.\n- Fix decimal precision with `fixed` and `setprecision(digits)`.\n- Guarantee that every flight report matches Mission Control specifications down to the exact character."
+      ]
     },
     "iomanip-architecture": {
       "title": "Stream Manipulator Architecture",
-      "content": "### Inside the Output Stream Formatter\n\nManipulators modify the internal state of the `cout` output stream.\n\n![C++ iomanip Architecture](assets/l26-iomanip-anatomy.en.svg)\n\n#### The Golden Rules of Formatting\n\n1. **Width is Single-Shot:**\n   - `setw(n)` sets the field width **only for the immediate next variable printed**!\n   - Immediately after outputting that variable, the stream automatically resets its field width back to `0` (default).\n   - *Example:* `cout << setw(5) << 42 << 100;` prints `\"   42100\"`.\n\n2. **Precision and Alignment are Sticky:**\n   - `fixed`, `setprecision(p)`, `left`, and `right` are persistent (\"sticky\"). Once set, they remain active for all subsequent outputs until explicitly changed.\n\n3. **The `fixed` Requirement:**\n   - Without `fixed`, `setprecision(n)` controls total *significant digits* (for example, `12.345` with precision 2 becomes `12`).\n   - With `fixed`, `setprecision(n)` controls exact digits *after the decimal point* (`12.35`). Always combine: `cout << fixed << setprecision(2);`."
+      "content": "### Inside the Output Stream Formatter\n\nManipulators modify the internal state of the `cout` output stream.\n\n![C++ iomanip Architecture](assets/l26-iomanip-anatomy.en.svg)\n\n#### The Golden Rules of Formatting\n\n1. **Width is Single-Shot:**\n   - `setw(n)` sets the field width **only for the immediate next variable printed**!\n   - Immediately after outputting that variable, the stream automatically resets its field width back to `0` (default).\n   - *Example:* `cout << setw(5) << 42 << 100;` prints `\"   42100\"`.\n\n2. **Precision and Alignment are Sticky:**\n   - `fixed`, `setprecision(p)`, `left`, and `right` are persistent (\"sticky\"). Once set, they remain active for all subsequent outputs until explicitly changed.\n\n3. **The `fixed` Requirement:**\n   - Without `fixed`, `setprecision(n)` controls total *significant digits* (for example, `12.345` with precision 2 becomes `12`).\n   - With `fixed`, `setprecision(n)` controls exact digits *after the decimal point* (`12.35`). Always combine: `cout << fixed << setprecision(2);`.",
+      "body": [
+        "**Inside the Output Stream Formatter**",
+        "syntax: cout << fixed << setprecision({precision});\n- fixed: sticky manipulator enabling fixed-point decimal format\n- precision: number of digits displayed after the decimal point\n- ;: statement terminator — mandatory in C++",
+        "syntax: cout << setw({width}) << {value};\n- width: single-shot field width in characters for the immediate next value\n- value: variable, expression, or literal to format",
+        "Manipulators modify the internal state of the `cout` output stream.",
+        "**The Golden Rules of Formatting**",
+        "1. **Width is Single-Shot:**\n   - `setw(n)` sets the field width **only for the immediate next variable printed**!\n   - Immediately after outputting that variable, the stream automatically resets its field width back to `0` (default).\n   - *Example:* `cout << setw(5) << 42 << 100;` prints `\"   42100\"`.",
+        "2. **Precision and Alignment are Sticky:**\n   - `fixed`, `setprecision(p)`, `left`, and `right` are persistent (\"sticky\"). Once set, they remain active for all subsequent outputs until explicitly changed.",
+        "3. **The `fixed` Requirement:**\n   - Without `fixed`, `setprecision(n)` controls total *significant digits* (for example, `12.345` with precision 2 becomes `12`).\n   - With `fixed`, `setprecision(n)` controls exact digits *after the decimal point* (`12.35`). Always combine: `cout << fixed << setprecision(2);`."
+      ]
     },
     "inspect-setw-alignment": {
       "title": "Diagnostics: Single-Shot Field Width",
-      "content": "### Predict the Output\n\nAnalyze this stream output statement containing `setw(6)`.\n\nRemember that `setw()` only controls the width of the variable directly following it in the stream!\n\nWhat is printed to the terminal?"
+      "content": "### Predict the Output\n\nAnalyze this stream output statement containing `setw(6)`.\n\nRemember that `setw()` only controls the width of the variable directly following it in the stream!\n\nWhat is printed to the terminal?",
+      "body": [
+        "**Predict the Output**",
+        "Analyze this stream output statement containing `setw(6)`.",
+        "Remember that `setw()` only controls the width of the variable directly following it in the stream!",
+        "What is printed to the terminal?"
+      ],
+      "explain": "`setw(6)` applies ONLY to the immediate next value output (`42`), padding it to a field width of 6 characters (`\"    42\"`). The subsequent value `100` is output immediately after it without extra padding, producing `\"    42100\"`."
     },
     "audit-floating-precision-bug": {
       "title": "Diagnostics: Significant Digits Audit",
-      "content": "### Spot the Formatting Bug\n\nA ground station engineer attempted to display the drone battery voltage `12.3456` with 2 decimal places. However, the terminal stubbornly displays `12` without any decimal fraction at all!\n\nClick the line that sets the precision without activating the `fixed` format mode."
+      "content": "### Spot the Formatting Bug\n\nA ground station engineer attempted to display the drone battery voltage `12.3456` with 2 decimal places. However, the terminal stubbornly displays `12` without any decimal fraction at all!\n\nClick the line that sets the precision without activating the `fixed` format mode.",
+      "body": [
+        "**Spot the Formatting Bug**",
+        "A ground station engineer attempted to display the drone battery voltage `12.3456` with 2 decimal places. However, the terminal stubbornly displays `12` without any decimal fraction at all!",
+        "Click the line that sets the precision without activating the `fixed` format mode."
+      ],
+      "explain": "Without the `fixed` manipulator, `setprecision(2)` specifies the total number of significant digits (printing `12`). To display exactly 2 digits after the decimal point (`12.35`), activate fixed-point notation using `cout << fixed << setprecision(2)`."
     },
     "write-fixed-precision-telemetry": {
       "title": "Telemetry Calibration: Fixed Decimals",
       "content": "### Enforcing Precision\n\nRead two floating-point numbers from standard input: `volt` and `temp`.\n\nFormat both numbers so they always display with exactly **2 decimal places** using `fixed` and `setprecision(2)`.\n\nPrint the values in the following format:\n`VOLT: <volt>`\n`TEMP: <temp>`",
-      "task": "1. In `main()`, read `volt` and `temp` from `cin`.\n2. Configure `cout` with `fixed` and `setprecision(2)`.\n3. Output `VOLT: <volt>` followed by a newline.\n4. Output `TEMP: <temp>` followed by a newline."
+      "task": "1. In `main()`, read `volt` and `temp` from `cin`.\n2. Configure `cout` with `fixed` and `setprecision(2)`.\n3. Output `VOLT: <volt>` followed by a newline.\n4. Output `TEMP: <temp>` followed by a newline.",
+      "body": [
+        "**Enforcing Precision**",
+        "Read two floating-point numbers from standard input: `volt` and `temp`.",
+        "Format both numbers so they always display with exactly **2 decimal places** using `fixed` and `setprecision(2)`.",
+        "Print the values in the following format:\n`VOLT: <volt>`\n`TEMP: <temp>`"
+      ]
     },
     "predict-left-right-formatting": {
       "title": "Diagnostics: Column Alignment",
-      "content": "### Predict Dual-Column Spacing\n\nExamine the stream manipulation chain using `left`, `right`, and `setw(5)`.\n\nWhat exact string is output?"
+      "content": "### Predict Dual-Column Spacing\n\nExamine the stream manipulation chain using `left`, `right`, and `setw(5)`.\n\nWhat exact string is output?",
+      "body": [
+        "**Predict Dual-Column Spacing**",
+        "Examine the stream manipulation chain using `left`, `right`, and `setw(5)`.",
+        "What exact string is output?"
+      ],
+      "explain": "`left << setw(5) << \"ALT\"` pads `\"ALT\"` on the right with spaces (`\"ALT  \"`). Then `right << setw(5) << 90` pads `90` on the left with 3 spaces (`\"   90\"`). Together, they output `\"ALT     90\"`."
     },
     "parsons-table-generator": {
       "title": "Avionics Assembly: Channel Formatter",
-      "content": "### Assemble the Row Formatter\n\nReconstruct this modular function `print_row(const string &sensor, double val)` which outputs the sensor label left-aligned with width 8, followed by the value right-aligned with width 6 and 1 decimal place."
+      "content": "### Assemble the Row Formatter\n\nReconstruct this modular function `print_row(const string &sensor, double val)` which outputs the sensor label left-aligned with width 8, followed by the value right-aligned with width 6 and 1 decimal place.",
+      "body": [
+        "**Assemble the Row Formatter**",
+        "Reconstruct this modular function `print_row(const string &sensor, double val)` which outputs the sensor label left-aligned with width 8, followed by the value right-aligned with width 6 and 1 decimal place."
+      ],
+      "explain": "Headers `<iostream>`, `<iomanip>`, and `<string>` are included. In `print_row()`, `sensor` is aligned left with `setw(8)`, and `val` is aligned right with `fixed << setprecision(1) << setw(6)`. In `main()`, calling `print_row` for `\"RADAR\"` and `\"LIDAR\"` outputs two neatly aligned rows."
     },
     "write-aligned-column-table": {
       "title": "Flight Manifest: Two-Column Table",
       "content": "### Building an Aligned Flight Roster\n\nWrite a program to format a manifest of drone subsystem status codes.\n\nInput:\n1. An integer `n`.\n2. `n` lines, each containing a subsystem name (string) and an integer status code.\n\nFor each subsystem, print a single line with:\n- Subsystem name left-aligned with width 10 (`left << setw(10) << name`).\n- Status code right-aligned with width 6 (`right << setw(6) << code`).",
-      "task": "1. Read integer `n` from `cin`.\n2. Loop `n` times reading string `name` and integer `code`.\n3. Format each row using `left << setw(10) << name << right << setw(6) << code`.\n4. Output each formatted row followed by a newline."
+      "task": "1. Read integer `n` from `cin`.\n2. Loop `n` times reading string `name` and integer `code`.\n3. Format each row using `left << setw(10) << name << right << setw(6) << code`.\n4. Output each formatted row followed by a newline.",
+      "body": [
+        "**Building an Aligned Flight Roster**",
+        "Write a program to format a manifest of drone subsystem status codes.",
+        "Input:\n1. An integer `n`.\n2. `n` lines, each containing a subsystem name (string) and an integer status code.",
+        "For each subsystem, print a single line with:\n- Subsystem name left-aligned with width 10 (`left << setw(10) << name`).\n- Status code right-aligned with width 6 (`right << setw(6) << code`)."
+      ]
     },
     "capstone-flight-telemetry-dashboard": {
       "title": "Autonomous Avionics Telemetry Dashboard",
       "content": "### Mission Control Flight Report Generator\n\nImplement Sigma's complete avionics reporting module.\n\nInput:\n1. Integer `n` (number of telemetry channels).\n2. `n` lines, each containing `string name`, `double reading`, and `double threshold`.\n\nRequirements:\n1. Print the table header line:\n   `left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\"`\n2. For each channel, print:\n   `left << setw(10) << name << right << fixed << setprecision(2) << setw(10) << reading << setw(9) << threshold`\n3. Calculate the average of all `reading` values across all `n` channels.\n4. Print `AVERAGE: <avg>` formatted with `fixed` and `setprecision(2)`.",
-      "task": "1. Read integer `n` from `cin`.\n2. Print the formatted header line with widths 10, 10, and 9.\n3. Loop `n` times reading `name`, `reading`, and `threshold`.\n4. Print each row using `left` for name and `right` with `fixed << setprecision(2)` for the numeric columns.\n5. Compute the arithmetic mean of all readings.\n6. Print `AVERAGE: <avg>` formatted to 2 decimal places."
+      "task": "1. Read integer `n` from `cin`.\n2. Print the formatted header line with widths 10, 10, and 9.\n3. Loop `n` times reading `name`, `reading`, and `threshold`.\n4. Print each row using `left` for name and `right` with `fixed << setprecision(2)` for the numeric columns.\n5. Compute the arithmetic mean of all readings.\n6. Print `AVERAGE: <avg>` formatted to 2 decimal places.",
+      "body": [
+        "**Mission Control Flight Report Generator**",
+        "Implement Sigma's complete avionics reporting module.",
+        "Input:\n1. Integer `n` (number of telemetry channels).\n2. `n` lines, each containing `string name`, `double reading`, and `double threshold`.",
+        "Requirements:\n1. Print the table header line:\n   `left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\"`\n2. For each channel, print:\n   `left << setw(10) << name << right << fixed << setprecision(2) << setw(10) << reading << setw(9) << threshold`\n3. Calculate the average of all `reading` values across all `n` channels.\n4. Print `AVERAGE: <avg>` formatted with `fixed` and `setprecision(2)`."
+      ]
     },
     "recap": {
       "title": "Summary: I/O Formatting Mastery",
-      "content": "### Chapter 26 Complete: Precision Formatting\n\nScout Drone Sigma's flight reports are now aligned to perfection, ready for real-time mission telemetry ingestion.\n\n#### Manipulator Quick Reference\n\n| Manipulator | Type | Behavior |\n| :--- | :--- | :--- |\n| `setw(n)` | Single-Shot | Sets field width for the **immediate next** variable only |\n| `left` | Sticky | Aligns text to the left margin of the field |\n| `right` | Sticky | Aligns text to the right margin of the field (default) |\n| `fixed` | Sticky | Formats floating points in standard decimal notation |\n| `setprecision(n)` | Sticky | With `fixed`, controls exact count of digits after `.` |\n\n> [!IMPORTANT]\n> Because `setw()` is single-shot, you must repeat `setw(w)` before **every single column** you output in a table loop!\n\nNext in Chapter 27: **Structures (`struct`)** — bundling related flight parameters (coordinates, battery, velocity) into unified custom data types."
+      "content": "### Chapter 26 Complete: Precision Formatting\n\nScout Drone Sigma's flight reports are now aligned to perfection, ready for real-time mission telemetry ingestion.\n\n#### Manipulator Quick Reference\n\n| Manipulator | Type | Behavior |\n| :--- | :--- | :--- |\n| `setw(n)` | Single-Shot | Sets field width for the **immediate next** variable only |\n| `left` | Sticky | Aligns text to the left margin of the field |\n| `right` | Sticky | Aligns text to the right margin of the field (default) |\n| `fixed` | Sticky | Formats floating points in standard decimal notation |\n| `setprecision(n)` | Sticky | With `fixed`, controls exact count of digits after `.` |\n\n> [!IMPORTANT]\n> Because `setw()` is single-shot, you must repeat `setw(w)` before **every single column** you output in a table loop!\n\nNext in Chapter 27: **Structures (`struct`)** — bundling related flight parameters (coordinates, battery, velocity) into unified custom data types.",
+      "body": [
+        "**Chapter 26 Complete: Precision Formatting**",
+        "Scout Drone Sigma's flight reports are now aligned to perfection, ready for real-time mission telemetry ingestion.",
+        "**Manipulator Quick Reference**",
+        "| Manipulator | Type | Behavior |\n| :--- | :--- | :--- |\n| `setw(n)` | Single-Shot | Sets field width for the **immediate next** variable only |\n| `left` | Sticky | Aligns text to the left margin of the field |\n| `right` | Sticky | Aligns text to the right margin of the field (default) |\n| `fixed` | Sticky | Formats floating points in standard decimal notation |\n| `setprecision(n)` | Sticky | With `fixed`, controls exact count of digits after `.` |",
+        "> [!IMPORTANT]\n> Because `setw()` is single-shot, you must repeat `setw(w)` before **every single column** you output in a table loop!",
+        "Next in Chapter 27: **Structures (`struct`)** — bundling related flight parameters (coordinates, battery, velocity) into unified custom data types."
+      ]
     }
   }
 }

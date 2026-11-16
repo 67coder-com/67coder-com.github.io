@@ -3,46 +3,116 @@
   "steps": {
     "why-text-protocols": {
       "title": "Dziļā kosmosa telemetrijas plūsmas",
-      "content": "### Starpzondu sakaru valoda\n\nLaipni lūdzam **4. blokā: Autonomija**.\n\nDziļajā kosmosā, 225 miljonus kilometru attālumā no Zemes, izlūka drons Sigma darbojas patstāvīgi. Kamēr borta mikrokontrolleru iekšējās maģistrāles apstrādā bināros elektriskos signālus, saziņa ar Zemes bāzi un misijas žurnāli tiek pārraidīti kā **strukturēts teksts**.\n\nKatra augšupejošā komandu pakete no Zemes pienāk kā ASCII simbolu virkne:\n- `\"MOVE 10 20\"`\n- `\"ALTITUDE 120\"`\n- `\"HEADING 180\"`\n\nLai šos norādījumus izpildītu, Sigmas borta datoram ir jāpārbauda simboli, jāatrod atdalītāji, jāizdala parametri un teksta cipari jāpārvērš bināros skaitļos.\n\nValodā C++ dinamisko darbu ar tekstu nodrošina **`std::string`** no bibliotēkas `<string>`. Atšķirībā no primitīvajiem C-stila `char` masīviem, `std::string` pats dinamiski pārvalda savu atmiņu, paplašinās pēc vajadzības un piedāvā iebūvētas metodes meklēšanai, apakšvirkņu izdalīšanai un pārveidošanai."
+      "content": "### Starpzondu sakaru valoda\n\nLaipni lūdzam **4. blokā: Autonomija**.\n\nDziļajā kosmosā, 225 miljonus kilometru attālumā no Zemes, izlūka drons Sigma darbojas patstāvīgi. Kamēr borta mikrokontrolleru iekšējās maģistrāles apstrādā bināros elektriskos signālus, saziņa ar Zemes bāzi un misijas žurnāli tiek pārraidīti kā **strukturēts teksts**.\n\nKatra augšupejošā komandu pakete no Zemes pienāk kā ASCII simbolu virkne:\n- `\"MOVE 10 20\"`\n- `\"ALTITUDE 120\"`\n- `\"HEADING 180\"`\n\nLai šos norādījumus izpildītu, Sigmas borta datoram ir jāpārbauda simboli, jāatrod atdalītāji, jāizdala parametri un teksta cipari jāpārvērš bināros skaitļos.\n\nValodā C++ dinamisko darbu ar tekstu nodrošina **`std::string`** no bibliotēkas `<string>`. Atšķirībā no primitīvajiem C-stila `char` masīviem, `std::string` pats dinamiski pārvalda savu atmiņu, paplašinās pēc vajadzības un piedāvā iebūvētas metodes meklēšanai, apakšvirkņu izdalīšanai un pārveidošanai.",
+      "body": [
+        "**Starpzondu sakaru valoda**",
+        "Laipni lūdzam **4. blokā: Autonomija**.",
+        "Dziļajā kosmosā, 225 miljonus kilometru attālumā no Zemes, izlūka drons Sigma darbojas patstāvīgi. Kamēr borta mikrokontrolleru iekšējās maģistrāles apstrādā bināros elektriskos signālus, saziņa ar Zemes bāzi un misijas žurnāli tiek pārraidīti kā **strukturēts teksts**.",
+        "Katra augšupejošā komandu pakete no Zemes pienāk kā ASCII simbolu virkne:\n- `\"MOVE 10 20\"`\n- `\"ALTITUDE 120\"`\n- `\"HEADING 180\"`",
+        "Lai šos norādījumus izpildītu, Sigmas borta datoram ir jāpārbauda simboli, jāatrod atdalītāji, jāizdala parametri un teksta cipari jāpārvērš bināros skaitļos.",
+        "Valodā C++ dinamisko darbu ar tekstu nodrošina **`std::string`** no bibliotēkas `<string>`. Atšķirībā no primitīvajiem C-stila `char` masīviem, `std::string` pats dinamiski pārvalda savu atmiņu, paplašinās pēc vajadzības un piedāvā iebūvētas metodes meklēšanai, apakšvirkņu izdalīšanai un pārveidošanai."
+      ]
     },
     "string-anatomy-and-methods": {
       "title": "std::string uzbūve un metodes",
-      "content": "### C++ simbolu virknes buferis\n\nObjekts `std::string` glabā simbolu secību nepārtrauktā atmiņā ar indeksāciju no 0.\n\n![C++ virknes uzbūve](assets/l25-string-anatomy.lv.svg)\n\n#### Pamata operācijas\n\n1. **Garums un pārbaude:**\n   - `s.length()` vai `s.size()`: atgriež kopējo simbolu skaitu.\n   - `s[i]`: piekļūst simbolam ar indeksu `i` (no `0` līdz `s.length() - 1`).\n\n2. **Meklēšana ar `.find()`:**\n   - `size_t pos = s.find(' ');` vai `s.find(\"VERB\");`\n   - Atgriež indeksu, kurā sākas meklētais fragments.\n   - Ja nekas netiek atrasts, metode atgriež konstanti **`string::npos`** (nevis `-1` vai `0`!). Vienmēr pārbaudi: `if (pos != string::npos)`.\n\n3. **Apakšvirknes izdalīšana ar `.substr()`:**\n   - `s.substr(pos, count)`: izvelk `count` simbolus, sākot no indeksa `pos`.\n   - `s.substr(pos)`: izvelk visu tekstu no `pos` līdz pašām virknes beigām.\n\n4. **Skaitļu konversija:**\n   - `stoi(str)`: pārvērš tekstu par `int` (String TO Integer).\n   - `stod(str)`: pārvērš tekstu par `double` (String TO Double)."
+      "content": "### C++ simbolu virknes buferis\n\nObjekts `std::string` glabā simbolu secību nepārtrauktā atmiņā ar indeksāciju no 0.\n\n![C++ virknes uzbūve](assets/l25-string-anatomy.lv.svg)\n\n#### Pamata operācijas\n\n1. **Garums un pārbaude:**\n   - `s.length()` vai `s.size()`: atgriež kopējo simbolu skaitu.\n   - `s[i]`: piekļūst simbolam ar indeksu `i` (no `0` līdz `s.length() - 1`).\n\n2. **Meklēšana ar `.find()`:**\n   - `size_t pos = s.find(' ');` vai `s.find(\"VERB\");`\n   - Atgriež indeksu, kurā sākas meklētais fragments.\n   - Ja nekas netiek atrasts, metode atgriež konstanti **`string::npos`** (nevis `-1` vai `0`!). Vienmēr pārbaudi: `if (pos != string::npos)`.\n\n3. **Apakšvirknes izdalīšana ar `.substr()`:**\n   - `s.substr(pos, count)`: izvelk `count` simbolus, sākot no indeksa `pos`.\n   - `s.substr(pos)`: izvelk visu tekstu no `pos` līdz pašām virknes beigām.\n\n4. **Skaitļu konversija:**\n   - `stoi(str)`: pārvērš tekstu par `int` (String TO Integer).\n   - `stod(str)`: pārvērš tekstu par `double` (String TO Double).",
+      "body": [
+        "**C++ simbolu virknes buferis**",
+        "syntax: string {nosaukums} = \"{teksts}\";\n- nosaukums: virknes mainīgā identifikators\n- teksts: simbolu secība dubultpēdiņās\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "syntax: size_t {pozicija} = {virkne}.find({vaicajums});\n- pozicija: size_t tipa mainīgais indeksam vai string::npos\n- virkne: meklējamā simbolu virkne\n- vaicajums: meklējamais simbols vai apakšvirkne",
+        "Objekts `std::string` glabā simbolu secību nepārtrauktā atmiņā ar indeksāciju no 0.",
+        "**Pamata operācijas**",
+        "1. **Garums un pārbaude:**\n   - `s.length()` vai `s.size()`: atgriež kopējo simbolu skaitu.\n   - `s[i]`: piekļūst simbolam ar indeksu `i` (no `0` līdz `s.length() - 1`).",
+        "2. **Meklēšana ar `.find()`:**\n   - `size_t pos = s.find(' ');` vai `s.find(\"VERB\");`\n   - Atgriež indeksu, kurā sākas meklētais fragments.\n   - Ja nekas netiek atrasts, metode atgriež konstanti **`string::npos`** (nevis `-1` vai `0`!). Vienmēr pārbaudi: `if (pos != string::npos)`.",
+        "3. **Apakšvirknes izdalīšana ar `.substr()`:**\n   - `s.substr(pos, count)`: izvelk `count` simbolus, sākot no indeksa `pos`.\n   - `s.substr(pos)`: izvelk visu tekstu no `pos` līdz pašām virknes beigām.",
+        "4. **Skaitļu konversija:**\n   - `stoi(str)`: pārvērš tekstu par `int` (String TO Integer).\n   - `stod(str)`: pārvērš tekstu par `double` (String TO Double)."
+      ]
     },
     "inspect-string-indexing": {
       "title": "Diagnostika: Simbolu indeksācija",
-      "content": "### Paredzi izvadi\n\nAnalizē virknes simbolu nolasīšanas kodu drona identifikatora atpazīšanai.\n\nKāda vērtība tiks izdrukāta terminālī?"
+      "content": "### Paredzi izvadi\n\nAnalizē virknes simbolu nolasīšanas kodu drona identifikatora atpazīšanai.\n\nKāda vērtība tiks izdrukāta terminālī?",
+      "body": [
+        "**Paredzi izvadi**",
+        "Analizē virknes simbolu nolasīšanas kodu drona identifikatora atpazīšanai.",
+        "Kāda vērtība tiks izdrukāta terminālī?"
+      ],
+      "explain": "`tag.length()` atgriež 5 (simbolu skaitu virknē `\"SIGMA\"`). Ar 0 bāzētu indeksāciju `tag[0]` ir `'S'` un `tag[4]` ir `'A'`. Programma izvada `5 SA`."
     },
     "audit-find-npos-check": {
       "title": "Diagnostika: Virknes meklēšanas robežvērtības audits",
-      "content": "### Atrodi loģisko kļūdu\n\nSakaru sistēmas programmētājs uzrakstīja procedūru, lai noteiktu, vai paketes žurnālā ir brīdinājuma atslēgvārds `\"LOST\"`.\n\nTomēr pat tad, kad `\"LOST\"` virknē vispār nav atrodams, programma kļūdaini paziņo, ka mērķis ir pazaudēts!\n\nNoklikšķini uz koda rindas, kurā ir nepareizā nosacījuma pārbaude."
+      "content": "### Atrodi loģisko kļūdu\n\nSakaru sistēmas programmētājs uzrakstīja procedūru, lai noteiktu, vai paketes žurnālā ir brīdinājuma atslēgvārds `\"LOST\"`.\n\nTomēr pat tad, kad `\"LOST\"` virknē vispār nav atrodams, programma kļūdaini paziņo, ka mērķis ir pazaudēts!\n\nNoklikšķini uz koda rindas, kurā ir nepareizā nosacījuma pārbaude.",
+      "body": [
+        "**Atrodi loģisko kļūdu**",
+        "Sakaru sistēmas programmētājs uzrakstīja procedūru, lai noteiktu, vai paketes žurnālā ir brīdinājuma atslēgvārds `\"LOST\"`.",
+        "Tomēr pat tad, kad `\"LOST\"` virknē vispār nav atrodams, programma kļūdaini paziņo, ka mērķis ir pazaudēts!",
+        "Noklikšķini uz koda rindas, kurā ir nepareizā nosacījuma pārbaude."
+      ],
+      "explain": "Ja metode `.find()` neatrod apakšvirkni, tā atgriež `string::npos`. Tā kā `size_t` ir bez zīmes tips (unsigned), `string::npos` ir maksimālā iespējamā vērtība (`size_t(-1)`), tāpēc `pos > 0` vienmēr ir `true`! Turklāt, ja apakšvirkne atrastos pie indeksa 0, `pos > 0` kļūdaini dotu `false`. Pareizā pārbaude ir `if (pos != string::npos)`."
     },
     "write-command-extractor": {
       "title": "Misijas parsēšana: Komanda un vērtība",
       "content": "### Augšupejošo direktīvu izdalīšana\n\nZemes bāze pārraida komandas formātā: viena darbība, atstarpe un vesels skaitlis (piemēram: `ALTITUDE 120`).\n\nUzraksti parsētāju funkcijā `main()`, kas:\n1. Nolasa visu rindu virknē `raw`, izmantojot `getline(cin, raw)`.\n2. Atrod atstarpes indeksu ar `raw.find(' ')`.\n3. Izdala komandas darbības apakšvirkni no indeksa 0 līdz atstarpei.\n4. Izdala skaitliskās vērtības apakšvirkni pēc atstarpes līdz beigām un pārvērš to skaitlī ar `stoi()`.\n5. Izvada `VERB: <komanda>` un `PAYLOAD: <skaitlis>`.",
-      "task": "1. Izmanto `raw.find(' ')`, lai atrastu atstarpes pozīciju.\n2. Izdali komandas nosaukumu ar `raw.substr(0, pos)`.\n3. Izdali skaitlisko argumentu un pārvērt par `int` ar `stoi()`.\n4. Izvadi `VERB: <komanda>` un `PAYLOAD: <skaitlis>` atsevišķās rindās."
+      "task": "1. Izmanto `raw.find(' ')`, lai atrastu atstarpes pozīciju.\n2. Izdali komandas nosaukumu ar `raw.substr(0, pos)`.\n3. Izdali skaitlisko argumentu un pārvērt par `int` ar `stoi()`.\n4. Izvadi `VERB: <komanda>` un `PAYLOAD: <skaitlis>` atsevišķās rindās.",
+      "body": [
+        "**Augšupejošo direktīvu izdalīšana**",
+        "Zemes bāze pārraida komandas formātā: viena darbība, atstarpe un vesels skaitlis (piemēram: `ALTITUDE 120`).",
+        "Uzraksti parsētāju funkcijā `main()`, kas:\n1. Nolasa visu rindu virknē `raw`, izmantojot `getline(cin, raw)`.\n2. Atrod atstarpes indeksu ar `raw.find(' ')`.\n3. Izdala komandas darbības apakšvirkni no indeksa 0 līdz atstarpei.\n4. Izdala skaitliskās vērtības apakšvirkni pēc atstarpes līdz beigām un pārvērš to skaitlī ar `stoi()`.\n5. Izvada `VERB: <komanda>` un `PAYLOAD: <skaitlis>`."
+      ]
     },
     "predict-substr-slicing": {
       "title": "Diagnostika: Apakšvirkņu izdalīšana",
-      "content": "### Paredzi apakšvirkņu fragmentus\n\nIzpēti bākas identifikatora sadalīšanas loģiku. Izseko sākuma nobīdēm un garumiem, kas nodoti metodei `.substr()`.\n\nKāda simbolu virkne tiks izvadīta?"
+      "content": "### Paredzi apakšvirkņu fragmentus\n\nIzpēti bākas identifikatora sadalīšanas loģiku. Izseko sākuma nobīdēm un garumiem, kas nodoti metodei `.substr()`.\n\nKāda simbolu virkne tiks izvadīta?",
+      "body": [
+        "**Paredzi apakšvirkņu fragmentus**",
+        "Izpēti bākas identifikatora sadalīšanas loģiku. Izseko sākuma nobīdēm un garumiem, kas nodoti metodei `.substr()`.",
+        "Kāda simbolu virkne tiks izvadīta?"
+      ],
+      "explain": "`beacon.substr(0, 4)` izgriež 4 simbolus no indeksa 0 (`\"IRIS\"`). `beacon.substr(5, 4)` izgriež 4 simbolus no indeksa 5 (`\"MARS\"`), izlaižot defisi indeksā 4. Izvade `mission << \"_\" << planet` dod `IRIS_MARS`."
     },
     "parsons-command-parser": {
       "title": "Avionikas montāža: Paketes ID parsētājs",
-      "content": "### Saliec ID parsētāju\n\nSakārto koda blokus loģiskā secībā, lai izveidotu drošu funkciju `parse_id(const string &packet)`, kura atrod atdalītāju `#`, pārbauda tā esamību ar `string::npos`, izvelk skaitlisko daļu un atgriež to kā veselu skaitli."
+      "content": "### Saliec ID parsētāju\n\nSakārto koda blokus loģiskā secībā, lai izveidotu drošu funkciju `parse_id(const string &packet)`, kura atrod atdalītāju `#`, pārbauda tā esamību ar `string::npos`, izvelk skaitlisko daļu un atgriež to kā veselu skaitli.",
+      "body": [
+        "**Saliec ID parsētāju**",
+        "Sakārto koda blokus loģiskā secībā, lai izveidotu drošu funkciju `parse_id(const string &packet)`, kura atrod atdalītāju `#`, pārbauda tā esamību ar `string::npos`, izvelk skaitlisko daļu un atgriež to kā veselu skaitli."
+      ],
+      "explain": "Vispirms iekļauj bibliotēkas `<iostream>` un `<string>`, un paziņo `using namespace std;`. Funkcijā `parse_id()` meklē `'#'` ar `.find('#')`. Ja tā atgriež `string::npos`, atgriež `-1`. Pretējā gadījumā izgriež apakšvirkni aiz `'#'` ar `.substr(hash_pos + 1)` un pārvērš ar `stoi()`. Funkcijā `main()` izsauc `parse_id(\"DRONE#87\")` un izvada ID."
     },
     "write-telemetry-scrubber": {
       "title": "Telemetrijas analīze: Atdalītāju skaitītājs",
       "content": "### CSV telemetrijas virkņu pārbaude\n\nTelemetrijas datu paketes bieži vien ir ar komatiem atdalītas skaitļu virknes (piemēram, `10,20,30,40`).\n\nIzveido funkciju:\n`int count_delimiters(const string &data, char delimiter)`\n\nTai jāiziet cauri visai virknei `data`, jāsaskaita, cik reizes tajā parādās simbols `delimiter`, un jāatgriež kopējais skaits.\n\nFunkcijā `main()`:\n1. Nolasi rindu virknē `line`.\n2. Izsauc `count_delimiters(line, ',')`.\n3. Izvadi `DELIMITER COUNT: <skaits>`.",
-      "task": "1. Izveido `int count_delimiters(const string &data, char delimiter)` ar ciklu pār `data.length()`.\n2. Funkcijā `main()` nolasi `line` no `cin`.\n3. Izsauc `count_delimiters(line, ',')`.\n4. Izvadi `DELIMITER COUNT: <skaits>` un jaunu rindu."
+      "task": "1. Izveido `int count_delimiters(const string &data, char delimiter)` ar ciklu pār `data.length()`.\n2. Funkcijā `main()` nolasi `line` no `cin`.\n3. Izsauc `count_delimiters(line, ',')`.\n4. Izvadi `DELIMITER COUNT: <skaits>` un jaunu rindu.",
+      "body": [
+        "**CSV telemetrijas virkņu pārbaude**",
+        "Telemetrijas datu paketes bieži vien ir ar komatiem atdalītas skaitļu virknes (piemēram, `10,20,30,40`).",
+        "Izveido funkciju:\n`int count_delimiters(const string &data, char delimiter)`",
+        "Tai jāiziet cauri visai virknei `data`, jāsaskaita, cik reizes tajā parādās simbols `delimiter`, un jāatgriež kopējais skaits.",
+        "Funkcijā `main()`:\n1. Nolasi rindu virknē `line`.\n2. Izsauc `count_delimiters(line, ',')`.\n3. Izvadi `DELIMITER COUNT: <skaits>`."
+      ]
     },
     "capstone-flight-packet-decoder": {
       "title": "Autonomais lidojumu pakešu dekodētājs",
       "content": "### Augšupejošā protokola procesors\n\nIzveido Sigmas autonomo sakaru uztvērēju.\n\nZemes vadības centrs nosūta veselu skaitli `n`, kam seko `n` komandu paketes formātā `<DARBĪBA>:<VĒRTĪBA>` (piemēram, `THRUST:40` vai `ELEVATION:150`).\n\nDrons sāk lidojumu ar šādiem rādītājiem:\n- `speed = 0`\n- `altitude = 0`\n- `heading = 0`\n\nKatrai paketei:\n1. Atrodi kola `:` atdalītāju, izmantojot `.find(':')`.\n2. Izdali `DARBĪBA` pirms kola un `VĒRTĪBA` pēc kola.\n3. Pārvērt `VĒRTĪBA` par veselu skaitli ar `stoi()`.\n4. Atjaunini drona lidojuma stāvokli:\n   - Ja darbība ir `\"THRUST\"`, pieskaiti vērtību pie `speed`.\n   - Ja darbība ir `\"ELEVATION\"`, iestati `altitude = vērtība`.\n   - Ja darbība ir `\"YAW\"`, pieskaiti vērtību pie `heading`.\n5. Pēc visu `n` pakešu apstrādes izvadi galīgo telemetriju.",
-      "task": "1. Nolasi veselu skaitli `n` no `cin`.\n2. Ciklā `n` reizes nolasi katru virkni `<DARBĪBA>:<VĒRTĪBA>`.\n3. Parsē paketi, izmantojot `.find(':')`, `.substr()` un `stoi()`.\n4. Atjaunini `speed`, `altitude` un `heading` atbilstoši komandas darbībai.\n5. Izvadi `FINAL SPEED: <speed>`.\n6. Izvadi `FINAL ALTITUDE: <altitude>`.\n7. Izvadi `FINAL HEADING: <heading>`."
+      "task": "1. Nolasi veselu skaitli `n` no `cin`.\n2. Ciklā `n` reizes nolasi katru virkni `<DARBĪBA>:<VĒRTĪBA>`.\n3. Parsē paketi, izmantojot `.find(':')`, `.substr()` un `stoi()`.\n4. Atjaunini `speed`, `altitude` un `heading` atbilstoši komandas darbībai.\n5. Izvadi `FINAL SPEED: <speed>`.\n6. Izvadi `FINAL ALTITUDE: <altitude>`.\n7. Izvadi `FINAL HEADING: <heading>`.",
+      "body": [
+        "**Augšupejošā protokola procesors**",
+        "Izveido Sigmas autonomo sakaru uztvērēju.",
+        "Zemes vadības centrs nosūta veselu skaitli `n`, kam seko `n` komandu paketes formātā `<DARBĪBA>:<VĒRTĪBA>` (piemēram, `THRUST:40` vai `ELEVATION:150`).",
+        "Drons sāk lidojumu ar šādiem rādītājiem:\n- `speed = 0`\n- `altitude = 0`\n- `heading = 0`",
+        "Katrai paketei:\n1. Atrodi kola `:` atdalītāju, izmantojot `.find(':')`.\n2. Izdali `DARBĪBA` pirms kola un `VĒRTĪBA` pēc kola.\n3. Pārvērt `VĒRTĪBA` par veselu skaitli ar `stoi()`.\n4. Atjaunini drona lidojuma stāvokli:\n   - Ja darbība ir `\"THRUST\"`, pieskaiti vērtību pie `speed`.\n   - Ja darbība ir `\"ELEVATION\"`, iestati `altitude = vērtība`.\n   - Ja darbība ir `\"YAW\"`, pieskaiti vērtību pie `heading`.\n5. Pēc visu `n` pakešu apstrādes izvadi galīgo telemetriju."
+      ]
     },
     "recap": {
       "title": "Kopsavilkums: Darbs ar tekstu C++",
-      "content": "### 25. nodaļa pabeigta: Teksta apstrādes meistarība\n\nIzlūka drons Sigma tagad spēj uzticami parsēt un izpildīt augsta līmeņa teksta komandas, kas nosūtītas no Zemes.\n\n#### Būtiskāko metožu kopsavilkums\n\n| Operācija | Sintakse | Apraksts |\n| :--- | :--- | :--- |\n| **Garums** | `s.length()` / `s.size()` | Simbolu skaits virknē |\n| **Indeksācija** | `s[i]` | Simbola nolasīšana pozīcijā `i` |\n| **Meklēšana** | `s.find(target)` | Atgriež indeksu vai `string::npos`, ja nav atrasts |\n| **Izdalīšana** | `s.substr(pos, count)` | Izdala apakšvirkni ar garumu `count`, sākot no `pos` |\n| **Parsēt int** | `stoi(str)` | Pārvērš simbolu virkni par 32 bitu veselu skaitli |\n| **Parsēt double** | `stod(str)` | Pārvērš simbolu virkni par peldošā komata skaitli |\n\n> [!TIP]\n> Nododot lielus `std::string` objektus funkcijām, vienmēr izmanto `const string &`, lai novērstu dārgu atmiņas dublēšanu!\n\nNākamajā, 26. nodaļā: **Izvades formatēšana (`<iomanip>`)** — nekārtīgu skaitļu pārvēršana precīzi izlīdzinātās telemetrijas tabulās Misijas vadības centram."
+      "content": "### 25. nodaļa pabeigta: Teksta apstrādes meistarība\n\nIzlūka drons Sigma tagad spēj uzticami parsēt un izpildīt augsta līmeņa teksta komandas, kas nosūtītas no Zemes.\n\n#### Būtiskāko metožu kopsavilkums\n\n| Operācija | Sintakse | Apraksts |\n| :--- | :--- | :--- |\n| **Garums** | `s.length()` / `s.size()` | Simbolu skaits virknē |\n| **Indeksācija** | `s[i]` | Simbola nolasīšana pozīcijā `i` |\n| **Meklēšana** | `s.find(target)` | Atgriež indeksu vai `string::npos`, ja nav atrasts |\n| **Izdalīšana** | `s.substr(pos, count)` | Izdala apakšvirkni ar garumu `count`, sākot no `pos` |\n| **Parsēt int** | `stoi(str)` | Pārvērš simbolu virkni par 32 bitu veselu skaitli |\n| **Parsēt double** | `stod(str)` | Pārvērš simbolu virkni par peldošā komata skaitli |\n\n> [!TIP]\n> Nododot lielus `std::string` objektus funkcijām, vienmēr izmanto `const string &`, lai novērstu dārgu atmiņas dublēšanu!\n\nNākamajā, 26. nodaļā: **Izvades formatēšana (`<iomanip>`)** — nekārtīgu skaitļu pārvēršana precīzi izlīdzinātās telemetrijas tabulās Misijas vadības centram.",
+      "body": [
+        "**25. nodaļa pabeigta: Teksta apstrādes meistarība**",
+        "Izlūka drons Sigma tagad spēj uzticami parsēt un izpildīt augsta līmeņa teksta komandas, kas nosūtītas no Zemes.",
+        "**Būtiskāko metožu kopsavilkums**",
+        "| Operācija | Sintakse | Apraksts |\n| :--- | :--- | :--- |\n| **Garums** | `s.length()` / `s.size()` | Simbolu skaits virknē |\n| **Indeksācija** | `s[i]` | Simbola nolasīšana pozīcijā `i` |\n| **Meklēšana** | `s.find(target)` | Atgriež indeksu vai `string::npos`, ja nav atrasts |\n| **Izdalīšana** | `s.substr(pos, count)` | Izdala apakšvirkni ar garumu `count`, sākot no `pos` |\n| **Parsēt int** | `stoi(str)` | Pārvērš simbolu virkni par 32 bitu veselu skaitli |\n| **Parsēt double** | `stod(str)` | Pārvērš simbolu virkni par peldošā komata skaitli |",
+        "> [!TIP]\n> Nododot lielus `std::string` objektus funkcijām, vienmēr izmanto `const string &`, lai novērstu dārgu atmiņas dublēšanu!",
+        "Nākamajā, 26. nodaļā: **Izvades formatēšana (`<iomanip>`)** — nekārtīgu skaitļu pārvēršana precīzi izlīdzinātās telemetrijas tabulās Misijas vadības centram."
+      ]
     }
   }
 }

@@ -1,7 +1,10 @@
 {
   "n": 26,
   "slug": "iomanip",
-  "locales": ["lv", "en"],
+  "locales": [
+    "lv",
+    "en"
+  ],
   "steps": [
     {
       "id": "why-output-formatting",
@@ -35,21 +38,13 @@
       "id": "write-fixed-precision-telemetry",
       "kind": "editor",
       "stdin": "12.3456 24.8\n",
-      "initial": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    double volt, temp;\n    cin >> volt >> temp;\n\n    // 1. Set fixed and setprecision(2)\n    // 2. Print:\n    //    VOLT: <volt>\n    //    TEMP: <temp>\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    double volt, temp;\n    cin >> volt >> temp;\n\n    cout << fixed << setprecision(2);\n    cout << \"VOLT: \" << volt << endl;\n    cout << \"TEMP: \" << temp << endl;\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "12.3456 24.8\n",
-          "expected": "VOLT: 12.35\nTEMP: 24.80\n"
-        },
-        {
-          "in": "5 0.1\n",
-          "expected": "VOLT: 5.00\nTEMP: 0.10\n"
-        },
-        {
-          "in": "100.999 -4.5\n",
-          "expected": "VOLT: 101.00\nTEMP: -4.50\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    double volt, temp;\n    cin >> volt >> temp;\n\n    // 1. Set fixed and setprecision(2)\n    // 2. Print:\n    //    VOLT: <volt>\n    //    TEMP: <temp>\n\n    return 0;\n}",
+      "expected": "VOLT: 12.35\nTEMP: 24.80\n",
+      "requires": [
+        "fixed",
+        "setprecision(2)"
       ]
     },
     {
@@ -87,35 +82,28 @@
     {
       "id": "write-aligned-column-table",
       "kind": "editor",
-      "stdin": "2\nALPHA 1\nBETA 10\n",
-      "initial": "#include <iostream>\n#include <iomanip>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Loop n times reading string name and int code\n    // 2. Format row: left << setw(10) << name << right << setw(6) << code\n    // 3. Print each row on a new line\n\n    return 0;\n}",
+      "stdin": "3\nSIGMA 101\nDELTA 205\nOMEGA 99\n",
       "solution": "#include <iostream>\n#include <iomanip>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    for (int i = 0; i < n; i++) {\n        string name;\n        int code;\n        cin >> name >> code;\n        cout << left << setw(10) << name << right << setw(6) << code << endl;\n    }\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "3\nSIGMA 101\nDELTA 205\nOMEGA 99\n",
-          "expected": "SIGMA        101\nDELTA        205\nOMEGA         99\n"
-        },
-        {
-          "in": "2\nALPHA 1\nBETA 10\n",
-          "expected": "ALPHA          1\nBETA          10\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <iomanip>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Loop n times reading string name and int code\n    // 2. Format row: left << setw(10) << name << right << setw(6) << code\n    // 3. Print each row on a new line\n\n    return 0;\n}",
+      "expected": "SIGMA        101\nDELTA        205\nOMEGA         99\n",
+      "requires": [
+        "left << setw(10)",
+        "right << setw(6)"
       ]
     },
     {
       "id": "capstone-flight-telemetry-dashboard",
       "kind": "editor",
       "stdin": "2\nCORE 75.2 80.0\nPUMP 50.4 60.0\n",
-      "initial": "#include <iostream>\n#include <iomanip>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // 1. Print header: left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\"\n    // 2. Loop n times reading name, reading (double), threshold (double)\n    // 3. Print each row with fixed and setprecision(2)\n    // 4. Compute average reading and print: AVERAGE: <avg>\n\n    return 0;\n}",
       "solution": "#include <iostream>\n#include <iomanip>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    cout << left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\" << endl;\n\n    double sum = 0.0;\n    for (int i = 0; i < n; i++) {\n        string name;\n        double reading, thresh;\n        cin >> name >> reading >> thresh;\n        sum += reading;\n        cout << left << setw(10) << name;\n        cout << right << fixed << setprecision(2) << setw(10) << reading << setw(9) << thresh << endl;\n    }\n\n    double avg = (n > 0) ? (sum / n) : 0.0;\n    cout << \"AVERAGE: \" << fixed << setprecision(2) << avg << endl;\n\n    return 0;\n}",
-      "tests": [
-        {
-          "in": "2\nCORE 75.2 80.0\nPUMP 50.4 60.0\n",
-          "expected": "SENSOR       READING   THRESH\nCORE           75.20    80.00\nPUMP           50.40    60.00\nAVERAGE: 62.80\n"
-        },
-        {
-          "in": "3\nBATTERY 12.345 14.0\nSOLAR 45.6 50.0\nTHRUST 100.0 120.0\n",
-          "expected": "SENSOR       READING   THRESH\nBATTERY        12.35    14.00\nSOLAR          45.60    50.00\nTHRUST        100.00   120.00\nAVERAGE: 52.65\n"
-        }
+      "lang": "cpp",
+      "starter": "#include <iostream>\n#include <iomanip>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    // TODO 1: Print table header:\n    // left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\"\n    // TODO 2: Loop n times reading name, reading (double), threshold (double)\n    // TODO 3: Print each row with left << setw(10) << name << right << fixed << setprecision(2) << setw(10) << reading << setw(9) << thresh\n    // TODO 4: Compute average reading and print: AVERAGE: <avg> formatted with fixed << setprecision(2)\n\n    return 0;\n}",
+      "expected": "SENSOR       READING   THRESH\nCORE           75.20    80.00\nPUMP           50.40    60.00\nAVERAGE: 62.80\n",
+      "requires": [
+        "setw(10)",
+        "setprecision(2)",
+        "fixed"
       ]
     },
     {

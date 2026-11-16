@@ -3,46 +3,116 @@
   "steps": {
     "why-defensive-input": {
       "title": "Avionics Fault Tolerance",
-      "content": "### The Hostile Martian Environment\n\nDuring a violent Martian dust storm, Scout Drone Sigma navigates amidst electrostatic discharges, radiation bursts, and fluctuating sensor lines.\n\nWhat happens when a sensor glitch sends non-numeric garbage or negative sentinel dropouts (`-999`) across the telemetry bus?\n\nIn standard C++, reading invalid text into an `int` variable (`cin >> number`) causes the input stream to trigger **`failbit`**:\n1. The variable is left unassigned (or set to 0).\n2. The stream locks itself in an error state (`cin.fail() == true`).\n3. **ALL future inputs silently fail**, causing loops to spin indefinitely and freezing flight controls!\n\nTo survive deep-space autonomy, flight software must practice **defensive programming**:\n- Detect extraction failures with `cin.fail()`.\n- Reset stream flags with `cin.clear()`.\n- Discard corrupted characters from the buffer.\n- Validate numeric boundaries and substitute pre-calibrated redundancy fallbacks."
+      "content": "### The Hostile Martian Environment\n\nDuring a violent Martian dust storm, Scout Drone Sigma navigates amidst electrostatic discharges, radiation bursts, and fluctuating sensor lines.\n\nWhat happens when a sensor glitch sends non-numeric garbage or negative sentinel dropouts (`-999`) across the telemetry bus?\n\nIn standard C++, reading invalid text into an `int` variable (`cin >> number`) causes the input stream to trigger **`failbit`**:\n1. The variable is left unassigned (or set to 0).\n2. The stream locks itself in an error state (`cin.fail() == true`).\n3. **ALL future inputs silently fail**, causing loops to spin indefinitely and freezing flight controls!\n\nTo survive deep-space autonomy, flight software must practice **defensive programming**:\n- Detect extraction failures with `cin.fail()`.\n- Reset stream flags with `cin.clear()`.\n- Discard corrupted characters from the buffer.\n- Validate numeric boundaries and substitute pre-calibrated redundancy fallbacks.",
+      "body": [
+        "**The Hostile Martian Environment**",
+        "During a violent Martian dust storm, Scout Drone Sigma navigates amidst electrostatic discharges, radiation bursts, and fluctuating sensor lines.",
+        "What happens when a sensor glitch sends non-numeric garbage or negative sentinel dropouts (`-999`) across the telemetry bus?",
+        "In standard C++, reading invalid text into an `int` variable (`cin >> number`) causes the input stream to trigger **`failbit`**:\n1. The variable is left unassigned (or set to 0).\n2. The stream locks itself in an error state (`cin.fail() == true`).\n3. **ALL future inputs silently fail**, causing loops to spin indefinitely and freezing flight controls!",
+        "To survive deep-space autonomy, flight software must practice **defensive programming**:\n- Detect extraction failures with `cin.fail()`.\n- Reset stream flags with `cin.clear()`.\n- Discard corrupted characters from the buffer.\n- Validate numeric boundaries and substitute pre-calibrated redundancy fallbacks."
+      ]
     },
     "stream-failure-and-recovery": {
       "title": "Stream Recovery Protocol",
-      "content": "### The 3-Step Stream Reboot\n\nWhen `cin` encounters data that does not match the target variable type, it sets an internal error flag.\n\n![C++ Error Recovery Architecture](assets/l30-errors-anatomy.en.svg)\n\n#### The Reboot Sequence\n\n```cpp\nint reading;\ncin >> reading;\n\nif (cin.fail()) {\n    // 1. Reset error flags so the stream can work again\n    cin.clear();\n\n    // 2. Read and discard the offending bad token\n    string junk;\n    cin >> junk;\n\n    // 3. Fall back to a safe default value\n    reading = 50;\n}\n```\n\n#### Range Sanitization\nEven if input syntax is valid, sensor hardware may transmit sentinel error codes (like `-999` on disconnection) or physically impossible values (altitude `-50` or battery `150`).\n\nDefensive code always validates boundaries:\n```cpp\nif (reading < 0 || reading > 100) {\n    reading = 50; // Substitute emergency fallback\n}\n```"
+      "content": "### The 3-Step Stream Reboot\n\nWhen `cin` encounters data that does not match the target variable type, it sets an internal error flag.\n\n![C++ Error Recovery Architecture](assets/l30-errors-anatomy.en.svg)\n\n#### The Reboot Sequence\n\n```cpp\nint reading;\ncin >> reading;\n\nif (cin.fail()) {\n    // 1. Reset error flags so the stream can work again\n    cin.clear();\n\n    // 2. Read and discard the offending bad token\n    string junk;\n    cin >> junk;\n\n    // 3. Fall back to a safe default value\n    reading = 50;\n}\n```\n\n#### Range Sanitization\nEven if input syntax is valid, sensor hardware may transmit sentinel error codes (like `-999` on disconnection) or physically impossible values (altitude `-50` or battery `150`).\n\nDefensive code always validates boundaries:\n```cpp\nif (reading < 0 || reading > 100) {\n    reading = 50; // Substitute emergency fallback\n}\n```",
+      "body": [
+        "**The 3-Step Stream Reboot**",
+        "syntax: if ({stream}.fail()) {\n    {stream}.clear();\n    string {junk};\n    {stream} >> {junk};\n}\n- stream: cin or input stream being checked\n- clear: resets the stream failure state flags\n- junk: temporary variable to discard the invalid token",
+        "When `cin` encounters data that does not match the target variable type, it sets an internal error flag.",
+        "**The Reboot Sequence**",
+        "```cpp\nint reading;\ncin >> reading;",
+        "if (cin.fail()) {\n    // 1. Reset error flags so the stream can work again\n    cin.clear();",
+        "// 2. Read and discard the offending bad token\n    string junk;\n    cin >> junk;",
+        "// 3. Fall back to a safe default value\n    reading = 50;\n}\n```",
+        "**Range Sanitization**\nEven if input syntax is valid, sensor hardware may transmit sentinel error codes (like `-999` on disconnection) or physically impossible values (altitude `-50` or battery `150`).",
+        "Defensive code always validates boundaries:\n```cpp\nif (reading < 0 || reading > 100) {\n    reading = 50; // Substitute emergency fallback\n}\n```"
+      ]
     },
     "inspect-cin-fail-flag": {
       "title": "Diagnostics: Stream Fail State",
-      "content": "### Predict the Output\n\nAnalyze this stream extraction attempt where non-numeric text (`\"ERROR\"`) is encountered while reading an integer.\n\nWhat is printed to the terminal?"
+      "content": "### Predict the Output\n\nAnalyze this stream extraction attempt where non-numeric text (`\"ERROR\"`) is encountered while reading an integer.\n\nWhat is printed to the terminal?",
+      "body": [
+        "**Predict the Output**",
+        "Analyze this stream extraction attempt where non-numeric text (`\"ERROR\"`) is encountered while reading an integer.",
+        "What is printed to the terminal?"
+      ],
+      "explain": "Reading `a` successfully extracts `42`. However, reading integer `b` encounters `\"ERROR\"`, setting the stream's fail flag (`failbit`). As a result, `ss.fail()` evaluates to `true` and the program outputs `FAILED`."
     },
     "audit-infinite-fail-loop": {
       "title": "Diagnostics: Stream Lockout Audit",
-      "content": "### Spot the Stream Recovery Bug\n\nA programmer detected that the stream failed, but attempted to discard the bad token **before** clearing the stream's error flag! Because `failbit` is still active, the discard read fails completely!\n\nClick the line where extraction is attempted on a locked stream."
+      "content": "### Spot the Stream Recovery Bug\n\nA programmer detected that the stream failed, but attempted to discard the bad token **before** clearing the stream's error flag! Because `failbit` is still active, the discard read fails completely!\n\nClick the line where extraction is attempted on a locked stream.",
+      "body": [
+        "**Spot the Stream Recovery Bug**",
+        "A programmer detected that the stream failed, but attempted to discard the bad token **before** clearing the stream's error flag! Because `failbit` is still active, the discard read fails completely!",
+        "Click the line where extraction is attempted on a locked stream."
+      ],
+      "explain": "On line 11, the program attempts `ss >> junk` without first clearing the stream's error flags using `ss.clear()`. When a stream is in a failed state, all subsequent extraction operations immediately fail without reading anything from the buffer. The correct sequence is `ss.clear()` followed by discarding the corrupted token."
     },
     "write-safe-integer-reader": {
       "title": "Sensor Calibration: Range Sanitizer",
       "content": "### Boundary Protection\n\nRead an integer `reading` from standard input.\n\nValid sensor readings must be in the range `[0, 100]`. If `reading` is strictly less than `0` OR strictly greater than `100`, substitute the safe fallback value `50`.\n\nPrint `VALIDATED READING: <reading>` followed by a newline.",
-      "task": "1. In `main()`, read `reading` from `cin`.\n2. If `reading < 0 || reading > 100`, assign `reading = 50`.\n3. Output `VALIDATED READING: <reading>` followed by a newline."
+      "task": "1. In `main()`, read `reading` from `cin`.\n2. If `reading < 0 || reading > 100`, assign `reading = 50`.\n3. Output `VALIDATED READING: <reading>` followed by a newline.",
+      "body": [
+        "**Boundary Protection**",
+        "Read an integer `reading` from standard input.",
+        "Valid sensor readings must be in the range `[0, 100]`. If `reading` is strictly less than `0` OR strictly greater than `100`, substitute the safe fallback value `50`.",
+        "Print `VALIDATED READING: <reading>` followed by a newline."
+      ]
     },
     "predict-cin-clear-recovery": {
       "title": "Diagnostics: Successful Stream Reboot",
-      "content": "### Predict Recovery Flow\n\nTrace the stream reboot sequence: `fail()` detection, `clear()` invocation, junk token flushing, and successful subsequent integer extraction.\n\nWhat is printed to standard output?"
+      "content": "### Predict Recovery Flow\n\nTrace the stream reboot sequence: `fail()` detection, `clear()` invocation, junk token flushing, and successful subsequent integer extraction.\n\nWhat is printed to standard output?",
+      "body": [
+        "**Predict Recovery Flow**",
+        "Trace the stream reboot sequence: `fail()` detection, `clear()` invocation, junk token flushing, and successful subsequent integer extraction.",
+        "What is printed to standard output?"
+      ],
+      "explain": "When reading `val` fails on `\"CORRUPTED\"`, `ss.clear()` resets the error state, `ss >> junk` consumes `\"CORRUPTED\"`, and the subsequent `ss >> val` successfully extracts `75`. The program outputs `75`."
     },
     "parsons-stream-recovery-pipeline": {
       "title": "Avionics Assembly: Robust Token Reader",
-      "content": "### Assemble the Safe Reader Function\n\nReorder the code blocks to construct function `read_safe_int(istream &in, int fallback)` which checks for failure, resets the stream, flushes bad tokens, and safely returns the fallback value."
+      "content": "### Assemble the Safe Reader Function\n\nReorder the code blocks to construct function `read_safe_int(istream &in, int fallback)` which checks for failure, resets the stream, flushes bad tokens, and safely returns the fallback value.",
+      "body": [
+        "**Assemble the Safe Reader Function**",
+        "Reorder the code blocks to construct function `read_safe_int(istream &in, int fallback)` which checks for failure, resets the stream, flushes bad tokens, and safely returns the fallback value."
+      ],
+      "explain": "In `read_safe_int()`, attempt extraction with `in >> val`. If `in.fail()`, clear the error flags with `in.clear()`, consume the invalid string into `junk`, and return `fallback`. In `main()`, reading `\"FAIL\"` returns `-1`, and reading `80` returns `80`, printing `-1 80`."
     },
     "write-telemetry-sanitizer": {
       "title": "Telemetry Cleaning: Filtering Corrupted Data",
       "content": "### Eliminating Hardware Glitches\n\nSensors in high-radiation sectors occasionally emit error codes (`-999` or extreme spikes `> 100`).\n\nInput:\n1. Integer `n` (number of telemetry samples).\n2. `n` integer readings.\n\nProcess:\n- Valid samples must satisfy `sample >= 0 && sample <= 100`.\n- Count how many valid samples exist.\n- Calculate the sum of all valid samples.\n\nOutput:\n`VALID SAMPLES: <count>`\n`TOTAL VALID SUM: <sum>`",
-      "task": "1. In `main()`, read integer `n`.\n2. Loop `n` times reading each integer `sample`.\n3. Count valid samples (`sample >= 0 && sample <= 100`) and accumulate their sum.\n4. Output `VALID SAMPLES: <count>`.\n5. Output `TOTAL VALID SUM: <sum>`."
+      "task": "1. In `main()`, read integer `n`.\n2. Loop `n` times reading each integer `sample`.\n3. Count valid samples (`sample >= 0 && sample <= 100`) and accumulate their sum.\n4. Output `VALID SAMPLES: <count>`.\n5. Output `TOTAL VALID SUM: <sum>`.",
+      "body": [
+        "**Eliminating Hardware Glitches**",
+        "Sensors in high-radiation sectors occasionally emit error codes (`-999` or extreme spikes `> 100`).",
+        "Input:\n1. Integer `n` (number of telemetry samples).\n2. `n` integer readings.",
+        "Process:\n- Valid samples must satisfy `sample >= 0 && sample <= 100`.\n- Count how many valid samples exist.\n- Calculate the sum of all valid samples.",
+        "Output:\n`VALID SAMPLES: <count>`\n`TOTAL VALID SUM: <sum>`"
+      ]
     },
     "capstone-avionics-fault-tolerant-controller": {
       "title": "Autonomous Fault-Tolerant Controller",
       "content": "### Redundancy & Fault Recovery Suite\n\nImplement Sigma's complete avionics fault-tolerant sensor bus.\n\nInput:\n1. Integer `n` (number of telemetry channels).\n2. `n` lines, each containing:\n   `int id`, `int reading`, and `int fallback_val`.\n\nFor each channel:\n- If `reading < 0` OR `reading > 100`, declare a FAULT! Use `fallback_val` as the final reading and increment `fault_count`.\n- Otherwise, use `reading` as the final reading.\n- Output `SENSOR <id>: <final_reading>`.\n\nAfter all `n` channels, print:\n`FAULT COUNT: <fault_count>`\n`TOTAL TELEMETRY: <sum of final_readings>`",
-      "task": "1. Read integer `n` from `cin`.\n2. Loop `n` times reading `id`, `reading`, and `fallback_val`.\n3. Validate range `[0, 100]` and substitute fallback upon fault.\n4. Output `SENSOR <id>: <final_reading>` for each channel.\n5. Output `FAULT COUNT: <fault_count>`.\n6. Output `TOTAL TELEMETRY: <total_sum>`."
+      "task": "1. Read integer `n` from `cin`.\n2. Loop `n` times reading `id`, `reading`, and `fallback_val`.\n3. Validate range `[0, 100]` and substitute fallback upon fault.\n4. Output `SENSOR <id>: <final_reading>` for each channel.\n5. Output `FAULT COUNT: <fault_count>`.\n6. Output `TOTAL TELEMETRY: <total_sum>`.",
+      "body": [
+        "**Redundancy & Fault Recovery Suite**",
+        "Implement Sigma's complete avionics fault-tolerant sensor bus.",
+        "Input:\n1. Integer `n` (number of telemetry channels).\n2. `n` lines, each containing:\n   `int id`, `int reading`, and `int fallback_val`.",
+        "For each channel:\n- If `reading < 0` OR `reading > 100`, declare a FAULT! Use `fallback_val` as the final reading and increment `fault_count`.\n- Otherwise, use `reading` as the final reading.\n- Output `SENSOR <id>: <final_reading>`.",
+        "After all `n` channels, print:\n`FAULT COUNT: <fault_count>`\n`TOTAL TELEMETRY: <sum of final_readings>`"
+      ]
     },
     "recap": {
       "title": "Summary: Error Handling & Defense",
-      "content": "### Chapter 30 Complete: Unbreakable Flight Software\n\nScout Drone Sigma can now detect anomalies, reboot corrupted streams, and maintain steady flight through the harshest space weather.\n\n#### Defensive Programming Checklist\n\n| Mechanism | C++ Construct | Action |\n| :--- | :--- | :--- |\n| **Detect Fail** | `cin.fail()` | Returns `true` if type extraction broke stream |\n| **Clear Flags** | `cin.clear()` | Clears `failbit` so the stream can read again |\n| **Flush Junk** | `string j; cin >> j;` | Removes bad token from stream buffer |\n| **Sanitize Bounds** | `val = clamp(val)` | Replaces illegal hardware readings with defaults |\n| **Sentinel Guard** | `if (val == -999)` | Discards disconnected sensor error flags |\n\n> [!NOTE]\n> In embedded flight software and high-reliability systems, defensive validation and return codes are vastly preferred over heavy C++ runtime exceptions (`try/catch`), ensuring zero unexpected latency spikes!\n\nNext in Chapter 31 & 32: **The Grand Capstone Project (`project-part1` & `project-part2`)** — bringing together all 30 chapters into a complete, autonomous Mars exploration fleet management architecture!"
+      "content": "### Chapter 30 Complete: Unbreakable Flight Software\n\nScout Drone Sigma can now detect anomalies, reboot corrupted streams, and maintain steady flight through the harshest space weather.\n\n#### Defensive Programming Checklist\n\n| Mechanism | C++ Construct | Action |\n| :--- | :--- | :--- |\n| **Detect Fail** | `cin.fail()` | Returns `true` if type extraction broke stream |\n| **Clear Flags** | `cin.clear()` | Clears `failbit` so the stream can read again |\n| **Flush Junk** | `string j; cin >> j;` | Removes bad token from stream buffer |\n| **Sanitize Bounds** | `val = clamp(val)` | Replaces illegal hardware readings with defaults |\n| **Sentinel Guard** | `if (val == -999)` | Discards disconnected sensor error flags |\n\n> [!NOTE]\n> In embedded flight software and high-reliability systems, defensive validation and return codes are vastly preferred over heavy C++ runtime exceptions (`try/catch`), ensuring zero unexpected latency spikes!\n\nNext in Chapter 31 & 32: **The Grand Capstone Project (`project-part1` & `project-part2`)** — bringing together all 30 chapters into a complete, autonomous Mars exploration fleet management architecture!",
+      "body": [
+        "**Chapter 30 Complete: Unbreakable Flight Software**",
+        "Scout Drone Sigma can now detect anomalies, reboot corrupted streams, and maintain steady flight through the harshest space weather.",
+        "**Defensive Programming Checklist**",
+        "| Mechanism | C++ Construct | Action |\n| :--- | :--- | :--- |\n| **Detect Fail** | `cin.fail()` | Returns `true` if type extraction broke stream |\n| **Clear Flags** | `cin.clear()` | Clears `failbit` so the stream can read again |\n| **Flush Junk** | `string j; cin >> j;` | Removes bad token from stream buffer |\n| **Sanitize Bounds** | `val = clamp(val)` | Replaces illegal hardware readings with defaults |\n| **Sentinel Guard** | `if (val == -999)` | Discards disconnected sensor error flags |",
+        "> [!NOTE]\n> In embedded flight software and high-reliability systems, defensive validation and return codes are vastly preferred over heavy C++ runtime exceptions (`try/catch`), ensuring zero unexpected latency spikes!",
+        "Next in Chapter 31 & 32: **The Grand Capstone Project (`project-part1` & `project-part2`)** — bringing together all 30 chapters into a complete, autonomous Mars exploration fleet management architecture!"
+      ]
     }
   }
 }

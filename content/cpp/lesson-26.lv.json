@@ -3,46 +3,113 @@
   "steps": {
     "why-output-formatting": {
       "title": "Avionikas vadības paneļa inženierija",
-      "content": "### Neformatētas plūsmas haoss\n\nKad izlūka drons Sigma pārraida telemetriju uz Zemes vadības centru, lidojumu vadītājiem borta sistēmu stāvoklis ir jānovērtē acumirklī.\n\nAplūko standarta neformatēto `cout` izvadi:\n```text\nSENSOR READING THRESH\nBATTERY 12.3456 14\nCORE_TEMP 78.9 80\nRADAR 108.2001 120\n```\nTā kā skaitļiem ir atšķirīgs ciparu skaits, kolonnas līkumo pa ekrānu, decimālie komati nobīdās un kļūst bīstami kļūdīties datu nolasīšanā lidojuma manevru laikā.\n\nLai izveidotu skaidras un profesionālas telemetrijas tabulas, C++ piedāvā bibliotēku **`<iomanip>`** (Input/Output Manipulators).\n\nAr `<iomanip>` tu vari:\n- Iestatīt stingru kolonnu platumu ar `setw(platums)`.\n- Izlīdzināt tekstu un skaitļus pa `left` vai `right` malu.\n- Fiksēt decimālo zīmju skaitu ar `fixed` un `setprecision(zīmes)`.\n- Nodrošināt, ka katra atskaite precīzi atbilst Misijas vadības centra prasībām."
+      "content": "### Neformatētas plūsmas haoss\n\nKad izlūka drons Sigma pārraida telemetriju uz Zemes vadības centru, lidojumu vadītājiem borta sistēmu stāvoklis ir jānovērtē acumirklī.\n\nAplūko standarta neformatēto `cout` izvadi:\n```text\nSENSOR READING THRESH\nBATTERY 12.3456 14\nCORE_TEMP 78.9 80\nRADAR 108.2001 120\n```\nTā kā skaitļiem ir atšķirīgs ciparu skaits, kolonnas līkumo pa ekrānu, decimālie komati nobīdās un kļūst bīstami kļūdīties datu nolasīšanā lidojuma manevru laikā.\n\nLai izveidotu skaidras un profesionālas telemetrijas tabulas, C++ piedāvā bibliotēku **`<iomanip>`** (Input/Output Manipulators).\n\nAr `<iomanip>` tu vari:\n- Iestatīt stingru kolonnu platumu ar `setw(platums)`.\n- Izlīdzināt tekstu un skaitļus pa `left` vai `right` malu.\n- Fiksēt decimālo zīmju skaitu ar `fixed` un `setprecision(zīmes)`.\n- Nodrošināt, ka katra atskaite precīzi atbilst Misijas vadības centra prasībām.",
+      "body": [
+        "**Neformatētas plūsmas haoss**",
+        "Kad izlūka drons Sigma pārraida telemetriju uz Zemes vadības centru, lidojumu vadītājiem borta sistēmu stāvoklis ir jānovērtē acumirklī.",
+        "Aplūko standarta neformatēto `cout` izvadi:\n```text\nSENSOR READING THRESH\nBATTERY 12.3456 14\nCORE_TEMP 78.9 80\nRADAR 108.2001 120\n```\nTā kā skaitļiem ir atšķirīgs ciparu skaits, kolonnas līkumo pa ekrānu, decimālie komati nobīdās un kļūst bīstami kļūdīties datu nolasīšanā lidojuma manevru laikā.",
+        "Lai izveidotu skaidras un profesionālas telemetrijas tabulas, C++ piedāvā bibliotēku **`<iomanip>`** (Input/Output Manipulators).",
+        "Ar `<iomanip>` tu vari:\n- Iestatīt stingru kolonnu platumu ar `setw(platums)`.\n- Izlīdzināt tekstu un skaitļus pa `left` vai `right` malu.\n- Fiksēt decimālo zīmju skaitu ar `fixed` un `setprecision(zīmes)`.\n- Nodrošināt, ka katra atskaite precīzi atbilst Misijas vadības centra prasībām."
+      ]
     },
     "iomanip-architecture": {
       "title": "Plūsmas manipulatoru arhitektūra",
-      "content": "### Kā darbojas izvades plūsmas formatēšana\n\nManipulatori tieši maina `cout` izvades plūsmas iekšējo stāvokli.\n\n![C++ iomanip arhitektūra](assets/l26-iomanip-anatomy.lv.svg)\n\n#### Zelta likumi darbā ar formatēšanu\n\n1. **Platums ir vienreizējs:**\n   - `setw(n)` iestata lauka platumu **tikai un vienīgi nākamajam izvadāmajam elementam**!\n   - Tiklīdz šis elements ir izdrukāts, plūsma automātiski atgriež lauka platumu uz `0` (noklusējums).\n   - *Piemērs:* `cout << setw(5) << 42 << 100;` izdrukā `\"   42100\"`.\n\n2. **Precizitāte un izlīdzināšana ir paliekošas:**\n   - `fixed`, `setprecision(p)`, `left` un `right` saglabā savu stāvokli visiem nākamajiem izsaukumiem, kamēr vien tie netiek mainīti.\n\n3. **`fixed` nozīme:**\n   - Bez `fixed` manipulators `setprecision(n)` nosaka kopējo *zīmīgo ciparu* skaitu (piemēram, `12.345` ar precizitāti 2 kļūst par `12`).\n   - Kopā ar `fixed` tas nosaka precīzu ciparu skaitu *aiz komata* (`12.35`). Vienmēr lieto abus kopā: `cout << fixed << setprecision(2);`."
+      "content": "### Kā darbojas izvades plūsmas formatēšana\n\nManipulatori tieši maina `cout` izvades plūsmas iekšējo stāvokli.\n\n![C++ iomanip arhitektūra](assets/l26-iomanip-anatomy.lv.svg)\n\n#### Zelta likumi darbā ar formatēšanu\n\n1. **Platums ir vienreizējs:**\n   - `setw(n)` iestata lauka platumu **tikai un vienīgi nākamajam izvadāmajam elementam**!\n   - Tiklīdz šis elements ir izdrukāts, plūsma automātiski atgriež lauka platumu uz `0` (noklusējums).\n   - *Piemērs:* `cout << setw(5) << 42 << 100;` izdrukā `\"   42100\"`.\n\n2. **Precizitāte un izlīdzināšana ir paliekošas:**\n   - `fixed`, `setprecision(p)`, `left` un `right` saglabā savu stāvokli visiem nākamajiem izsaukumiem, kamēr vien tie netiek mainīti.\n\n3. **`fixed` nozīme:**\n   - Bez `fixed` manipulators `setprecision(n)` nosaka kopējo *zīmīgo ciparu* skaitu (piemēram, `12.345` ar precizitāti 2 kļūst par `12`).\n   - Kopā ar `fixed` tas nosaka precīzu ciparu skaitu *aiz komata* (`12.35`). Vienmēr lieto abus kopā: `cout << fixed << setprecision(2);`.",
+      "body": [
+        "**Kā darbojas izvades plūsmas formatēšana**",
+        "syntax: cout << fixed << setprecision({precizitate});\n- fixed: paliekošs manipulators fiksētā komata režīmam\n- precizitate: zīmju skaits aiz komata\n- ;: semikols — obligāts katras komandas noslēgums C++",
+        "syntax: cout << setw({platums}) << {vertiba};\n- platums: vienreizējs lauka platums simbolos tikai nākamajai vērtībai\n- vertiba: formatējamais mainīgais vai literālis",
+        "Manipulatori tieši maina `cout` izvades plūsmas iekšējo stāvokli.",
+        "**Zelta likumi darbā ar formatēšanu**",
+        "1. **Platums ir vienreizējs:**\n   - `setw(n)` iestata lauka platumu **tikai un vienīgi nākamajam izvadāmajam elementam**!\n   - Tiklīdz šis elements ir izdrukāts, plūsma automātiski atgriež lauka platumu uz `0` (noklusējums).\n   - *Piemērs:* `cout << setw(5) << 42 << 100;` izdrukā `\"   42100\"`.",
+        "2. **Precizitāte un izlīdzināšana ir paliekošas:**\n   - `fixed`, `setprecision(p)`, `left` un `right` saglabā savu stāvokli visiem nākamajiem izsaukumiem, kamēr vien tie netiek mainīti.",
+        "3. **`fixed` nozīme:**\n   - Bez `fixed` manipulators `setprecision(n)` nosaka kopējo *zīmīgo ciparu* skaitu (piemēram, `12.345` ar precizitāti 2 kļūst par `12`).\n   - Kopā ar `fixed` tas nosaka precīzu ciparu skaitu *aiz komata* (`12.35`). Vienmēr lieto abus kopā: `cout << fixed << setprecision(2);`."
+      ]
     },
     "inspect-setw-alignment": {
       "title": "Diagnostika: Vienreizējais lauka platums",
-      "content": "### Paredzi izvadi\n\nAnalizē izvades komandu, kurā izmantots manipulators `setw(6)`.\n\nAtceries, ka `setw()` ietekmē tikai to mainīgo, kurš atrodas tieši aiz tā!\n\nKāda vērtība tiks izvadīta terminālī?"
+      "content": "### Paredzi izvadi\n\nAnalizē izvades komandu, kurā izmantots manipulators `setw(6)`.\n\nAtceries, ka `setw()` ietekmē tikai to mainīgo, kurš atrodas tieši aiz tā!\n\nKāda vērtība tiks izvadīta terminālī?",
+      "body": [
+        "**Paredzi izvadi**",
+        "Analizē izvades komandu, kurā izmantots manipulators `setw(6)`.",
+        "Atceries, ka `setw()` ietekmē tikai to mainīgo, kurš atrodas tieši aiz tā!",
+        "Kāda vērtība tiks izvadīta terminālī?"
+      ],
+      "explain": "`setw(6)` attiecas TIKAI uz nākamo izvadīto vērtību (`42`), papildinot to līdz 6 simbolu lauka platumam (`\"    42\"`). Nākamā vērtība `100` tiek izvadīta uzreiz aiz tās bez papildu atstarpēm, iegūstot `\"    42100\"`."
     },
     "audit-floating-precision-bug": {
       "title": "Diagnostika: Zīmīgo ciparu audits",
-      "content": "### Atrodi formatēšanas kļūdu\n\nZemes stacijas inženieris vēlējās parādīt drona baterijas spriegumu `12.3456` ar 2 zīmēm aiz komata. Tomēr terminālī redzams tikai `12` bez jebkādas daļskaitļa daļas!\n\nNoklikšķini uz rindas, kurā iestatīta precizitāte bez `fixed` režīma aktivizēšanas."
+      "content": "### Atrodi formatēšanas kļūdu\n\nZemes stacijas inženieris vēlējās parādīt drona baterijas spriegumu `12.3456` ar 2 zīmēm aiz komata. Tomēr terminālī redzams tikai `12` bez jebkādas daļskaitļa daļas!\n\nNoklikšķini uz rindas, kurā iestatīta precizitāte bez `fixed` režīma aktivizēšanas.",
+      "body": [
+        "**Atrodi formatēšanas kļūdu**",
+        "Zemes stacijas inženieris vēlējās parādīt drona baterijas spriegumu `12.3456` ar 2 zīmēm aiz komata. Tomēr terminālī redzams tikai `12` bez jebkādas daļskaitļa daļas!",
+        "Noklikšķini uz rindas, kurā iestatīta precizitāte bez `fixed` režīma aktivizēšanas."
+      ],
+      "explain": "Bez manipulatora `fixed`, `setprecision(2)` norāda kopējo zīmīgo ciparu skaitu (izvadot `12`). Lai parādītu precīzi 2 zīmes aiz komata (`12.35`), jāieslēdz fiksētā komata režīms ar `cout << fixed << setprecision(2)`."
     },
     "write-fixed-precision-telemetry": {
       "title": "Telemetrijas kalibrēšana: Fiksēta precizitāte",
       "content": "### Precizitātes iestatīšana\n\nNolasi no standarta ievades divus peldošā komata skaitļus: `volt` un `temp`.\n\nNoformatē abus skaitļus tā, lai tie vienmēr tiktu izvadīti ar tieši **2 zīmēm aiz komata**, izmantojot `fixed` un `setprecision(2)`.\n\nIzvadi vērtības šādā formātā:\n`VOLT: <volt>`\n`TEMP: <temp>`",
-      "task": "1. Funkcijā `main()` nolasi `volt` un `temp` no `cin`.\n2. Konfigurē `cout` ar `fixed` un `setprecision(2)`.\n3. Izvadi `VOLT: <volt>` un jaunu rindu.\n4. Izvadi `TEMP: <temp>` un jaunu rindu."
+      "task": "1. Funkcijā `main()` nolasi `volt` un `temp` no `cin`.\n2. Konfigurē `cout` ar `fixed` un `setprecision(2)`.\n3. Izvadi `VOLT: <volt>` un jaunu rindu.\n4. Izvadi `TEMP: <temp>` un jaunu rindu.",
+      "body": [
+        "**Precizitātes iestatīšana**",
+        "Nolasi no standarta ievades divus peldošā komata skaitļus: `volt` un `temp`.",
+        "Noformatē abus skaitļus tā, lai tie vienmēr tiktu izvadīti ar tieši **2 zīmēm aiz komata**, izmantojot `fixed` un `setprecision(2)`.",
+        "Izvadi vērtības šādā formātā:\n`VOLT: <volt>`\n`TEMP: <temp>`"
+      ]
     },
     "predict-left-right-formatting": {
       "title": "Diagnostika: Kolonnu izlīdzināšana",
-      "content": "### Paredzi divu kolonnu atstarpes\n\nIzpēti plūsmas manipulatoru virkni ar `left`, `right` un `setw(5)`.\n\nKāda precīza simbolu virkne tiks izdrukāta?"
+      "content": "### Paredzi divu kolonnu atstarpes\n\nIzpēti plūsmas manipulatoru virkni ar `left`, `right` un `setw(5)`.\n\nKāda precīza simbolu virkne tiks izdrukāta?",
+      "body": [
+        "**Paredzi divu kolonnu atstarpes**",
+        "Izpēti plūsmas manipulatoru virkni ar `left`, `right` un `setw(5)`.",
+        "Kāda precīza simbolu virkne tiks izdrukāta?"
+      ],
+      "explain": "`left << setw(5) << \"ALT\"` papildina `\"ALT\"` ar atstarpēm labajā pusē (`\"ALT  \"`). Pēc tam `right << setw(5) << 90` papildina `90` ar 3 atstarpēm kreisajā pusē (`\"   90\"`). Kopā tie veido `\"ALT     90\"`."
     },
     "parsons-table-generator": {
       "title": "Avionikas montāža: Kanālu formatētājs",
-      "content": "### Saliec rindu formatētāju\n\nSaliec modulāro funkciju `print_row(const string &sensor, double val)`, kura izvada sensora nosaukumu pa kreisi ar platumu 8, bet vērtību pa labi ar platumu 6 un 1 decimālo zīmi."
+      "content": "### Saliec rindu formatētāju\n\nSaliec modulāro funkciju `print_row(const string &sensor, double val)`, kura izvada sensora nosaukumu pa kreisi ar platumu 8, bet vērtību pa labi ar platumu 6 un 1 decimālo zīmi.",
+      "body": [
+        "**Saliec rindu formatētāju**",
+        "Saliec modulāro funkciju `print_row(const string &sensor, double val)`, kura izvada sensora nosaukumu pa kreisi ar platumu 8, bet vērtību pa labi ar platumu 6 un 1 decimālo zīmi."
+      ],
+      "explain": "Tiek iekļautas bibliotēkas `<iostream>`, `<iomanip>` un `<string>`. Funkcijā `print_row()` parametrs `sensor` tiek līdzināts pa kreisi ar `setw(8)`, bet `val` pa labi ar `fixed << setprecision(1) << setw(6)`. Funkcijā `main()` izsauc `print_row` sensoriem `\"RADAR\"` un `\"LIDAR\"`, izvadot divas sakārtotas rindas."
     },
     "write-aligned-column-table": {
       "title": "Lidojuma manifests: Divu kolonnu tabula",
       "content": "### Izlīdzināta drona apakšsistēmu saraksta veidošana\n\nUzraksti programmu drona apakšsistēmu statusa kodu formatēšanai.\n\nIevade:\n1. Vesels skaitlis `n`.\n2. `n` rindas, kur katrā ir apakšsistēmas nosaukums (teksts) un vesels statusa kods.\n\nKatrai apakšsistēmai izvadi rindu, kur:\n- Nosaukums ir izlīdzināts pa kreisi ar platumu 10 (`left << setw(10) << name`).\n- Statusa kods ir izlīdzināts pa labi ar platumu 6 (`right << setw(6) << code`).",
-      "task": "1. Nolasi veselu skaitli `n` no `cin`.\n2. Ciklā `n` reizes nolasi `name` un `code`.\n3. Formatē katru rindu ar `left << setw(10) << name << right << setw(6) << code`.\n4. Izvadi katru noformatēto rindu jaunā rindā."
+      "task": "1. Nolasi veselu skaitli `n` no `cin`.\n2. Ciklā `n` reizes nolasi `name` un `code`.\n3. Formatē katru rindu ar `left << setw(10) << name << right << setw(6) << code`.\n4. Izvadi katru noformatēto rindu jaunā rindā.",
+      "body": [
+        "**Izlīdzināta drona apakšsistēmu saraksta veidošana**",
+        "Uzraksti programmu drona apakšsistēmu statusa kodu formatēšanai.",
+        "Ievade:\n1. Vesels skaitlis `n`.\n2. `n` rindas, kur katrā ir apakšsistēmas nosaukums (teksts) un vesels statusa kods.",
+        "Katrai apakšsistēmai izvadi rindu, kur:\n- Nosaukums ir izlīdzināts pa kreisi ar platumu 10 (`left << setw(10) << name`).\n- Statusa kods ir izlīdzināts pa labi ar platumu 6 (`right << setw(6) << code`)."
+      ]
     },
     "capstone-flight-telemetry-dashboard": {
       "title": "Autonomais avionikas telemetrijas panelis",
       "content": "### Misijas vadības lidojuma atskaites ģenerators\n\nIzveido pilnu Sigmas avionikas atskaites moduli.\n\nIevade:\n1. Skaitlis `n` (telemetrijas kanālu skaits).\n2. `n` rindas, kur katrā ir `string name`, `double reading` un `double threshold`.\n\nPrasības:\n1. Izvadi tabulas galveni:\n   `left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\"`\n2. Katram kanālam izvadi:\n   `left << setw(10) << name << right << fixed << setprecision(2) << setw(10) << reading << setw(9) << threshold`\n3. Aprēķini visu `n` kanālu rādījumu vidējo vērtību.\n4. Izvadi `AVERAGE: <avg>` ar `fixed` un `setprecision(2)`.",
-      "task": "1. Nolasi veselu skaitli `n` no `cin`.\n2. Izvadi formatēto galvenes rindu ar platumiem 10, 10 un 9.\n3. Ciklā `n` reizes nolasi `name`, `reading` un `threshold`.\n4. Izvadi katru rindu ar nosaukumu pa kreisi un skaitļiem pa labi (`fixed << setprecision(2)`).\n5. Aprēķini rādījumu vidējo aritmētisko vērtību.\n6. Izvadi `AVERAGE: <avg>` ar 2 zīmēm aiz komata."
+      "task": "1. Nolasi veselu skaitli `n` no `cin`.\n2. Izvadi formatēto galvenes rindu ar platumiem 10, 10 un 9.\n3. Ciklā `n` reizes nolasi `name`, `reading` un `threshold`.\n4. Izvadi katru rindu ar nosaukumu pa kreisi un skaitļiem pa labi (`fixed << setprecision(2)`).\n5. Aprēķini rādījumu vidējo aritmētisko vērtību.\n6. Izvadi `AVERAGE: <avg>` ar 2 zīmēm aiz komata.",
+      "body": [
+        "**Misijas vadības lidojuma atskaites ģenerators**",
+        "Izveido pilnu Sigmas avionikas atskaites moduli.",
+        "Ievade:\n1. Skaitlis `n` (telemetrijas kanālu skaits).\n2. `n` rindas, kur katrā ir `string name`, `double reading` un `double threshold`.",
+        "Prasības:\n1. Izvadi tabulas galveni:\n   `left << setw(10) << \"SENSOR\" << right << setw(10) << \"READING\" << setw(9) << \"THRESH\"`\n2. Katram kanālam izvadi:\n   `left << setw(10) << name << right << fixed << setprecision(2) << setw(10) << reading << setw(9) << threshold`\n3. Aprēķini visu `n` kanālu rādījumu vidējo vērtību.\n4. Izvadi `AVERAGE: <avg>` ar `fixed` un `setprecision(2)`."
+      ]
     },
     "recap": {
       "title": "Kopsavilkums: I/O formatēšanas meistarība",
-      "content": "### 26. nodaļa pabeigta: Precīza formatēšana\n\nIzlūka drona Sigma lidojumu atskaites tagad ir nevainojami sakārtotas un gatavas reāllaika telemetrijas apstrādei Zemes stacijā.\n\n#### Manipulatoru rokasgrāmata\n\n| Manipulators | Veids | Darbība |\n| :--- | :--- | :--- |\n| `setw(n)` | Vienreizējs | Iestata lauka platumu **tikai nākamajam** elementam |\n| `left` | Paliekošs | Izlīdzina saturu pie lauka kreisās malas |\n| `right` | Paliekošs | Izlīdzina saturu pie lauka labās malas (noklusējums) |\n| `fixed` | Paliekošs | Izvada peldošā komata skaitļus parastā decimālā formātā |\n| `setprecision(n)` | Paliekošs | Kopā ar `fixed` nosaka precīzu ciparu skaitu aiz `.` |\n\n> [!IMPORTANT]\n> Tā kā `setw()` ir vienreizējs, tas ir jānorāda pirms **katras atsevišķas kolonnas** cikla izvades blokā!\n\nNākamajā, 27. nodaļā: **Struktūras (`struct`)** — saistītu borta parametru (koordinātes, akumulators, ātrums) apvienošana vienotā kompozītā datu tipā."
+      "content": "### 26. nodaļa pabeigta: Precīza formatēšana\n\nIzlūka drona Sigma lidojumu atskaites tagad ir nevainojami sakārtotas un gatavas reāllaika telemetrijas apstrādei Zemes stacijā.\n\n#### Manipulatoru rokasgrāmata\n\n| Manipulators | Veids | Darbība |\n| :--- | :--- | :--- |\n| `setw(n)` | Vienreizējs | Iestata lauka platumu **tikai nākamajam** elementam |\n| `left` | Paliekošs | Izlīdzina saturu pie lauka kreisās malas |\n| `right` | Paliekošs | Izlīdzina saturu pie lauka labās malas (noklusējums) |\n| `fixed` | Paliekošs | Izvada peldošā komata skaitļus parastā decimālā formātā |\n| `setprecision(n)` | Paliekošs | Kopā ar `fixed` nosaka precīzu ciparu skaitu aiz `.` |\n\n> [!IMPORTANT]\n> Tā kā `setw()` ir vienreizējs, tas ir jānorāda pirms **katras atsevišķas kolonnas** cikla izvades blokā!\n\nNākamajā, 27. nodaļā: **Struktūras (`struct`)** — saistītu borta parametru (koordinātes, akumulators, ātrums) apvienošana vienotā kompozītā datu tipā.",
+      "body": [
+        "**26. nodaļa pabeigta: Precīza formatēšana**",
+        "Izlūka drona Sigma lidojumu atskaites tagad ir nevainojami sakārtotas un gatavas reāllaika telemetrijas apstrādei Zemes stacijā.",
+        "**Manipulatoru rokasgrāmata**",
+        "| Manipulators | Veids | Darbība |\n| :--- | :--- | :--- |\n| `setw(n)` | Vienreizējs | Iestata lauka platumu **tikai nākamajam** elementam |\n| `left` | Paliekošs | Izlīdzina saturu pie lauka kreisās malas |\n| `right` | Paliekošs | Izlīdzina saturu pie lauka labās malas (noklusējums) |\n| `fixed` | Paliekošs | Izvada peldošā komata skaitļus parastā decimālā formātā |\n| `setprecision(n)` | Paliekošs | Kopā ar `fixed` nosaka precīzu ciparu skaitu aiz `.` |",
+        "> [!IMPORTANT]\n> Tā kā `setw()` ir vienreizējs, tas ir jānorāda pirms **katras atsevišķas kolonnas** cikla izvades blokā!",
+        "Nākamajā, 27. nodaļā: **Struktūras (`struct`)** — saistītu borta parametru (koordinātes, akumulators, ātrums) apvienošana vienotā kompozītā datu tipā."
+      ]
     }
   }
 }
