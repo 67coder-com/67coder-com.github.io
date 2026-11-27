@@ -1,173 +1,212 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сравнительный анализ стихотворений «Узник» (А. С. Пушкин и М. Ю. Лермонтов)</title>
+    <title>Request for Language Group Transfer — Natalia Zamorskaia</title>
     <style>
         @page {
             size: A4 portrait;
-            margin: 15mm 18mm;
+            margin: 22mm 24mm 20mm 24mm;
         }
         * {
             box-sizing: border-box;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.55;
-            color: #1a1a1a;
-            background-color: #ffffff;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px 20px;
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 24px 16px 48px;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            color: #1e293b;
+            -webkit-font-smoothing: antialiased;
         }
-        header {
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 12px;
-            margin-bottom: 24px;
+        .controls {
+            max-width: 760px;
+            margin: 0 auto 16px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 12px;
+            align-items: center;
+            background: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        h1 {
-            font-size: 20px;
-            margin: 0;
-            color: #1a252f;
-            font-weight: 700;
+        .controls .info {
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
         }
-        .subtitle {
-            font-size: 13px;
-            color: #555;
-            margin-top: 4px;
+        .btn-group {
+            display: flex;
+            gap: 10px;
         }
-        .print-btn {
-            background-color: #2c3e50;
-            color: #fff;
+        .btn {
+            background-color: #1e293b;
+            color: #ffffff;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 18px;
             font-size: 14px;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.15s;
         }
-        .print-btn:hover {
-            background-color: #1a252f;
+        .btn:hover {
+            background-color: #0f172a;
         }
-        .slide-card {
-            border: 1px solid #d0d7de;
-            border-left: 5px solid #2c3e50;
-            border-radius: 6px;
-            padding: 14px 18px;
-            margin-bottom: 16px;
-            background-color: #fafbfc;
-            page-break-inside: avoid;
-            break-inside: avoid;
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #1e293b;
         }
-        .slide-card.missing {
-            border-left-color: #d97706;
-            background-color: #fffbeb;
-            border-style: dashed;
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
         }
-        .slide-title {
+        .paper {
+            background: #ffffff;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 55px 65px 70px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            border-radius: 2px;
+            min-height: 297mm;
+        }
+        .header-meta {
+            margin-left: 52%;
+            margin-bottom: 44px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .meta-block {
+            margin-bottom: 22px;
+        }
+        .meta-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #475569;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .meta-name {
             font-size: 15px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #2c3e50;
-            margin: 0 0 8px 0;
+            color: #0f172a;
+            margin-bottom: 2px;
         }
-        .slide-card.missing .slide-title {
-            color: #b45309;
+        .meta-item {
+            font-size: 13.5px;
+            color: #334155;
+            line-height: 1.45;
+        }
+        .meta-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .letter-content {
+            font-size: 15px;
+            line-height: 1.68;
+            color: #1e293b;
         }
         p {
-            margin: 0 0 10px 0;
-            font-size: 15px;
+            margin: 0 0 16px 0;
+            text-align: left;
         }
-        p:last-child {
-            margin-bottom: 0;
+        p.salutation {
+            margin-bottom: 20px;
+        }
+        p.valediction {
+            margin-top: 36px;
+            margin-bottom: 50px;
+        }
+        .signature-block {
+            margin-top: 20px;
+        }
+        .sig-line {
+            width: 280px;
+            height: 1.5px;
+            background-color: #64748b;
+            border: none;
+            margin: 0 0 12px 0;
+        }
+        .sig-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        .sig-date {
+            font-size: 14px;
+            color: #475569;
         }
         @media print {
             body {
+                background: #ffffff;
                 padding: 0;
-                max-width: 100%;
+                margin: 0;
             }
             .no-print {
                 display: none !important;
             }
-            .slide-card {
-                background-color: #ffffff;
-                border-color: #bbb;
-            }
-            .slide-card.missing {
-                background-color: #ffffff;
-                border-color: #999;
+            .paper {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                min-height: auto !important;
             }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div>
-        <h1>Текст выступления к презентации: «Узник» (Пушкин и Лермонтов)</h1>
-        <div class="subtitle">Карточки для подготовки и печати (расположены в правильном порядке)</div>
+<div class="controls no-print">
+    <div class="info">Документ для печати (формат A4)</div>
+    <div class="btn-group">
+        <a href="print.pdf" class="btn btn-secondary" download>Скачать PDF</a>
+        <button class="btn" onclick="window.print()">Распечатать (Ctrl+P)</button>
     </div>
-    <button class="print-btn no-print" onclick="window.print()">Распечатать (Ctrl+P)</button>
-</header>
+</div>
 
-<section class="slide-card">
-    <h2 class="slide-title">Первый слайд</h2>
-    <p>Сегодня мы представим сравнительный анализ двух стихотворений под названием «Узник». Одно написал Александр Сергеевич Пушкин, другое — Михаил Юрьевич Лермонтов.</p>
-</section>
+<main class="paper">
+    <div class="header-meta">
+        <div class="meta-block">
+            <div class="meta-label">TO:</div>
+            <div class="meta-name">Ms. Irina Jeremejeva</div>
+            <div class="meta-item">Head of School</div>
+            <div class="meta-item">International School Premjers</div>
+        </div>
+        <div class="meta-block">
+            <div class="meta-label">FROM:</div>
+            <div class="meta-name">Natalia Zamorskaia</div>
+            <div class="meta-item">+371 24920210</div>
+            <div class="meta-item">nataliazamorskaia@gmail.com</div>
+        </div>
+    </div>
 
-<section class="slide-card">
-    <h2 class="slide-title">Второй слайд</h2>
-    <p>Оба стихотворения были написаны в непростые периоды жизни поэтов. Пушкин написал своё стихотворение в 1822 году, во время южной ссылки. Лермонтов написал «Узника» в 1837 году, после ареста за стихотворение «Смерть поэта».</p>
-    <p>И получается, что оба поэта обращаются к теме заключения не случайно. Их произведения связаны с личными переживаниями и событиями жизни.</p>
-</section>
+    <div class="letter-content">
+        <p class="salutation">Dear Ms. Jeremejeva,</p>
 
-<section class="slide-card missing">
-    <h2 class="slide-title">Третий слайд (отсутствовал в исходных заметках)</h2>
-    <p><em>Примечание: в исходных заметках после второго слайда сразу идёт четвёртый. Если на 3-м слайде презентации есть информация (например, общая тема или таблица сравнения), сюда можно вписать пару фраз от руки перед выступлением.</em></p>
-</section>
+        <p>I am writing to kindly request your consideration regarding the transfer of my daughter, Maria Zamorskaia (Grade 8b), from the French language group to the Spanish language group.</p>
 
-<section class="slide-card">
-    <h2 class="slide-title">Четвёртый слайд</h2>
-    <p>У Пушкина произведение начинается со слов о том, что герой сидит за решёткой. Он находится в темнице и наблюдает за орлом. Здесь нет отчаянной просьбы, поэт, наоборот, спокойно описывает ситуацию.</p>
-    <p>У Лермонтова всё начинается совершенно иначе. Его герой обращается к темнице с просьбой выпустить его на свободу. Он говорит о том, как мечтает увидеть солнце, встретить красавицу и уехать на свободном коне.</p>
-    <p>Поэтому настроение произведения Лермонтова более эмоциональное и напряжённое. В первых строках сразу чувствуется тоска по свободе и желание вырваться из заключения.</p>
-</section>
+        <p>Due to recent changes in our family circumstances, we have acquired property in Spain, spent the past summer there, and plan to link our future closely with the country, potentially relocating there in the future. As a result, learning Spanish has become a practical priority for Maria.</p>
 
-<section class="slide-card">
-    <h2 class="slide-title">Пятый слайд</h2>
-    <p>У Пушкина очень важную роль играет образ орла. Он становится другом и своеобразным товарищем лирического героя. Орёл тоже находится в неволе, но при этом сохраняет свою силу и стремление к полёту. Герой обращается к нему и словно хочет вместе с ним отправиться туда, где нет ограничений. Поэтому орёл символизирует свободу и надежду.</p>
-    <p>У Лермонтова появляются другие образы — красавица и конь. Герой мечтает о красавице и свободном коне, который может унести его далеко от темницы. Но это лишь подчёркивает мечту о свободе и одиночество героя.</p>
-    <p>В отличие от Пушкина, герой Лермонтова остаётся один. У него нет настоящего товарища, который разделяет его положение.</p>
-</section>
+        <p>She has already begun getting acquainted with Spanish, and joining the Spanish group at school would be very beneficial for her development and future plans. We understand that a mid-year transfer involves organizational adjustments and are fully prepared to support Maria at home so she can catch up smoothly with the group’s curriculum.</p>
 
-<section class="slide-card">
-    <h2 class="slide-title">Шестой слайд</h2>
-    <p>Особенно хорошо различие между произведениями заметно в их финале.</p>
-    <p>У Пушкина финал звучит светло и оптимистично. Герой мечтает о том, чтобы вместе с орлом улететь туда, где можно почувствовать настоящую свободу. В его словах чувствуется надежда, энергия и вера в то, что свобода возможна.</p>
-    <p>У Лермонтова финал совершенно другой. Герой понимает, что находится в закрытой темнице. Вокруг него высокие стены, тяжёлая дверь и постоянное ощущение одиночества. В последних строках появляется образ часового, который продолжает ходить за дверями темницы. Это подчёркивает, что герой не может просто так покинуть заключение и его мечты о свободе остаются недостижимыми.</p>
-</section>
+        <p>I would be very grateful if you could review this request and let us know what options might be available.</p>
 
-<section class="slide-card">
-    <h2 class="slide-title">Седьмой слайд</h2>
-    <p>Интересно и то, как эти стихотворения сохранились в народной памяти.</p>
-    <p>Стихотворение Пушкина стало близким многим людям, которые сами сталкивались с несвободой. Оно воспринималось как песня надежды, которая помогала верить в лучшее.</p>
-    <p>Стихотворение Лермонтова также запомнилось читателям благодаря сильным чувствам, которые в нём переданы. Автор показывает переживания человека, лишённого свободы, его одиночество и желание вернуться к обычной жизни.</p>
-</section>
+        <p class="valediction">Kind regards,</p>
 
-<section class="slide-card">
-    <h2 class="slide-title">Восьмой слайд</h2>
-    <p>Главное различие заключается в настроении и отношении героев к свободе.</p>
-    <p>Пушкин показывает надежду, стремление к свободе и веру в лучшее.</p>
-    <p>Лермонтов показывает одиночество, тоску и трагедию человека, который не может вырваться из заключения.</p>
-    <p>Таким образом, несмотря на одинаковое название и общую тему, стихотворения передают разные чувства.</p>
-</section>
+        <div class="signature-block">
+            <hr class="sig-line">
+            <div class="sig-name">Natalia Zamorskaia</div>
+            <div class="sig-date">27 November 2026</div>
+        </div>
+    </div>
+</main>
 
 </body>
 </html>
